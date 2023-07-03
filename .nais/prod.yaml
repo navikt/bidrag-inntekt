@@ -1,9 +1,5 @@
 name: bidrag-inntekt
-ingresses:
-  - https://bidrag-inntekt.intern.nav.no
-azure:
-  tenant: nav.no
-azureAccessInbound:
+ingress: https://bidrag-inntekt.intern.nav.no
 spec:
   replicas:
     min: 2

@@ -1,9 +1,5 @@
 name: bidrag-inntekt
-ingresses:
-  - https://bidrag-inntekt.intern.dev.nav.no
-azure:
-  tenant: trygdeetaten.no
-azureAccessInbound:
+ingress: https://bidrag-inntekt.intern.dev.nav.no
 spec:
   replicas:
     min: 1

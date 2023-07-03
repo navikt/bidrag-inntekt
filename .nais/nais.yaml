@@ -15,14 +15,6 @@ spec:
         extra:
           - "NAVident"
           - "azp_name"
-  accessPolicy:
-    inbound:
-      rules:
-      {{#each azureAccessInbound}}
-          - application: {{this.application}}
-            namespace: {{this.namespace}}
-            cluster: {{this.cluster}}
-      {{/each}}
   image: {{ image }}
   liveness:
     path: /actuator/health
@@ -50,7 +42,4 @@ spec:
       cpuThresholdPercentage: 80
       max: 4
       min: {{ spec.replicas.min }}
-  ingresses:
-  {{#each ingresses as |url|}}
-     - {{url}}
-  {{/each}}
+  ingresses: {{ ingress }}
