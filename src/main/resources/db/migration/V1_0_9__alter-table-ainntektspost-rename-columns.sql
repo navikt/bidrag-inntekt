@@ -1,2 +1,0 @@
-ALTER TABLE ainntektspost RENAME COLUMN etterbetalingsperiodeFra TO etterbetalingsperiode_fra;
-ALTER TABLE ainntektspost RENAME COLUMN etterbetalingsperiodeTil TO etterbetalingsperiode_til;

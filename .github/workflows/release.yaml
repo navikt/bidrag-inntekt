@@ -1,4 +1,4 @@
-name: release bidrag-grunnlag
+name: release bidrag-inntekt
 on:
   push:
     branches:

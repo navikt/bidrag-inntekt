@@ -11,11 +11,11 @@
   </parent>
 
   <groupId>no.nav.bidrag</groupId>
-  <artifactId>bidrag-grunnlag</artifactId>
-  <version>0.0.66-SNAPSHOT</version>
+  <artifactId>bidrag-inntekt</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
 
-  <name>bidrag-grunnlag</name>
-  <description>Behandling av grunnlag i Bidrag</description>
+  <name>bidrag-inntekt</name>
+  <description>Repository som inneholder funksjonalitet relatert til inntekter</description>
 
   <properties>
     <!-- build/language -->
@@ -32,7 +32,6 @@
     <nimbus-jose-jwt.version>9.31</nimbus-jose-jwt.version>
     <springframework-cloud.version>4.0.2</springframework-cloud.version>
     <com.squareup.okhttp3.version>4.11.0</com.squareup.okhttp3.version>
-    <aordningen-inntektsinformasjon-v1.version>1.7</aordningen-inntektsinformasjon-v1.version>
     <bidrag-behandling-felles.version>0.0.84</bidrag-behandling-felles.version>
     <bidrag-behandling-felles-dto.version>0.0.89</bidrag-behandling-felles-dto.version>
   </properties>
@@ -60,10 +59,6 @@
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-web</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-data-jpa</artifactId>
     </dependency>
 
     <!-- kotlin -->
@@ -136,32 +131,6 @@
       <artifactId>token-client-spring</artifactId>
       <version>${token-support.version}</version>
     </dependency>
-    <dependency>
-      <groupId>no.nav.tjenester</groupId>
-      <artifactId>aordningen-inntektsinformasjon-v1</artifactId>
-      <version>${aordningen-inntektsinformasjon-v1.version}</version>
-    </dependency>
-
-    <!-- Database -->
-    <dependency>
-      <groupId>com.zaxxer</groupId>
-      <artifactId>HikariCP</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.postgresql</groupId>
-      <artifactId>postgresql</artifactId>
-      <scope>runtime</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.h2database</groupId>
-      <artifactId>h2</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.flywaydb</groupId>
-      <artifactId>flyway-core</artifactId>
-      <scope>compile</scope>
-    </dependency>
 
     <!-- swagger -->
     <dependency>
@@ -221,24 +190,6 @@
       <groupId>com.squareup.okhttp3</groupId>
       <artifactId>okhttp</artifactId>
       <version>${com.squareup.okhttp3.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <!--    <dependency>-->
-    <!--      <groupId>org.springframework.cloud</groupId>-->
-    <!--      <artifactId>spring-cloud-starter-contract-stub-runner</artifactId>-->
-    <!--      <version>${springframework-cloud.version}</version>-->
-    <!--      <scope>test</scope>-->
-    <!--      <exclusions>-->
-    <!--        <exclusion>-->
-    <!--          <groupId>com.google.guava</groupId>-->
-    <!--          <artifactId>guava</artifactId>-->
-    <!--        </exclusion>-->
-    <!--      </exclusions>-->
-    <!--    </dependency>-->
-    <dependency>
-      <groupId>org.springframework.cloud</groupId>
-      <artifactId>spring-cloud-contract-wiremock</artifactId>
-      <version>${springframework-cloud.version}</version>
       <scope>test</scope>
     </dependency>
   </dependencies>

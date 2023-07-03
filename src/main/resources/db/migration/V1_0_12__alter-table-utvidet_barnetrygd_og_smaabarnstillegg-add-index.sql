@@ -1,1 +1,0 @@
-CREATE INDEX idx_utvidet_barnetrygd_og_smaabarnstillegg_1 ON utvidet_barnetrygd_og_smaabarnstillegg(grunnlagspakke_id, aktiv);

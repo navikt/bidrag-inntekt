@@ -56,7 +56,7 @@
         <appender-ref ref="stdout_json"/>
     </root>
 
-    <logger name="no.nav.bidrag.grunnlag" level="INFO"/>
+    <logger name="no.nav.bidrag.inntekt" level="INFO"/>
 
     <logger name="secureLogger" level="INFO" additivity="false" >
         <appender-ref ref="secureLog" />
