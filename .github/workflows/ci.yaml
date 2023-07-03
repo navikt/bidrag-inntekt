@@ -71,6 +71,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Bump SNAPSHOT version
     if: github.ref == 'refs/heads/main'
+    needs: deploy
 
     steps:
       - uses: actions/checkout@v3
