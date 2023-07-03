@@ -42,4 +42,7 @@ spec:
       cpuThresholdPercentage: 80
       max: 4
       min: {{ spec.replicas.min }}
-  ingresses: {{ ingress }}
+  ingresses:
+  {{#each ingresses as |url|}}
+     - {{url}}
+  {{/each}}

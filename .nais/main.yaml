@@ -1,5 +1,6 @@
 name: bidrag-inntekt
-ingress: https://bidrag-inntekt.intern.dev.nav.no
+ingresses:
+  - https://bidrag-inntekt.intern.dev.nav.no
 spec:
   replicas:
     min: 1
