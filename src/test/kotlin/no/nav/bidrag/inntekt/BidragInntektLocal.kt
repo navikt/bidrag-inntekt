@@ -4,12 +4,14 @@ import no.nav.bidrag.inntekt.BidragInntektLocal.Companion.LOCAL_PROFILE
 import no.nav.security.token.support.spring.api.EnableJwtTokenValidation
 import no.nav.security.token.support.spring.test.EnableMockOAuth2Server
 import org.springframework.boot.SpringApplication
+import org.springframework.boot.actuate.autoconfigure.security.servlet.ManagementWebSecurityAutoConfiguration
 import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.annotation.FilterType
 import org.springframework.test.context.ActiveProfiles
 
-@SpringBootApplication
+@SpringBootApplication(exclude = [SecurityAutoConfiguration::class, ManagementWebSecurityAutoConfiguration::class])
 @EnableMockOAuth2Server
 @EnableJwtTokenValidation(ignore = ["org.springdoc", "org.springframework"])
 @ActiveProfiles(LOCAL_PROFILE)
@@ -22,6 +24,6 @@ class BidragInntektLocal {
 fun main(args: Array<String>) {
     val profile = if (args.isEmpty()) LOCAL_PROFILE else args[0]
     val app = SpringApplication(BidragInntektLocal::class.java)
-    app.setAdditionalProfiles(profile)
+    app.setAdditionalProfiles(profile, "lokal-nais-secrets")
     app.run(*args)
 }

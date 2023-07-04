@@ -6,6 +6,7 @@
 springdoc:
   swagger-ui:
     path: /
+  packages-to-scan: no.nav.bidrag.inntekt.controller
 
 management:
   endpoints:
