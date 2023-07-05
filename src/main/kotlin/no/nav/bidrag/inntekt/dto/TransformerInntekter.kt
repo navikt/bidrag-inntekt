@@ -1,51 +1,109 @@
 package no.nav.bidrag.inntekt.dto
 
+import com.fasterxml.jackson.databind.JsonNode
+import io.swagger.v3.oas.annotations.media.Schema
 import no.nav.bidrag.behandling.felles.dto.grunnlag.AinntektDto
-import no.nav.bidrag.behandling.felles.dto.grunnlag.BarnetilleggDto
-import no.nav.bidrag.behandling.felles.dto.grunnlag.BarnetilsynDto
 import no.nav.bidrag.behandling.felles.dto.grunnlag.KontantstotteDto
 import no.nav.bidrag.behandling.felles.dto.grunnlag.OvergangsstonadDto
 import no.nav.bidrag.behandling.felles.dto.grunnlag.SkattegrunnlagDto
 import no.nav.bidrag.behandling.felles.dto.grunnlag.UtvidetBarnetrygdOgSmaabarnstilleggDto
+import no.nav.bidrag.behandling.felles.grunnlag.inntekt.Inntekt
 import java.math.BigDecimal
 import java.time.LocalDate
-import java.time.Year
 
 // TODO Legge til swagger-doc, default-verdier, flytte til bidrag-transport eller bidrag-behandling-felles-dto
 // TODO Legge til evt. manuelle inntekter
+// TODO Hva gjør vi med inntekter som ikke er i bruk?
 
-data class TransformerInntekterRequest(
+data class TransformerInntekterRequestDto(
+    @Schema(description = "Periodisert liste over inntekter fra Ainntekt")
     val ainntektListe: List<AinntektDto> = emptyList(),
+
+    @Schema(description = "Periodisert liste over inntekter fra Sigrun")
     val skattegrunnlagListe: List<SkattegrunnlagDto> = emptyList(),
+
+    @Schema(description = "Periodisert liste over utvidet barnetrygd og småbarnstillegg")
     val ubstListe: List<UtvidetBarnetrygdOgSmaabarnstilleggDto> = emptyList(),
-    val barnetilleggListe: List<BarnetilleggDto> = emptyList(),
+
+    @Schema(description = "Periodisert liste over kontantstøtte")
     val kontantstotteListe: List<KontantstotteDto> = emptyList(),
-    val barnetilsynListe: List<BarnetilsynDto> = emptyList(),
+
+    @Schema(description = "Periodisert liste over overgangsstønad")
     val overgangsstonadListe: List<OvergangsstonadDto> = emptyList()
 )
 
-data class TransformerInntekterResponse(
+data class TransformerInntekterResponseDto(
+    @Schema(description = "Dato + commit hash", example = "20230705081501_68e71c7")
     val versjon: String = "",
-    val skattegrunnlagInntektListe: List<SkattegrunnlagInntekt> = emptyList(),
-    val periodisertInntektListe: List<PeriodisertInntekt> = emptyList()
+
+    @Schema(description = "Liste over summerte skattegrunnlag (LIGS) pr år")
+    val skattegrunnlagListe: List<SigrunInntekt> = emptyList(),
+
+    @Schema(description = "Liste over summerte kapitalinntekter (KAPS) pr år")
+    val kapitalinntektListe: List<SigrunInntekt> = emptyList(),
+
+    @Schema(description = "Liste over inntekter (periodisert)")
+    val inntektListe: List<Inntekt> = emptyList()
 )
 
-data class SkattegrunnlagInntekt(
-    val aar: Year,
-    val sumSkattegrunnlag: BigDecimal,
-    val sumKapitalinntekt: BigDecimal
+data class SigrunInntekt(
+    @Schema(description = "Type inntekt fra Sigrun. Gyldige verdier er SKATTEGRUNNLAG (LIGS) og KAPITALINNTEKT (KAPS)", example = "SKATTEGRUNNLAG")
+    val inntektType: InntektType,
+
+    @Schema(description = "Hvilket år inntekten gjelder for", example = "2022")
+    val aar: String,
+
+    @Schema(description = "Summert inntekt for året")
+    val sumInntekt: BigDecimal,
+
+    @Schema(description = "Liste over inntektsposter som utgjør grunnlaget for summert inntekt")
+    val inntektPostListe: List<SigrunInntektPost>
 )
 
-data class PeriodisertInntekt(
-    val inntektType: String,
-    val beregnetInntektSiste3Mnd: BigDecimal,
-    val beregnetInntektSiste12Mnd: BigDecimal,
-    val beregnetInntektHittilIAar: BigDecimal,
-    val inntektPeriodeListe: List<InntektPeriode>
+data class SigrunInntektPost(
+    @Schema(description = "Navn på inntektspost (= teknisk navn fra Sigrun)", example = "annenArbeidsinntekt")
+    val inntektPostNavn: String,
+
+    @Schema(description = "Angir om inntektsposten skal legges til eller trekkes fra. Gylige verdier er PLUSS og MINUS", example = "PLUSS")
+    val plussEllerMinus: PlussMinus,
+
+    @Schema(description = "Angir om posten er en sekkepost (true/false)")
+    val erSekkePost: Boolean,
+
+    @Schema(description = "Beløpet tilhørende posten")
+    val beløp: BigDecimal
 )
 
-data class InntektPeriode(
+data class Inntekt(
+    @Schema(description = "Type inntekt", example = "AINNTEKT_BEREGNET_3MND")
+    val inntektType: InntektType,
+
+    @Schema(description = "Dato som inntekten gjelder fra")
     val datoFra: LocalDate,
-    val datoTil: LocalDate,
-    val belop: BigDecimal
+
+    @Schema(description = "Dato som inntekten gjelder til")
+    val datoTil: LocalDate?,
+
+    @Schema(description = "Summert inntekt for perioden")
+    val sumInntekt: BigDecimal,
+
+    @Schema(description = "Liste over inntektsposter (generisk, avhengig av type) som utgjør grunnlaget for summert inntekt")
+    val inntektPostListe: JsonNode
 )
+
+enum class InntektType(verdi: String) {
+    AINNTEKT_BEREGNET_3MND("Ainntekt beregnet inntekt siste 3 mnd"),
+    AINNTEKT_BEREGNET_12MND("Ainntekt beregnet inntekt siste 12 mnd"),
+    AINNTEKT("Ainntekt"),
+    SKATTEGRUNNLAG("Sigrun skattegrunnlag (LIGS)"),
+    KAPITALINNTEKT("Sigrun kapitalinntekt (KAPS)"),
+    UTVIDET_BARNETRYGD("Utvidet barnetrygd"),
+    SMÅBARNSTILLEGG("Småbarnstillegg"),
+    KONTANTSTØTTE("Kontantstøtte"),
+    OVERGANGSSTØNAD("Overgangsstønad")
+}
+
+enum class PlussMinus {
+    PLUSS,
+    MINUS
+}

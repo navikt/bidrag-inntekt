@@ -1,10 +1,9 @@
 package no.nav.bidrag.inntekt.service
 
 import no.nav.bidrag.inntekt.BidragInntektTest
-import no.nav.bidrag.inntekt.dto.TransformerInntekterRequest
+import no.nav.bidrag.inntekt.dto.TransformerInntekterRequestDto
 import no.nav.security.token.support.spring.test.EnableMockOAuth2Server
 import org.junit.jupiter.api.Assertions.assertAll
-import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.DisplayName
@@ -29,13 +28,14 @@ class InntektServiceTest {
     @Test
     @Suppress("NonAsciiCharacters")
     fun `skal transformere inntekter`() {
-        val transformerteInntekter = inntektService.transformerInntekter(TransformerInntekterRequest())
+        val transformerteInntekter = inntektService.transformerInntekter(TransformerInntekterRequestDto())
 
         assertAll(
             Executable { assertNotNull(transformerteInntekter) },
-            Executable { assertEquals(transformerteInntekter.versjon, "") },
-            Executable { assertTrue(transformerteInntekter.skattegrunnlagInntektListe.isEmpty()) },
-            Executable { assertTrue(transformerteInntekter.periodisertInntektListe.isEmpty()) }
+            Executable { assertTrue(transformerteInntekter.versjon.isEmpty()) },
+            Executable { assertTrue(transformerteInntekter.skattegrunnlagListe.isEmpty()) },
+            Executable { assertTrue(transformerteInntekter.kapitalinntektListe.isEmpty()) },
+            Executable { assertTrue(transformerteInntekter.inntektListe.isEmpty()) }
         )
     }
 }
