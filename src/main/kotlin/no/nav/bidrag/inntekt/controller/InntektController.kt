@@ -5,6 +5,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import no.nav.bidrag.inntekt.ISSUER
+import no.nav.bidrag.inntekt.dto.TransformerInntekterRequest
+import no.nav.bidrag.inntekt.dto.TransformerInntekterResponse
 import no.nav.bidrag.inntekt.service.InntektService
 import no.nav.security.token.support.core.api.ProtectedWithClaims
 import org.slf4j.LoggerFactory
@@ -26,8 +28,8 @@ class InntektController(private val inntektService: InntektService) {
             ApiResponse(responseCode = "401", description = "Sikkerhetstoken mangler, er utløpt, eller av andre årsaker ugyldig")
         ]
     )
-    fun transformerInntekter(): ResponseEntity<String> {
-        val transformerteInntekter = inntektService.transformerInntekter()
+    fun transformerInntekter(request: TransformerInntekterRequest): ResponseEntity<TransformerInntekterResponse> {
+        val transformerteInntekter = inntektService.transformerInntekter(request)
         return ResponseEntity(transformerteInntekter, HttpStatus.OK)
     }
 
