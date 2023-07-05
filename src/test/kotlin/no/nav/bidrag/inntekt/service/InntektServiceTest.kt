@@ -1,9 +1,12 @@
 package no.nav.bidrag.inntekt.service
 
 import no.nav.bidrag.inntekt.BidragInntektTest
+import no.nav.bidrag.inntekt.dto.TransformerInntekterRequest
 import no.nav.security.token.support.spring.test.EnableMockOAuth2Server
 import org.junit.jupiter.api.Assertions.assertAll
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.function.Executable
@@ -26,10 +29,13 @@ class InntektServiceTest {
     @Test
     @Suppress("NonAsciiCharacters")
     fun `skal transformere inntekter`() {
-        val transformerteInntekter = inntektService.transformerInntekter()
+        val transformerteInntekter = inntektService.transformerInntekter(TransformerInntekterRequest())
 
         assertAll(
-            Executable { assertEquals(transformerteInntekter, "Dummy response") }
+            Executable { assertNotNull(transformerteInntekter) },
+            Executable { assertEquals(transformerteInntekter.versjon, "") },
+            Executable { assertTrue(transformerteInntekter.skattegrunnlagInntektListe.isEmpty()) },
+            Executable { assertTrue(transformerteInntekter.periodisertInntektListe.isEmpty()) }
         )
     }
 }
