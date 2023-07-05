@@ -1,0 +1,10 @@
+type: Ligningsinntekt
+poster:
+  annenPensjonFoerAlderspensjon:
+    telles: NEGATIVT
+    fom: 2018
+    tom:
+  gevinstVedRealisasjonAvVirtuellValuta:
+    telles: POSITIVT
+    fom: 2018
+    tom:    
