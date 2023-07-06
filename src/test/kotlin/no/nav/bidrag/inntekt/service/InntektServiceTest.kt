@@ -33,7 +33,7 @@ class InntektServiceTest {
         assertAll(
             Executable { assertNotNull(transformerteInntekter) },
             Executable { assertTrue(transformerteInntekter.versjon.isEmpty()) },
-            Executable { assertTrue(transformerteInntekter.skattegrunnlagListe.isEmpty()) },
+            Executable { assertTrue(transformerteInntekter.ligningsinntektListe.isEmpty()) },
             Executable { assertTrue(transformerteInntekter.kapitalinntektListe.isEmpty()) },
             Executable { assertTrue(transformerteInntekter.inntektListe.isEmpty()) }
         )

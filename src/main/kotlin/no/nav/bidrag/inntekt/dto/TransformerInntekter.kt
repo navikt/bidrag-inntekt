@@ -35,18 +35,18 @@ data class TransformerInntekterResponseDto(
     @Schema(description = "Dato + commit hash", example = "20230705081501_68e71c7")
     val versjon: String = "",
 
-    @Schema(description = "Liste over summerte skattegrunnlag (LIGS) pr år")
-    val skattegrunnlagListe: List<SigrunInntekt> = emptyList(),
+    @Schema(description = "Liste over summerte ligningsinntekter (LIGS) pr år")
+    val ligningsinntektListe: List<SkattegrunnlagInntekt> = emptyList(),
 
     @Schema(description = "Liste over summerte kapitalinntekter (KAPS) pr år")
-    val kapitalinntektListe: List<SigrunInntekt> = emptyList(),
+    val kapitalinntektListe: List<SkattegrunnlagInntekt> = emptyList(),
 
     @Schema(description = "Liste over inntekter (periodisert)")
     val inntektListe: List<Inntekt> = emptyList()
 )
 
-data class SigrunInntekt(
-    @Schema(description = "Type inntekt fra Sigrun. Gyldige verdier er SKATTEGRUNNLAG (LIGS) og KAPITALINNTEKT (KAPS)", example = "SKATTEGRUNNLAG")
+data class SkattegrunnlagInntekt(
+    @Schema(description = "Type inntekt fra Sigrun. Gyldige verdier er LIGNINGSINNTEKT (LIGS) og KAPITALINNTEKT (KAPS)", example = "LIGNINGSINNTEKT")
     val inntektType: InntektType,
 
     @Schema(description = "Hvilket år inntekten gjelder for", example = "2022")
@@ -56,10 +56,10 @@ data class SigrunInntekt(
     val sumInntekt: BigDecimal,
 
     @Schema(description = "Liste over inntektsposter som utgjør grunnlaget for summert inntekt")
-    val inntektPostListe: List<SigrunInntektPost>
+    val inntektPostListe: List<SkattegrunnlagInntektPost>
 )
 
-data class SigrunInntektPost(
+data class SkattegrunnlagInntektPost(
     @Schema(description = "Navn på inntektspost (= teknisk navn fra Sigrun)", example = "annenArbeidsinntekt")
     val inntektPostNavn: String,
 
@@ -94,7 +94,7 @@ enum class InntektType(verdi: String) {
     AINNTEKT_BEREGNET_3MND("Ainntekt beregnet inntekt siste 3 mnd"),
     AINNTEKT_BEREGNET_12MND("Ainntekt beregnet inntekt siste 12 mnd"),
     AINNTEKT("Ainntekt"),
-    SKATTEGRUNNLAG("Sigrun skattegrunnlag (LIGS)"),
+    LIGNINGSINNTEKT("Sigrun ligningsinntekt (LIGS)"),
     KAPITALINNTEKT("Sigrun kapitalinntekt (KAPS)"),
     UTVIDET_BARNETRYGD("Utvidet barnetrygd"),
     SMÅBARNSTILLEGG("Småbarnstillegg"),
