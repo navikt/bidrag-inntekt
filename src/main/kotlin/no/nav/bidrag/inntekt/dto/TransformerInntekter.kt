@@ -7,7 +7,6 @@ import no.nav.bidrag.behandling.felles.dto.grunnlag.KontantstotteDto
 import no.nav.bidrag.behandling.felles.dto.grunnlag.OvergangsstonadDto
 import no.nav.bidrag.behandling.felles.dto.grunnlag.SkattegrunnlagDto
 import no.nav.bidrag.behandling.felles.dto.grunnlag.UtvidetBarnetrygdOgSmaabarnstilleggDto
-import no.nav.bidrag.behandling.felles.grunnlag.inntekt.Inntekt
 import java.math.BigDecimal
 import java.time.LocalDate
 
@@ -53,7 +52,7 @@ data class SigrunInntekt(
     @Schema(description = "Hvilket år inntekten gjelder for", example = "2022")
     val aar: String,
 
-    @Schema(description = "Summert inntekt for året")
+    @Schema(description = "Summert inntekt for året", example = "500000")
     val sumInntekt: BigDecimal,
 
     @Schema(description = "Liste over inntektsposter som utgjør grunnlaget for summert inntekt")
@@ -64,13 +63,13 @@ data class SigrunInntektPost(
     @Schema(description = "Navn på inntektspost (= teknisk navn fra Sigrun)", example = "annenArbeidsinntekt")
     val inntektPostNavn: String,
 
-    @Schema(description = "Angir om inntektsposten skal legges til eller trekkes fra. Gylige verdier er PLUSS og MINUS", example = "PLUSS")
+    @Schema(description = "Angir om inntektsposten skal legges til eller trekkes fra (PLUSS/MINUS)", example = "PLUSS")
     val plussEllerMinus: PlussMinus,
 
-    @Schema(description = "Angir om posten er en sekkepost (true/false)")
+    @Schema(description = "Angir om posten er en sekkepost (true/false)", example = "false")
     val erSekkePost: Boolean,
 
-    @Schema(description = "Beløpet tilhørende posten")
+    @Schema(description = "Beløpet tilhørende posten", example = "100000")
     val beløp: BigDecimal
 )
 
@@ -78,13 +77,13 @@ data class Inntekt(
     @Schema(description = "Type inntekt", example = "AINNTEKT_BEREGNET_3MND")
     val inntektType: InntektType,
 
-    @Schema(description = "Dato som inntekten gjelder fra")
+    @Schema(description = "Dato som inntekten gjelder fra", example = "2023-04-01")
     val datoFra: LocalDate,
 
-    @Schema(description = "Dato som inntekten gjelder til")
+    @Schema(description = "Dato som inntekten gjelder til", example = "2023-07-01")
     val datoTil: LocalDate?,
 
-    @Schema(description = "Summert inntekt for perioden")
+    @Schema(description = "Summert inntekt for perioden, omgjort til årsinntekt", example = "600000")
     val sumInntekt: BigDecimal,
 
     @Schema(description = "Liste over inntektsposter (generisk, avhengig av type) som utgjør grunnlaget for summert inntekt")
