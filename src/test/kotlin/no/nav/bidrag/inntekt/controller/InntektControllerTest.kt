@@ -4,15 +4,14 @@ import no.nav.bidrag.commons.ExceptionLogger
 import no.nav.bidrag.inntekt.BidragInntektTest
 import no.nav.bidrag.inntekt.BidragInntektTest.Companion.TEST_PROFILE
 import no.nav.bidrag.inntekt.TestUtil
-import no.nav.bidrag.inntekt.dto.TransformerInntekterRequest
-import no.nav.bidrag.inntekt.dto.TransformerInntekterResponse
+import no.nav.bidrag.inntekt.dto.TransformerInntekterRequestDto
+import no.nav.bidrag.inntekt.dto.TransformerInntekterResponseDto
 import no.nav.bidrag.inntekt.exception.RestExceptionHandler
 import no.nav.bidrag.inntekt.service.InntektService
 import no.nav.security.token.support.spring.test.EnableMockOAuth2Server
-import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertAll
-import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.function.Executable
@@ -41,15 +40,16 @@ class InntektControllerTest(@Autowired val exceptionLogger: ExceptionLogger) {
             mockMvc,
             HttpMethod.POST,
             InntektController.TRANSFORMER_INNTEKTER,
-            TransformerInntekterRequest(),
-            TransformerInntekterResponse::class.java
+            TransformerInntekterRequestDto(),
+            TransformerInntekterResponseDto::class.java
         ) { isOk() }
 
         assertAll(
             Executable { assertNotNull(transformerteInntekter) },
-            Executable { assertEquals(transformerteInntekter.versjon, "") },
-            Executable { Assertions.assertTrue(transformerteInntekter.skattegrunnlagInntektListe.isEmpty()) },
-            Executable { Assertions.assertTrue(transformerteInntekter.periodisertInntektListe.isEmpty()) }
+            Executable { assertTrue(transformerteInntekter.versjon.isEmpty()) },
+            Executable { assertTrue(transformerteInntekter.ligningsinntektListe.isEmpty()) },
+            Executable { assertTrue(transformerteInntekter.kapitalinntektListe.isEmpty()) },
+            Executable { assertTrue(transformerteInntekter.inntektListe.isEmpty()) }
         )
     }
 }
