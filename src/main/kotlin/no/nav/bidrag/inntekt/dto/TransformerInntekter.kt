@@ -1,5 +1,7 @@
 package no.nav.bidrag.inntekt.dto
 
+import com.fasterxml.jackson.annotation.JsonRawValue
+import com.fasterxml.jackson.databind.JsonNode
 import io.swagger.v3.oas.annotations.media.Schema
 import no.nav.bidrag.behandling.felles.dto.grunnlag.AinntektDto
 import no.nav.bidrag.behandling.felles.dto.grunnlag.KontantstotteDto
@@ -86,7 +88,8 @@ data class Inntekt(
     val sumInntekt: BigDecimal,
 
     @Schema(description = "Liste over inntektsposter (generisk, avhengig av type) som utgjør grunnlaget for summert inntekt")
-    val inntektPostListe: String
+    @JsonRawValue
+    val inntektPostListe: JsonNode
 )
 
 enum class InntektType(verdi: String) {

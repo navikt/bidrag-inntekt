@@ -42,7 +42,7 @@ class InntektService {
 //                        sumInntekt = it.value,
 //                        inntektPostListe = ObjectMapper().createObjectNode()
                         sumInntekt = it.value.sumInntekt,
-                        inntektPostListe = objectMapper.writeValueAsString(it.value.inntektPostListe)
+                        inntektPostListe = objectMapper.valueToTree(it.value.inntektPostListe)
                     )
                 )
             } else {
@@ -55,7 +55,7 @@ class InntektService {
 //                        inntektPostListe = ObjectMapper().createObjectNode()
                         sumInntekt = it.value.sumInntekt,
 //                        inntektPostListe = ObjectMapper().valueToTree(it.value.inntektPostListe)
-                        inntektPostListe = objectMapper.writeValueAsString(it.value.inntektPostListe)
+                        inntektPostListe = objectMapper.valueToTree(it.value.inntektPostListe)
                     )
                 )
             }
