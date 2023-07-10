@@ -32,7 +32,7 @@ class SkattegrunnlagService() {
         return beregnInntekt(skattegrunnlagListe, mappingLigs, InntektType.LIGNINGSINNTEKT)
     }
 
-    fun beregnInntekt(
+    private fun beregnInntekt(
         skattegrunnlagListe: List<SkattegrunnlagDto>,
         mapping: List<MappingPoster>,
         inntektType: InntektType
