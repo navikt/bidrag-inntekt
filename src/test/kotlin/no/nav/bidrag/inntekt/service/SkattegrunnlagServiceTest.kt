@@ -17,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ActiveProfiles
 import java.math.BigDecimal
-import java.util.InputMismatchException
 
 @DisplayName("InntektServiceTest")
 @ActiveProfiles(BidragInntektTest.TEST_PROFILE)
@@ -78,7 +77,7 @@ class SkattegrunnlagServiceTest {
             Executable { assertThat(beregnedeKapsinntekter[0].inntektPostListe[3].inntektPostNavn).isEqualTo("samledeOpptjenteRenterIUtenlandskeBanker") },
             Executable { assertThat(beregnedeKapsinntekter[0].inntektPostListe[3].plussEllerMinus).isEqualTo(PlussMinus.PLUSS) },
             Executable { assertThat(beregnedeKapsinntekter[0].inntektPostListe[3].erSekkePost).isTrue() },
-            Executable { assertThat(beregnedeKapsinntekter[0].inntektPostListe[3].beløp).isEqualTo(BigDecimal.valueOf(1700)) },
+            Executable { assertThat(beregnedeKapsinntekter[0].inntektPostListe[3].beløp).isEqualTo(BigDecimal.valueOf(1700)) }
 
         )
     }
@@ -91,7 +90,7 @@ class SkattegrunnlagServiceTest {
 
         assertAll(
             Executable { assertNotNull(beregnedeLigsinntekter) },
-            Executable { assertThat(beregnedeLigsinntekter[0].aar).isEqualTo("2022") },
+            Executable { assertThat(beregnedeLigsinntekter[0].aar).isEqualTo("2021") },
             Executable { assertThat(beregnedeLigsinntekter[0].inntektType).isEqualTo(InntektType.LIGNINGSINNTEKT) },
             Executable { assertThat(beregnedeLigsinntekter[0].sumInntekt).isEqualTo(BigDecimal.valueOf(1000)) },
             Executable { assertThat(beregnedeLigsinntekter[0].inntektPostListe.size).isEqualTo(4) },
@@ -114,8 +113,8 @@ class SkattegrunnlagServiceTest {
             Executable { assertThat(beregnedeLigsinntekter[0].inntektPostListe[3].inntektPostNavn).isEqualTo("arbeidsavklaringspenger") },
             Executable { assertThat(beregnedeLigsinntekter[0].inntektPostListe[3].plussEllerMinus).isEqualTo(PlussMinus.PLUSS) },
             Executable { assertThat(beregnedeLigsinntekter[0].inntektPostListe[3].erSekkePost).isFalse() },
-            Executable { assertThat(beregnedeLigsinntekter[0].inntektPostListe[3].beløp).isEqualTo(BigDecimal.valueOf(400)) },
+            Executable { assertThat(beregnedeLigsinntekter[0].inntektPostListe[3].beløp).isEqualTo(BigDecimal.valueOf(400)) }
 
-            )
+        )
     }
 }

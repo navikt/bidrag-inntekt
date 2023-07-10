@@ -19,7 +19,6 @@ class TestUtil {
 
     companion object {
 
-
         fun byggSkattegrunnlagDtoMedFeilPeriode() = immutableListOf(
             SkattegrunnlagDto(
                 personId = "12345678901",
@@ -29,7 +28,7 @@ class TestUtil {
                 brukFra = LocalDateTime.now(),
                 brukTil = LocalDateTime.now(),
                 hentetTidspunkt = LocalDateTime.now(),
-                skattegrunnlagListe = byggSkattegrunnlagListe(),
+                skattegrunnlagListe = byggSkattegrunnlagListe()
             )
         )
 
@@ -42,7 +41,7 @@ class TestUtil {
                 brukFra = LocalDateTime.now(),
                 brukTil = LocalDateTime.now(),
                 hentetTidspunkt = LocalDateTime.now(),
-                skattegrunnlagListe = byggSkattegrunnlagListe(),
+                skattegrunnlagListe = byggSkattegrunnlagListe()
             ),
             SkattegrunnlagDto(
                 personId = "12345678901",
@@ -52,31 +51,30 @@ class TestUtil {
                 brukFra = LocalDateTime.now(),
                 brukTil = LocalDateTime.now(),
                 hentetTidspunkt = LocalDateTime.now(),
-                skattegrunnlagListe = byggSkattegrunnlagListe(),
-            ),
+                skattegrunnlagListe = byggSkattegrunnlagListe()
+            )
         )
-
 
         private fun byggSkattegrunnlagListe() = immutableListOf(
             // KAPS
             SkattegrunnlagspostDto(
                 skattegrunnlagType = "Ordinær",
-                inntektType = "andelIFellesTapVedSalgAvAndelISDF",  // KAPS, MINUS, NEI
+                inntektType = "andelIFellesTapVedSalgAvAndelISDF", // KAPS, MINUS, NEI
                 belop = BigDecimal.valueOf(1000)
             ),
             SkattegrunnlagspostDto(
                 skattegrunnlagType = "Ordinær",
-                inntektType = "andreFradragsberettigedeKostnader",    // KAPS, MINUS, NEI
+                inntektType = "andreFradragsberettigedeKostnader", // KAPS, MINUS, NEI
                 belop = BigDecimal.valueOf(500)
             ),
             SkattegrunnlagspostDto(
                 skattegrunnlagType = "Ordinær",
-                inntektType = "annenSkattepliktigKapitalinntektFraAnnetFinansprodukt",    // KAPS, PLUSS, NEI
+                inntektType = "annenSkattepliktigKapitalinntektFraAnnetFinansprodukt", // KAPS, PLUSS, NEI
                 belop = BigDecimal.valueOf(1500)
             ),
             SkattegrunnlagspostDto(
                 skattegrunnlagType = "Ordinær",
-                inntektType = "samledeOpptjenteRenterIUtenlandskeBanker",    // KAPS, PLUSS, JA
+                inntektType = "samledeOpptjenteRenterIUtenlandskeBanker", // KAPS, PLUSS, JA
                 belop = BigDecimal.valueOf(1700)
             ),
             SkattegrunnlagspostDto(
@@ -88,32 +86,31 @@ class TestUtil {
             // LIGS
             SkattegrunnlagspostDto(
                 skattegrunnlagType = "Ordinær",
-                inntektType = "alderspensjonFraIPAOgIPS",  // LIGS, PLUSS, NEI
+                inntektType = "alderspensjonFraIPAOgIPS", // LIGS, PLUSS, NEI
                 belop = BigDecimal.valueOf(100)
             ),
             SkattegrunnlagspostDto(
                 skattegrunnlagType = "Ordinær",
-                inntektType = "ukjent",    //
+                inntektType = "ukjent", //
                 belop = BigDecimal.valueOf(1700)
             ),
             SkattegrunnlagspostDto(
                 skattegrunnlagType = "Ordinær",
-                inntektType = "annenArbeidsinntekt",    // LIGS, PLUSS, NEI
+                inntektType = "annenArbeidsinntekt", // LIGS, PLUSS, NEI
                 belop = BigDecimal.valueOf(200)
             ),
             SkattegrunnlagspostDto(
                 skattegrunnlagType = "Ordinær",
-                inntektType = "annenPensjonFoerAlderspensjon",    // LIGS, PLUSS, NEI
+                inntektType = "annenPensjonFoerAlderspensjon", // LIGS, PLUSS, NEI
                 belop = BigDecimal.valueOf(300)
             ),
             SkattegrunnlagspostDto(
                 skattegrunnlagType = "Ordinær",
-                inntektType = "arbeidsavklaringspenger",    // LIGS, PLUSS, NEI
+                inntektType = "arbeidsavklaringspenger", // LIGS, PLUSS, NEI
                 belop = BigDecimal.valueOf(400)
-            ),
-
             )
 
+        )
 
         fun <Request, Response> performRequest(
             mockMvc: MockMvc,
@@ -150,5 +147,4 @@ class TestUtil {
             }
         }
     }
-
 }

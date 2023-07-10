@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
 import com.fasterxml.jackson.module.kotlin.readValue
 import no.nav.bidrag.behandling.felles.dto.grunnlag.SkattegrunnlagDto
-import no.nav.bidrag.inntekt.dto.Inntekt
 import no.nav.bidrag.inntekt.dto.InntektType
 import no.nav.bidrag.inntekt.dto.PlussMinus
 import no.nav.bidrag.inntekt.dto.SkattegrunnlagInntekt
@@ -20,21 +19,17 @@ import java.time.Year
 class SkattegrunnlagService() {
 
     fun beregnKaps(skattegrunnlagListe: List<SkattegrunnlagDto>): List<SkattegrunnlagInntekt> {
-
         val pathKapsfil = "/files/mapping_kaps.yaml"
         val mappingKaps = hentMapping(pathKapsfil)
 
         return beregnInntekt(skattegrunnlagListe, mappingKaps, InntektType.KAPITALINNTEKT)
-
     }
 
     fun beregnLigs(skattegrunnlagListe: List<SkattegrunnlagDto>): List<SkattegrunnlagInntekt> {
-
         val pathLigsfil = "/files/mapping_ligs.yaml"
         val mappingLigs = hentMapping(pathLigsfil)
 
         return beregnInntekt(skattegrunnlagListe, mappingLigs, InntektType.LIGNINGSINNTEKT)
-
     }
 
     fun beregnInntekt(
@@ -42,15 +37,17 @@ class SkattegrunnlagService() {
         mapping: List<MappingPoster>,
         inntektType: InntektType
     ): List<SkattegrunnlagInntekt> {
-
         val skattegrunnlagInntektListe = mutableListOf<SkattegrunnlagInntekt>()
 
         skattegrunnlagListe.forEach { skattegrunnlagÅr ->
-            if (skattegrunnlagÅr.periodeTil != skattegrunnlagÅr.periodeFra.plusYears(1)
-                || skattegrunnlagÅr.periodeFra.dayOfMonth != 1
-                || skattegrunnlagÅr.periodeFra.monthValue != 1) {
-                throw UgyldigInputException("Ugyldig input i skattegrunnlagÅr.periodeFra, skattegrunnlagÅr.periodeTil (må være januar til januar neste år): " +
-                    "$skattegrunnlagÅr.periodeFra $skattegrunnlagÅr.periodeTil")
+            if (skattegrunnlagÅr.periodeTil != skattegrunnlagÅr.periodeFra.plusYears(1) ||
+                skattegrunnlagÅr.periodeFra.dayOfMonth != 1 ||
+                skattegrunnlagÅr.periodeFra.monthValue != 1
+            ) {
+                throw UgyldigInputException(
+                    "Ugyldig input i skattegrunnlagÅr.periodeFra, skattegrunnlagÅr.periodeTil (må være januar til januar neste år): " +
+                        "$skattegrunnlagÅr.periodeFra $skattegrunnlagÅr.periodeTil"
+                )
             }
 
             val skattegrunnlagInntektPostListe = mutableListOf<SkattegrunnlagInntektPost>()
@@ -60,7 +57,9 @@ class SkattegrunnlagService() {
                 if (match != null) {
                     if (match.plussMinus == PlussMinus.PLUSS) {
                         sumInntekt += post.belop
-                    } else sumInntekt -= post.belop
+                    } else {
+                        sumInntekt -= post.belop
+                    }
 
                     skattegrunnlagInntektPostListe.add(
                         SkattegrunnlagInntektPost(
@@ -80,13 +79,10 @@ class SkattegrunnlagService() {
                     inntektPostListe = skattegrunnlagInntektPostListe
                 )
             )
-
         }
 
         return skattegrunnlagInntektListe
-
     }
-
 
     private fun hentMapping(path: String): List<MappingPoster> {
         try {
@@ -111,7 +107,6 @@ class SkattegrunnlagService() {
     }
 }
 
-
 data class Post(val post: String)
 
 data class PostKonfig(
@@ -126,5 +121,5 @@ data class MappingPoster(
     val plussMinus: PlussMinus,
     val sekkepost: Boolean,
     val fom: Year,
-    val tom: Year,
+    val tom: Year
 )
