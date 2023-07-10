@@ -7,10 +7,15 @@ import no.nav.bidrag.inntekt.dto.TransformerInntekterResponseDto
 import org.springframework.stereotype.Service
 
 @Service
-class InntektService() {
+class InntektService(
+    val skattegrunnlagService: SkattegrunnlagService
+) {
 
     fun transformerInntekter(transformerInntekterRequestDto: TransformerInntekterRequestDto): TransformerInntekterResponseDto {
-        return TransformerInntekterResponseDto()
+        return TransformerInntekterResponseDto(
+            ligningsinntektListe = skattegrunnlagService.beregnLigs(transformerInntekterRequestDto.skattegrunnlagListe),
+            kapitalinntektListe = skattegrunnlagService.beregnKaps(transformerInntekterRequestDto.skattegrunnlagListe)
+        )
     }
 
     fun bestemInntektType() = "XX"
