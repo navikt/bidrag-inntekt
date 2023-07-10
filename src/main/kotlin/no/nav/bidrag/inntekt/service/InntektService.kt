@@ -26,7 +26,6 @@ class InntektService {
 
     // Summerer, grupperer og transformerer ainntekter
     private fun konverterAinntekt(ainntektListeInn: List<AinntektDto>): List<Inntekt> {
-
         val ainntektMap = summerInntekterNy(ainntektListeInn)
 
         val ainntektListeUt = mutableListOf<Inntekt>()
@@ -59,7 +58,6 @@ class InntektService {
                         inntektPostListe = objectMapper.writeValueAsString(it.value.inntektPostListe)
                     )
                 )
-
             }
         }
 

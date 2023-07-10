@@ -36,7 +36,6 @@ class InntektServiceTest {
     @Test
     @Suppress("NonAsciiCharacters")
     fun `skal transformere inntekter`() {
-
         val objectMapper = ObjectMapper()
         objectMapper.registerKotlinModule()
         objectMapper.registerModule(JavaTimeModule())
