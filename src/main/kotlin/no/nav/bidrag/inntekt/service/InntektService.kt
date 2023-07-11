@@ -1,9 +1,9 @@
 package no.nav.bidrag.inntekt.service
 
-import no.nav.bidrag.behandling.felles.dto.grunnlag.SkattegrunnlagDto
 import no.nav.bidrag.inntekt.dto.Inntekt
 import no.nav.bidrag.inntekt.dto.TransformerInntekterRequestDto
 import no.nav.bidrag.inntekt.dto.TransformerInntekterResponseDto
+import no.nav.bidrag.transport.behandling.grunnlag.reponse.SkattegrunnlagDto
 import org.springframework.stereotype.Service
 
 @Service

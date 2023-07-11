@@ -3,12 +3,12 @@ package no.nav.bidrag.inntekt.service
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
 import com.fasterxml.jackson.module.kotlin.readValue
-import no.nav.bidrag.behandling.felles.dto.grunnlag.SkattegrunnlagDto
 import no.nav.bidrag.inntekt.dto.InntektType
 import no.nav.bidrag.inntekt.dto.PlussMinus
 import no.nav.bidrag.inntekt.dto.SkattegrunnlagInntekt
 import no.nav.bidrag.inntekt.dto.SkattegrunnlagInntektPost
 import no.nav.bidrag.inntekt.exception.custom.UgyldigInputException
+import no.nav.bidrag.transport.behandling.grunnlag.reponse.SkattegrunnlagDto
 import org.springframework.core.io.ClassPathResource
 import org.springframework.stereotype.Service
 import java.io.IOException

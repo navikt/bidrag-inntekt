@@ -2,11 +2,11 @@ package no.nav.bidrag.inntekt.dto
 
 import com.fasterxml.jackson.databind.JsonNode
 import io.swagger.v3.oas.annotations.media.Schema
-import no.nav.bidrag.behandling.felles.dto.grunnlag.AinntektDto
-import no.nav.bidrag.behandling.felles.dto.grunnlag.KontantstotteDto
-import no.nav.bidrag.behandling.felles.dto.grunnlag.OvergangsstonadDto
-import no.nav.bidrag.behandling.felles.dto.grunnlag.SkattegrunnlagDto
-import no.nav.bidrag.behandling.felles.dto.grunnlag.UtvidetBarnetrygdOgSmaabarnstilleggDto
+import no.nav.bidrag.transport.behandling.grunnlag.reponse.AinntektDto
+import no.nav.bidrag.transport.behandling.grunnlag.reponse.KontantstotteDto
+import no.nav.bidrag.transport.behandling.grunnlag.reponse.OvergangsstonadDto
+import no.nav.bidrag.transport.behandling.grunnlag.reponse.SkattegrunnlagDto
+import no.nav.bidrag.transport.behandling.grunnlag.reponse.UtvidetBarnetrygdOgSmaabarnstilleggDto
 import java.math.BigDecimal
 import java.time.LocalDate
 
@@ -42,7 +42,10 @@ data class TransformerInntekterResponseDto(
     val kapitalinntektListe: List<SkattegrunnlagInntekt> = emptyList(),
 
     @Schema(description = "Liste over inntekter (periodisert)")
-    val inntektListe: List<Inntekt> = emptyList()
+    val inntektListe: List<Inntekt> = emptyList(),
+
+    @Schema(description = "Liste over overgangsstønad (periodisert)")
+    val overgangsstonadListe: List<Inntekt> = emptyList(),
 )
 
 data class SkattegrunnlagInntekt(
@@ -90,6 +93,23 @@ data class Inntekt(
     val inntektPostListe: JsonNode
 )
 
+data class Overgangsstønad(
+    @Schema(description = "Type inntekt", example = "OVERGANGSSTØNAD")
+    val inntektType: InntektType,
+
+    @Schema(description = "Dato som inntekten gjelder fra", example = "2023-04-01")
+    val datoFra: LocalDate,
+
+    @Schema(description = "Dato som inntekten gjelder til", example = "2023-07-01")
+    val datoTil: LocalDate?,
+
+    @Schema(description = "Summert inntekt for perioden, omgjort til årsinntekt", example = "600000")
+    val sumInntekt: BigDecimal,
+
+    @Schema(description = "Liste over hvilke overgangsstonadDto'er som er grunnlag for beregnet overgangsstønadinntekt")
+    val overgangsstonadDtoListe: List<OvergangsstonadDto>
+)
+
 enum class InntektType(verdi: String) {
     AINNTEKT_BEREGNET_3MND("Ainntekt beregnet inntekt siste 3 mnd"),
     AINNTEKT_BEREGNET_12MND("Ainntekt beregnet inntekt siste 12 mnd"),
@@ -99,7 +119,9 @@ enum class InntektType(verdi: String) {
     UTVIDET_BARNETRYGD("Utvidet barnetrygd"),
     SMÅBARNSTILLEGG("Småbarnstillegg"),
     KONTANTSTØTTE("Kontantstøtte"),
-    OVERGANGSSTØNAD("Overgangsstønad")
+    OVERGANGSSTØNAD("Overgangsstønad"),
+    OVERGANGSSTØNAD_BEREGNET_3MND("Overgangsstønad beregnet inntekt siste 3 mnd"),
+    OVERGANGSSTØNAD_BEREGNET_12MND("Overgangsstønad beregnet inntekt siste 12 mnd"),
 }
 
 enum class PlussMinus {
