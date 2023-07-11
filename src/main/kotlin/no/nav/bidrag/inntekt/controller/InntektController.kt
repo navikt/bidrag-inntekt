@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
@@ -28,7 +29,7 @@ class InntektController(private val inntektService: InntektService) {
             ApiResponse(responseCode = "401", description = "Sikkerhetstoken mangler, er utløpt, eller av andre årsaker ugyldig")
         ]
     )
-    fun transformerInntekter(request: TransformerInntekterRequestDto): ResponseEntity<TransformerInntekterResponseDto> {
+    fun transformerInntekter(@RequestBody request: TransformerInntekterRequestDto): ResponseEntity<TransformerInntekterResponseDto> {
         val transformerteInntekter = inntektService.transformerInntekter(request)
         return ResponseEntity(transformerteInntekter, HttpStatus.OK)
     }

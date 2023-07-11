@@ -1,0 +1,499 @@
+{
+  "ainntektListe": [
+    {
+      "personId": "12345678901",
+      "periodeFra": "2022-05-01",
+      "periodeTil": "2022-06-01",
+      "aktiv": true,
+      "brukFra": "2023-07-06T05:42:48.308Z",
+      "brukTil": null,
+      "hentetTidspunkt": "2023-07-06T05:42:48.308Z",
+      "ainntektspostListe": [
+        {
+          "utbetalingsperiode": "2022-05",
+          "opptjeningsperiodeFra": "2022-05-01",
+          "opptjeningsperiodeTil": "2022-06-01",
+          "opplysningspliktigId": "987654321",
+          "virksomhetId": "987654320",
+          "inntektType": "LOENNSINNTEKT",
+          "fordelType": "kontantytelse",
+          "beskrivelse": "fastloenn",
+          "belop": 50000,
+          "etterbetalingsperiodeFra": null,
+          "etterbetalingsperiodeTil": null
+        }
+      ]
+    },
+    {
+      "personId": "12345678901",
+      "periodeFra": "2022-05-01",
+      "periodeTil": "2022-06-01",
+      "aktiv": true,
+      "brukFra": "2023-07-06T05:42:48.308Z",
+      "brukTil": null,
+      "hentetTidspunkt": "2023-07-06T05:42:48.308Z",
+      "ainntektspostListe": [
+        {
+          "utbetalingsperiode": "2022-05",
+          "opptjeningsperiodeFra": "2021-11-01",
+          "opptjeningsperiodeTil": "2021-12-01",
+          "opplysningspliktigId": "987654321",
+          "virksomhetId": "987654320",
+          "inntektType": "LOENNSINNTEKT",
+          "fordelType": "kontantytelse",
+          "beskrivelse": "overtidsgodtgjoerelse",
+          "belop": 10000,
+          "etterbetalingsperiodeFra": null,
+          "etterbetalingsperiodeTil": null
+        }
+      ]
+    },
+    {
+      "personId": "12345678901",
+      "periodeFra": "2022-05-01",
+      "periodeTil": "2022-06-01",
+      "aktiv": true,
+      "brukFra": "2023-07-06T05:42:48.308Z",
+      "brukTil": null,
+      "hentetTidspunkt": "2023-07-06T05:42:48.308Z",
+      "ainntektspostListe": [
+        {
+          "utbetalingsperiode": "2022-05",
+          "opptjeningsperiodeFra": "2022-05-01",
+          "opptjeningsperiodeTil": "2022-06-01",
+          "opplysningspliktigId": "987654321",
+          "virksomhetId": "987654320",
+          "inntektType": "LOENNSINNTEKT",
+          "fordelType": "kontantytelse",
+          "beskrivelse": "bonus",
+          "belop": 15000,
+          "etterbetalingsperiodeFra": null,
+          "etterbetalingsperiodeTil": null
+        }
+      ]
+    },
+    {
+      "personId": "12345678901",
+      "periodeFra": "2022-06-01",
+      "periodeTil": "2022-07-01",
+      "aktiv": true,
+      "brukFra": "2023-07-06T05:42:48.308Z",
+      "brukTil": null,
+      "hentetTidspunkt": "2023-07-06T05:42:48.308Z",
+      "ainntektspostListe": [
+        {
+          "utbetalingsperiode": "2022-06",
+          "opptjeningsperiodeFra": "2022-06-01",
+          "opptjeningsperiodeTil": "2022-07-01",
+          "opplysningspliktigId": "987654321",
+          "virksomhetId": "987654320",
+          "inntektType": "LOENNSINNTEKT",
+          "fordelType": "kontantytelse",
+          "beskrivelse": "fastloenn",
+          "belop": 50000,
+          "etterbetalingsperiodeFra": null,
+          "etterbetalingsperiodeTil": null
+        }
+      ]
+    },
+    {
+      "personId": "12345678901",
+      "periodeFra": "2022-07-01",
+      "periodeTil": "2022-08-01",
+      "aktiv": true,
+      "brukFra": "2023-07-06T05:42:48.308Z",
+      "brukTil": null,
+      "hentetTidspunkt": "2023-07-06T05:42:48.308Z",
+      "ainntektspostListe": [
+        {
+          "utbetalingsperiode": "2022-07",
+          "opptjeningsperiodeFra": "2022-07-01",
+          "opptjeningsperiodeTil": "2022-08-01",
+          "opplysningspliktigId": "987654321",
+          "virksomhetId": "987654320",
+          "inntektType": "LOENNSINNTEKT",
+          "fordelType": "kontantytelse",
+          "beskrivelse": "fastloenn",
+          "belop": 50000,
+          "etterbetalingsperiodeFra": null,
+          "etterbetalingsperiodeTil": null
+        }
+      ]
+    },
+    {
+      "personId": "12345678901",
+      "periodeFra": "2022-08-01",
+      "periodeTil": "2022-09-01",
+      "aktiv": true,
+      "brukFra": "2023-07-06T05:42:48.308Z",
+      "brukTil": null,
+      "hentetTidspunkt": "2023-07-06T05:42:48.308Z",
+      "ainntektspostListe": [
+        {
+          "utbetalingsperiode": "2022-08",
+          "opplysningspliktigId": "987654321",
+          "virksomhetId": "987654320",
+          "inntektType": "LOENNSINNTEKT",
+          "fordelType": "kontantytelse",
+          "beskrivelse": "fastloenn",
+          "belop": 55000,
+          "etterbetalingsperiodeFra": null,
+          "etterbetalingsperiodeTil": null
+        }
+      ]
+    },
+    {
+      "personId": "12345678901",
+      "periodeFra": "2022-09-01",
+      "periodeTil": "2022-10-01",
+      "aktiv": true,
+      "brukFra": "2023-07-06T05:42:48.308Z",
+      "brukTil": null,
+      "hentetTidspunkt": "2023-07-06T05:42:48.308Z",
+      "ainntektspostListe": [
+        {
+          "utbetalingsperiode": "2022-09",
+          "opplysningspliktigId": "987654321",
+          "virksomhetId": "987654320",
+          "inntektType": "LOENNSINNTEKT",
+          "fordelType": "kontantytelse",
+          "beskrivelse": "fastloenn",
+          "belop": 55000,
+          "etterbetalingsperiodeFra": null,
+          "etterbetalingsperiodeTil": null
+        }
+      ]
+    },
+    {
+      "personId": "12345678901",
+      "periodeFra": "2022-10-01",
+      "periodeTil": "2022-11-01",
+      "aktiv": true,
+      "brukFra": "2023-07-06T05:42:48.308Z",
+      "brukTil": null,
+      "hentetTidspunkt": "2023-07-06T05:42:48.308Z",
+      "ainntektspostListe": [
+        {
+          "utbetalingsperiode": "2022-10",
+          "opplysningspliktigId": "987654321",
+          "virksomhetId": "987654320",
+          "inntektType": "LOENNSINNTEKT",
+          "fordelType": "kontantytelse",
+          "beskrivelse": "fastloenn",
+          "belop": 55000,
+          "etterbetalingsperiodeFra": null,
+          "etterbetalingsperiodeTil": null
+        }
+      ]
+    },
+    {
+      "personId": "12345678901",
+      "periodeFra": "2022-11-01",
+      "periodeTil": "2022-12-01",
+      "aktiv": true,
+      "brukFra": "2023-07-06T05:42:48.308Z",
+      "brukTil": null,
+      "hentetTidspunkt": "2023-07-06T05:42:48.308Z",
+      "ainntektspostListe": [
+        {
+          "utbetalingsperiode": "2022-11",
+          "opplysningspliktigId": "987654321",
+          "virksomhetId": "987654320",
+          "inntektType": "LOENNSINNTEKT",
+          "fordelType": "kontantytelse",
+          "beskrivelse": "fastloenn",
+          "belop": 55000,
+          "etterbetalingsperiodeFra": null,
+          "etterbetalingsperiodeTil": null
+        }
+      ]
+    },
+    {
+      "personId": "12345678901",
+      "periodeFra": "2022-12-01",
+      "periodeTil": "2023-01-01",
+      "aktiv": true,
+      "brukFra": "2023-07-06T05:42:48.308Z",
+      "brukTil": null,
+      "hentetTidspunkt": "2023-07-06T05:42:48.308Z",
+      "ainntektspostListe": [
+        {
+          "utbetalingsperiode": "2022-12",
+          "opplysningspliktigId": "987654321",
+          "virksomhetId": "987654320",
+          "inntektType": "LOENNSINNTEKT",
+          "fordelType": "kontantytelse",
+          "beskrivelse": "fastloenn",
+          "belop": 55000,
+          "etterbetalingsperiodeFra": null,
+          "etterbetalingsperiodeTil": null
+        }
+      ]
+    },
+    {
+      "personId": "12345678901",
+      "periodeFra": "2023-01-01",
+      "periodeTil": "2023-02-01",
+      "aktiv": true,
+      "brukFra": "2023-07-06T05:42:48.308Z",
+      "brukTil": null,
+      "hentetTidspunkt": "2023-07-06T05:42:48.308Z",
+      "ainntektspostListe": [
+        {
+          "utbetalingsperiode": "2023-01",
+          "opptjeningsperiodeFra": "2023-01-01",
+          "opptjeningsperiodeTil": "2022-02-01",
+          "opplysningspliktigId": "987654321",
+          "virksomhetId": "987654320",
+          "inntektType": "LOENNSINNTEKT",
+          "fordelType": "kontantytelse",
+          "beskrivelse": "fastloenn",
+          "belop": 60000,
+          "etterbetalingsperiodeFra": null,
+          "etterbetalingsperiodeTil": null
+        }
+      ]
+    },
+    {
+      "personId": "12345678901",
+      "periodeFra": "2023-02-01",
+      "periodeTil": "2023-03-01",
+      "aktiv": true,
+      "brukFra": "2023-07-06T05:42:48.308Z",
+      "brukTil": null,
+      "hentetTidspunkt": "2023-07-06T05:42:48.308Z",
+      "ainntektspostListe": [
+        {
+          "utbetalingsperiode": "2023-02",
+          "opptjeningsperiodeFra": "2023-02-01",
+          "opptjeningsperiodeTil": "2023-03-01",
+          "opplysningspliktigId": "987654321",
+          "virksomhetId": "987654320",
+          "inntektType": "LOENNSINNTEKT",
+          "fordelType": "kontantytelse",
+          "beskrivelse": "fastloenn",
+          "belop": 60000,
+          "etterbetalingsperiodeFra": null,
+          "etterbetalingsperiodeTil": null
+        }
+      ]
+    },
+    {
+      "personId": "12345678901",
+      "periodeFra": "2023-03-01",
+      "periodeTil": "2023-04-01",
+      "aktiv": true,
+      "brukFra": "2023-07-06T05:42:48.308Z",
+      "brukTil": null,
+      "hentetTidspunkt": "2023-07-06T05:42:48.308Z",
+      "ainntektspostListe": [
+        {
+          "utbetalingsperiode": "2023-03",
+          "opptjeningsperiodeFra": "2023-03-01",
+          "opptjeningsperiodeTil": "2023-04-01",
+          "opplysningspliktigId": "987654321",
+          "virksomhetId": "987654320",
+          "inntektType": "LOENNSINNTEKT",
+          "fordelType": "kontantytelse",
+          "beskrivelse": "fastloenn",
+          "belop": 60000,
+          "etterbetalingsperiodeFra": null,
+          "etterbetalingsperiodeTil": null
+        }
+      ]
+    },
+    {
+      "personId": "12345678901",
+      "periodeFra": "2023-04-01",
+      "periodeTil": "2023-05-01",
+      "aktiv": true,
+      "brukFra": "2023-07-06T05:42:48.308Z",
+      "brukTil": null,
+      "hentetTidspunkt": "2023-07-06T05:42:48.308Z",
+      "ainntektspostListe": [
+        {
+          "utbetalingsperiode": "2023-04",
+          "opptjeningsperiodeFra": "2023-04-01",
+          "opptjeningsperiodeTil": "2023-05-01",
+          "opplysningspliktigId": "987654321",
+          "virksomhetId": "987654320",
+          "inntektType": "LOENNSINNTEKT",
+          "fordelType": "kontantytelse",
+          "beskrivelse": "fastloenn",
+          "belop": 60000,
+          "etterbetalingsperiodeFra": null,
+          "etterbetalingsperiodeTil": null
+        }
+      ]
+    },
+    {
+      "personId": "12345678901",
+      "periodeFra": "2023-05-01",
+      "periodeTil": "2023-06-01",
+      "aktiv": true,
+      "brukFra": "2023-07-06T05:42:48.308Z",
+      "brukTil": null,
+      "hentetTidspunkt": "2023-07-06T05:42:48.308Z",
+      "ainntektspostListe": [
+        {
+          "utbetalingsperiode": "2023-05",
+          "opplysningspliktigId": "987654321",
+          "virksomhetId": "987654320",
+          "inntektType": "LOENNSINNTEKT",
+          "fordelType": "kontantytelse",
+          "beskrivelse": "fastloenn",
+          "belop": 60000,
+          "etterbetalingsperiodeFra": null,
+          "etterbetalingsperiodeTil": null
+        }
+      ]
+    },
+    {
+      "personId": "12345678901",
+      "periodeFra": "2023-06-01",
+      "periodeTil": "2023-07-01",
+      "aktiv": true,
+      "brukFra": "2023-07-06T05:42:48.308Z",
+      "brukTil": null,
+      "hentetTidspunkt": "2023-07-06T05:42:48.308Z",
+      "ainntektspostListe": [
+        {
+          "utbetalingsperiode": "2023-06",
+          "opptjeningsperiodeFra": "2023-04-15",
+          "opptjeningsperiodeTil": "2023-04-22",
+          "opplysningspliktigId": "987654321",
+          "virksomhetId": "987654320",
+          "inntektType": "LOENNSINNTEKT",
+          "fordelType": "kontantytelse",
+          "beskrivelse": "overtidsgodtgjoerelse",
+          "belop": 8000,
+          "etterbetalingsperiodeFra": null,
+          "etterbetalingsperiodeTil": null
+        }
+      ]
+    },
+    {
+      "personId": "12345678901",
+      "periodeFra": "2023-06-01",
+      "periodeTil": "2023-07-01",
+      "aktiv": true,
+      "brukFra": "2023-07-06T05:42:48.308Z",
+      "brukTil": null,
+      "hentetTidspunkt": "2023-07-06T05:42:48.308Z",
+      "ainntektspostListe": [
+        {
+          "utbetalingsperiode": "2023-06",
+          "opplysningspliktigId": "987654321",
+          "virksomhetId": "987654320",
+          "inntektType": "LOENNSINNTEKT",
+          "fordelType": "kontantytelse",
+          "beskrivelse": "fastloenn",
+          "belop": 60000,
+          "etterbetalingsperiodeFra": null,
+          "etterbetalingsperiodeTil": null
+        }
+      ]
+    },
+    {
+      "personId": "12345678901",
+      "periodeFra": "2023-06-01",
+      "periodeTil": "2023-07-01",
+      "aktiv": true,
+      "brukFra": "2023-07-06T05:42:48.308Z",
+      "brukTil": null,
+      "hentetTidspunkt": "2023-07-06T05:42:48.308Z",
+      "ainntektspostListe": [
+        {
+          "utbetalingsperiode": "2023-06",
+          "opplysningspliktigId": "987654321",
+          "virksomhetId": "987654320",
+          "inntektType": "LOENNSINNTEKT",
+          "fordelType": "kontantytelse",
+          "beskrivelse": "bonus",
+          "belop": 15000,
+          "etterbetalingsperiodeFra": null,
+          "etterbetalingsperiodeTil": null
+        }
+      ]
+    },
+    {
+      "personId": "12345678901",
+      "periodeFra": "2023-07-01",
+      "periodeTil": "2023-08-01",
+      "aktiv": true,
+      "brukFra": "2023-07-06T05:42:48.308Z",
+      "brukTil": null,
+      "hentetTidspunkt": "2023-07-06T05:42:48.308Z",
+      "ainntektspostListe": [
+        {
+          "utbetalingsperiode": "2023-07",
+          "opplysningspliktigId": "987654321",
+          "virksomhetId": "987654320",
+          "inntektType": "LOENNSINNTEKT",
+          "fordelType": "kontantytelse",
+          "beskrivelse": "feriepenger",
+          "belop": 85000,
+          "etterbetalingsperiodeFra": null,
+          "etterbetalingsperiodeTil": null
+        }
+      ]
+    }
+  ],
+  "skattegrunnlagListe": [
+    {
+      "personId": "12345678901",
+      "periodeFra": "2022-01-01",
+      "periodeTil": "2023-01-01",
+      "aktiv": true,
+      "brukFra": "2023-07-06T05:42:48.308Z",
+      "brukTil": null,
+      "hentetTidspunkt": "2023-07-06T05:42:48.308Z",
+      "skattegrunnlagListe": [
+        {
+          "skattegrunnlagType": "ORDINAER",
+          "inntektType": "samledeOpptjenteRenterInnenlandskeBanker",
+          "belop": 10000
+        }
+      ]
+    }
+  ],
+  "ubstListe": [
+    {
+      "personId": "12345678901",
+      "type": "UTVIDET",
+      "periodeFra": "2022-05-01",
+      "periodeTil": "2022-06-01",
+      "aktiv": true,
+      "brukFra": "2023-07-06T05:42:48.308Z",
+      "brukTil": null,
+      "belop": 2500,
+      "manueltBeregnet": false,
+      "hentetTidspunkt": "2023-07-06T05:42:48.308Z"
+    }
+  ],
+  "kontantstotteListe": [
+    {
+      "partPersonId": "12345678901",
+      "barnPersonId": "98765432109",
+      "periodeFra": "2022-05-01",
+      "periodeTil": "2022-06-01",
+      "aktiv": true,
+      "brukFra": "2023-07-06T05:42:48.308Z",
+      "brukTil": null,
+      "belop": 7500,
+      "hentetTidspunkt": "2023-07-06T05:42:48.308Z"
+    }
+  ],
+  "overgangsstonadListe": [
+    {
+      "partPersonId": "12345678901",
+      "periodeFra": "2022-05-01",
+      "periodeTil": "2022-06-01",
+      "aktiv": true,
+      "brukFra": "2023-07-06T05:42:48.308Z",
+      "brukTil": null,
+      "belop": 19000,
+      "hentetTidspunkt": "2023-07-06T05:42:48.308Z"
+    }
+  ]
+}
