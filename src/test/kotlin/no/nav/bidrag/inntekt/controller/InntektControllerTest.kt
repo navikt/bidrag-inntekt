@@ -7,6 +7,7 @@ import no.nav.bidrag.inntekt.TestUtil
 import no.nav.bidrag.inntekt.dto.TransformerInntekterRequestDto
 import no.nav.bidrag.inntekt.dto.TransformerInntekterResponseDto
 import no.nav.bidrag.inntekt.exception.RestExceptionHandler
+import no.nav.bidrag.inntekt.service.AinntektService
 import no.nav.bidrag.inntekt.service.InntektService
 import no.nav.bidrag.inntekt.service.SkattegrunnlagService
 import no.nav.security.token.support.spring.test.EnableMockOAuth2Server
@@ -30,12 +31,14 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders
 @EnableMockOAuth2Server
 class InntektControllerTest(
     @Autowired val exceptionLogger: ExceptionLogger,
+    @Autowired val ainntektService: AinntektService,
     @Autowired val skattegrunnlagService: SkattegrunnlagService,
     ) {
 
-    private val inntektService: InntektService = InntektService(skattegrunnlagService)
+    private val inntektService: InntektService = InntektService(ainntektService, skattegrunnlagService)
     private val inntektController: InntektController = InntektController(inntektService)
-    private val mockMvc: MockMvc = MockMvcBuilders.standaloneSetup(inntektController)
+    private val mockMvc: MockMvc = MockMvcBuilders
+        .standaloneSetup(inntektController)
         .setControllerAdvice(RestExceptionHandler(exceptionLogger))
         .build()
 

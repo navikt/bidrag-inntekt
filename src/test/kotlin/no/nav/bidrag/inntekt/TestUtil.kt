@@ -1,8 +1,8 @@
 package no.nav.bidrag.inntekt
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import no.nav.bidrag.behandling.felles.dto.grunnlag.SkattegrunnlagDto
-import no.nav.bidrag.behandling.felles.dto.grunnlag.SkattegrunnlagspostDto
+import no.nav.bidrag.transport.behandling.grunnlag.reponse.SkattegrunnlagDto
+import no.nav.bidrag.transport.behandling.grunnlag.reponse.SkattegrunnlagspostDto
 import okhttp3.internal.immutableListOf
 import org.springframework.http.HttpMethod
 import org.springframework.http.MediaType
