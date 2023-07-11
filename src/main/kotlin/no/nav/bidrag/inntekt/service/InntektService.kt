@@ -8,11 +8,16 @@ import java.math.BigDecimal
 
 @Service
 class InntektService(
-    val ainntektService: AinntektService
+    val ainntektService: AinntektService,
+    val skattegrunnlagService: SkattegrunnlagService
 ) {
-
+  
     fun transformerInntekter(transformerInntekterRequestDto: TransformerInntekterRequestDto): TransformerInntekterResponseDto {
-        return TransformerInntekterResponseDto(inntektListe = ainntektService.beregnAinntekt(transformerInntekterRequestDto.ainntektListe))
+        return TransformerInntekterResponseDto(
+            inntektListe = ainntektService.beregnAinntekt(transformerInntekterRequestDto.ainntektListe),
+            ligningsinntektListe = skattegrunnlagService.beregnLigs(transformerInntekterRequestDto.skattegrunnlagListe),
+            kapitalinntektListe = skattegrunnlagService.beregnKaps(transformerInntekterRequestDto.skattegrunnlagListe)
+        )
     }
 }
 
