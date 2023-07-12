@@ -32,8 +32,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders
 class InntektControllerTest(
     @Autowired val exceptionLogger: ExceptionLogger,
     @Autowired val ainntektService: AinntektService,
-    @Autowired val skattegrunnlagService: SkattegrunnlagService,
-    ) {
+    @Autowired val skattegrunnlagService: SkattegrunnlagService
+) {
 
     private val inntektService: InntektService = InntektService(ainntektService, skattegrunnlagService)
     private val inntektController: InntektController = InntektController(inntektService)

@@ -11,7 +11,7 @@ class InntektService(
     val ainntektService: AinntektService,
     val skattegrunnlagService: SkattegrunnlagService
 ) {
-  
+
     fun transformerInntekter(transformerInntekterRequestDto: TransformerInntekterRequestDto): TransformerInntekterResponseDto {
         return TransformerInntekterResponseDto(
             inntektListe = ainntektService.beregnAinntekt(transformerInntekterRequestDto.ainntektListe),
