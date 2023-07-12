@@ -32,6 +32,7 @@ data class TransformerInntekterRequestDto(
     val overgangsstonadListe: List<OvergangsstonadDto> = emptyList()
 )
 
+@Deprecated("Skal utgå", ReplaceWith("TransformerInntekterResponseDtoNy"))
 data class TransformerInntekterResponseDto(
     @Schema(description = "Dato + commit hash", example = "20230705081501_68e71c7")
     val versjon: String = "",
@@ -49,6 +50,7 @@ data class TransformerInntekterResponseDto(
     val overgangsstonadListe: List<Overgangsstonad> = emptyList(),
 )
 
+@Deprecated("Skal utgå")
 data class SkattegrunnlagInntekt(
     @Schema(description = "Type inntekt fra Sigrun. Gyldige verdier er LIGNINGSINNTEKT (LIGS) og KAPITALINNTEKT (KAPS)", example = "LIGNINGSINNTEKT")
     val inntektType: InntektType,
@@ -63,6 +65,7 @@ data class SkattegrunnlagInntekt(
     val inntektPostListe: List<SkattegrunnlagInntektPost>
 )
 
+@Deprecated("Skal utgå")
 data class SkattegrunnlagInntektPost(
     @Schema(description = "Navn på inntektspost (= teknisk navn fra Sigrun)", example = "annenArbeidsinntekt")
     val inntektPostNavn: String,
@@ -77,6 +80,7 @@ data class SkattegrunnlagInntektPost(
     val beløp: BigDecimal
 )
 
+@Deprecated("Skal utgå")
 data class Inntekt(
     @Schema(description = "Type inntekt", example = "AINNTEKT_BEREGNET_3MND")
     val inntektType: InntektType,
@@ -95,6 +99,7 @@ data class Inntekt(
     val inntektPostListe: JsonNode
 )
 
+@Deprecated("Skal utgå")
 data class Overgangsstonad(
     @Schema(description = "Type inntekt", example = "OVERGANGSSTØNAD")
     val inntektType: InntektType,
@@ -112,6 +117,65 @@ data class Overgangsstonad(
     val overgangsstonadDtoListe: List<OvergangsstonadDto>
 )
 
+// TODO Rename til TransformerInntekterResponseDto (erstatter den gamle klassen)
+data class TransformerInntekterResponseDtoNy(
+    @Schema(description = "Dato + commit hash", example = "20230705081501_68e71c7")
+    val versjon: String = "",
+
+    @Schema(description = "Liste over summerte månedsinntekter (Ainntekt ++))")
+    val summertMånedsinntektListe: List<SummertMånedsinntekt> = emptyList(),
+
+    @Schema(description = "Liste over summerte årsinntekter (Ainntekt + Sigrun ++)")
+    val summertÅrsinntektListe: List<SummertÅrsinntekt> = emptyList()
+)
+
+data class SummertMånedsinntekt(
+    @Schema(description = "Periode (YYYY-MM)", example = "2023-01")
+    val periode: String,
+
+    @Schema(description = "Summert inntekt for måneden", example = "50000")
+    val sumInntekt: BigDecimal,
+
+    @Schema(description = "Liste over inntektsposter som utgjør grunnlaget for summert inntekt")
+    val inntektPostListe: List<InntektPost>
+)
+
+
+data class SummertÅrsinntekt(
+    @Schema(description = "Type inntekt", example = "LIGNINGSINNTEKT")
+    val inntektType: InntektType,
+
+    @Schema(description = "Visningsnavn for inntekttype", example = "Ligningsinntekt")
+    val visningsnavn: String,
+
+    @Schema(description = "Referanse", example = "Referanse")
+    val referanse: String,
+
+    @Schema(description = "Summert inntekt for perioden, omgjort til årsinntekt", example = "600000")
+    val sumInntekt: BigDecimal,
+
+    @Schema(description = "Dato som inntekten gjelder fra", example = "2023-01-01")
+    val datoFom: LocalDate,
+
+    @Schema(description = "Dato som inntekten gjelder til", example = "2024-01-01")
+    val datoTil: LocalDate?,
+
+    @Schema(description = "Liste over inntektsposter (generisk, avhengig av type) som utgjør grunnlaget for summert inntekt")
+    @JsonRawValue
+    val inntektPostListe: List<InntektPost>
+)
+
+data class InntektPost(
+    @Schema(description = "Kode for inntektspost", example = "bonus")
+    val kode: String,
+
+    @Schema(description = "Visningsnavn for kode", example = "Bonus")
+    val visningsnavn: String,
+
+    @Schema(description = "Beløp som utgør inntektsposten", example = "60000")
+    val beløp: BigDecimal
+)
+
 enum class InntektType(verdi: String) {
     AINNTEKT_BEREGNET_3MND("Ainntekt beregnet inntekt siste 3 mnd"),
     AINNTEKT_BEREGNET_12MND("Ainntekt beregnet inntekt siste 12 mnd"),
@@ -123,7 +187,7 @@ enum class InntektType(verdi: String) {
     KONTANTSTØTTE("Kontantstøtte"),
     OVERGANGSSTØNAD("Overgangsstønad"),
     OVERGANGSSTØNAD_BEREGNET_3MND("Overgangsstønad beregnet inntekt siste 3 mnd"),
-    OVERGANGSSTØNAD_BEREGNET_12MND("Overgangsstønad beregnet inntekt siste 12 mnd"),
+    OVERGANGSSTØNAD_BEREGNET_12MND("Overgangsstønad beregnet inntekt siste 12 mnd")
 }
 
 enum class PlussMinus {

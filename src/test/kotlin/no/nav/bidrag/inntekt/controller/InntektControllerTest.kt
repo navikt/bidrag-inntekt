@@ -34,7 +34,7 @@ class InntektControllerTest(
     @Autowired val exceptionLogger: ExceptionLogger,
     @Autowired val ainntektService: AinntektService,
     @Autowired val skattegrunnlagService: SkattegrunnlagService,
-    @Autowired val overgangsstønadService: OvergangsstønadService,
+    @Autowired val overgangsstønadService: OvergangsstønadService
     ) {
 
     private val inntektService: InntektService = InntektService(ainntektService, skattegrunnlagService, overgangsstønadService)
