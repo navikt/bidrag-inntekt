@@ -11,7 +11,7 @@ import no.nav.bidrag.transport.behandling.grunnlag.response.UtvidetBarnetrygdOgS
 import java.math.BigDecimal
 import java.time.LocalDate
 
-// TODO Legge til swagger-doc, default-verdier, flytte til bidrag-transport eller bidrag-behandling-felles-dto
+// TODO Legge til swagger-doc, default-verdier
 // TODO Legge til evt. manuelle inntekter
 // TODO Hva gjør vi med inntekter som ikke er i bruk?
 
