@@ -1,90 +1,87 @@
 package no.nav.bidrag.inntekt.service
 
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
-import com.fasterxml.jackson.module.kotlin.readValue
-import no.nav.bidrag.inntekt.dto.Inntekt
-import no.nav.bidrag.inntekt.dto.Overgangsstønad
-import no.nav.bidrag.inntekt.dto.PlussMinus
-import no.nav.bidrag.inntekt.dto.SkattegrunnlagInntekt
-import no.nav.bidrag.inntekt.dto.SkattegrunnlagInntektPost
-import no.nav.bidrag.inntekt.exception.custom.UgyldigInputException
-import no.nav.bidrag.transport.behandling.grunnlag.reponse.OvergangsstonadDto
-import org.springframework.core.io.ClassPathResource
+import no.nav.bidrag.inntekt.dto.InntektType
+import no.nav.bidrag.inntekt.dto.Overgangsstonad
+import no.nav.bidrag.transport.behandling.grunnlag.response.OvergangsstonadDto
 import org.springframework.stereotype.Service
-import java.io.IOException
 import java.math.BigDecimal
-import java.time.Year
+import java.time.LocalDate
 
 @Service
 class OvergangsstønadService() {
 
-    /*
+    fun beregnOvergangsstønad(overgangsstønadListe: List<OvergangsstonadDto>): List<Overgangsstonad> {
 
-   private fun beregnOvergangsstønad(overgangsstønadListe: List<OvergangsstonadDto>): List<Overgangsstønad> {
+        val overgangsstønadResponseListe = mutableListOf<Overgangsstonad>()
 
-       val overgangsstønadResponseListe = mutableListOf<Overgangsstønad>()
-       val overgangsstonadDtoListe = mutableListOf<OvergangsstonadDto>()
 
-         overgangsstønadListe.sortedWith(compareBy({ it.periodeFra }, { it.periodeTil })).forEach { overgangsstonad ->
+        overgangsstønadListe.sortedWith(compareBy({ it.periodeFra }, { it.periodeTil })).forEach { overgangsstønadDto ->
 
-           val skattegrunnlagInntektPostListe = mutableListOf<SkattegrunnlagInntektPost>()
-           var sumInntekt = BigDecimal.ZERO
-           overgangsstonad.skattegrunnlagListe.forEach { post ->
-               val match = mapping.find { it.post == post.inntektType }
-               if (match != null) {
-                   if (match.plussMinus == PlussMinus.PLUSS) {
-                       sumInntekt += post.belop
-                   } else {
-                       sumInntekt -= post.belop
-                   }
+            val overgangsstønadMap = mutableMapOf<String, OvergangsstønadSumPost>()
 
-                   skattegrunnlagInntektPostListe.add(
-                       SkattegrunnlagInntektPost(
-                           inntektPostNavn = match.post,
-                           plussEllerMinus = match.plussMinus,
-                           erSekkePost = match.sekkepost,
-                           beløp = post.belop
-                       )
-                   )
-               }
-           }
-           overgangsstønadResponseListe.add(
-               SkattegrunnlagInntekt(
-                   inntektType = inntektType,
-                   aar = overgangsstonad.periodeFra.year.toString(),
-                   sumInntekt = sumInntekt,
-                   inntektPostListe = skattegrunnlagInntektPostListe
-               )
-           )
-       }
+            akkumulerPost(overgangsstønadMap, overgangsstønadDto, overgangsstønadDto.periodeFra.year.toString())
 
-       return overgangsstønadResponseListe
-   }
+            if (innenforAntallMnd(overgangsstønadDto, 3)) {
+                akkumulerPost(overgangsstønadMap, overgangsstønadDto, KEY_3MND)
+            }
 
-   private fun hentMapping(path: String): List<MappingPoster> {
-       try {
-           val objectMapper = ObjectMapper(YAMLFactory())
-           objectMapper.findAndRegisterModules()
-           val pathKapsfil = ClassPathResource(path).inputStream
-           val mapping: Map<Post, List<PostKonfig>> = objectMapper.readValue(pathKapsfil)
-           return mapping.flatMap { (post, postKonfigs) ->
-               postKonfigs.map { postKonfig ->
-                   MappingPoster(
-                       post.post,
-                       PlussMinus.valueOf(postKonfig.plussMinus),
-                       postKonfig.sekkepost == "JA",
-                       Year.parse(postKonfig.fom),
-                       Year.parse(postKonfig.tom)
-                   )
-               }
-           }
-       } catch (e: IOException) {
-           throw RuntimeException("Kunne ikke laste fil", e)
-       }
-}
-   }*/
+            if (innenforAntallMnd(overgangsstønadDto, 12)) {
+                akkumulerPost(overgangsstønadMap, overgangsstønadDto, KEY_12MND)
+            }
+
+
+            val overgangsstonadDtoListe = mutableListOf<OvergangsstonadDto>()
+
+            var sumInntekt = BigDecimal.ZERO
+
+
+            overgangsstønadResponseListe.add(
+                Overgangsstonad(
+                    inntektType = InntektType.OVERGANGSSTØNAD,
+                    periodeFra = overgangsstønadDto.periodeFra,
+                    periodeTil = overgangsstønadDto.periodeTil,
+                    sumInntekt = overgangsstønadDto.belop.toBigDecimal(),
+                    overgangsstonadDtoListe = overgangsstønadListe
+                )
+            )
+        }
+
+        return overgangsstønadResponseListe
     }
+
+    // Summerer inntekter og legger til detaljposter til map
+    private fun akkumulerPost(overgangsstønadMap: MutableMap<String, OvergangsstønadSumPost>, overgangsstønad: OvergangsstonadDto, key: String) {
+        val overgangsstønadSumPost = overgangsstønadMap.getOrDefault(key, OvergangsstønadSumPost(BigDecimal.ZERO, mutableListOf()))
+        val sumInntekt = overgangsstønadSumPost.sumInntekt
+        val inntektPostListe = overgangsstønadSumPost.inntektPostListe
+        inntektPostListe.add(overgangsstønad)
+        overgangsstønadMap[key] = OvergangsstønadSumPost(sumInntekt.add(overgangsstønad.belop.toBigDecimal()), inntektPostListe)
+    }
+
+
+
+    // Sjekker om inntekt-dato er innenfor antall måneder (angitt som parameter)
+    private fun innenforAntallMnd(overgangsstonadDto: OvergangsstonadDto, antallMnd: Int): Boolean {
+        val sammenlignMedDato = LocalDate.now().minusMonths(antallMnd.toLong())
+        return sammenlignMedDato.isBefore(overgangsstonadDto.periodeFra)
+    }
+
+    private fun String.isNumeric(): Boolean {
+        return this.all { it.isDigit() }
+    }
+
+    companion object {
+        const val KEY_3MND = "3MND"
+        const val KEY_12MND = "12MND"
+    }
+
+}
+
+data class OvergangsstønadSumPost(
+    val sumInntekt: BigDecimal,
+    val inntektPostListe: MutableList<OvergangsstonadDto>
+)
+
 
 
 

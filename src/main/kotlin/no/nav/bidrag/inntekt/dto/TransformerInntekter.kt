@@ -3,11 +3,11 @@ package no.nav.bidrag.inntekt.dto
 import com.fasterxml.jackson.annotation.JsonRawValue
 import com.fasterxml.jackson.databind.JsonNode
 import io.swagger.v3.oas.annotations.media.Schema
-import no.nav.bidrag.transport.behandling.grunnlag.reponse.AinntektDto
-import no.nav.bidrag.transport.behandling.grunnlag.reponse.KontantstotteDto
-import no.nav.bidrag.transport.behandling.grunnlag.reponse.OvergangsstonadDto
-import no.nav.bidrag.transport.behandling.grunnlag.reponse.SkattegrunnlagDto
-import no.nav.bidrag.transport.behandling.grunnlag.reponse.UtvidetBarnetrygdOgSmaabarnstilleggDto
+import no.nav.bidrag.transport.behandling.grunnlag.response.AinntektDto
+import no.nav.bidrag.transport.behandling.grunnlag.response.KontantstotteDto
+import no.nav.bidrag.transport.behandling.grunnlag.response.OvergangsstonadDto
+import no.nav.bidrag.transport.behandling.grunnlag.response.SkattegrunnlagDto
+import no.nav.bidrag.transport.behandling.grunnlag.response.UtvidetBarnetrygdOgSmaabarnstilleggDto
 import java.math.BigDecimal
 import java.time.LocalDate
 
@@ -46,7 +46,7 @@ data class TransformerInntekterResponseDto(
     val inntektListe: List<Inntekt> = emptyList(),
 
     @Schema(description = "Liste over overgangsstønad (periodisert)")
-    val overgangsstonadListe: List<Inntekt> = emptyList(),
+    val overgangsstonadListe: List<Overgangsstonad> = emptyList(),
 )
 
 data class SkattegrunnlagInntekt(
@@ -82,10 +82,10 @@ data class Inntekt(
     val inntektType: InntektType,
 
     @Schema(description = "Dato som inntekten gjelder fra", example = "2023-04-01")
-    val datoFra: LocalDate,
+    val periodeFra: LocalDate,
 
     @Schema(description = "Dato som inntekten gjelder til", example = "2023-07-01")
-    val datoTil: LocalDate?,
+    val periodeTil: LocalDate?,
 
     @Schema(description = "Summert inntekt for perioden, omgjort til årsinntekt", example = "600000")
     val sumInntekt: BigDecimal,
@@ -95,15 +95,15 @@ data class Inntekt(
     val inntektPostListe: JsonNode
 )
 
-data class Overgangsstønad(
+data class Overgangsstonad(
     @Schema(description = "Type inntekt", example = "OVERGANGSSTØNAD")
     val inntektType: InntektType,
 
     @Schema(description = "Dato som inntekten gjelder fra", example = "2023-04-01")
-    val datoFra: LocalDate,
+    val periodeFra: LocalDate,
 
     @Schema(description = "Dato som inntekten gjelder til", example = "2023-07-01")
-    val datoTil: LocalDate?,
+    val periodeTil: LocalDate?,
 
     @Schema(description = "Summert inntekt for perioden, omgjort til årsinntekt", example = "600000")
     val sumInntekt: BigDecimal,

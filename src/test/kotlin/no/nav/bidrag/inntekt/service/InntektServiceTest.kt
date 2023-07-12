@@ -56,33 +56,33 @@ class InntektServiceTest {
             Executable { assertTrue(transformerteInntekter.inntektListe.size == 5) },
 
             Executable { assertTrue(transformerteInntekter.inntektListe[0].inntektType == InntektType.AINNTEKT) },
-            Executable { assertTrue(transformerteInntekter.inntektListe[0].datoFra == LocalDate.parse("2021-01-01")) },
-            Executable { assertNotNull(transformerteInntekter.inntektListe[0].datoTil) },
-            Executable { assertTrue(transformerteInntekter.inntektListe[0].datoTil!! == LocalDate.parse("2022-01-01")) },
+            Executable { assertTrue(transformerteInntekter.inntektListe[0].periodeFra == LocalDate.parse("2021-01-01")) },
+            Executable { assertNotNull(transformerteInntekter.inntektListe[0].periodeTil) },
+            Executable { assertTrue(transformerteInntekter.inntektListe[0].periodeTil!! == LocalDate.parse("2022-01-01")) },
             Executable { assertTrue(transformerteInntekter.inntektListe[0].sumInntekt == BigDecimal.valueOf(10000)) },
 
             Executable { assertTrue(transformerteInntekter.inntektListe[1].inntektType == InntektType.AINNTEKT) },
-            Executable { assertTrue(transformerteInntekter.inntektListe[1].datoFra == LocalDate.parse("2022-01-01")) },
-            Executable { assertNotNull(transformerteInntekter.inntektListe[1].datoTil) },
-            Executable { assertTrue(transformerteInntekter.inntektListe[1].datoTil!! == LocalDate.parse("2023-01-01")) },
+            Executable { assertTrue(transformerteInntekter.inntektListe[1].periodeFra == LocalDate.parse("2022-01-01")) },
+            Executable { assertNotNull(transformerteInntekter.inntektListe[1].periodeTil) },
+            Executable { assertTrue(transformerteInntekter.inntektListe[1].periodeTil!! == LocalDate.parse("2023-01-01")) },
             Executable { assertTrue(transformerteInntekter.inntektListe[1].sumInntekt == BigDecimal.valueOf(440000)) },
 
             Executable { assertTrue(transformerteInntekter.inntektListe[2].inntektType == InntektType.AINNTEKT) },
-            Executable { assertTrue(transformerteInntekter.inntektListe[2].datoFra == LocalDate.parse("2023-01-01")) },
-            Executable { assertNotNull(transformerteInntekter.inntektListe[2].datoTil) },
-            Executable { assertTrue(transformerteInntekter.inntektListe[2].datoTil!! == LocalDate.now()) },
+            Executable { assertTrue(transformerteInntekter.inntektListe[2].periodeFra == LocalDate.parse("2023-01-01")) },
+            Executable { assertNotNull(transformerteInntekter.inntektListe[2].periodeTil) },
+            Executable { assertTrue(transformerteInntekter.inntektListe[2].periodeTil!! == LocalDate.now()) },
             Executable { assertTrue(transformerteInntekter.inntektListe[2].sumInntekt == BigDecimal.valueOf(468000)) },
 
             Executable { assertTrue(transformerteInntekter.inntektListe[3].inntektType == InntektType.AINNTEKT_BEREGNET_12MND) },
-            Executable { assertTrue(transformerteInntekter.inntektListe[3].datoFra == LocalDate.now().minusYears(1)) },
-            Executable { assertNotNull(transformerteInntekter.inntektListe[3].datoTil) },
-            Executable { assertTrue(transformerteInntekter.inntektListe[3].datoTil!! == LocalDate.now()) },
+            Executable { assertTrue(transformerteInntekter.inntektListe[3].periodeFra == LocalDate.now().minusYears(1)) },
+            Executable { assertNotNull(transformerteInntekter.inntektListe[3].periodeTil) },
+            Executable { assertTrue(transformerteInntekter.inntektListe[3].periodeTil!! == LocalDate.now()) },
             Executable { assertTrue(transformerteInntekter.inntektListe[3].sumInntekt == BigDecimal.valueOf(743000)) },
 
             Executable { assertTrue(transformerteInntekter.inntektListe[4].inntektType == InntektType.AINNTEKT_BEREGNET_3MND) },
-            Executable { assertTrue(transformerteInntekter.inntektListe[4].datoFra == LocalDate.now().minusMonths(3)) },
-            Executable { assertNotNull(transformerteInntekter.inntektListe[4].datoTil) },
-            Executable { assertTrue(transformerteInntekter.inntektListe[4].datoTil!! == LocalDate.now()) },
+            Executable { assertTrue(transformerteInntekter.inntektListe[4].periodeFra == LocalDate.now().minusMonths(3)) },
+            Executable { assertNotNull(transformerteInntekter.inntektListe[4].periodeTil) },
+            Executable { assertTrue(transformerteInntekter.inntektListe[4].periodeTil!! == LocalDate.now()) },
             Executable { assertTrue(transformerteInntekter.inntektListe[4].sumInntekt == BigDecimal.valueOf(228000)) }
         )
     }

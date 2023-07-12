@@ -8,7 +8,7 @@ import no.nav.bidrag.inntekt.dto.PlussMinus
 import no.nav.bidrag.inntekt.dto.SkattegrunnlagInntekt
 import no.nav.bidrag.inntekt.dto.SkattegrunnlagInntektPost
 import no.nav.bidrag.inntekt.exception.custom.UgyldigInputException
-import no.nav.bidrag.transport.behandling.grunnlag.reponse.SkattegrunnlagDto
+import no.nav.bidrag.transport.behandling.grunnlag.response.SkattegrunnlagDto
 import org.springframework.core.io.ClassPathResource
 import org.springframework.stereotype.Service
 import java.io.IOException
