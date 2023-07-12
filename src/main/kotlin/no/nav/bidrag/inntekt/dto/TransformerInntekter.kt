@@ -3,11 +3,11 @@ package no.nav.bidrag.inntekt.dto
 import com.fasterxml.jackson.annotation.JsonRawValue
 import com.fasterxml.jackson.databind.JsonNode
 import io.swagger.v3.oas.annotations.media.Schema
-import no.nav.bidrag.behandling.felles.dto.grunnlag.AinntektDto
-import no.nav.bidrag.behandling.felles.dto.grunnlag.KontantstotteDto
-import no.nav.bidrag.behandling.felles.dto.grunnlag.OvergangsstonadDto
-import no.nav.bidrag.behandling.felles.dto.grunnlag.SkattegrunnlagDto
-import no.nav.bidrag.behandling.felles.dto.grunnlag.UtvidetBarnetrygdOgSmaabarnstilleggDto
+import no.nav.bidrag.transport.behandling.grunnlag.response.AinntektDto
+import no.nav.bidrag.transport.behandling.grunnlag.response.KontantstotteDto
+import no.nav.bidrag.transport.behandling.grunnlag.response.OvergangsstonadDto
+import no.nav.bidrag.transport.behandling.grunnlag.response.SkattegrunnlagDto
+import no.nav.bidrag.transport.behandling.grunnlag.response.UtvidetBarnetrygdOgSmaabarnstilleggDto
 import java.math.BigDecimal
 import java.time.LocalDate
 
@@ -44,7 +44,10 @@ data class TransformerInntekterResponseDto(
     val kapitalinntektListe: List<SkattegrunnlagInntekt> = emptyList(),
 
     @Schema(description = "Liste over inntekter (periodisert)")
-    val inntektListe: List<Inntekt> = emptyList()
+    val inntektListe: List<Inntekt> = emptyList(),
+
+    @Schema(description = "Liste over overgangsstønad (periodisert)")
+    val overgangsstonadListe: List<Overgangsstonad> = emptyList(),
 )
 
 @Deprecated("Skal utgå")
@@ -83,10 +86,10 @@ data class Inntekt(
     val inntektType: InntektType,
 
     @Schema(description = "Dato som inntekten gjelder fra", example = "2023-04-01")
-    val datoFra: LocalDate,
+    val periodeFra: LocalDate,
 
     @Schema(description = "Dato som inntekten gjelder til", example = "2023-07-01")
-    val datoTil: LocalDate?,
+    val periodeTil: LocalDate?,
 
     @Schema(description = "Summert inntekt for perioden, omgjort til årsinntekt", example = "600000")
     val sumInntekt: BigDecimal,
@@ -94,6 +97,24 @@ data class Inntekt(
     @Schema(description = "Liste over inntektsposter (generisk, avhengig av type) som utgjør grunnlaget for summert inntekt")
     @JsonRawValue
     val inntektPostListe: JsonNode
+)
+
+@Deprecated("Skal utgå")
+data class Overgangsstonad(
+    @Schema(description = "Type inntekt", example = "OVERGANGSSTØNAD")
+    val inntektType: InntektType,
+
+    @Schema(description = "Dato som inntekten gjelder fra", example = "2023-04-01")
+    val periodeFra: LocalDate,
+
+    @Schema(description = "Dato som inntekten gjelder til", example = "2023-07-01")
+    val periodeTil: LocalDate?,
+
+    @Schema(description = "Summert inntekt for perioden, omgjort til årsinntekt", example = "600000")
+    val sumInntekt: BigDecimal,
+
+    @Schema(description = "Liste over hvilke overgangsstonadDto'er som er grunnlag for beregnet overgangsstønadinntekt")
+    val overgangsstonadDtoListe: List<OvergangsstonadDto>
 )
 
 // TODO Rename til TransformerInntekterResponseDto (erstatter den gamle klassen)
@@ -119,6 +140,7 @@ data class SummertMånedsinntekt(
     val inntektPostListe: List<InntektPost>
 )
 
+
 data class SummertÅrsinntekt(
     @Schema(description = "Type inntekt", example = "LIGNINGSINNTEKT")
     val inntektType: InntektType,
@@ -140,7 +162,7 @@ data class SummertÅrsinntekt(
 
     @Schema(description = "Liste over inntektsposter (generisk, avhengig av type) som utgjør grunnlaget for summert inntekt")
     @JsonRawValue
-    val inntektPostListe: JsonNode
+    val inntektPostListe: List<InntektPost>
 )
 
 data class InntektPost(

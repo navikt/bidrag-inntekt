@@ -9,6 +9,7 @@ import no.nav.bidrag.inntekt.dto.TransformerInntekterResponseDto
 import no.nav.bidrag.inntekt.exception.RestExceptionHandler
 import no.nav.bidrag.inntekt.service.AinntektService
 import no.nav.bidrag.inntekt.service.InntektService
+import no.nav.bidrag.inntekt.service.OvergangsstønadService
 import no.nav.bidrag.inntekt.service.SkattegrunnlagService
 import no.nav.security.token.support.spring.test.EnableMockOAuth2Server
 import org.junit.jupiter.api.Assertions.assertAll
@@ -32,10 +33,11 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders
 class InntektControllerTest(
     @Autowired val exceptionLogger: ExceptionLogger,
     @Autowired val ainntektService: AinntektService,
-    @Autowired val skattegrunnlagService: SkattegrunnlagService
-) {
+    @Autowired val skattegrunnlagService: SkattegrunnlagService,
+    @Autowired val overgangsstønadService: OvergangsstønadService
+    ) {
 
-    private val inntektService: InntektService = InntektService(ainntektService, skattegrunnlagService)
+    private val inntektService: InntektService = InntektService(ainntektService, skattegrunnlagService, overgangsstønadService)
     private val inntektController: InntektController = InntektController(inntektService)
     private val mockMvc: MockMvc = MockMvcBuilders
         .standaloneSetup(inntektController)
