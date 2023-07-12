@@ -4,10 +4,10 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
-import no.nav.bidrag.behandling.felles.dto.grunnlag.AinntektDto
-import no.nav.bidrag.behandling.felles.dto.grunnlag.AinntektspostDto
 import no.nav.bidrag.inntekt.dto.Inntekt
 import no.nav.bidrag.inntekt.dto.InntektType
+import no.nav.bidrag.transport.behandling.grunnlag.response.AinntektDto
+import no.nav.bidrag.transport.behandling.grunnlag.response.AinntektspostDto
 import org.springframework.stereotype.Service
 import java.math.BigDecimal
 import java.text.SimpleDateFormat
@@ -34,8 +34,8 @@ class AinntektService {
                 ainntektListeUt.add(
                     Inntekt(
                         inntektType = InntektType.AINNTEKT,
-                        datoFra = LocalDate.parse(it.key + "-01-01"),
-                        datoTil = if (it.key.toInt() == dagensAar) dagensDato else LocalDate.parse(it.key + "-01-01").plusYears(1),
+                        periodeFra = LocalDate.parse(it.key + "-01-01"),
+                        periodeTil = if (it.key.toInt() == dagensAar) dagensDato else LocalDate.parse(it.key + "-01-01").plusYears(1),
                         sumInntekt = it.value.sumInntekt,
                         inntektPostListe = objectMapper.valueToTree(it.value.inntektPostListe)
                     )
@@ -44,8 +44,8 @@ class AinntektService {
                 ainntektListeUt.add(
                     Inntekt(
                         inntektType = if (it.key == KEY_3MND) InntektType.AINNTEKT_BEREGNET_3MND else InntektType.AINNTEKT_BEREGNET_12MND,
-                        datoFra = if (it.key == KEY_3MND) dagensDato.minusMonths(3) else dagensDato.minusYears(1),
-                        datoTil = dagensDato,
+                        periodeFra = if (it.key == KEY_3MND) dagensDato.minusMonths(3) else dagensDato.minusYears(1),
+                        periodeTil = dagensDato,
                         sumInntekt = it.value.sumInntekt,
                         inntektPostListe = objectMapper.valueToTree(it.value.inntektPostListe)
                     )
@@ -53,7 +53,7 @@ class AinntektService {
             }
         }
 
-        return ainntektListeUt.sortedWith(compareBy({ it.inntektType.toString() }, { it.datoFra }))
+        return ainntektListeUt.sortedWith(compareBy({ it.inntektType.toString() }, { it.periodeFra }))
     }
 
     // Summerer og grupperer ainntekter
