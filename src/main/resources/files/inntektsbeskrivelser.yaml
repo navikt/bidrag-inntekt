@@ -1,0 +1,710 @@
+Forskuddstrekk/barnepensjon:
+  - visningsnavn: Barnepensjon
+    fomdato: 2014-01-01
+    tomdato:
+    er gyldig: 1
+Forskuddstrekk/betaltTrygdeavgiftTilJanMayen:
+  - visningsnavn: Betalt trygdeavgift til Jan Mayen
+    fomdato: 2014-01-01
+    tomdato:
+    er gyldig: 1
+Forskuddstrekk/janMayenOgBilandene:
+  - visningsnavn: Jan Mayen og bilandene
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+Forskuddstrekk/kildeskattPaaPensjon:
+  - visningsnavn: Kildeskatt på pensjon
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+Forskuddstrekk/svalbard:
+  - visningsnavn: Svalbard
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+Fradrag/brakkeleie:
+  - visningsnavn: Brakkeleie
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+Fradrag/brakkeleieSvalbard:
+  - visningsnavn: Brakkeleie Svalbard
+    fomdato: 2014-01-01
+    tomdato:
+    er gyldig: 1
+Fradrag/fagforeningskontingent:
+  - visningsnavn: Fagforeningskontingent
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+Fradrag/fagforeningskontingentJanMayenOgBilandene:
+  - visningsnavn: Fagforeningskontingent Jan Mayen og bilandene
+    fomdato: 2014-01-01
+    tomdato:
+    er gyldig: 1
+Fradrag/fagforeningskontingentSvalbard:
+  - visningsnavn: Fagforeningskontingent Svalbard
+    fomdato: 2014-01-01
+    tomdato:
+    er gyldig: 1
+Fradrag/premieTilFondOgTrygd:
+  - visningsnavn: Premie til fond og trygd
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+Fradrag/premieTilFondOgTrygdSvalbard:
+  - visningsnavn: Premie til fond og trygd Svalbard
+    fomdato: 2014-01-01
+    tomdato:
+    er gyldig: 1
+Fradrag/premieTilPensjonsordninger:
+  - visningsnavn: Premie til pensjonsordninger
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+Fradrag/premieTilPensjonsordningerJanMayenOgBilandene:
+  - visningsnavn: Premie til pensjonsordninger Jan Mayen og bilandene
+    fomdato: 2014-01-01
+    tomdato:
+    er gyldig: 1
+Fradrag/premieTilPensjonsordningerSvalbard:
+  - visningsnavn: Premie til pensjonsordninger Svalbard
+    fomdato: 2014-01-01
+    tomdato:
+    er gyldig: 1
+Loenn/administrativForpleining:
+  - visningsnavn: Administrativ forpleining
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+Loenn/aksjerGrunnfondsbevisTilUnderkurs:
+  - visningsnavn: Aksjer/grunnfondsbevis til underkurs
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+Loenn/annet:
+  - visningsnavn: Annet
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+Loenn/arbeidsoppholdKost:
+  - visningsnavn: Arbeidsopphold kost
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+Loenn/arbeidsoppholdLosji:
+  - visningsnavn: Arbeidsopphold losji
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+Loenn/bedriftsbarnehageplass:
+  - visningsnavn: Bedriftsbarnehageplass
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+Loenn/beregnetSkatt:
+  - visningsnavn: Beregnet skatt
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+Loenn/besoeksreiserHjemmetAnnet:
+  - visningsnavn: Besøksreiser hjemmet annet
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+Loenn/besoeksreiserHjemmetKilometergodtgjoerelseBil:
+  - visningsnavn: Besøksreiser hjemmet kilometergodtgjørelse bil
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+Loenn/besoeksreiserHjemmetKost:
+  - visningsnavn: Besøksreiser hjemmet kost
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+Loenn/bil:
+  - visningsnavn: Bil
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+Loenn/bolig:
+  - visningsnavn: Bolig
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+Loenn/bonus:
+  - visningsnavn: Bonus
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+Loenn/bonusFraForsvaret:
+  - visningsnavn: Bonus fra forsvaret
+    fomdato: 2014-01-01
+    tomdato:
+    er gyldig: 1
+Loenn/elektroniskKommunikasjon:
+  - visningsnavn: Elektronisk kommunikasjon
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+Loenn/fastloenn:
+  - visningsnavn: Fastlønn
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+Loenn/fastBilgodtgjoerelse:
+  - visningsnavn: Fast bilgodtgjørelse
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+Loenn/fastTillegg:
+  - visningsnavn: Faste tillegg
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+Loenn/feriepenger:
+  - visningsnavn: Feriepenger
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+Loenn/flyttegodtgjoerelse:
+  - visningsnavn: Flyttegodtgjørelse mv
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+Loenn/fondForIdrettsutoevere:
+  - visningsnavn: Fond for idrettsutøvere
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+Loenn/friTransport:
+  - visningsnavn: Fri transport
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+Loenn/godtgjoerelseSaeravtaleUtland:
+  - visningsnavn: Godtgjørelse i henhold til særavtale utland
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+Loenn/helligdagstillegg:
+  - visningsnavn: Helligdagstillegg
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+Loenn/hyretillegg:
+  - visningsnavn: Hyretillegg
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+Loenn/ikkeSkattepliktigLoennFraUtenlandskDiplomKonsulStasjon:
+  - visningsnavn: Lønn mv som ikke er skattepliktig i Norge fra utenlandsk diplomatisk eller konsulær stasjon
+    fomdato: 2014-01-01
+    tomdato:
+    er gyldig: 1
+Loenn/kapitalInntekt:
+  - visningsnavn: Kapitalinntekt
+    fomdato: 2014-01-01
+    tomdato:
+    er gyldig: 1
+Loenn/kilometergodtgjoerelseAndreFremkomstmidler:
+  - visningsnavn: Kilometergodtgjørelse andre fremkomstmidler
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+Loenn/kilometergodtgjoerelseBil:
+  - visningsnavn: Kilometergodtgjørelse bil
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+Loenn/kilometergodtgjoerelseElBil:
+  - visningsnavn: Kilometergodtgjørelse el-bil
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+Loenn/kilometergodtgjoerelsePassasjertillegg:
+  - visningsnavn: Kilometergodtgjørelse passasjertillegg
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+Loenn/kommunalOmsorgsloennOgFosterhjemsgodtgjoerelse:
+  - visningsnavn: Kommunal omsorgslønn og fosterhjemsgodtgjørelse
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+Loenn/kompensasjonstilleggBolig:
+  - visningsnavn: Kompensasjonstillegg bolig
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+Loenn/kostbesparelseIHjemmet:
+  - visningsnavn: Kostbesparelse i hjemmet
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+Loenn/kostDager:
+  - visningsnavn: Kost (dager)
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+Loenn/kostDoegn:
+  - visningsnavn: Kost (døgn)
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+Loenn/loennEtterDoedsfall:
+  - visningsnavn: Lønn etter dødsfall
+    fomdato: 2014-01-01
+    tomdato:
+    er gyldig: 1
+Loenn/loennForBarnepassIBarnetsHjem:
+  - visningsnavn: Lønn og godtgjørelse til dagmamma eller praktikant som passer barn i barnets hjem
+    fomdato: 2014-01-01
+    tomdato:
+    er gyldig: 1
+Loenn/loennTilPrivatpersonerForArbeidIHjemmet:
+  - visningsnavn: Lønn og godtgjørelse til privatpersoner for arbeidsoppdrag i oppdragsgivers hjem
+    fomdato: 2014-01-01
+    tomdato:
+    er gyldig: 1
+Loenn/loennUtbetaltAvVeldedigEllerAllmennyttigInstitusjonEllerOrganisasjon:
+  - visningsnavn: Lønn og godtgjørelse utbetalt av veldedig eller allmennyttig institusjon eller organisasjon
+    fomdato: 2014-01-01
+    tomdato:
+    er gyldig: 1
+Loenn/loennUtenlandskArtist:
+  - visningsnavn: Lønn utenlandsk artist
+    fomdato: 2014-01-01
+    tomdato:
+    er gyldig: 1
+Loenn/losji:
+  - visningsnavn: Losji
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+Loenn/losjiEgenBrakkeCampingvogn:
+  - visningsnavn: Losji egen brakke/campingvogn
+    fomdato: 2014-01-01
+    tomdato:
+    er gyldig: 1
+Loenn/opsjoner:
+  - visningsnavn: Opsjoner
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+Loenn/overtidsgodtgjoerelse:
+  - visningsnavn: Overtidsgodtgjørelse
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+Loenn/overtidsmat:
+  - visningsnavn: Overtidsmat
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+Loenn/reiseAnnet:
+  - visningsnavn: Reise annet
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+Loenn/reiseKost:
+  - visningsnavn: Reise kost
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+Loenn/reiseKostMedOvernatting:
+  - visningsnavn: Reise kost med overnatting
+    fomdato: 2013-01-01
+    tomdato: 2014-11-01
+    er gyldig: 1
+Loenn/reiseKostMedOvernattingPaaHotell:
+  - visningsnavn: Reise kost med overnatting på hotell
+    fomdato: 2014-01-01
+    tomdato:
+    er gyldig: 1
+Loenn/reiseKostMedOvernattingPaaHotellBeordringUtover28Doegn:
+  - visningsnavn: Reise kost med overnatting på hotell beordring utover 28 døgn
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+Loenn/reiseKostMedOvernattingPaaHybelBrakkePrivat:
+  - visningsnavn: Reise kost med overnatting på hybel/brakke/privat
+    fomdato: 2014-01-01
+    tomdato:
+    er gyldig: 1
+Loenn/reiseKostMedOvernattingPaaPensjonat:
+  - visningsnavn: Reise kost med overnatting på pensjonat
+    fomdato: 2014-01-01
+    tomdato:
+    er gyldig: 1
+Loenn/reiseKostMedOvernattingTilLangtransportsjaafoerForKjoeringIUtlandet:
+  - visningsnavn: Reise kost med overnatting til langtransportsjåfør for kjøring i utlandet
+    fomdato: 2014-01-01
+    tomdato:
+    er gyldig: 1
+Loenn/reiseKostUtenOvernatting:
+  - visningsnavn: Reise kost uten overnatting
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+Loenn/reiseLosji:
+  - visningsnavn: Reise losji
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+Loenn/reiseNattillegg:
+  - visningsnavn: Reise nattillegg
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+Loenn/rentefordelLaan:
+  - visningsnavn: Rentefordel lån
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+Loenn/skattefrieUtbetalinger:
+  - visningsnavn: Skattefrie utbetalinger
+    fomdato: 2014-01-01
+    tomdato:
+    er gyldig: 1
+Loenn/skattefriErstatning:
+  - visningsnavn: Skattefri erstatning
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+Loenn/skattepliktigDelForsikringer:
+  - visningsnavn: Skattepliktig del av visse typer forsikringer
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+Loenn/sluttvederlag:
+  - visningsnavn: Sluttvederlag
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+Loenn/smusstillegg:
+  - visningsnavn: Smusstillegg
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+Loenn/stipend:
+  - visningsnavn: Stipend
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+Loenn/styrehonorarOgGodtgjoerelseVerv:
+  - visningsnavn: Styrehonorar og godtgjørelse i forbindelse med verv
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+Loenn/tilskuddBarnehageplass:
+  - visningsnavn: Tilskudd barnehageplass
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+Loenn/timeloenn:
+  - visningsnavn: Timelønn
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+Loenn/uregelmessigeTilleggKnyttetTilArbeidetTid:
+  - visningsnavn: Uregelmessige tillegg knyttet til arbeidet tid
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+Loenn/uregelmessigeTilleggKnyttetTilIkkeArbeidetTid:
+  - visningsnavn: Uregelmessige tillegg knyttet til ikke- arbeidet tid
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+Loenn/yrkebilTjenestligbehovKilometer:
+  - visningsnavn: Yrkebil tjenestligbehov kilometer
+    fomdato: 2016-01-01
+    tomdato:
+    er gyldig: 1
+Loenn/yrkebilTjenestligbehovListepris:
+  - visningsnavn: Yrkebil tjenestligbehov listepris
+    fomdato: 2016-01-01
+    tomdato:
+    er gyldig: 1
+Naeringsinntekt/annet:
+  - visningsnavn: Annet
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+Naeringsinntekt/dagpengerTilFisker:
+  - visningsnavn: Dagpenger til fisker
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+Naeringsinntekt/dagpengerVedArbeidsloeshet:
+  - visningsnavn: Dagpenger ved arbeidsløshet utbetalt fra folketrygden
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+Naeringsinntekt/sykepenger:
+  - visningsnavn: Sykepenger fra folketrygden
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+Naeringsinntekt/sykepengerTilDagmamma:
+  - visningsnavn: Sykepenger til dagmamma
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+Naeringsinntekt/sykepengerTilFisker:
+  - visningsnavn: Sykepenger til fisker
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+Naeringsinntekt/sykepengerTilJordOgSkogbrukere:
+  - visningsnavn: Sykepenger til jord- og skogbrukere
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+Naeringsinntekt/vederlag:
+  - visningsnavn: Vederlag
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+Naeringsinntekt/vederlagDagmammaIEgetHjem:
+  - visningsnavn: Vederlag til dagmamma i eget hjem
+    fomdato: 2014-01-01
+    tomdato:
+    er gyldig: 1
+PensjonEllerTrygde/alderspensjon:
+  - visningsnavn: Alderspensjon fra folketrygden
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+PensjonEllerTrygde/annet:
+  - visningsnavn: Annet
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+PensjonEllerTrygde/avtalefestetPensjon:
+  - visningsnavn: Avtalefestet pensjon (AFP)
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+PensjonEllerTrygde/barnepensjon:
+  - visningsnavn: Barnepensjon fra folketrygden
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+PensjonEllerTrygde/barnepensjonFraAndreEnnFolketrygden:
+  - visningsnavn: Barnepensjon fra andre enn folketrygden
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+PensjonEllerTrygde/bil:
+  - visningsnavn: Bil
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+PensjonEllerTrygde/bolig:
+  - visningsnavn: Bolig
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+PensjonEllerTrygde/ektefelletillegg:
+  - visningsnavn: Ektefelletillegg
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+PensjonEllerTrygde/elektroniskKommunikasjon:
+  - visningsnavn: Elektronisk kommunikasjon
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+PensjonEllerTrygde/engangsutbetalingInnskuddspensjon:
+  - visningsnavn: Engangsutbetaling innskuddspensjon
+    fomdato: 2015-01-01
+    tomdato:
+    er gyldig: 1
+PensjonEllerTrygde/etterlattepensjon:
+  - visningsnavn: Etterlattepensjon fra folketrygden
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+PensjonEllerTrygde/etterloennOgEtterpensjon:
+  - visningsnavn: Etterlønn og etterpensjon
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+PensjonEllerTrygde/foederaad:
+  - visningsnavn: Føderåd
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+PensjonEllerTrygde/introduksjonsstoenad:
+  - visningsnavn: Introduksjonsstønad
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+PensjonEllerTrygde/ipaEllerIpsBarnepensjon:
+  - visningsnavn: IPA eller IPS barnepensjon
+    fomdato: 2015-01-01
+    tomdato:
+    er gyldig: 1
+PensjonEllerTrygde/ipaEllerIpsEngangsutbetaling:
+  - visningsnavn: IPA eller IPS engangsutbetaling
+    fomdato: 2015-01-01
+    tomdato:
+    er gyldig: 1
+PensjonEllerTrygde/ipaEllerIpsPeriodiskeYtelser:
+  - visningsnavn: IPA eller IPS periodiske ytelser
+    fomdato: 2015-01-01
+    tomdato:
+    er gyldig: 1
+PensjonEllerTrygde/ipaEllerIpsUfoerepensjon:
+  - visningsnavn: IPA eller IPS uførepensjon
+    fomdato: 2015-01-01
+    tomdato:
+    er gyldig: 1
+PensjonEllerTrygde/krigspensjon:
+  - visningsnavn: Krigspensjon mv.
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+PensjonEllerTrygde/kvalifiseringstoenad:
+  - visningsnavn: Kvalifiseringstønad
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+PensjonEllerTrygde/nyeLivrenterIArbeidsforholdOgLivrenterFortsettelsesforsikringer:
+  - visningsnavn: Nye livrenter i arbeidsforhold (kollektive livrenter) og livrenter tegnet som fortsettelsesforsikringer
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+PensjonEllerTrygde/nyAvtalefestetPensjonPrivatSektor:
+  - visningsnavn: Ny avtalefestet pensjon (AFP) i privat sektor
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+PensjonEllerTrygde/overgangsstoenadTilEnsligMorEllerFarSomBegynteAaLoepe31Mars2014EllerTidligere:
+  - visningsnavn: Overgangsstønad til enslig mor eller far som begynte å løpe 31. mars 2014 eller tidligere
+    fomdato: 2014-01-01
+    tomdato:
+    er gyldig: 1
+PensjonEllerTrygde/overgangsstoenadTilGjenlevendeEktefelle:
+  - visningsnavn: Overgangsstønad til gjenlevende ektefelle
+    fomdato: 2014-01-01
+    tomdato:
+    er gyldig: 1
+PensjonEllerTrygde/pensjonIDoedsmaaneden:
+  - visningsnavn: Pensjon i dødsmåneden (skattefri)
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+PensjonEllerTrygde/pensjonOgLivrenterIArbeidsforhold:
+  - visningsnavn: Pensjon og livrenter i arbeidsforhold
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+PensjonEllerTrygde/rentefordelLaan:
+  - visningsnavn: Rentefordel lån
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+PensjonEllerTrygde/supplerendeStoenadTilPersonKortBotidNorge:
+  - visningsnavn: Supplerende stønad til person med kort botid i Norge
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+PensjonEllerTrygde/ufoerepensjon:
+  - visningsnavn: Uførepensjon fra folketrygden
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+PensjonEllerTrygde/ufoerepensjonFraAndreEnnFolketrygden:
+  - visningsnavn: Uførepensjon fra andre enn folketrygden
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+PensjonEllerTrygde/ufoereytelseEtteroppgjoerFraAndreEnnFolketrygden:
+  - visningsnavn: Uføreytelse etteroppgjør fra andre enn folketrygden
+    fomdato: 2016-01-01
+    tomdato:
+    er gyldig: 1
+PensjonEllerTrygde/underholdsbidragTilTidligereEktefelle:
+  - visningsnavn: Underholdsbidrag til tidligere ektefelle
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+YtelseFraOffentlige/arbeidsavklaringspenger:
+  - visningsnavn: Arbeidsavklaringspenger
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+YtelseFraOffentlige/dagpengerTilFiskerSomBareHarHyre:
+  - visningsnavn: Dagpenger til fisker som bare har hyre
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+YtelseFraOffentlige/dagpengerVedArbeidsloeshet:
+  - visningsnavn: Dagpenger ved arbeidsløshet
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+YtelseFraOffentlige/ektefelletilleggUfoeretrygd:
+  - visningsnavn: Ektefelletillegg uføretrygd
+    fomdato: 2015-01-01
+    tomdato:
+    er gyldig: 1
+YtelseFraOffentlige/foreldrepenger:
+  - visningsnavn: Foreldrepenger fra folketrygden
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+YtelseFraOffentlige/overgangsstoenadTilEnsligMorEllerFarSomBegynteAaLoepe1April2014EllerSenere:
+  - visningsnavn: Overgangsstønad til enslig mor eller far som begynte å løpe 1. april 2014 eller senere
+    fomdato: 2014-01-01
+    tomdato:
+    er gyldig: 1
+YtelseFraOffentlige/skattefrieTilleggsstoenader:
+  - visningsnavn: Skattefrie tilleggsstønader
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+YtelseFraOffentlige/skattefriStoenadTilBarnetilsyn:
+  - visningsnavn: Skattefri stønad til barnetilsyn fra folketrygden
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+YtelseFraOffentlige/svangerskapspenger:
+  - visningsnavn: Svangerskapspenger
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+YtelseFraOffentlige/sykepenger:
+  - visningsnavn: Sykepenger fra folketrygden
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+YtelseFraOffentlige/sykepengerTilFiskerSomBareHarHyre:
+  - visningsnavn: Sykepenger til fisker som bare har hyre
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+YtelseFraOffentlige/ufoeretrygd:
+  - visningsnavn: Uføretrygd
+    fomdato: 2015-01-01
+    tomdato:
+    er gyldig: 1
+YtelseFraOffentlige/ufoereytelseEtteroppgjoer:
+  - visningsnavn: Uføreytelse etteroppgjoer
+    fomdato: 2016-01-01
+    tomdato:
+    er gyldig: 1
+YtelseFraOffentlige/underholdsbidragTilBarn:
+  - visningsnavn: Underholdsbidrag til barn
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1
+YtelseFraOffentlige/venteloenn:
+  - visningsnavn: Ventelønn
+    fomdato: 2013-01-01
+    tomdato:
+    er gyldig: 1 
