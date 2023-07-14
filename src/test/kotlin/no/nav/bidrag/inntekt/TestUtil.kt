@@ -283,7 +283,7 @@ class TestUtil {
                 brukTil = LocalDateTime.now(),
                 hentetTidspunkt = LocalDateTime.now(),
                 belop = 1700
-            ),
+            )
 
         )
 

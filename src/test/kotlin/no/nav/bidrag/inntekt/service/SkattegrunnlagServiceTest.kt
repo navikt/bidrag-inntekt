@@ -18,7 +18,7 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ActiveProfiles
 import java.math.BigDecimal
 
-@DisplayName("InntektServiceTest")
+@DisplayName("SkattegrunnlagServiceTest")
 @ActiveProfiles(BidragInntektTest.TEST_PROFILE)
 @SpringBootTest(
     classes = [BidragInntektTest::class],

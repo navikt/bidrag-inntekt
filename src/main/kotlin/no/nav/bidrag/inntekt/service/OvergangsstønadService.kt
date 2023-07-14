@@ -11,9 +11,7 @@ import java.time.LocalDate
 class OvergangsstønadService() {
 
     fun beregnOvergangsstønad(overgangsstønadListe: List<OvergangsstonadDto>): List<Overgangsstonad> {
-
         val overgangsstønadResponseListe = mutableListOf<Overgangsstonad>()
-
 
         overgangsstønadListe.sortedWith(compareBy({ it.periodeFra }, { it.periodeTil })).forEach { overgangsstønadDto ->
 
@@ -29,11 +27,9 @@ class OvergangsstønadService() {
                 akkumulerPost(overgangsstønadMap, overgangsstønadDto, KEY_12MND)
             }
 
-
             val overgangsstonadDtoListe = mutableListOf<OvergangsstonadDto>()
 
             var sumInntekt = BigDecimal.ZERO
-
 
             overgangsstønadResponseListe.add(
                 Overgangsstonad(
@@ -58,8 +54,6 @@ class OvergangsstønadService() {
         overgangsstønadMap[key] = OvergangsstønadSumPost(sumInntekt.add(overgangsstønad.belop.toBigDecimal()), inntektPostListe)
     }
 
-
-
     // Sjekker om inntekt-dato er innenfor antall måneder (angitt som parameter)
     private fun innenforAntallMnd(overgangsstonadDto: OvergangsstonadDto, antallMnd: Int): Boolean {
         val sammenlignMedDato = LocalDate.now().minusMonths(antallMnd.toLong())
@@ -74,15 +68,9 @@ class OvergangsstønadService() {
         const val KEY_3MND = "3MND"
         const val KEY_12MND = "12MND"
     }
-
 }
 
 data class OvergangsstønadSumPost(
     val sumInntekt: BigDecimal,
     val inntektPostListe: MutableList<OvergangsstonadDto>
 )
-
-
-
-
-
