@@ -19,7 +19,7 @@ class InntektService(
             inntektListe = ainntektService.beregnAinntekt(transformerInntekterRequestDto.ainntektListe),
             ligningsinntektListe = skattegrunnlagService.beregnLigs(transformerInntekterRequestDto.skattegrunnlagListe),
             kapitalinntektListe = skattegrunnlagService.beregnKaps(transformerInntekterRequestDto.skattegrunnlagListe),
-            overgangsstonadListe = overgangsstønadService.beregnOvergangsstønad(transformerInntekterRequestDto.overgangsstonadListe),
+//            overgangsstonadListe = overgangsstønadService.beregnOvergangsstønad(transformerInntekterRequestDto.overgangsstonadListe),
         )
     }
 }

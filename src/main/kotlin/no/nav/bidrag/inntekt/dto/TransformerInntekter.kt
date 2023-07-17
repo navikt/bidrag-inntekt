@@ -10,6 +10,7 @@ import no.nav.bidrag.transport.behandling.grunnlag.response.SkattegrunnlagDto
 import no.nav.bidrag.transport.behandling.grunnlag.response.UtvidetBarnetrygdOgSmaabarnstilleggDto
 import java.math.BigDecimal
 import java.time.LocalDate
+import java.time.YearMonth
 
 // TODO Legge til swagger-doc, default-verdier
 // TODO Legge til evt. manuelle inntekter
@@ -130,8 +131,8 @@ data class TransformerInntekterResponseDtoNy(
 )
 
 data class SummertMånedsinntekt(
-    @Schema(description = "Periode (YYYY-MM)", example = "2023-01")
-    val periode: String,
+    @Schema(description = "Periode (YYYYMM)", example = "202301")
+    val periode: YearMonth,
 
     @Schema(description = "Summert inntekt for måneden", example = "50000")
     val sumInntekt: BigDecimal,
@@ -139,7 +140,6 @@ data class SummertMånedsinntekt(
     @Schema(description = "Liste over inntektsposter som utgjør grunnlaget for summert inntekt")
     val inntektPostListe: List<InntektPost>
 )
-
 
 data class SummertÅrsinntekt(
     @Schema(description = "Type inntekt", example = "LIGNINGSINNTEKT")
@@ -154,17 +154,15 @@ data class SummertÅrsinntekt(
     @Schema(description = "Summert inntekt for perioden, omgjort til årsinntekt", example = "600000")
     val sumInntekt: BigDecimal,
 
-    @Schema(description = "Dato som inntekten gjelder fra", example = "2023-01-01")
-    val datoFom: LocalDate,
+    @Schema(description = "Periode (YYYYMM) som inntekten gjelder fra", example = "202301")
+    val periodeFra: YearMonth,
 
-    @Schema(description = "Dato som inntekten gjelder til", example = "2024-01-01")
-    val datoTil: LocalDate?,
+    @Schema(description = "Periode (YYYYMM) som inntekten gjelder til", example = "202312")
+    val periodeTil: YearMonth?,
 
     @Schema(description = "Liste over inntektsposter (generisk, avhengig av type) som utgjør grunnlaget for summert inntekt")
-    @JsonRawValue
     val inntektPostListe: List<InntektPost>
 )
-
 data class InntektPost(
     @Schema(description = "Kode for inntektspost", example = "bonus")
     val kode: String,
