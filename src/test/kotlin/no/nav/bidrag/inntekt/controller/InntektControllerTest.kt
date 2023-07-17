@@ -35,9 +35,10 @@ class InntektControllerTest(
     @Autowired val ainntektService: AinntektService,
     @Autowired val skattegrunnlagService: SkattegrunnlagService,
     @Autowired val overgangsstønadService: OvergangsstønadService
-    ) {
+) {
 
     private val inntektService: InntektService = InntektService(ainntektService, skattegrunnlagService, overgangsstønadService)
+//    private val inntektService: InntektService = InntektService(ainntektService)
     private val inntektController: InntektController = InntektController(inntektService)
     private val mockMvc: MockMvc = MockMvcBuilders
         .standaloneSetup(inntektController)
@@ -57,9 +58,11 @@ class InntektControllerTest(
         assertAll(
             Executable { assertNotNull(transformerteInntekter) },
             Executable { assertTrue(transformerteInntekter.versjon.isEmpty()) },
-            Executable { assertTrue(transformerteInntekter.ligningsinntektListe.isEmpty()) },
-            Executable { assertTrue(transformerteInntekter.kapitalinntektListe.isEmpty()) },
-            Executable { assertTrue(transformerteInntekter.inntektListe.isEmpty()) }
+            Executable { assertTrue(transformerteInntekter.summertAarsinntektListe.isEmpty()) },
+            Executable { assertTrue(transformerteInntekter.summertMaanedsinntektListe.isEmpty()) }
+//            Executable { assertTrue(transformerteInntekter.ligningsinntektListe.isEmpty()) },
+//            Executable { assertTrue(transformerteInntekter.kapitalinntektListe.isEmpty()) },
+//            Executable { assertTrue(transformerteInntekter.inntektListe.isEmpty()) }
         )
     }
 }

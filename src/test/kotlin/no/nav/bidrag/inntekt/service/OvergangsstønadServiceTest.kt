@@ -14,10 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ActiveProfiles
 import java.math.BigDecimal
-import java.time.LocalDate
 import java.time.YearMonth
 
-@DisplayName("InntektServiceTest")
+@DisplayName("OvergangsstønadServiceTest")
 @ActiveProfiles(BidragInntektTest.TEST_PROFILE)
 @SpringBootTest(
     classes = [BidragInntektTest::class],
@@ -28,7 +27,6 @@ class OvergangsstønadServiceTest {
 
     @Autowired
     private lateinit var overgangsstønadService: OvergangsstønadService
-
 
     @Test
     @Suppress("NonAsciiCharacters")
@@ -69,7 +67,7 @@ class OvergangsstønadServiceTest {
             Executable { assertThat(beregnedeOvergangsstønader[4].inntektPostListe.size).isEqualTo(12) },
             Executable { assertThat(beregnedeOvergangsstønader[4].sumInntekt).isEqualTo(BigDecimal.valueOf(13800)) },
 
+
         )
     }
-
 }

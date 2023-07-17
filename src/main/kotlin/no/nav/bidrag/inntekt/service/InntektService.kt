@@ -1,11 +1,11 @@
 package no.nav.bidrag.inntekt.service
 
-
+import no.nav.bidrag.inntekt.dto.InntektPost
 import no.nav.bidrag.inntekt.dto.TransformerInntekterRequestDto
 import no.nav.bidrag.inntekt.dto.TransformerInntekterResponseDto
-import no.nav.bidrag.transport.behandling.grunnlag.response.AinntektspostDto
 import org.springframework.stereotype.Service
 import java.math.BigDecimal
+import java.time.YearMonth
 
 @Service
 class InntektService(
@@ -16,15 +16,26 @@ class InntektService(
 
     fun transformerInntekter(transformerInntekterRequestDto: TransformerInntekterRequestDto): TransformerInntekterResponseDto {
         return TransformerInntekterResponseDto(
-            inntektListe = ainntektService.beregnAinntekt(transformerInntekterRequestDto.ainntektListe),
-            ligningsinntektListe = skattegrunnlagService.beregnLigs(transformerInntekterRequestDto.skattegrunnlagListe),
-            kapitalinntektListe = skattegrunnlagService.beregnKaps(transformerInntekterRequestDto.skattegrunnlagListe),
-//            overgangsstonadListe = overgangsstønadService.beregnOvergangsstønad(transformerInntekterRequestDto.overgangsstonadListe),
+            versjon = "",
+            summertMaanedsinntektListe = ainntektService.beregnMaanedsinntekt(transformerInntekterRequestDto.ainntektListe),
+            summertAarsinntektListe = (
+                ainntektService.beregnAarsinntekt(transformerInntekterRequestDto.ainntektListe) +
+                    overgangsstønadService.beregnOvergangsstønad(transformerInntekterRequestDto.overgangsstonadListe))
+
+//            ligningsinntektListe = skattegrunnlagService.beregnLigs(transformerInntekterRequestDto.skattegrunnlagListe),
+//            kapitalinntektListe = skattegrunnlagService.beregnKaps(transformerInntekterRequestDto.skattegrunnlagListe),
         )
     }
 }
 
 data class InntektSumPost(
     val sumInntekt: BigDecimal,
-    val inntektPostListe: MutableList<AinntektspostDto>
+    val periodeFra: YearMonth,
+    val periodeTil: YearMonth?,
+    val inntektPostListe: MutableList<InntektPost>
+)
+
+data class Periode(
+    val periodeFra: YearMonth,
+    val periodeTil: YearMonth?
 )
