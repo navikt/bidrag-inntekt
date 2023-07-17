@@ -9,18 +9,21 @@ import java.time.YearMonth
 
 @Service
 class InntektService(
-    val ainntektService: AinntektService
-//    val skattegrunnlagService: SkattegrunnlagService,
-//    val overgangsstønadService: OvergangsstønadService
+    val ainntektService: AinntektService,
+    val skattegrunnlagService: SkattegrunnlagService,
+    val overgangsstønadService: OvergangsstønadService,
 ) {
 
     fun transformerInntekter(transformerInntekterRequestDto: TransformerInntekterRequestDto): TransformerInntekterResponseDto {
         return TransformerInntekterResponseDto(
-            summertAarsinntektListe = ainntektService.beregnAarsinntekt(transformerInntekterRequestDto.ainntektListe),
-            summertMaanedsinntektListe = ainntektService.beregnMaanedsinntekt(transformerInntekterRequestDto.ainntektListe)
+            versjon = "",
+            summertMaanedsinntektListe = ainntektService.beregnMaanedsinntekt(transformerInntekterRequestDto.ainntektListe),
+            summertAarsinntektListe = (
+                ainntektService.beregnAarsinntekt(transformerInntekterRequestDto.ainntektListe) +
+                    overgangsstønadService.beregnOvergangsstønad(transformerInntekterRequestDto.overgangsstonadListe))
+
 //            ligningsinntektListe = skattegrunnlagService.beregnLigs(transformerInntekterRequestDto.skattegrunnlagListe),
 //            kapitalinntektListe = skattegrunnlagService.beregnKaps(transformerInntekterRequestDto.skattegrunnlagListe),
-//            overgangsstonadListe = overgangsstønadService.beregnOvergangsstønad(transformerInntekterRequestDto.overgangsstonadListe)
         )
     }
 }

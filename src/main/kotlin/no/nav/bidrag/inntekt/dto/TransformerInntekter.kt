@@ -123,7 +123,6 @@ data class SummertAarsinntekt(
     @Schema(description = "Liste over inntektsposter (generisk, avhengig av type) som utgjør grunnlaget for summert inntekt")
     val inntektPostListe: List<InntektPost>
 )
-
 data class InntektPost(
     @Schema(description = "Kode for inntektspost", example = "bonus")
     val kode: String,

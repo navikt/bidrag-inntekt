@@ -3,10 +3,10 @@ package no.nav.bidrag.inntekt.service
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
 import com.fasterxml.jackson.module.kotlin.readValue
+import no.nav.bidrag.inntekt.dto.InntektPost
 import no.nav.bidrag.inntekt.dto.InntektType
 import no.nav.bidrag.inntekt.dto.PlussMinus
-import no.nav.bidrag.inntekt.dto.SkattegrunnlagInntekt
-import no.nav.bidrag.inntekt.dto.SkattegrunnlagInntektPost
+import no.nav.bidrag.inntekt.dto.SummertAarsinntekt
 import no.nav.bidrag.inntekt.exception.custom.UgyldigInputException
 import no.nav.bidrag.transport.behandling.grunnlag.response.SkattegrunnlagDto
 import org.springframework.core.io.ClassPathResource
@@ -14,18 +14,19 @@ import org.springframework.stereotype.Service
 import java.io.IOException
 import java.math.BigDecimal
 import java.time.Year
+import java.time.YearMonth
 
 @Service
 class SkattegrunnlagService() {
 
-    fun beregnKaps(skattegrunnlagListe: List<SkattegrunnlagDto>): List<SkattegrunnlagInntekt> {
+    fun beregnKaps(skattegrunnlagListe: List<SkattegrunnlagDto>): List<SummertAarsinntekt> {
         val pathKapsfil = "/files/mapping_kaps.yaml"
         val mappingKaps = hentMapping(pathKapsfil)
 
         return beregnInntekt(skattegrunnlagListe, mappingKaps, InntektType.KAPITALINNTEKT)
     }
 
-    fun beregnLigs(skattegrunnlagListe: List<SkattegrunnlagDto>): List<SkattegrunnlagInntekt> {
+    fun beregnLigs(skattegrunnlagListe: List<SkattegrunnlagDto>): List<SummertAarsinntekt> {
         val pathLigsfil = "/files/mapping_ligs.yaml"
         val mappingLigs = hentMapping(pathLigsfil)
 
@@ -36,8 +37,8 @@ class SkattegrunnlagService() {
         skattegrunnlagListe: List<SkattegrunnlagDto>,
         mapping: List<MappingPoster>,
         inntektType: InntektType
-    ): List<SkattegrunnlagInntekt> {
-        val skattegrunnlagInntektListe = mutableListOf<SkattegrunnlagInntekt>()
+    ): List<SummertAarsinntekt> {
+        val summertÅrsinntektListe = mutableListOf<SummertAarsinntekt>()
 
         skattegrunnlagListe.forEach { skattegrunnlagÅr ->
             if (skattegrunnlagÅr.periodeTil != skattegrunnlagÅr.periodeFra.plusYears(1) ||
@@ -45,12 +46,12 @@ class SkattegrunnlagService() {
                 skattegrunnlagÅr.periodeFra.monthValue != 1
             ) {
                 throw UgyldigInputException(
-                    "Ugyldig input i skattegrunnlagÅr.periodeFra, skattegrunnlagÅr.periodeTil (må være januar til januar neste år): " +
+                    "Ugyldig input i skattegrunnlag.periodeFra, skattegrunnlag.periodeTil (må være januar til januar neste år): " +
                         "$skattegrunnlagÅr.periodeFra $skattegrunnlagÅr.periodeTil"
                 )
             }
 
-            val skattegrunnlagInntektPostListe = mutableListOf<SkattegrunnlagInntektPost>()
+            val inntektPostListe = mutableListOf<InntektPost>()
             var sumInntekt = BigDecimal.ZERO
             skattegrunnlagÅr.skattegrunnlagListe.forEach { post ->
                 val match = mapping.find { it.post == post.inntektType }
@@ -61,27 +62,29 @@ class SkattegrunnlagService() {
                         sumInntekt -= post.belop
                     }
 
-                    skattegrunnlagInntektPostListe.add(
-                        SkattegrunnlagInntektPost(
-                            inntektPostNavn = match.post,
-                            plussEllerMinus = match.plussMinus,
-                            erSekkePost = match.sekkepost,
+                    inntektPostListe.add(
+                        InntektPost(
+                            kode = match.post,
+                            visningsnavn = "",
                             beløp = post.belop
                         )
                     )
                 }
             }
-            skattegrunnlagInntektListe.add(
-                SkattegrunnlagInntekt(
+            summertÅrsinntektListe.add(
+                SummertAarsinntekt(
                     inntektType = inntektType,
-                    aar = skattegrunnlagÅr.periodeFra.year.toString(),
+                    visningsnavn = inntektType.toString(),
+                    referanse = "",
                     sumInntekt = sumInntekt,
-                    inntektPostListe = skattegrunnlagInntektPostListe
+                    periodeFra = YearMonth.of(skattegrunnlagÅr.periodeFra.year, skattegrunnlagÅr.periodeFra.month),
+                    periodeTil = YearMonth.of(skattegrunnlagÅr.periodeTil.year, skattegrunnlagÅr.periodeTil.month),
+                    inntektPostListe = inntektPostListe
                 )
             )
         }
 
-        return skattegrunnlagInntektListe
+        return summertÅrsinntektListe
     }
 
     private fun hentMapping(path: String): List<MappingPoster> {
