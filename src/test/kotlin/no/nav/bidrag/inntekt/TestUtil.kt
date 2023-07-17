@@ -29,7 +29,7 @@ class TestUtil {
                 brukFra = LocalDateTime.now(),
                 brukTil = LocalDateTime.now(),
                 hentetTidspunkt = LocalDateTime.now(),
-                skattegrunnlagListe = byggSkattegrunnlagListe()
+                skattegrunnlagListe = byggSkattegrunnlagPostListe()
             )
         )
 
@@ -42,7 +42,7 @@ class TestUtil {
                 brukFra = LocalDateTime.now(),
                 brukTil = LocalDateTime.now(),
                 hentetTidspunkt = LocalDateTime.now(),
-                skattegrunnlagListe = byggSkattegrunnlagListe()
+                skattegrunnlagListe = byggSkattegrunnlagPostListe()
             ),
             SkattegrunnlagDto(
                 personId = "12345678901",
@@ -52,11 +52,11 @@ class TestUtil {
                 brukFra = LocalDateTime.now(),
                 brukTil = LocalDateTime.now(),
                 hentetTidspunkt = LocalDateTime.now(),
-                skattegrunnlagListe = byggSkattegrunnlagListe()
+                skattegrunnlagListe = byggSkattegrunnlagPostListe()
             )
         )
 
-        private fun byggSkattegrunnlagListe() = immutableListOf(
+        private fun byggSkattegrunnlagPostListe() = immutableListOf(
             // KAPS
             SkattegrunnlagspostDto(
                 skattegrunnlagType = "Ordinær",
