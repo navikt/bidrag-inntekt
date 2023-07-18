@@ -5,7 +5,6 @@ azure:
   tenant: trygdeetaten.no
   unsecure:
     kodeverk_url: kodeverk.dev.intern.nav.no
-#  kodeverk_scope: dev-fss.kodeverk.dev.intern.nav.no
 azureAccessInbound:
   - application: bidrag-behandling
     namespace: bidrag

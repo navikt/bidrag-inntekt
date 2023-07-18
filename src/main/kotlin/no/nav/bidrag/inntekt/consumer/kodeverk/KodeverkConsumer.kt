@@ -10,7 +10,7 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpMethod
 
-private const val KODEVERK_CONTEXT = "/api/v1/kodeverk/Summert%20skattegrunnlag/koder/betydninger?ekskluderUgyldige=false"
+private const val KODEVERK_CONTEXT = "/api/v1/kodeverk/Summert skattegrunnlag/koder/betydninger"
 
 open class KodeverkConsumer(
     private val restTemplate: HttpHeaderRestTemplate
