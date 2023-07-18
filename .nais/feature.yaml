@@ -1,6 +1,12 @@
 name: bidrag-inntekt-feature
 ingresses:
   - https://bidrag-inntekt-feature.intern.dev.nav.no
+azure:
+  tenant: trygdeetaten.no
+  kodeverk_url: kodeverk.dev.intern.nav.no
+  kodeverk_scope: dev-fss.kodeverk.dev.intern.nav.no
+#  kodeverk_app: kodeverk.dev.intern.nav.no
+#  kodeverk_cluster: dev-fss
 spec:
   replicas:
     min: 1

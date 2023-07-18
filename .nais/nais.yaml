@@ -15,6 +15,17 @@ spec:
         extra:
           - "NAVident"
           - "azp_name"
+  accessPolicy:
+    inbound:
+      rules:
+      {{#each azureAccessInbound}}
+         - application: {{this.application}}
+      namespace: {{this.namespace}}
+      cluster: {{this.cluster}}
+      {{/each}}
+    outbound:
+      external:
+        - host: {{ azure.kodeverk_url }}
   image: {{ image }}
   liveness:
     path: /actuator/health
@@ -46,3 +57,6 @@ spec:
   {{#each ingresses as |url|}}
      - {{url}}
   {{/each}}
+  env:
+    - name: KODEVERK_URL
+      value: https://{{ azure.kodeverk_url }}
