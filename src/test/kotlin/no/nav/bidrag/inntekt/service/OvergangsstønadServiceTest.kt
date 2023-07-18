@@ -65,8 +65,7 @@ class OvergangsstønadServiceTest {
             Executable { assertThat(beregnedeOvergangsstønader[4].periodeFra).isEqualTo(YearMonth.parse("2022-05")) },
             Executable { assertThat(beregnedeOvergangsstønader[4].periodeTil).isNull() },
             Executable { assertThat(beregnedeOvergangsstønader[4].inntektPostListe.size).isEqualTo(12) },
-            Executable { assertThat(beregnedeOvergangsstønader[4].sumInntekt).isEqualTo(BigDecimal.valueOf(13800)) },
-
+            Executable { assertThat(beregnedeOvergangsstønader[4].sumInntekt).isEqualTo(BigDecimal.valueOf(13800)) }
 
         )
     }

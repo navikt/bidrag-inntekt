@@ -21,6 +21,7 @@ import org.junit.jupiter.api.function.Executable
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment
+import org.springframework.cloud.contract.wiremock.AutoConfigureWireMock
 import org.springframework.http.HttpMethod
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.web.servlet.MockMvc
@@ -30,6 +31,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders
 @ActiveProfiles(TEST_PROFILE)
 @SpringBootTest(classes = [BidragInntektTest::class], webEnvironment = WebEnvironment.RANDOM_PORT)
 @EnableMockOAuth2Server
+@AutoConfigureWireMock(port = 0)
 class InntektControllerTest(
     @Autowired val exceptionLogger: ExceptionLogger,
     @Autowired val ainntektService: AinntektService,
@@ -38,6 +40,7 @@ class InntektControllerTest(
 ) {
 
     private val inntektService: InntektService = InntektService(ainntektService, skattegrunnlagService, overgangsstønadService)
+
 //    private val inntektService: InntektService = InntektService(ainntektService)
     private val inntektController: InntektController = InntektController(inntektService)
     private val mockMvc: MockMvc = MockMvcBuilders

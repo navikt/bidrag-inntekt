@@ -25,7 +25,7 @@ spec:
       {{/each}}
     outbound:
       external:
-        - host: {{ azure.kodeverk_url }}
+        - host: {{ azure.unsecure.kodeverk_url }}
   image: {{ image }}
   liveness:
     path: /actuator/health
@@ -59,4 +59,4 @@ spec:
   {{/each}}
   env:
     - name: KODEVERK_URL
-      value: https://{{ azure.kodeverk_url }}
+      value: https://{{ azure.unsecure.kodeverk_url }}

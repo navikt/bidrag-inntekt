@@ -18,7 +18,7 @@ import org.springframework.web.server.ResponseStatusException
 @RestController
 @ProtectedWithClaims(issuer = ISSUER)
 class IntegrasjonsController(
-    private val kodeverkConsumer: KodeverkConsumer,
+    private val kodeverkConsumer: KodeverkConsumer
 
 ) {
 
@@ -27,7 +27,6 @@ class IntegrasjonsController(
     fun hentKodeverk(@RequestBody hentKodeverkRequest: HentKodeverkRequest): ResponseEntity<GetKodeverkKoderBetydningerResponse> {
         return handleRestResponse(kodeverkConsumer.hentKodeverksverdier(hentKodeverkRequest))
     }
-
 
     private fun <T> handleRestResponse(restResponse: RestResponse<T>): ResponseEntity<T> {
         return when (restResponse) {

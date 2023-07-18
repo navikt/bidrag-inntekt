@@ -1,7 +1,6 @@
 package no.nav.bidrag.inntekt.exception
 
 import no.nav.bidrag.commons.ExceptionLogger
-import org.springframework.core.ParameterizedTypeReference
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatusCode

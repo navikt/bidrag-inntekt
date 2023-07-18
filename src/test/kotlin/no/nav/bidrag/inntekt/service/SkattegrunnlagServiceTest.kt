@@ -3,7 +3,6 @@ package no.nav.bidrag.inntekt.service
 import no.nav.bidrag.inntekt.BidragInntektTest
 import no.nav.bidrag.inntekt.TestUtil
 import no.nav.bidrag.inntekt.dto.InntektType
-import no.nav.bidrag.inntekt.dto.PlussMinus
 import no.nav.bidrag.inntekt.exception.custom.UgyldigInputException
 import no.nav.security.token.support.spring.test.EnableMockOAuth2Server
 import org.assertj.core.api.Assertions.assertThat

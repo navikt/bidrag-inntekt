@@ -2,14 +2,13 @@ package no.nav.bidrag.inntekt.consumer.kodeverk
 
 import no.nav.bidrag.commons.web.HttpHeaderRestTemplate
 import no.nav.bidrag.inntekt.consumer.InntektConsumer
-import no.nav.bidrag.inntekt.consumer.kodeverk.api.HentKodeverkRequest
 import no.nav.bidrag.inntekt.consumer.kodeverk.api.GetKodeverkKoderBetydningerResponse
+import no.nav.bidrag.inntekt.consumer.kodeverk.api.HentKodeverkRequest
 import no.nav.bidrag.inntekt.exception.RestResponse
 import no.nav.bidrag.inntekt.exception.tryExchange
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpMethod
-
 
 private const val KODEVERK_CONTEXT = "/api/v1/kodeverk/Summert%20skattegrunnlag/koder/betydninger?ekskluderUgyldige=false"
 

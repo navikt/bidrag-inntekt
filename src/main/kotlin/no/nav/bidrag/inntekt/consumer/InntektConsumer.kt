@@ -25,4 +25,3 @@ open class InntektConsumer {
         return HttpEntity(body, httpHeaders)
     }
 }
-
