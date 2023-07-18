@@ -8,6 +8,10 @@ azure:
 #  kodeverk_scope: dev-fss.kodeverk.dev.intern.nav.no
 #  kodeverk_app: kodeverk.dev.intern.nav.no
 #  kodeverk_cluster: dev-fss
+azureAccessInbound:
+  - application: bidrag-behandling-feature
+    namespace: bidrag
+    cluster: dev-gcp
 spec:
   replicas:
     min: 1
