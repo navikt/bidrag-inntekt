@@ -24,6 +24,8 @@ open class KodeverkConsumer(
     open fun hentKodeverksverdier(request: HentKodeverkRequest): RestResponse<GetKodeverkKoderBetydningerResponse> {
         logger.info("Henter kodeverksverdier")
 
+        logger.info("Request kodeverk: $KODEVERK_CONTEXT $request ${initHttpEntityKodeverk(request)} ")
+
         val restResponse = restTemplate.tryExchange(
             KODEVERK_CONTEXT,
             HttpMethod.GET,
