@@ -34,7 +34,7 @@ open class KodeverkConsumer(
         logger.info("Request kodeverk: $KODEVERK_CONTEXT $request ${initHttpEntityKodeverk(request)} ")
 
         val restResponse = restTemplate.exchange(
-            "/Summert%20skattegrunnlag/koder/betydninger",
+            "/Summert skattegrunnlag/koder/betydninger",
             HttpMethod.GET,
             initHttpEntityKodeverk(request),
             GetKodeverkKoderBetydningerResponse::class.java,
