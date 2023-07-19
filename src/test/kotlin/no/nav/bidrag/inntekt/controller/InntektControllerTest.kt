@@ -4,13 +4,13 @@ import no.nav.bidrag.commons.ExceptionLogger
 import no.nav.bidrag.inntekt.BidragInntektTest
 import no.nav.bidrag.inntekt.BidragInntektTest.Companion.TEST_PROFILE
 import no.nav.bidrag.inntekt.TestUtil
-import no.nav.bidrag.inntekt.dto.TransformerInntekterRequestDto
-import no.nav.bidrag.inntekt.dto.TransformerInntekterResponseDto
 import no.nav.bidrag.inntekt.exception.RestExceptionHandler
 import no.nav.bidrag.inntekt.service.AinntektService
 import no.nav.bidrag.inntekt.service.InntektService
 import no.nav.bidrag.inntekt.service.OvergangsstønadService
 import no.nav.bidrag.inntekt.service.SkattegrunnlagService
+import no.nav.bidrag.transport.behandling.inntekt.request.TransformerInntekterRequestDto
+import no.nav.bidrag.transport.behandling.inntekt.response.TransformerInntekterResponseDto
 import no.nav.security.token.support.spring.test.EnableMockOAuth2Server
 import org.junit.jupiter.api.Assertions.assertAll
 import org.junit.jupiter.api.Assertions.assertNotNull

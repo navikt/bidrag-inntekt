@@ -1,8 +1,8 @@
 package no.nav.bidrag.inntekt.service
 
-import no.nav.bidrag.inntekt.dto.InntektPost
-import no.nav.bidrag.inntekt.dto.TransformerInntekterRequestDto
-import no.nav.bidrag.inntekt.dto.TransformerInntekterResponseDto
+import no.nav.bidrag.transport.behandling.inntekt.request.TransformerInntekterRequestDto
+import no.nav.bidrag.transport.behandling.inntekt.response.InntektPost
+import no.nav.bidrag.transport.behandling.inntekt.response.TransformerInntekterResponseDto
 import org.springframework.stereotype.Service
 import java.math.BigDecimal
 import java.time.YearMonth
