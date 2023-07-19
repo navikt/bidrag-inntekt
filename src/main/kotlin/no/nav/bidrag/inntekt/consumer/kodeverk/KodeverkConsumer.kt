@@ -1,26 +1,19 @@
 package no.nav.bidrag.inntekt.consumer.kodeverk
 
-import no.nav.bidrag.commons.CorrelationId
 import no.nav.bidrag.commons.web.HttpHeaderRestTemplate
 import no.nav.bidrag.inntekt.consumer.InntektConsumer
 import no.nav.bidrag.inntekt.consumer.kodeverk.api.GetKodeverkKoderBetydningerResponse
 import no.nav.bidrag.inntekt.consumer.kodeverk.api.HentKodeverkRequest
 import no.nav.bidrag.inntekt.exception.RestResponse
+import no.nav.bidrag.inntekt.exception.tryExchange
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import org.springframework.boot.web.client.RootUriTemplateHandler
 import org.springframework.http.HttpMethod
-import org.springframework.web.client.RestTemplate
 
-private const val KODEVERK_CONTEXT = "/api/v1/kodeverk"
+private const val KODEVERK_CONTEXT = "/api/v1/kodeverk/Summert skattegrunnlag/koder/betydninger"
 
 open class KodeverkConsumer(
-//    private val restTemplate: HttpHeaderRestTemplate
-    private val restTemplate: RestTemplate = HttpHeaderRestTemplate().apply {
-        uriTemplateHandler = RootUriTemplateHandler("$KODEVERK_CONTEXT")
-        addHeaderGenerator("Nav-Call-Id") { CorrelationId.generateTimestamped("bidrag-inntekt").get() }
-        addHeaderGenerator("Nav-Consumer-Id") { "bidrag-inntekt" }
-    }
+    private val restTemplate: HttpHeaderRestTemplate
 ) : InntektConsumer() {
 
     companion object {
@@ -33,16 +26,16 @@ open class KodeverkConsumer(
 
         logger.info("Request kodeverk: $KODEVERK_CONTEXT $request ${initHttpEntityKodeverk(request)} ")
 
-        val restResponse = restTemplate.exchange(
-            "/Summert skattegrunnlag/koder/betydninger",
+        val restResponse = restTemplate.tryExchange(
+            KODEVERK_CONTEXT,
             HttpMethod.GET,
             initHttpEntityKodeverk(request),
             GetKodeverkKoderBetydningerResponse::class.java,
             GetKodeverkKoderBetydningerResponse()
         )
 
-//        logResponse(logger, restResponse)
+        logResponse(logger, restResponse)
 
-        return RestResponse.Success(restResponse.body ?: GetKodeverkKoderBetydningerResponse())
+        return restResponse
     }
 }
