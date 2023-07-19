@@ -1,3 +1,4 @@
+KODEVERK_URL: http://localhost:${wiremock.server.https-port}/kodeverk
 spring:
   config.activate.on-profile: local
   security:

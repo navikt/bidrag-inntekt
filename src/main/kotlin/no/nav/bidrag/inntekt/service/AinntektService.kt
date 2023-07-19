@@ -1,10 +1,10 @@
 package no.nav.bidrag.inntekt.service
 
-import no.nav.bidrag.inntekt.dto.InntektPost
-import no.nav.bidrag.inntekt.dto.InntektType
-import no.nav.bidrag.inntekt.dto.SummertAarsinntekt
-import no.nav.bidrag.inntekt.dto.SummertMaanedsinntekt
+import no.nav.bidrag.domain.enums.InntektBeskrivelse
 import no.nav.bidrag.transport.behandling.grunnlag.response.AinntektDto
+import no.nav.bidrag.transport.behandling.inntekt.response.InntektPost
+import no.nav.bidrag.transport.behandling.inntekt.response.SummertAarsinntekt
+import no.nav.bidrag.transport.behandling.inntekt.response.SummertMaanedsinntekt
 import org.springframework.stereotype.Service
 import java.math.BigDecimal
 import java.time.LocalDate
@@ -22,10 +22,10 @@ class AinntektService {
         ainntektMap.forEach {
             ainntektListeUt.add(
                 SummertAarsinntekt(
-                    inntektType = when (it.key) {
-                        KEY_3MND -> InntektType.AINNTEKT_BEREGNET_3MND
-                        KEY_12MND -> InntektType.AINNTEKT_BEREGNET_12MND
-                        else -> InntektType.AINNTEKT
+                    inntektBeskrivelse = when (it.key) {
+                        KEY_3MND -> InntektBeskrivelse.AINNTEKT_BEREGNET_3MND
+                        KEY_12MND -> InntektBeskrivelse.AINNTEKT_BEREGNET_12MND
+                        else -> InntektBeskrivelse.AINNTEKT
                     },
                     visningsnavn = "",
                     referanse = "",
@@ -37,7 +37,7 @@ class AinntektService {
             )
         }
 
-        return ainntektListeUt.sortedWith(compareBy({ it.inntektType.toString() }, { it.periodeFra }))
+        return ainntektListeUt.sortedWith(compareBy({ it.inntektBeskrivelse.toString() }, { it.periodeFra }))
     }
 
     // Summerer, grupperer og transformerer ainntekter pr måned

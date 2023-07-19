@@ -1,8 +1,8 @@
 package no.nav.bidrag.inntekt.service
 
-import no.nav.bidrag.inntekt.dto.InntektPost
-import no.nav.bidrag.inntekt.dto.TransformerInntekterRequestDto
-import no.nav.bidrag.inntekt.dto.TransformerInntekterResponseDto
+import no.nav.bidrag.transport.behandling.inntekt.request.TransformerInntekterRequestDto
+import no.nav.bidrag.transport.behandling.inntekt.response.InntektPost
+import no.nav.bidrag.transport.behandling.inntekt.response.TransformerInntekterResponseDto
 import org.springframework.stereotype.Service
 import java.math.BigDecimal
 import java.time.YearMonth
@@ -11,7 +11,7 @@ import java.time.YearMonth
 class InntektService(
     val ainntektService: AinntektService,
     val skattegrunnlagService: SkattegrunnlagService,
-    val overgangsstønadService: OvergangsstønadService,
+    val overgangsstønadService: OvergangsstønadService
 ) {
 
     fun transformerInntekter(transformerInntekterRequestDto: TransformerInntekterRequestDto): TransformerInntekterResponseDto {
@@ -20,7 +20,8 @@ class InntektService(
             summertMaanedsinntektListe = ainntektService.beregnMaanedsinntekt(transformerInntekterRequestDto.ainntektListe),
             summertAarsinntektListe = (
                 ainntektService.beregnAarsinntekt(transformerInntekterRequestDto.ainntektListe) +
-                    overgangsstønadService.beregnOvergangsstønad(transformerInntekterRequestDto.overgangsstonadListe))
+                    overgangsstønadService.beregnOvergangsstønad(transformerInntekterRequestDto.overgangsstonadListe)
+                )
 
 //            ligningsinntektListe = skattegrunnlagService.beregnLigs(transformerInntekterRequestDto.skattegrunnlagListe),
 //            kapitalinntektListe = skattegrunnlagService.beregnKaps(transformerInntekterRequestDto.skattegrunnlagListe),

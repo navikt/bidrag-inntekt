@@ -1,6 +1,14 @@
 name: bidrag-inntekt-feature
 ingresses:
   - https://bidrag-inntekt-feature.intern.dev.nav.no
+azure:
+  tenant: trygdeetaten.no
+  unsecure:
+    kodeverk_url: kodeverk.dev-fss-pub.nais.io
+azureAccessInbound:
+  - application: bidrag-behandling-feature
+    namespace: bidrag
+    cluster: dev-gcp
 spec:
   replicas:
     min: 1

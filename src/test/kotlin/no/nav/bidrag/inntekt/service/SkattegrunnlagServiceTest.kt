@@ -1,9 +1,8 @@
 package no.nav.bidrag.inntekt.service
 
+import no.nav.bidrag.domain.enums.InntektBeskrivelse
 import no.nav.bidrag.inntekt.BidragInntektTest
 import no.nav.bidrag.inntekt.TestUtil
-import no.nav.bidrag.inntekt.dto.InntektType
-import no.nav.bidrag.inntekt.dto.PlussMinus
 import no.nav.bidrag.inntekt.exception.custom.UgyldigInputException
 import no.nav.security.token.support.spring.test.EnableMockOAuth2Server
 import org.assertj.core.api.Assertions.assertThat
@@ -52,13 +51,13 @@ class SkattegrunnlagServiceTest {
 
             Executable { assertThat(beregnedeKapsinntekter[0].periodeFra).isEqualTo(YearMonth.parse("2021-01")) },
             Executable { assertThat(beregnedeKapsinntekter[0].periodeTil).isEqualTo(YearMonth.parse("2022-01")) },
-            Executable { assertThat(beregnedeKapsinntekter[0].inntektType).isEqualTo(InntektType.KAPITALINNTEKT) },
+            Executable { assertThat(beregnedeKapsinntekter[0].inntektBeskrivelse).isEqualTo(InntektBeskrivelse.KAPITALINNTEKT) },
             Executable { assertThat(beregnedeKapsinntekter[0].sumInntekt).isEqualTo(BigDecimal.valueOf(1700)) },
             Executable { assertThat(beregnedeKapsinntekter[0].inntektPostListe.size).isEqualTo(4) },
 
             Executable { assertThat(beregnedeKapsinntekter[1].periodeFra).isEqualTo(YearMonth.parse("2022-01")) },
             Executable { assertThat(beregnedeKapsinntekter[1].periodeTil).isEqualTo(YearMonth.parse("2023-01")) },
-            Executable { assertThat(beregnedeKapsinntekter[1].inntektType).isEqualTo(InntektType.KAPITALINNTEKT) },
+            Executable { assertThat(beregnedeKapsinntekter[1].inntektBeskrivelse).isEqualTo(InntektBeskrivelse.KAPITALINNTEKT) },
             Executable { assertThat(beregnedeKapsinntekter[1].sumInntekt).isEqualTo(BigDecimal.valueOf(1700)) },
             Executable { assertThat(beregnedeKapsinntekter[1].inntektPostListe.size).isEqualTo(4) },
 
@@ -86,7 +85,7 @@ class SkattegrunnlagServiceTest {
         assertAll(
             Executable { assertNotNull(beregnedeLigsinntekter) },
             Executable { assertThat(beregnedeLigsinntekter[0].periodeFra).isEqualTo(YearMonth.parse("2021-01")) },
-            Executable { assertThat(beregnedeLigsinntekter[0].inntektType).isEqualTo(InntektType.LIGNINGSINNTEKT) },
+            Executable { assertThat(beregnedeLigsinntekter[0].inntektBeskrivelse).isEqualTo(InntektBeskrivelse.LIGNINGSINNTEKT) },
             Executable { assertThat(beregnedeLigsinntekter[0].sumInntekt).isEqualTo(BigDecimal.valueOf(1000)) },
             Executable { assertThat(beregnedeLigsinntekter[0].inntektPostListe.size).isEqualTo(4) },
 
