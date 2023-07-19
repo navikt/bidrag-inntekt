@@ -9,6 +9,9 @@ data class HentKodeverkRequest(
 
 class GetKodeverkKoderBetydningerResponse {
     var betydninger: Map<String, List<Betydning>> = emptyMap()
+        set(betydninger) {
+            field = LinkedHashMap(betydninger)
+        }
 }
 
 data class Betydning(

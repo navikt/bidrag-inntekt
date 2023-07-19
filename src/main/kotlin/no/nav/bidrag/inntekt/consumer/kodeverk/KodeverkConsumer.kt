@@ -8,6 +8,7 @@ import no.nav.bidrag.inntekt.exception.RestResponse
 import no.nav.bidrag.inntekt.exception.tryExchange
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.http.HttpMethod
 
 private const val KODEVERK_CONTEXT = "/api/v1/kodeverk/Summert skattegrunnlag/koder/betydninger"
@@ -21,6 +22,7 @@ open class KodeverkConsumer(
         private val logger: Logger = LoggerFactory.getLogger(KodeverkConsumer::class.java)
     }
 
+    @Cacheable
     open fun hentKodeverksverdier(request: HentKodeverkRequest): RestResponse<GetKodeverkKoderBetydningerResponse> {
         logger.info("Henter kodeverksverdier")
 
