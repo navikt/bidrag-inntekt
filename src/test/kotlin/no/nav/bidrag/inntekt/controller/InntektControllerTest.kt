@@ -4,13 +4,13 @@ import no.nav.bidrag.commons.ExceptionLogger
 import no.nav.bidrag.inntekt.BidragInntektTest
 import no.nav.bidrag.inntekt.BidragInntektTest.Companion.TEST_PROFILE
 import no.nav.bidrag.inntekt.TestUtil
-import no.nav.bidrag.inntekt.dto.TransformerInntekterRequestDto
-import no.nav.bidrag.inntekt.dto.TransformerInntekterResponseDto
 import no.nav.bidrag.inntekt.exception.RestExceptionHandler
 import no.nav.bidrag.inntekt.service.AinntektService
 import no.nav.bidrag.inntekt.service.InntektService
 import no.nav.bidrag.inntekt.service.OvergangsstønadService
 import no.nav.bidrag.inntekt.service.SkattegrunnlagService
+import no.nav.bidrag.transport.behandling.inntekt.request.TransformerInntekterRequestDto
+import no.nav.bidrag.transport.behandling.inntekt.response.TransformerInntekterResponseDto
 import no.nav.security.token.support.spring.test.EnableMockOAuth2Server
 import org.junit.jupiter.api.Assertions.assertAll
 import org.junit.jupiter.api.Assertions.assertNotNull
@@ -21,6 +21,7 @@ import org.junit.jupiter.api.function.Executable
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment
+import org.springframework.cloud.contract.wiremock.AutoConfigureWireMock
 import org.springframework.http.HttpMethod
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.web.servlet.MockMvc
@@ -30,6 +31,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders
 @ActiveProfiles(TEST_PROFILE)
 @SpringBootTest(classes = [BidragInntektTest::class], webEnvironment = WebEnvironment.RANDOM_PORT)
 @EnableMockOAuth2Server
+@AutoConfigureWireMock(port = 0)
 class InntektControllerTest(
     @Autowired val exceptionLogger: ExceptionLogger,
     @Autowired val ainntektService: AinntektService,
@@ -38,6 +40,7 @@ class InntektControllerTest(
 ) {
 
     private val inntektService: InntektService = InntektService(ainntektService, skattegrunnlagService, overgangsstønadService)
+
 //    private val inntektService: InntektService = InntektService(ainntektService)
     private val inntektController: InntektController = InntektController(inntektService)
     private val mockMvc: MockMvc = MockMvcBuilders

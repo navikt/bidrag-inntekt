@@ -3,12 +3,13 @@ package no.nav.bidrag.inntekt.service
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
 import com.fasterxml.jackson.module.kotlin.readValue
-import no.nav.bidrag.inntekt.dto.InntektPost
-import no.nav.bidrag.inntekt.dto.InntektType
-import no.nav.bidrag.inntekt.dto.PlussMinus
-import no.nav.bidrag.inntekt.dto.SummertAarsinntekt
+import no.nav.bidrag.domain.enums.InntektBeskrivelse
+import no.nav.bidrag.domain.enums.PlussMinus
+import no.nav.bidrag.inntekt.consumer.kodeverk.KodeverkConsumer
 import no.nav.bidrag.inntekt.exception.custom.UgyldigInputException
 import no.nav.bidrag.transport.behandling.grunnlag.response.SkattegrunnlagDto
+import no.nav.bidrag.transport.behandling.inntekt.response.InntektPost
+import no.nav.bidrag.transport.behandling.inntekt.response.SummertAarsinntekt
 import org.springframework.core.io.ClassPathResource
 import org.springframework.stereotype.Service
 import java.io.IOException
@@ -17,26 +18,28 @@ import java.time.Year
 import java.time.YearMonth
 
 @Service
-class SkattegrunnlagService() {
+class SkattegrunnlagService(
+    private val kodeverkConsumer: KodeverkConsumer
+) {
 
     fun beregnKaps(skattegrunnlagListe: List<SkattegrunnlagDto>): List<SummertAarsinntekt> {
         val pathKapsfil = "/files/mapping_kaps.yaml"
         val mappingKaps = hentMapping(pathKapsfil)
 
-        return beregnInntekt(skattegrunnlagListe, mappingKaps, InntektType.KAPITALINNTEKT)
+        return beregnInntekt(skattegrunnlagListe, mappingKaps, InntektBeskrivelse.KAPITALINNTEKT)
     }
 
     fun beregnLigs(skattegrunnlagListe: List<SkattegrunnlagDto>): List<SummertAarsinntekt> {
         val pathLigsfil = "/files/mapping_ligs.yaml"
         val mappingLigs = hentMapping(pathLigsfil)
 
-        return beregnInntekt(skattegrunnlagListe, mappingLigs, InntektType.LIGNINGSINNTEKT)
+        return beregnInntekt(skattegrunnlagListe, mappingLigs, InntektBeskrivelse.LIGNINGSINNTEKT)
     }
 
     private fun beregnInntekt(
         skattegrunnlagListe: List<SkattegrunnlagDto>,
         mapping: List<MappingPoster>,
-        inntektType: InntektType
+        inntektBeskrivelse: InntektBeskrivelse
     ): List<SummertAarsinntekt> {
         val summertÅrsinntektListe = mutableListOf<SummertAarsinntekt>()
 
@@ -73,8 +76,8 @@ class SkattegrunnlagService() {
             }
             summertÅrsinntektListe.add(
                 SummertAarsinntekt(
-                    inntektType = inntektType,
-                    visningsnavn = inntektType.toString(),
+                    inntektBeskrivelse = inntektBeskrivelse,
+                    visningsnavn = inntektBeskrivelse.toString(),
                     referanse = "",
                     sumInntekt = sumInntekt,
                     periodeFra = YearMonth.of(skattegrunnlagÅr.periodeFra.year, skattegrunnlagÅr.periodeFra.month),

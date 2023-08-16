@@ -1,9 +1,9 @@
 package no.nav.bidrag.inntekt.service
 
-import no.nav.bidrag.inntekt.dto.InntektPost
-import no.nav.bidrag.inntekt.dto.InntektType
-import no.nav.bidrag.inntekt.dto.SummertAarsinntekt
+import no.nav.bidrag.domain.enums.InntektBeskrivelse
 import no.nav.bidrag.transport.behandling.grunnlag.response.OvergangsstonadDto
+import no.nav.bidrag.transport.behandling.inntekt.response.InntektPost
+import no.nav.bidrag.transport.behandling.inntekt.response.SummertAarsinntekt
 import org.springframework.stereotype.Service
 import java.math.BigDecimal
 import java.math.RoundingMode
@@ -13,10 +13,9 @@ import java.time.YearMonth
 class OvergangsstønadService() {
 
     fun beregnOvergangsstønad(overgangsstønadListeInn: List<OvergangsstonadDto>): List<SummertAarsinntekt> {
-
         if (overgangsstønadListeInn.isNullOrEmpty()) {
-            return emptyList() }
-        else {
+            return emptyList()
+        } else {
             val overgangsstønadListeInnSortert = overgangsstønadListeInn.sortedWith(compareBy({ it.periodeFra }, { it.periodeTil }))
             val overgangsstønadResponseListe = mutableListOf<SummertAarsinntekt>()
             val overgangsstønadMap = mutableMapOf<String, SummertAarsinntekt>()
@@ -57,13 +56,12 @@ class OvergangsstønadService() {
             val dagensDato = YearMonth.now()
             val dagensAar = dagensDato.year
 
-
             overgangsstønadMap.forEach {
                 if (it.key.isNumeric()) {
                     overgangsstønadResponseListe.add(
                         SummertAarsinntekt(
-                            inntektType = InntektType.OVERGANGSSTØNAD,
-                            visningsnavn = InntektType.OVERGANGSSTØNAD.toString(),
+                            inntektBeskrivelse = InntektBeskrivelse.OVERGANGSSTØNAD,
+                            visningsnavn = InntektBeskrivelse.OVERGANGSSTØNAD.toString(),
                             referanse = "",
                             periodeFra = it.value.periodeFra,
                             periodeTil = if (it.key.toInt() == dagensAar) dagensDato else YearMonth.parse(it.key + "-01").plusYears(1),
@@ -74,33 +72,39 @@ class OvergangsstønadService() {
                 } else {
                     overgangsstønadResponseListe.add(
                         SummertAarsinntekt(
-                            inntektType = if (it.key == KEY_3MND) InntektType.OVERGANGSSTØNAD_BEREGNET_3MND else InntektType.OVERGANGSSTØNAD_BEREGNET_12MND,
-                            visningsnavn = InntektType.OVERGANGSSTØNAD.toString(),
+                            inntektBeskrivelse = if (it.key == KEY_3MND) InntektBeskrivelse.OVERGANGSSTØNAD_BEREGNET_3MND else InntektBeskrivelse.OVERGANGSSTØNAD_BEREGNET_12MND,
+                            visningsnavn = InntektBeskrivelse.OVERGANGSSTØNAD.toString(),
                             referanse = "",
                             periodeFra = if (it.key == KEY_3MND) periodeFra3mnd else periodeFra12mnd,
                             periodeTil = null,
-                            sumInntekt = if (it.key == KEY_3MND) it.value.sumInntekt
-                                .divide(BigDecimal.valueOf(3))
-                                .multiply(BigDecimal.valueOf(12)).setScale(0, RoundingMode.HALF_UP)
-                            else it.value.sumInntekt,
+                            sumInntekt = if (it.key == KEY_3MND) {
+                                it.value.sumInntekt
+                                    .divide(BigDecimal.valueOf(3))
+                                    .multiply(BigDecimal.valueOf(12)).setScale(0, RoundingMode.HALF_UP)
+                            } else {
+                                it.value.sumInntekt
+                            },
                             inntektPostListe = it.value.inntektPostListe
                         )
                     )
-
                 }
             }
-            return overgangsstønadResponseListe.sortedWith(compareBy({ it.inntektType }, { it.periodeFra }, { it.periodeTil }))
+            return overgangsstønadResponseListe.sortedWith(compareBy({ it.inntektBeskrivelse }, { it.periodeFra }, { it.periodeTil }))
         }
     }
-
 
     // Summerer inntekter og legger til detaljposter til map
     private fun akkumulerPost(overgangsstønadMap: MutableMap<String, SummertAarsinntekt>, overgangsstønad: OvergangsstonadDto, key: String) {
         val overgangsstønadMapPost = overgangsstønadMap.getOrDefault(
             key,
             SummertAarsinntekt(
-                InntektType.OVERGANGSSTØNAD, "", "", BigDecimal.ZERO,
-                YearMonth.of(overgangsstønad.periodeFra.year, overgangsstønad.periodeFra.month), null, emptyList()
+                InntektBeskrivelse.OVERGANGSSTØNAD,
+                "",
+                "",
+                BigDecimal.ZERO,
+                YearMonth.of(overgangsstønad.periodeFra.year, overgangsstønad.periodeFra.month),
+                null,
+                emptyList()
             )
         )
         val sumInntekt = overgangsstønadMapPost.sumInntekt
@@ -113,9 +117,13 @@ class OvergangsstønadService() {
             )
         )
         overgangsstønadMap[key] = SummertAarsinntekt(
-            inntektType = InntektType.OVERGANGSSTØNAD,
-            visningsnavn = "", referanse = "", sumInntekt = sumInntekt.add(overgangsstønad.belop.toBigDecimal()),
-            periodeFra = overgangsstønadMapPost.periodeFra, periodeTil = null, inntektPostListe = inntektPostListe
+            inntektBeskrivelse = InntektBeskrivelse.OVERGANGSSTØNAD,
+            visningsnavn = "",
+            referanse = "",
+            sumInntekt = sumInntekt.add(overgangsstønad.belop.toBigDecimal()),
+            periodeFra = overgangsstønadMapPost.periodeFra,
+            periodeTil = null,
+            inntektPostListe = inntektPostListe
         )
     }
 
@@ -138,4 +146,3 @@ class OvergangsstønadService() {
         const val KEY_12MND = "12MND"
     }
 }
-

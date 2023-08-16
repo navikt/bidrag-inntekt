@@ -25,12 +25,13 @@
     <!-- dependencies -->
     <bidrag-commons.version>20230510130746_8b93e85</bidrag-commons.version>
     <bidrag-commons-test.version>1.20230511093912_dc35d81</bidrag-commons-test.version>
-    <bidrag-transport.version>20230712081159_8fb6b4c</bidrag-transport.version>
+    <bidrag-transport.version>20230812215528_ce2de70</bidrag-transport.version>
+    <bidrag-domain.version>20230719123551_28a5a86</bidrag-domain.version>
     <bidrag-tilgangskontroll.version>1.10.4</bidrag-tilgangskontroll.version>
     <mockito-kotlin.version>4.1.0</mockito-kotlin.version>
     <springdoc-openapi-ui.version>2.1.0</springdoc-openapi-ui.version>
-    <nimbus-jose-jwt.version>9.31</nimbus-jose-jwt.version>
     <springframework-cloud.version>4.0.2</springframework-cloud.version>
+    <nimbus-jose-jwt.version>9.31</nimbus-jose-jwt.version>
     <com.squareup.okhttp3.version>4.11.0</com.squareup.okhttp3.version>
   </properties>
 
@@ -79,11 +80,11 @@
     </dependency>
 
     <!-- nav -->
-<!--    <dependency>-->
-<!--      <groupId>no.nav.bidrag</groupId>-->
-<!--      <artifactId>bidrag-behandling-felles</artifactId>-->
-<!--      <version>${bidrag-behandling-felles.version}</version>-->
-<!--    </dependency>-->
+    <!--    <dependency>-->
+    <!--      <groupId>no.nav.bidrag</groupId>-->
+    <!--      <artifactId>bidrag-behandling-felles</artifactId>-->
+    <!--      <version>${bidrag-behandling-felles.version}</version>-->
+    <!--    </dependency>-->
     <dependency>
       <groupId>com.nimbusds</groupId>
       <artifactId>nimbus-jose-jwt</artifactId>
@@ -98,6 +99,11 @@
       <groupId>no.nav.bidrag</groupId>
       <artifactId>bidrag-transport</artifactId>
       <version>${bidrag-transport.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>no.nav.bidrag</groupId>
+      <artifactId>bidrag-domain</artifactId>
+      <version>${bidrag-domain.version}</version>
     </dependency>
     <dependency>
       <groupId>no.nav.bidrag</groupId>
@@ -183,6 +189,12 @@
       <groupId>com.squareup.okhttp3</groupId>
       <artifactId>okhttp</artifactId>
       <version>${com.squareup.okhttp3.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-contract-wiremock</artifactId>
+      <version>${springframework-cloud.version}</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
