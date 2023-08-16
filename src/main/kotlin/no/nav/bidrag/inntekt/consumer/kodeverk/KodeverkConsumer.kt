@@ -31,7 +31,7 @@ open class KodeverkConsumer(
         val restResponse = restTemplate.tryExchange(
             KODEVERK_CONTEXT,
             HttpMethod.GET,
-            null,
+            initHttpEntityKodeverk(request),
             GetKodeverkKoderBetydningerResponse::class.java,
             GetKodeverkKoderBetydningerResponse()
         )
