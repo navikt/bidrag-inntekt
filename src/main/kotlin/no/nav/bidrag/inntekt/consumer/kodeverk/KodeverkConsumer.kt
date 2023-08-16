@@ -3,7 +3,6 @@ package no.nav.bidrag.inntekt.consumer.kodeverk
 import no.nav.bidrag.commons.web.HttpHeaderRestTemplate
 import no.nav.bidrag.inntekt.consumer.InntektConsumer
 import no.nav.bidrag.inntekt.consumer.kodeverk.api.GetKodeverkKoderBetydningerResponse
-import no.nav.bidrag.inntekt.consumer.kodeverk.api.HentKodeverkRequest
 import no.nav.bidrag.inntekt.exception.RestResponse
 import no.nav.bidrag.inntekt.exception.tryExchange
 import org.slf4j.Logger
@@ -11,7 +10,6 @@ import org.slf4j.LoggerFactory
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.http.HttpMethod
 
-private const val KODEVERK_CONTEXT = "/api/v1/kodeverk/Summert skattegrunnlag/koder/betydninger?ekskluderUgyldige=false&spraak=nb"
 
 open class KodeverkConsumer(
     private val restTemplate: HttpHeaderRestTemplate
@@ -23,13 +21,14 @@ open class KodeverkConsumer(
     }
 
     @Cacheable
-    open fun hentKodeverksverdier(request: HentKodeverkRequest): RestResponse<GetKodeverkKoderBetydningerResponse> {
-        logger.info("Henter kodeverksverdier")
+    open fun hentKodeverksverdier(kodeverk: String): RestResponse<GetKodeverkKoderBetydningerResponse> {
 
-        logger.info("Request kodeverk: $KODEVERK_CONTEXT $request ${initHttpEntityKodeverk(request)} ")
+        val kodeverkContext = "/api/v1/kodeverk/$kodeverk/koder/betydninger?ekskluderUgyldige=true&spraak=nb"
+
+        logger.info("Henter kodeverksverdier med request: $kodeverkContext ")
 
         val restResponse = restTemplate.tryExchange(
-            KODEVERK_CONTEXT,
+            kodeverkContext,
             HttpMethod.GET,
             initHttpEntityKodeverk(null),
             GetKodeverkKoderBetydningerResponse::class.java,
