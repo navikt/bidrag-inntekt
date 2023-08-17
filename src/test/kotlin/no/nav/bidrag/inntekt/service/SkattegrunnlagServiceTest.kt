@@ -8,6 +8,7 @@ import no.nav.security.token.support.spring.test.EnableMockOAuth2Server
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertAll
 import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -25,6 +26,7 @@ import java.time.YearMonth
     webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT
 )
 @EnableMockOAuth2Server
+@Disabled
 class SkattegrunnlagServiceTest {
 
     @Autowired

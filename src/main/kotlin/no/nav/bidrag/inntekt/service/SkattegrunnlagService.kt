@@ -6,10 +6,14 @@ import com.fasterxml.jackson.module.kotlin.readValue
 import no.nav.bidrag.domain.enums.InntektBeskrivelse
 import no.nav.bidrag.domain.enums.PlussMinus
 import no.nav.bidrag.inntekt.consumer.kodeverk.KodeverkConsumer
+import no.nav.bidrag.inntekt.consumer.kodeverk.api.GetKodeverkKoderBetydningerResponse
+import no.nav.bidrag.inntekt.exception.RestResponse
 import no.nav.bidrag.inntekt.exception.custom.UgyldigInputException
 import no.nav.bidrag.transport.behandling.grunnlag.response.SkattegrunnlagDto
 import no.nav.bidrag.transport.behandling.inntekt.response.InntektPost
 import no.nav.bidrag.transport.behandling.inntekt.response.SummertAarsinntekt
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.core.io.ClassPathResource
 import org.springframework.stereotype.Service
 import java.io.IOException
@@ -21,6 +25,7 @@ import java.time.YearMonth
 class SkattegrunnlagService(
     private val kodeverkConsumer: KodeverkConsumer
 ) {
+
 
     fun beregnKaps(skattegrunnlagListe: List<SkattegrunnlagDto>): List<SummertAarsinntekt> {
         val pathKapsfil = "/files/mapping_kaps.yaml"
@@ -36,11 +41,31 @@ class SkattegrunnlagService(
         return beregnInntekt(skattegrunnlagListe, mappingLigs, InntektBeskrivelse.LIGNINGSINNTEKT)
     }
 
+    private fun hentKodeverksverdier(): GetKodeverkKoderBetydningerResponse? {
+        val kodeverk = "Summert skattegrunnlag"
+        return when (
+            val restResponseKodeverk =
+                kodeverkConsumer.hentKodeverksverdier(kodeverk)
+        ) {
+            is RestResponse.Success -> {
+                restResponseKodeverk.body
+            }
+
+            is RestResponse.Failure -> {
+                logger.info("Feil under henting av kodeverksverdier/visningsnavn for skattegrunnlag")
+                null
+            }
+        }
+    }
+
     private fun beregnInntekt(
         skattegrunnlagListe: List<SkattegrunnlagDto>,
         mapping: List<MappingPoster>,
         inntektBeskrivelse: InntektBeskrivelse
     ): List<SummertAarsinntekt> {
+
+        val kodeverksverdier = hentKodeverksverdier()
+
         val summertÅrsinntektListe = mutableListOf<SummertAarsinntekt>()
 
         skattegrunnlagListe.forEach { skattegrunnlagÅr ->
@@ -57,7 +82,7 @@ class SkattegrunnlagService(
             val inntektPostListe = mutableListOf<InntektPost>()
             var sumInntekt = BigDecimal.ZERO
             skattegrunnlagÅr.skattegrunnlagListe.forEach { post ->
-                val match = mapping.find { it.post == post.inntektType }
+                val match = mapping.find { it.fulltNavnInntektspost == post.inntektType }
                 if (match != null) {
                     if (match.plussMinus == PlussMinus.PLUSS) {
                         sumInntekt += post.belop
@@ -67,8 +92,9 @@ class SkattegrunnlagService(
 
                     inntektPostListe.add(
                         InntektPost(
-                            kode = match.post,
-                            visningsnavn = "",
+                            kode = match.fulltNavnInntektspost,
+                            visningsnavn = if (kodeverksverdier == null) match.fulltNavnInntektspost
+                            else finnVisningsnavn(match.fulltNavnInntektspost, kodeverksverdier),
                             beløp = post.belop
                         )
                     )
@@ -99,7 +125,7 @@ class SkattegrunnlagService(
             return mapping.flatMap { (post, postKonfigs) ->
                 postKonfigs.map { postKonfig ->
                     MappingPoster(
-                        post.post,
+                        post.fulltNavnInntektspost,
                         PlussMinus.valueOf(postKonfig.plussMinus),
                         postKonfig.sekkepost == "JA",
                         Year.parse(postKonfig.fom),
@@ -111,9 +137,36 @@ class SkattegrunnlagService(
             throw RuntimeException("Kunne ikke laste fil", e)
         }
     }
+
+    private fun finnVisningsnavn(fulltNavnInntektspost: String, kodeverksverdier: GetKodeverkKoderBetydningerResponse): String {
+        var visningsnavn = ""
+        val bokmål = "nb"
+        for ((fulltNavn, betydningListe) in kodeverksverdier.betydninger) {
+            if (fulltNavn == fulltNavnInntektspost) {
+                for (betydning in betydningListe) {
+                    betydning.beskrivelser.let { beskrivelser ->
+                        for ((spraak, beskrivelse) in beskrivelser) {
+                            if (spraak == bokmål) {
+                                visningsnavn = beskrivelse.term
+                            }
+                        }
+
+                    }
+                }
+            }
+        }
+        return if (visningsnavn == "") {
+            fulltNavnInntektspost
+        } else visningsnavn
+    }
+
+    companion object {
+        @JvmStatic
+        private val logger: Logger = LoggerFactory.getLogger(SkattegrunnlagService::class.java)
+    }
 }
 
-data class Post(val post: String)
+data class Post(val fulltNavnInntektspost: String)
 
 data class PostKonfig(
     val plussMinus: String,
@@ -123,7 +176,7 @@ data class PostKonfig(
 )
 
 data class MappingPoster(
-    val post: String,
+    val fulltNavnInntektspost: String,
     val plussMinus: PlussMinus,
     val sekkepost: Boolean,
     val fom: Year,

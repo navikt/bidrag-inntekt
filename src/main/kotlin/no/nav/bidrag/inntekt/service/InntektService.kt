@@ -20,11 +20,10 @@ class InntektService(
             summertMaanedsinntektListe = ainntektService.beregnMaanedsinntekt(transformerInntekterRequestDto.ainntektListe),
             summertAarsinntektListe = (
                 ainntektService.beregnAarsinntekt(transformerInntekterRequestDto.ainntektListe) +
-                    overgangsstønadService.beregnOvergangsstønad(transformerInntekterRequestDto.overgangsstonadListe)
+                    overgangsstønadService.beregnOvergangsstønad(transformerInntekterRequestDto.overgangsstonadListe) +
+                    skattegrunnlagService.beregnLigs(transformerInntekterRequestDto.skattegrunnlagListe) +
+                    skattegrunnlagService.beregnKaps(transformerInntekterRequestDto.skattegrunnlagListe)
                 )
-
-//            ligningsinntektListe = skattegrunnlagService.beregnLigs(transformerInntekterRequestDto.skattegrunnlagListe),
-//            kapitalinntektListe = skattegrunnlagService.beregnKaps(transformerInntekterRequestDto.skattegrunnlagListe),
         )
     }
 }
