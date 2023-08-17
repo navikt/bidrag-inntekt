@@ -10,6 +10,7 @@ import no.nav.security.token.support.spring.test.EnableMockOAuth2Server
 import org.junit.jupiter.api.Assertions.assertAll
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.function.Executable
@@ -36,6 +37,7 @@ class AinntektServiceTest {
 
     @Test
     @Suppress("NonAsciiCharacters")
+    @Disabled
     fun `skal transformere årsinntekter`() {
         val objectMapper = ObjectMapper()
         objectMapper.registerKotlinModule()

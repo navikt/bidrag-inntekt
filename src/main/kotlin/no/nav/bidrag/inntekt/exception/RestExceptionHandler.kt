@@ -136,7 +136,7 @@ sealed class RestResponse<T> {
     data class Failure<T>(val message: String?, val statusCode: HttpStatusCode, val restClientException: RestClientException) : RestResponse<T>()
 }
 
-fun <T> RestTemplate.tryExchange(url: String, httpMethod: HttpMethod, httpEntity: HttpEntity<*>, responseType: Class<T>, fallbackBody: T): RestResponse<T> {
+fun <T> RestTemplate.tryExchange(url: String, httpMethod: HttpMethod, httpEntity: HttpEntity<*>?, responseType: Class<T>, fallbackBody: T): RestResponse<T> {
     return try {
         val response = exchange(url, httpMethod, httpEntity, responseType)
         RestResponse.Success(response.body ?: fallbackBody)

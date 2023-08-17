@@ -5,13 +5,11 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import no.nav.bidrag.inntekt.ISSUER
 import no.nav.bidrag.inntekt.consumer.kodeverk.KodeverkConsumer
 import no.nav.bidrag.inntekt.consumer.kodeverk.api.GetKodeverkKoderBetydningerResponse
-import no.nav.bidrag.inntekt.consumer.kodeverk.api.HentKodeverkRequest
 import no.nav.bidrag.inntekt.exception.RestResponse
 import no.nav.security.token.support.core.api.ProtectedWithClaims
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.server.ResponseStatusException
 
@@ -22,10 +20,10 @@ class IntegrasjonsController(
 
 ) {
 
-    @PostMapping(HENT_FELLES_KODEVERK)
+    @GetMapping(HENT_FELLES_KODEVERK)
     @Operation(security = [SecurityRequirement(name = "bearer-key")], summary = "Kaller Felles Kodeverk og henter verdier")
-    fun hentKodeverk(@RequestBody hentKodeverkRequest: HentKodeverkRequest): ResponseEntity<GetKodeverkKoderBetydningerResponse> {
-        return handleRestResponse(kodeverkConsumer.hentKodeverksverdier(hentKodeverkRequest))
+    fun hentKodeverkSkattegrunnlag(kodeverk: String): ResponseEntity<GetKodeverkKoderBetydningerResponse> {
+        return handleRestResponse(kodeverkConsumer.hentKodeverksverdier(kodeverk))
     }
 
     private fun <T> handleRestResponse(restResponse: RestResponse<T>): ResponseEntity<T> {
