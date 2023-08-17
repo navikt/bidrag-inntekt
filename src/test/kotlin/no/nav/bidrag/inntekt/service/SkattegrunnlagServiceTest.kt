@@ -6,7 +6,6 @@ import no.nav.bidrag.inntekt.BidragInntektTest
 import no.nav.bidrag.inntekt.TestUtil
 import no.nav.bidrag.inntekt.consumer.kodeverk.KodeverkConsumer
 import no.nav.bidrag.inntekt.consumer.kodeverk.api.GetKodeverkKoderBetydningerResponse
-import no.nav.bidrag.inntekt.exception.RestResponse
 import no.nav.bidrag.inntekt.exception.custom.UgyldigInputException
 import no.nav.security.token.support.spring.test.EnableMockOAuth2Server
 import org.assertj.core.api.Assertions.assertThat
@@ -55,7 +54,6 @@ class SkattegrunnlagServiceTest {
     private lateinit var kodeverkCaptor: ArgumentCaptor<String>
 
     @Test
-    @Disabled
     @Suppress("NonAsciiCharacters")
     fun `skal kaste UgyldigInputException ved feil periodeFra og PeriodeTil i input`() {
         assertThrows<UgyldigInputException> {
@@ -65,7 +63,6 @@ class SkattegrunnlagServiceTest {
     }
 
     @Test
-    @Disabled
     @Suppress("NonAsciiCharacters")
     fun `skal returnere Kapsinntekter`() {
         val skattegrunnlagDto = TestUtil.byggSkattegrunnlagDto()
@@ -103,7 +100,6 @@ class SkattegrunnlagServiceTest {
     }
 
     @Test
-    @Disabled
     @Suppress("NonAsciiCharacters")
     fun `skal returnere Ligsinntekter`() {
         val skattegrunnlagDto = TestUtil.byggSkattegrunnlagDto()
@@ -132,7 +128,6 @@ class SkattegrunnlagServiceTest {
     }
 
     @Test
-    @Disabled
     @Suppress("NonAsciiCharacters")
     fun `skal mappe respons fra kodeverk og lage respons`() {
 

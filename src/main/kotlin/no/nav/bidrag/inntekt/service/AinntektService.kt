@@ -16,28 +16,29 @@ class AinntektService {
 
     // Summerer, grupperer og transformerer ainntekter pr år
     fun beregnAarsinntekt(ainntektListeInn: List<AinntektDto>): List<SummertAarsinntekt> {
-        val ainntektMap = summerAarsinntekter(ainntektListeInn)
-        val ainntektListeUt = mutableListOf<SummertAarsinntekt>()
+        if (ainntektListeInn.isNotEmpty()) {
+            val ainntektMap = summerAarsinntekter(ainntektListeInn)
+            val ainntektListeUt = mutableListOf<SummertAarsinntekt>()
 
-        ainntektMap.forEach {
-            ainntektListeUt.add(
-                SummertAarsinntekt(
-                    inntektBeskrivelse = when (it.key) {
-                        KEY_3MND -> InntektBeskrivelse.AINNTEKT_BEREGNET_3MND
-                        KEY_12MND -> InntektBeskrivelse.AINNTEKT_BEREGNET_12MND
-                        else -> InntektBeskrivelse.AINNTEKT
-                    },
-                    visningsnavn = "",
-                    referanse = "",
-                    sumInntekt = it.value.sumInntekt,
-                    periodeFra = it.value.periodeFra,
-                    periodeTil = it.value.periodeTil,
-                    inntektPostListe = grupperOgSummerDetaljposter(it.value.inntektPostListe)
+            ainntektMap.forEach {
+                ainntektListeUt.add(
+                    SummertAarsinntekt(
+                        inntektBeskrivelse = when (it.key) {
+                            KEY_3MND -> InntektBeskrivelse.AINNTEKT_BEREGNET_3MND
+                            KEY_12MND -> InntektBeskrivelse.AINNTEKT_BEREGNET_12MND
+                            else -> InntektBeskrivelse.AINNTEKT
+                        },
+                        visningsnavn = "",
+                        referanse = "",
+                        sumInntekt = it.value.sumInntekt,
+                        periodeFra = it.value.periodeFra,
+                        periodeTil = it.value.periodeTil,
+                        inntektPostListe = grupperOgSummerDetaljposter(it.value.inntektPostListe)
+                    )
                 )
-            )
-        }
-
-        return ainntektListeUt.sortedWith(compareBy({ it.inntektBeskrivelse.toString() }, { it.periodeFra }))
+            }
+            return ainntektListeUt.sortedWith(compareBy({ it.inntektBeskrivelse.toString() }, { it.periodeFra }))
+        } else return emptyList()
     }
 
     // Summerer, grupperer og transformerer ainntekter pr måned

@@ -54,6 +54,7 @@ class InntektControllerTest(
     @Test
     @Disabled
     fun `skal transformere inntekter`() {
+
         val transformerteInntekter = TestUtil.performRequest(
             mockMvc,
             HttpMethod.POST,
