@@ -60,7 +60,7 @@ class SkattegrunnlagServiceTest {
     fun `skal kaste UgyldigInputException ved feil periodeFra og PeriodeTil i input`() {
         assertThrows<UgyldigInputException> {
             val skattegrunnlagDto = TestUtil.byggSkattegrunnlagDtoMedFeilPeriode()
-            skattegrunnlagService.beregnKaps(skattegrunnlagDto)
+            skattegrunnlagService.beregnKaps(skattegrunnlagDto, TestUtil.byggKodeverkSkattegrunnlagResponse())
         }
     }
 
@@ -69,7 +69,7 @@ class SkattegrunnlagServiceTest {
     @Suppress("NonAsciiCharacters")
     fun `skal returnere Kapsinntekter`() {
         val skattegrunnlagDto = TestUtil.byggSkattegrunnlagDto()
-        val beregnedeKapsinntekter = skattegrunnlagService.beregnKaps(skattegrunnlagDto)
+        val beregnedeKapsinntekter = skattegrunnlagService.beregnKaps(skattegrunnlagDto, TestUtil.byggKodeverkSkattegrunnlagResponse())
 
         assertAll(
             Executable { assertNotNull(beregnedeKapsinntekter) },
@@ -107,7 +107,7 @@ class SkattegrunnlagServiceTest {
     @Suppress("NonAsciiCharacters")
     fun `skal returnere Ligsinntekter`() {
         val skattegrunnlagDto = TestUtil.byggSkattegrunnlagDto()
-        val beregnedeLigsinntekter = skattegrunnlagService.beregnLigs(skattegrunnlagDto)
+        val beregnedeLigsinntekter = skattegrunnlagService.beregnLigs(skattegrunnlagDto, TestUtil.byggKodeverkSkattegrunnlagResponse())
 
         assertAll(
             Executable { assertNotNull(beregnedeLigsinntekter) },
@@ -140,20 +140,14 @@ class SkattegrunnlagServiceTest {
             restTemplateMock?.exchange(
                 eq("/api/v1/kodeverk/Summert%20skattegrunnlag/koder/betydninger?ekskluderUgyldige=true&spraak=nb"),
                 eq(HttpMethod.GET),
-                eq(null),
+                any(),
                 any<Class<GetKodeverkKoderBetydningerResponse>>()
             )
         )
             .thenReturn(ResponseEntity(TestUtil.byggKodeverkSkattegrunnlagResponse(), HttpStatus.OK))
 
-
-        Mockito.`when`(
-            kodeverkConsumerMock.hentKodeverksverdier("Summert skattegrunnlag"))
-            .thenReturn(RestResponse.Success(TestUtil.byggKodeverkSkattegrunnlagResponse()))
-
-
         val skattegrunnlagDto = TestUtil.byggSkattegrunnlagDto()
-        val beregnedeLigsinntekter = skattegrunnlagService.beregnLigs(skattegrunnlagDto)
+        val beregnedeLigsinntekter = skattegrunnlagService.beregnLigs(skattegrunnlagDto, TestUtil.byggKodeverkSkattegrunnlagResponse())
 
         assertAll(
             Executable { assertNotNull(beregnedeLigsinntekter) },

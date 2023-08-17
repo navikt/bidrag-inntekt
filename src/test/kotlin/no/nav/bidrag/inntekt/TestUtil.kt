@@ -299,7 +299,7 @@ class TestUtil {
             val beskrivelse1 = Beskrivelse("Alderspensjon fra IPA og IPS", "Alderspensjon fra IPA og IPS")
             val beskrivelse2 = Beskrivelse("Annen arbeidsinntekt", "Annen arbeidsinntekt")
             val beskrivelse3 = Beskrivelse("Annen pensjon før alderspensjon", "Annen pensjon før alderspensjon")
-            val beskrivelse4 = Beskrivelse("arbeidsavklaringspenger", "arbeidsavklaringspenger")
+            val beskrivelse4 = Beskrivelse("Arbeidsavklaringspenger", "Arbeidsavklaringspenger")
 
             val betydning1 = Betydning(LocalDate.of(2023, 1, 1), LocalDate.of(2023, 12, 31),
                 mapOf("nb" to beskrivelse1))

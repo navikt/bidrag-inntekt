@@ -4,6 +4,7 @@ import no.nav.bidrag.commons.ExceptionLogger
 import no.nav.bidrag.inntekt.BidragInntektTest
 import no.nav.bidrag.inntekt.BidragInntektTest.Companion.TEST_PROFILE
 import no.nav.bidrag.inntekt.TestUtil
+import no.nav.bidrag.inntekt.consumer.kodeverk.KodeverkConsumer
 import no.nav.bidrag.inntekt.exception.RestExceptionHandler
 import no.nav.bidrag.inntekt.service.AinntektService
 import no.nav.bidrag.inntekt.service.InntektService
@@ -37,10 +38,11 @@ class InntektControllerTest(
     @Autowired val exceptionLogger: ExceptionLogger,
     @Autowired val ainntektService: AinntektService,
     @Autowired val skattegrunnlagService: SkattegrunnlagService,
-    @Autowired val overgangsstønadService: OvergangsstønadService
+    @Autowired val overgangsstønadService: OvergangsstønadService,
+    @Autowired val kodeverkConsumer: KodeverkConsumer,
 ) {
 
-    private val inntektService: InntektService = InntektService(ainntektService, skattegrunnlagService, overgangsstønadService)
+    private val inntektService: InntektService = InntektService(ainntektService, skattegrunnlagService, overgangsstønadService, kodeverkConsumer)
 
 //    private val inntektService: InntektService = InntektService(ainntektService)
     private val inntektController: InntektController = InntektController(inntektService)

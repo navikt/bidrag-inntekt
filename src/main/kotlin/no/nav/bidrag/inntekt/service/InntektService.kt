@@ -1,8 +1,13 @@
 package no.nav.bidrag.inntekt.service
 
+import no.nav.bidrag.inntekt.consumer.kodeverk.KodeverkConsumer
+import no.nav.bidrag.inntekt.consumer.kodeverk.api.GetKodeverkKoderBetydningerResponse
+import no.nav.bidrag.inntekt.exception.RestResponse
 import no.nav.bidrag.transport.behandling.inntekt.request.TransformerInntekterRequestDto
 import no.nav.bidrag.transport.behandling.inntekt.response.InntektPost
 import no.nav.bidrag.transport.behandling.inntekt.response.TransformerInntekterResponseDto
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import java.math.BigDecimal
 import java.time.YearMonth
@@ -11,22 +16,50 @@ import java.time.YearMonth
 class InntektService(
     val ainntektService: AinntektService,
     val skattegrunnlagService: SkattegrunnlagService,
-    val overgangsstønadService: OvergangsstønadService
+    val overgangsstønadService: OvergangsstønadService,
+    val kodeverkConsumer: KodeverkConsumer
+
 ) {
 
     fun transformerInntekter(transformerInntekterRequestDto: TransformerInntekterRequestDto): TransformerInntekterResponseDto {
+
+        val kodeverdierSkattegrunnlag = hentKodeverksverdierSkattegrunnlagg()
+
         return TransformerInntekterResponseDto(
             versjon = "",
             summertMaanedsinntektListe = ainntektService.beregnMaanedsinntekt(transformerInntekterRequestDto.ainntektListe),
             summertAarsinntektListe = (
                 ainntektService.beregnAarsinntekt(transformerInntekterRequestDto.ainntektListe) +
                     overgangsstønadService.beregnOvergangsstønad(transformerInntekterRequestDto.overgangsstonadListe) +
-                    skattegrunnlagService.beregnLigs(transformerInntekterRequestDto.skattegrunnlagListe) +
-                    skattegrunnlagService.beregnKaps(transformerInntekterRequestDto.skattegrunnlagListe)
+                    skattegrunnlagService.beregnLigs(transformerInntekterRequestDto.skattegrunnlagListe, kodeverdierSkattegrunnlag) +
+                    skattegrunnlagService.beregnKaps(transformerInntekterRequestDto.skattegrunnlagListe, kodeverdierSkattegrunnlag)
                 )
         )
     }
+
+    fun hentKodeverksverdierSkattegrunnlagg(): GetKodeverkKoderBetydningerResponse? {
+        val kodeverk = "Summert skattegrunnlag"
+        return when (
+            val restResponseKodeverk =
+                kodeverkConsumer.hentKodeverksverdier(kodeverk)
+        ) {
+            is RestResponse.Success -> {
+                restResponseKodeverk.body
+            }
+
+            is RestResponse.Failure -> {
+                logger.info("Feil under henting av kodeverksverdier/visningsnavn for skattegrunnlag")
+                null
+            }
+        }
+    }
+
+    companion object {
+        @JvmStatic
+        private val logger: Logger = LoggerFactory.getLogger(InntektService::class.java)
+    }
 }
+
 
 data class InntektSumPost(
     val sumInntekt: BigDecimal,

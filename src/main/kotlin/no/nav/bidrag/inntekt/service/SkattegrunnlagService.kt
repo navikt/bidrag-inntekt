@@ -27,28 +27,29 @@ class SkattegrunnlagService(
 ) {
 
 
-    fun beregnKaps(skattegrunnlagListe: List<SkattegrunnlagDto>): List<SummertAarsinntekt> {
+    fun beregnKaps(skattegrunnlagListe: List<SkattegrunnlagDto>, kodeverksverdier: GetKodeverkKoderBetydningerResponse?): List<SummertAarsinntekt> {
         val pathKapsfil = "/files/mapping_kaps.yaml"
         val mappingKaps = hentMapping(pathKapsfil)
 
-        return beregnInntekt(skattegrunnlagListe, mappingKaps, InntektBeskrivelse.KAPITALINNTEKT)
+        return beregnInntekt(skattegrunnlagListe, mappingKaps, InntektBeskrivelse.KAPITALINNTEKT, kodeverksverdier)
     }
 
-    fun beregnLigs(skattegrunnlagListe: List<SkattegrunnlagDto>): List<SummertAarsinntekt> {
+    fun beregnLigs(skattegrunnlagListe: List<SkattegrunnlagDto>, kodeverksverdier: GetKodeverkKoderBetydningerResponse?): List<SummertAarsinntekt> {
         val pathLigsfil = "/files/mapping_ligs.yaml"
         val mappingLigs = hentMapping(pathLigsfil)
 
-        return beregnInntekt(skattegrunnlagListe, mappingLigs, InntektBeskrivelse.LIGNINGSINNTEKT)
+        return beregnInntekt(skattegrunnlagListe, mappingLigs, InntektBeskrivelse.LIGNINGSINNTEKT, kodeverksverdier)
     }
 
 
     private fun beregnInntekt(
         skattegrunnlagListe: List<SkattegrunnlagDto>,
         mapping: List<MappingPoster>,
-        inntektBeskrivelse: InntektBeskrivelse
+        inntektBeskrivelse: InntektBeskrivelse,
+        kodeverksverdier: GetKodeverkKoderBetydningerResponse?
     ): List<SummertAarsinntekt> {
 
-        val kodeverksverdier = hentKodeverksverdier()
+//        val kodeverksverdier = hentKodeverksverdier()
 
         val summertÅrsinntektListe = mutableListOf<SummertAarsinntekt>()
 
@@ -98,24 +99,6 @@ class SkattegrunnlagService(
         }
 
         return summertÅrsinntektListe
-    }
-
-
-    private fun hentKodeverksverdier(): GetKodeverkKoderBetydningerResponse? {
-        val kodeverk = "Summert skattegrunnlag"
-        return when (
-            val restResponseKodeverk =
-                kodeverkConsumer.hentKodeverksverdier(kodeverk)
-        ) {
-            is RestResponse.Success -> {
-                restResponseKodeverk.body
-            }
-
-            is RestResponse.Failure -> {
-                logger.info("Feil under henting av kodeverksverdier/visningsnavn for skattegrunnlag")
-                null
-            }
-        }
     }
 
     private fun hentMapping(path: String): List<MappingPoster> {
