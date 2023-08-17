@@ -41,22 +41,6 @@ class SkattegrunnlagService(
         return beregnInntekt(skattegrunnlagListe, mappingLigs, InntektBeskrivelse.LIGNINGSINNTEKT)
     }
 
-    private fun hentKodeverksverdier(): GetKodeverkKoderBetydningerResponse? {
-        val kodeverk = "Summert skattegrunnlag"
-        return when (
-            val restResponseKodeverk =
-                kodeverkConsumer.hentKodeverksverdier(kodeverk)
-        ) {
-            is RestResponse.Success -> {
-                restResponseKodeverk.body
-            }
-
-            is RestResponse.Failure -> {
-                logger.info("Feil under henting av kodeverksverdier/visningsnavn for skattegrunnlag")
-                null
-            }
-        }
-    }
 
     private fun beregnInntekt(
         skattegrunnlagListe: List<SkattegrunnlagDto>,
@@ -114,6 +98,24 @@ class SkattegrunnlagService(
         }
 
         return summertÅrsinntektListe
+    }
+
+
+    private fun hentKodeverksverdier(): GetKodeverkKoderBetydningerResponse? {
+        val kodeverk = "Summert skattegrunnlag"
+        return when (
+            val restResponseKodeverk =
+                kodeverkConsumer.hentKodeverksverdier(kodeverk)
+        ) {
+            is RestResponse.Success -> {
+                restResponseKodeverk.body
+            }
+
+            is RestResponse.Failure -> {
+                logger.info("Feil under henting av kodeverksverdier/visningsnavn for skattegrunnlag")
+                null
+            }
+        }
     }
 
     private fun hentMapping(path: String): List<MappingPoster> {
