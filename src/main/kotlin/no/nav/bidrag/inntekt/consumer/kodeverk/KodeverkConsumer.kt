@@ -10,7 +10,6 @@ import org.slf4j.LoggerFactory
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.http.HttpMethod
 
-
 open class KodeverkConsumer(
     private val restTemplate: HttpHeaderRestTemplate
 ) : InntektConsumer() {

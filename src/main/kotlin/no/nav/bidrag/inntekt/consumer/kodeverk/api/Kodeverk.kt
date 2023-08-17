@@ -2,12 +2,6 @@ package no.nav.bidrag.inntekt.consumer.kodeverk.api
 
 import java.time.LocalDate
 
-data class HentKodeverkRequest(
-    val ekskluderUgyldige: Boolean = false,
-    val kodeverksnavn: String = "Summert skattegrunnlag",
-    val spraak: String = "nb"
-)
-
 class GetKodeverkKoderBetydningerResponse {
     var betydninger: Map<String, List<Betydning>> = emptyMap()
         set(betydninger) {
