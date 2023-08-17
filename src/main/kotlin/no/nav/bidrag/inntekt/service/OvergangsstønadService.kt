@@ -13,7 +13,7 @@ import java.time.YearMonth
 class OvergangsstønadService() {
 
     fun beregnOvergangsstønad(overgangsstønadListeInn: List<OvergangsstonadDto>): List<SummertAarsinntekt> {
-        if (overgangsstønadListeInn.isNullOrEmpty()) {
+        if (overgangsstønadListeInn.isEmpty()) {
             return emptyList()
         } else {
             val overgangsstønadListeInnSortert = overgangsstønadListeInn.sortedWith(compareBy({ it.periodeFra }, { it.periodeTil }))

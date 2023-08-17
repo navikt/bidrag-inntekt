@@ -7,7 +7,6 @@ import no.nav.bidrag.domain.enums.InntektBeskrivelse
 import no.nav.bidrag.domain.enums.PlussMinus
 import no.nav.bidrag.inntekt.consumer.kodeverk.KodeverkConsumer
 import no.nav.bidrag.inntekt.consumer.kodeverk.api.GetKodeverkKoderBetydningerResponse
-import no.nav.bidrag.inntekt.exception.RestResponse
 import no.nav.bidrag.inntekt.exception.custom.UgyldigInputException
 import no.nav.bidrag.transport.behandling.grunnlag.response.SkattegrunnlagDto
 import no.nav.bidrag.transport.behandling.inntekt.response.InntektPost
@@ -26,19 +25,20 @@ class SkattegrunnlagService(
     private val kodeverkConsumer: KodeverkConsumer
 ) {
 
-
     fun beregnKaps(skattegrunnlagListe: List<SkattegrunnlagDto>, kodeverksverdier: GetKodeverkKoderBetydningerResponse?): List<SummertAarsinntekt> {
-        val pathKapsfil = "/files/mapping_kaps.yaml"
-        val mappingKaps = hentMapping(pathKapsfil)
-
-        return beregnInntekt(skattegrunnlagListe, mappingKaps, InntektBeskrivelse.KAPITALINNTEKT, kodeverksverdier)
+        return if (skattegrunnlagListe.isNotEmpty()) {
+            val pathKapsfil = "/files/mapping_kaps.yaml"
+            val mappingKaps = hentMapping(pathKapsfil)
+            beregnInntekt(skattegrunnlagListe, mappingKaps, InntektBeskrivelse.KAPITALINNTEKT, kodeverksverdier)
+        } else emptyList()
     }
 
     fun beregnLigs(skattegrunnlagListe: List<SkattegrunnlagDto>, kodeverksverdier: GetKodeverkKoderBetydningerResponse?): List<SummertAarsinntekt> {
-        val pathLigsfil = "/files/mapping_ligs.yaml"
-        val mappingLigs = hentMapping(pathLigsfil)
-
-        return beregnInntekt(skattegrunnlagListe, mappingLigs, InntektBeskrivelse.LIGNINGSINNTEKT, kodeverksverdier)
+        return if (skattegrunnlagListe.isNotEmpty()) {
+            val pathLigsfil = "/files/mapping_ligs.yaml"
+            val mappingLigs = hentMapping(pathLigsfil)
+            beregnInntekt(skattegrunnlagListe, mappingLigs, InntektBeskrivelse.LIGNINGSINNTEKT, kodeverksverdier)
+        } else emptyList()
     }
 
 
