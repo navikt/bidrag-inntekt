@@ -21,7 +21,6 @@ import org.springframework.test.web.servlet.result.StatusResultMatchersDsl
 import java.math.BigDecimal
 import java.time.LocalDate
 import java.time.LocalDateTime
-import java.time.YearMonth
 
 class TestUtil {
 
@@ -295,23 +294,34 @@ class TestUtil {
         )
 
         fun byggKodeverkSkattegrunnlagResponse(): GetKodeverkKoderBetydningerResponse {
-
             val beskrivelse1 = Beskrivelse("Alderspensjon fra IPA og IPS", "Alderspensjon fra IPA og IPS")
             val beskrivelse2 = Beskrivelse("Annen arbeidsinntekt", "Annen arbeidsinntekt")
             val beskrivelse3 = Beskrivelse("Annen pensjon før alderspensjon", "Annen pensjon før alderspensjon")
             val beskrivelse4 = Beskrivelse("Arbeidsavklaringspenger", "Arbeidsavklaringspenger")
 
-            val betydning1 = Betydning(LocalDate.of(2023, 1, 1), LocalDate.of(2023, 12, 31),
-                mapOf("nb" to beskrivelse1))
+            val betydning1 = Betydning(
+                LocalDate.of(2023, 1, 1),
+                LocalDate.of(2023, 12, 31),
+                mapOf("nb" to beskrivelse1)
+            )
 
-            val betydning2 = Betydning(LocalDate.of(2023, 8, 17), LocalDate.of(2024, 8, 17),
-                mapOf("nb" to beskrivelse2))
+            val betydning2 = Betydning(
+                LocalDate.of(2023, 8, 17),
+                LocalDate.of(2024, 8, 17),
+                mapOf("nb" to beskrivelse2)
+            )
 
-            val betydning3 = Betydning(LocalDate.of(2023, 1, 1), LocalDate.of(2023, 12, 31),
-                mapOf("nb" to beskrivelse3))
+            val betydning3 = Betydning(
+                LocalDate.of(2023, 1, 1),
+                LocalDate.of(2023, 12, 31),
+                mapOf("nb" to beskrivelse3)
+            )
 
-            val betydning4 = Betydning(LocalDate.of(2023, 1, 1), LocalDate.of(2023, 12, 31),
-                mapOf("nb" to beskrivelse4))
+            val betydning4 = Betydning(
+                LocalDate.of(2023, 1, 1),
+                LocalDate.of(2023, 12, 31),
+                mapOf("nb" to beskrivelse4)
+            )
 
             val response = GetKodeverkKoderBetydningerResponse()
             response.betydninger = mapOf(
@@ -319,12 +329,10 @@ class TestUtil {
                 ("annenArbeidsinntekt" to listOf(betydning2)),
                 ("annenPensjonFoerAlderspensjon" to listOf(betydning3)),
                 ("arbeidsavklaringspenger" to listOf(betydning4))
-                )
+            )
 
             return response
-
         }
-
 
         // Les inn fil med request-data (json)
         fun lesFilOgByggResponse(filnavn: String): HttpEntity<String> {
@@ -342,7 +350,6 @@ class TestUtil {
             httpHeaders.contentType = MediaType.APPLICATION_JSON
             return HttpEntity(body, httpHeaders)
         }
-
 
         fun <Request, Response> performRequest(
             mockMvc: MockMvc,

@@ -11,7 +11,6 @@ import no.nav.security.token.support.spring.test.EnableMockOAuth2Server
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertAll
 import org.junit.jupiter.api.Assertions.assertNotNull
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -42,7 +41,6 @@ class SkattegrunnlagServiceTest {
 
     @Autowired
     private lateinit var skattegrunnlagService: SkattegrunnlagService
-
 
     @Autowired
     private lateinit var kodeverkConsumerMock: KodeverkConsumer
@@ -130,7 +128,6 @@ class SkattegrunnlagServiceTest {
     @Test
     @Suppress("NonAsciiCharacters")
     fun `skal mappe respons fra kodeverk og lage respons`() {
-
         Mockito.`when`(
             restTemplateMock?.exchange(
                 eq("/api/v1/kodeverk/Summert%20skattegrunnlag/koder/betydninger?ekskluderUgyldige=true&spraak=nb"),
@@ -165,7 +162,4 @@ class SkattegrunnlagServiceTest {
 
         )
     }
-
-
-
 }
