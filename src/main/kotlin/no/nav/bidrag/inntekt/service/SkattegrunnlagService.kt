@@ -93,7 +93,7 @@ class SkattegrunnlagService(
             summertÅrsinntektListe.add(
                 SummertAarsinntekt(
                     inntektBeskrivelse = inntektBeskrivelse,
-                    visningsnavn = inntektBeskrivelse.toString(),
+                    visningsnavn = inntektBeskrivelse.visningsnavn,
                     referanse = "",
                     sumInntekt = sumInntekt,
                     periodeFra = YearMonth.of(skattegrunnlagÅr.periodeFra.year, skattegrunnlagÅr.periodeFra.month),

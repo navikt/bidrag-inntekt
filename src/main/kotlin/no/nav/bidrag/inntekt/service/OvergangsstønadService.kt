@@ -61,7 +61,7 @@ class OvergangsstønadService() {
                     overgangsstønadResponseListe.add(
                         SummertAarsinntekt(
                             inntektBeskrivelse = InntektBeskrivelse.OVERGANGSSTØNAD,
-                            visningsnavn = InntektBeskrivelse.OVERGANGSSTØNAD.toString(),
+                            visningsnavn = InntektBeskrivelse.OVERGANGSSTØNAD.visningsnavn,
                             referanse = "",
                             periodeFra = it.value.periodeFra,
                             periodeTil = if (it.key.toInt() == dagensAar) dagensDato else YearMonth.parse(it.key + "-01").plusYears(1),
@@ -73,7 +73,7 @@ class OvergangsstønadService() {
                     overgangsstønadResponseListe.add(
                         SummertAarsinntekt(
                             inntektBeskrivelse = if (it.key == KEY_3MND) InntektBeskrivelse.OVERGANGSSTØNAD_BEREGNET_3MND else InntektBeskrivelse.OVERGANGSSTØNAD_BEREGNET_12MND,
-                            visningsnavn = InntektBeskrivelse.OVERGANGSSTØNAD.toString(),
+                            visningsnavn = if (it.key == KEY_3MND) InntektBeskrivelse.OVERGANGSSTØNAD_BEREGNET_3MND.visningsnavn else InntektBeskrivelse.OVERGANGSSTØNAD_BEREGNET_12MND.visningsnavn,
                             referanse = "",
                             periodeFra = if (it.key == KEY_3MND) periodeFra3mnd else periodeFra12mnd,
                             periodeTil = null,
