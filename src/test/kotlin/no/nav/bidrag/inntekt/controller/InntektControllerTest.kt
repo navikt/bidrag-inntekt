@@ -39,7 +39,7 @@ class InntektControllerTest(
     @Autowired val ainntektService: AinntektService,
     @Autowired val skattegrunnlagService: SkattegrunnlagService,
     @Autowired val overgangsstønadService: OvergangsstønadService,
-    @Autowired val kodeverkConsumer: KodeverkConsumer,
+    @Autowired val kodeverkConsumer: KodeverkConsumer
 ) {
 
     private val inntektService: InntektService = InntektService(ainntektService, skattegrunnlagService, overgangsstønadService, kodeverkConsumer)
@@ -54,7 +54,6 @@ class InntektControllerTest(
     @Test
     @Disabled
     fun `skal transformere inntekter`() {
-
         val transformerteInntekter = TestUtil.performRequest(
             mockMvc,
             HttpMethod.POST,

@@ -30,7 +30,9 @@ class SkattegrunnlagService(
             val pathKapsfil = "/files/mapping_kaps.yaml"
             val mappingKaps = hentMapping(pathKapsfil)
             beregnInntekt(skattegrunnlagListe, mappingKaps, InntektBeskrivelse.KAPITALINNTEKT, kodeverksverdier)
-        } else emptyList()
+        } else {
+            emptyList()
+        }
     }
 
     fun beregnLigs(skattegrunnlagListe: List<SkattegrunnlagDto>, kodeverksverdier: GetKodeverkKoderBetydningerResponse?): List<SummertAarsinntekt> {
@@ -38,9 +40,10 @@ class SkattegrunnlagService(
             val pathLigsfil = "/files/mapping_ligs.yaml"
             val mappingLigs = hentMapping(pathLigsfil)
             beregnInntekt(skattegrunnlagListe, mappingLigs, InntektBeskrivelse.LIGNINGSINNTEKT, kodeverksverdier)
-        } else emptyList()
+        } else {
+            emptyList()
+        }
     }
-
 
     private fun beregnInntekt(
         skattegrunnlagListe: List<SkattegrunnlagDto>,
@@ -48,7 +51,6 @@ class SkattegrunnlagService(
         inntektBeskrivelse: InntektBeskrivelse,
         kodeverksverdier: GetKodeverkKoderBetydningerResponse?
     ): List<SummertAarsinntekt> {
-
 //        val kodeverksverdier = hentKodeverksverdier()
 
         val summertÅrsinntektListe = mutableListOf<SummertAarsinntekt>()
@@ -78,8 +80,11 @@ class SkattegrunnlagService(
                     inntektPostListe.add(
                         InntektPost(
                             kode = match.fulltNavnInntektspost,
-                            visningsnavn = if (kodeverksverdier == null) match.fulltNavnInntektspost
-                            else finnVisningsnavn(match.fulltNavnInntektspost, kodeverksverdier),
+                            visningsnavn = if (kodeverksverdier == null) {
+                                match.fulltNavnInntektspost
+                            } else {
+                                finnVisningsnavn(match.fulltNavnInntektspost, kodeverksverdier)
+                            },
                             beløp = post.belop
                         )
                     )
@@ -88,7 +93,7 @@ class SkattegrunnlagService(
             summertÅrsinntektListe.add(
                 SummertAarsinntekt(
                     inntektBeskrivelse = inntektBeskrivelse,
-                    visningsnavn = inntektBeskrivelse.toString(),
+                    visningsnavn = inntektBeskrivelse.visningsnavn,
                     referanse = "",
                     sumInntekt = sumInntekt,
                     periodeFra = YearMonth.of(skattegrunnlagÅr.periodeFra.year, skattegrunnlagÅr.periodeFra.month),
@@ -135,14 +140,15 @@ class SkattegrunnlagService(
                                 visningsnavn = beskrivelse.term
                             }
                         }
-
                     }
                 }
             }
         }
         return if (visningsnavn == "") {
             fulltNavnInntektspost
-        } else visningsnavn
+        } else {
+            visningsnavn
+        }
     }
 
     companion object {

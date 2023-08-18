@@ -18,18 +18,17 @@ class InntektService(
     val skattegrunnlagService: SkattegrunnlagService,
     val overgangsstønadService: OvergangsstønadService,
     val kodeverkConsumer: KodeverkConsumer
-
 ) {
 
     fun transformerInntekter(transformerInntekterRequestDto: TransformerInntekterRequestDto): TransformerInntekterResponseDto {
-
-        val kodeverdierSkattegrunnlag = hentKodeverksverdierSkattegrunnlagg()
+        val kodeverdierSkattegrunnlag = hentKodeverksverdierSkattegrunnlag()
+        val kodeverdierLoennsbeskrivelse = hentKodeverksverdierLoennsbeskrivelse()
 
         return TransformerInntekterResponseDto(
             versjon = "",
-            summertMaanedsinntektListe = ainntektService.beregnMaanedsinntekt(transformerInntekterRequestDto.ainntektListe),
+            summertMaanedsinntektListe = ainntektService.beregnMaanedsinntekt(transformerInntekterRequestDto.ainntektListe, kodeverdierLoennsbeskrivelse),
             summertAarsinntektListe = (
-                ainntektService.beregnAarsinntekt(transformerInntekterRequestDto.ainntektListe) +
+                ainntektService.beregnAarsinntekt(transformerInntekterRequestDto.ainntektListe, kodeverdierLoennsbeskrivelse) +
                     overgangsstønadService.beregnOvergangsstønad(transformerInntekterRequestDto.overgangsstonadListe) +
                     skattegrunnlagService.beregnLigs(transformerInntekterRequestDto.skattegrunnlagListe, kodeverdierSkattegrunnlag) +
                     skattegrunnlagService.beregnKaps(transformerInntekterRequestDto.skattegrunnlagListe, kodeverdierSkattegrunnlag)
@@ -37,7 +36,7 @@ class InntektService(
         )
     }
 
-    fun hentKodeverksverdierSkattegrunnlagg(): GetKodeverkKoderBetydningerResponse? {
+    fun hentKodeverksverdierSkattegrunnlag(): GetKodeverkKoderBetydningerResponse? {
         val kodeverk = "Summert skattegrunnlag"
         return when (
             val restResponseKodeverk =
@@ -54,12 +53,28 @@ class InntektService(
         }
     }
 
+    fun hentKodeverksverdierLoennsbeskrivelse(): GetKodeverkKoderBetydningerResponse? {
+        val kodeverk = "Loennsbeskrivelse"
+        return when (
+            val restResponseKodeverk =
+                kodeverkConsumer.hentKodeverksverdier(kodeverk)
+        ) {
+            is RestResponse.Success -> {
+                restResponseKodeverk.body
+            }
+
+            is RestResponse.Failure -> {
+                logger.info("Feil under henting av kodeverksverdier/visningsnavn for lønnsbeskrivelse")
+                null
+            }
+        }
+    }
+
     companion object {
         @JvmStatic
         private val logger: Logger = LoggerFactory.getLogger(InntektService::class.java)
     }
 }
-
 
 data class InntektSumPost(
     val sumInntekt: BigDecimal,

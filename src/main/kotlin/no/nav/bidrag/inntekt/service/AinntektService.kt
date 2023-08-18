@@ -1,6 +1,7 @@
 package no.nav.bidrag.inntekt.service
 
 import no.nav.bidrag.domain.enums.InntektBeskrivelse
+import no.nav.bidrag.inntekt.consumer.kodeverk.api.GetKodeverkKoderBetydningerResponse
 import no.nav.bidrag.transport.behandling.grunnlag.response.AinntektDto
 import no.nav.bidrag.transport.behandling.inntekt.response.InntektPost
 import no.nav.bidrag.transport.behandling.inntekt.response.SummertAarsinntekt
@@ -15,7 +16,7 @@ import java.time.temporal.ChronoUnit
 class AinntektService {
 
     // Summerer, grupperer og transformerer ainntekter pr år
-    fun beregnAarsinntekt(ainntektListeInn: List<AinntektDto>): List<SummertAarsinntekt> {
+    fun beregnAarsinntekt(ainntektListeInn: List<AinntektDto>, kodeverksverdier: GetKodeverkKoderBetydningerResponse?): List<SummertAarsinntekt> {
         if (ainntektListeInn.isNotEmpty()) {
             val ainntektMap = summerAarsinntekter(ainntektListeInn)
             val ainntektListeUt = mutableListOf<SummertAarsinntekt>()
@@ -28,21 +29,30 @@ class AinntektService {
                             KEY_12MND -> InntektBeskrivelse.AINNTEKT_BEREGNET_12MND
                             else -> InntektBeskrivelse.AINNTEKT
                         },
-                        visningsnavn = "",
+                        visningsnavn = when (it.key) {
+                            KEY_3MND -> InntektBeskrivelse.AINNTEKT_BEREGNET_3MND.visningsnavn
+                            KEY_12MND -> InntektBeskrivelse.AINNTEKT_BEREGNET_12MND.visningsnavn
+                            else -> "${InntektBeskrivelse.AINNTEKT.visningsnavn} ${it.value.periodeFra.year}"
+                        },
                         referanse = "",
                         sumInntekt = it.value.sumInntekt,
                         periodeFra = it.value.periodeFra,
                         periodeTil = it.value.periodeTil,
-                        inntektPostListe = grupperOgSummerDetaljposter(it.value.inntektPostListe)
+                        inntektPostListe = grupperOgSummerDetaljposter(it.value.inntektPostListe, kodeverksverdier)
                     )
                 )
             }
             return ainntektListeUt.sortedWith(compareBy({ it.inntektBeskrivelse.toString() }, { it.periodeFra }))
-        } else return emptyList()
+        } else {
+            return emptyList()
+        }
     }
 
     // Summerer, grupperer og transformerer ainntekter pr måned
-    fun beregnMaanedsinntekt(ainntektListeInn: List<AinntektDto>): List<SummertMaanedsinntekt> {
+    fun beregnMaanedsinntekt(
+        ainntektListeInn: List<AinntektDto>,
+        kodeverksverdier: GetKodeverkKoderBetydningerResponse?
+    ): List<SummertMaanedsinntekt> {
         val ainntektMap = summerMaanedsinntekter(ainntektListeInn)
         val ainntektListeUt = mutableListOf<SummertMaanedsinntekt>()
 
@@ -51,7 +61,7 @@ class AinntektService {
                 SummertMaanedsinntekt(
                     periode = YearMonth.of(it.key.substring(0, 4).toInt(), it.key.substring(4, 6).toInt()),
                     sumInntekt = it.value.sumInntekt,
-                    inntektPostListe = grupperOgSummerDetaljposter(it.value.inntektPostListe)
+                    inntektPostListe = grupperOgSummerDetaljposter(it.value.inntektPostListe, kodeverksverdier)
                 )
             )
         }
@@ -59,11 +69,20 @@ class AinntektService {
         return ainntektListeUt.sortedWith(compareBy { it.periode })
     }
 
-    // Grupperer og summer poster som har samme kode/beskrivelse
-    private fun grupperOgSummerDetaljposter(inntektPostListe: List<InntektPost>): List<InntektPost> {
+    // Grupperer og summerer poster som har samme kode/beskrivelse
+    private fun grupperOgSummerDetaljposter(
+        inntektPostListe: List<InntektPost>,
+        kodeverksverdier: GetKodeverkKoderBetydningerResponse?
+    ): List<InntektPost> {
         return inntektPostListe
             .groupBy(InntektPost::kode)
-            .map { InntektPost(it.key, "", it.value.sumOf(InntektPost::beløp)) }
+            .map {
+                InntektPost(
+                    kode = it.key,
+                    visningsnavn = if (kodeverksverdier == null) it.key else finnVisningsnavn(it.key, kodeverksverdier),
+                    beløp = it.value.sumOf(InntektPost::beløp)
+                )
+            }
     }
 
     // Summerer og grupperer ainntekter pr år
@@ -117,7 +136,7 @@ class AinntektService {
         ainntektMap[key] = InntektSumPost(sumInntekt.add(value.belop.toBigDecimal()), periode.periodeFra, periode.periodeTil, inntektPostListe)
     }
 
-    // Kalkulerer beløp for periode
+    // Kalkulerer beløp for periode (måned eller år)
     private fun kalkulerBelopForPeriode(
         opptjeningsperiodeFra: LocalDate?,
         opptjeningsperiodeTil: LocalDate?,
@@ -145,6 +164,8 @@ class AinntektService {
             }
         }
 
+        // Hvis periode er måned, returner map med en forekomst for hver måned beløpet dekker
+        // Hvis periode er år, returner map med en forekomst for hvert år beløpet dekker + forekomst for siste 3 mnd + forekomst for siste 12 mnd
         return when (beregningsperiode) {
             PERIODE_MAANED -> kalkulerBelopForMnd(periodeFra, periodeTil, beskrivelse, belop)
             else -> kalkulerBelopForAar(periodeFra, periodeTil, beskrivelse, belop) +
@@ -167,6 +188,7 @@ class AinntektService {
         return periodeMap
     }
 
+    // Kalkulerer totalt beløp for hvert år forekomsten dekker
     private fun kalkulerBelopForAar(periodeFra: YearMonth, periodeTil: YearMonth, beskrivelse: String, belop: Int): Map<String, Detaljpost> {
         val periodeMap = mutableMapOf<String, Detaljpost>()
         val antallMndTotalt = ChronoUnit.MONTHS.between(periodeFra, periodeTil).toInt()
@@ -189,6 +211,7 @@ class AinntektService {
         return periodeMap
     }
 
+    // Kalkulerer totalt beløp for intervall (3 mnd eller 12 mnd) som forekomsten evt dekker
     private fun kalkulerBelopForIntervall(
         periodeFra: YearMonth,
         periodeTil: YearMonth,
@@ -258,6 +281,29 @@ class AinntektService {
         }
 
         return Periode(periodeFra, periodeTil)
+    }
+
+    private fun finnVisningsnavn(fulltNavnInntektspost: String, kodeverksverdier: GetKodeverkKoderBetydningerResponse): String {
+        var visningsnavn = ""
+        val bokmål = "nb"
+        for ((fulltNavn, betydningListe) in kodeverksverdier.betydninger) {
+            if (fulltNavn == fulltNavnInntektspost) {
+                for (betydning in betydningListe) {
+                    betydning.beskrivelser.let { beskrivelser ->
+                        for ((spraak, beskrivelse) in beskrivelser) {
+                            if (spraak == bokmål) {
+                                visningsnavn = beskrivelse.term
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return if (visningsnavn == "") {
+            fulltNavnInntektspost
+        } else {
+            visningsnavn
+        }
     }
 
     private fun String.isNumeric(): Boolean {

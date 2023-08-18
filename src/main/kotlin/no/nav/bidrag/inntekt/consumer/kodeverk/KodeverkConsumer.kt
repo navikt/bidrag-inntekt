@@ -21,7 +21,6 @@ open class KodeverkConsumer(
 
     @Cacheable
     open fun hentKodeverksverdier(kodeverk: String): RestResponse<GetKodeverkKoderBetydningerResponse> {
-
         val kodeverkContext = "/api/v1/kodeverk/$kodeverk/koder/betydninger?ekskluderUgyldige=true&spraak=nb"
 
         logger.info("Henter kodeverksverdier med request: $kodeverkContext ")
