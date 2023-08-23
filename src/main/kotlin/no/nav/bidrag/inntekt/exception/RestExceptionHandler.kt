@@ -24,7 +24,6 @@ import org.springframework.web.client.HttpStatusCodeException
 import org.springframework.web.client.RestClientException
 import org.springframework.web.client.RestTemplate
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException
-import java.lang.NumberFormatException
 import java.time.format.DateTimeParseException
 
 @RestControllerAdvice
@@ -117,7 +116,7 @@ class RestExceptionHandler(private val exceptionLogger: ExceptionLogger) {
 
     private fun extractPath(paths: List<JsonMappingException.Reference>): String {
         val sb = StringBuilder()
-        paths.forEach() { jsonMappingException ->
+        paths.forEach { jsonMappingException ->
             if (jsonMappingException.index != -1) {
                 sb.append("[${jsonMappingException.index}]")
             } else {

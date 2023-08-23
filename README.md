@@ -3,7 +3,11 @@
 ![](https://github.com/navikt/bidrag-inntekt/workflows/continuous%20integration/badge.svg)
 ![](https://github.com/navikt/bidrag-inntekt/workflows/release%20bidrag-inntekt/badge.svg)
 
-Repository som inneholder funksjonalitet relatert til inntekter
+Repository som inneholder funksjonalitet relatert til inntekter.
+
+Summerer og transformerer inntekter basert på grunnlag fra bidrag-grunnlag / bidrag-behandling. Leverer tilbake lister med årsinntekter av type
+Skattegrunnlag (KAPS/LIGS fra Sigrun), Lønn-og trekk (fra Ainntekt) og Overgangsstønad og månedsinntekter fra Ainntekt. Visningsnavn hentes fra
+Kodeverk.
 
 ## Utstede gyldig token i dev-gcp
 For å kunne teste applikasjonen i `dev-gcp` trenger man et gyldig AzureAD JWT-token. 

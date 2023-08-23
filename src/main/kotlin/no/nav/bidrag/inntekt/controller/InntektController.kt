@@ -9,7 +9,6 @@ import no.nav.bidrag.inntekt.service.InntektService
 import no.nav.bidrag.transport.behandling.inntekt.request.TransformerInntekterRequestDto
 import no.nav.bidrag.transport.behandling.inntekt.response.TransformerInntekterResponseDto
 import no.nav.security.token.support.core.api.ProtectedWithClaims
-import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
@@ -21,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController
 class InntektController(private val inntektService: InntektService) {
 
     @PostMapping(TRANSFORMER_INNTEKTER)
-    @Operation(security = [SecurityRequirement(name = "bearer-key")], summary = "Transformerer inntekt")
+    @Operation(security = [SecurityRequirement(name = "bearer-key")], summary = "Transformerer inntekter")
     @ApiResponses(
         value = [
             ApiResponse(responseCode = "200", description = "OK"),
@@ -36,6 +35,5 @@ class InntektController(private val inntektService: InntektService) {
 
     companion object {
         const val TRANSFORMER_INNTEKTER = "/transformer"
-        private val LOGGER = LoggerFactory.getLogger(InntektController::class.java)
     }
 }

@@ -5,14 +5,11 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
 import com.fasterxml.jackson.module.kotlin.readValue
 import no.nav.bidrag.domain.enums.InntektBeskrivelse
 import no.nav.bidrag.domain.enums.PlussMinus
-import no.nav.bidrag.inntekt.consumer.kodeverk.KodeverkConsumer
 import no.nav.bidrag.inntekt.consumer.kodeverk.api.GetKodeverkKoderBetydningerResponse
 import no.nav.bidrag.inntekt.exception.custom.UgyldigInputException
 import no.nav.bidrag.transport.behandling.grunnlag.response.SkattegrunnlagDto
 import no.nav.bidrag.transport.behandling.inntekt.response.InntektPost
 import no.nav.bidrag.transport.behandling.inntekt.response.SummertAarsinntekt
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
 import org.springframework.core.io.ClassPathResource
 import org.springframework.stereotype.Service
 import java.io.IOException
@@ -21,25 +18,17 @@ import java.time.Year
 import java.time.YearMonth
 
 @Service
-class SkattegrunnlagService(
-    private val kodeverkConsumer: KodeverkConsumer
-) {
+class SkattegrunnlagService {
 
-    fun beregnKaps(skattegrunnlagListe: List<SkattegrunnlagDto>, kodeverksverdier: GetKodeverkKoderBetydningerResponse?): List<SummertAarsinntekt> {
+    fun beregnSkattegrunnlag(
+        skattegrunnlagListe: List<SkattegrunnlagDto>,
+        kodeverksverdier: GetKodeverkKoderBetydningerResponse?,
+        inntektBeskrivelse: InntektBeskrivelse
+    ): List<SummertAarsinntekt> {
         return if (skattegrunnlagListe.isNotEmpty()) {
-            val pathKapsfil = "/files/mapping_kaps.yaml"
-            val mappingKaps = hentMapping(pathKapsfil)
-            beregnInntekt(skattegrunnlagListe, mappingKaps, InntektBeskrivelse.KAPITALINNTEKT, kodeverksverdier)
-        } else {
-            emptyList()
-        }
-    }
-
-    fun beregnLigs(skattegrunnlagListe: List<SkattegrunnlagDto>, kodeverksverdier: GetKodeverkKoderBetydningerResponse?): List<SummertAarsinntekt> {
-        return if (skattegrunnlagListe.isNotEmpty()) {
-            val pathLigsfil = "/files/mapping_ligs.yaml"
-            val mappingLigs = hentMapping(pathLigsfil)
-            beregnInntekt(skattegrunnlagListe, mappingLigs, InntektBeskrivelse.LIGNINGSINNTEKT, kodeverksverdier)
+            val filnavn = if (inntektBeskrivelse == InntektBeskrivelse.KAPITALINNTEKT) "/files/mapping_kaps.yaml" else "files/mapping_ligs.yaml"
+            val mapping = hentMapping(filnavn)
+            beregnInntekt(skattegrunnlagListe, mapping, inntektBeskrivelse, kodeverksverdier)
         } else {
             emptyList()
         }
@@ -51,8 +40,6 @@ class SkattegrunnlagService(
         inntektBeskrivelse: InntektBeskrivelse,
         kodeverksverdier: GetKodeverkKoderBetydningerResponse?
     ): List<SummertAarsinntekt> {
-//        val kodeverksverdier = hentKodeverksverdier()
-
         val summertÅrsinntektListe = mutableListOf<SummertAarsinntekt>()
 
         skattegrunnlagListe.forEach { skattegrunnlagÅr ->
@@ -150,14 +137,11 @@ class SkattegrunnlagService(
             visningsnavn
         }
     }
-
-    companion object {
-        @JvmStatic
-        private val logger: Logger = LoggerFactory.getLogger(SkattegrunnlagService::class.java)
-    }
 }
 
-data class Post(val fulltNavnInntektspost: String)
+data class Post(
+    val fulltNavnInntektspost: String
+)
 
 data class PostKonfig(
     val plussMinus: String,

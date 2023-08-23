@@ -17,7 +17,7 @@ class AinntektService {
 
     // Summerer, grupperer og transformerer ainntekter pr år
     fun beregnAarsinntekt(ainntektListeInn: List<AinntektDto>, kodeverksverdier: GetKodeverkKoderBetydningerResponse?): List<SummertAarsinntekt> {
-        if (ainntektListeInn.isNotEmpty()) {
+        return if (ainntektListeInn.isNotEmpty()) {
             val ainntektMap = summerAarsinntekter(ainntektListeInn)
             val ainntektListeUt = mutableListOf<SummertAarsinntekt>()
 
@@ -42,9 +42,9 @@ class AinntektService {
                     )
                 )
             }
-            return ainntektListeUt.sortedWith(compareBy({ it.inntektBeskrivelse.toString() }, { it.periodeFra }))
+            ainntektListeUt.sortedWith(compareBy({ it.inntektBeskrivelse.toString() }, { it.periodeFra }))
         } else {
-            return emptyList()
+            emptyList()
         }
     }
 
@@ -145,22 +145,19 @@ class AinntektService {
         belop: Int,
         beregningsperiode: String
     ): Map<String, Detaljpost> {
-        val periodeFra: YearMonth
-        val periodeTil: YearMonth
-
-        if (opptjeningsperiodeFra != null) {
-            periodeFra = YearMonth.of(opptjeningsperiodeFra.year, opptjeningsperiodeFra.month)
+        val periodeFra = if (opptjeningsperiodeFra != null) {
+            YearMonth.of(opptjeningsperiodeFra.year, opptjeningsperiodeFra.month)
         } else {
-            periodeFra = YearMonth.of(utbetalingsperiode.substring(0, 4).toInt(), utbetalingsperiode.substring(5, 7).toInt())
+            YearMonth.of(utbetalingsperiode.substring(0, 4).toInt(), utbetalingsperiode.substring(5, 7).toInt())
         }
 
-        if (opptjeningsperiodeTil != null) {
-            periodeTil = YearMonth.of(opptjeningsperiodeTil.year, opptjeningsperiodeTil.month)
+        val periodeTil = if (opptjeningsperiodeTil != null) {
+            YearMonth.of(opptjeningsperiodeTil.year, opptjeningsperiodeTil.month)
         } else {
             if (opptjeningsperiodeFra != null) {
-                periodeTil = YearMonth.of(opptjeningsperiodeFra.year, opptjeningsperiodeFra.month).plusMonths(1)
+                YearMonth.of(opptjeningsperiodeFra.year, opptjeningsperiodeFra.month).plusMonths(1)
             } else {
-                periodeTil = YearMonth.of(utbetalingsperiode.substring(0, 4).toInt(), utbetalingsperiode.substring(5, 7).toInt()).plusMonths(1)
+                YearMonth.of(utbetalingsperiode.substring(0, 4).toInt(), utbetalingsperiode.substring(5, 7).toInt()).plusMonths(1)
             }
         }
 
@@ -317,9 +314,21 @@ class AinntektService {
         const val PERIODE_MAANED = "MND"
         const val CUT_OFF_DATO = 10
     }
-
-    data class Detaljpost(
-        val belop: Int,
-        val kode: String
-    )
 }
+
+data class Detaljpost(
+    val belop: Int,
+    val kode: String
+)
+
+data class InntektSumPost(
+    val sumInntekt: BigDecimal,
+    val periodeFra: YearMonth,
+    val periodeTil: YearMonth?,
+    val inntektPostListe: MutableList<InntektPost>
+)
+
+data class Periode(
+    val periodeFra: YearMonth,
+    val periodeTil: YearMonth?
+)
