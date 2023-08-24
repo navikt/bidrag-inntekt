@@ -1,25 +1,29 @@
 package no.nav.bidrag.inntekt.controller
 
+import jakarta.servlet.FilterChain
+import jakarta.servlet.ServletRequest
+import jakarta.servlet.ServletResponse
 import no.nav.bidrag.commons.ExceptionLogger
+import no.nav.bidrag.domain.enums.InntektBeskrivelse
 import no.nav.bidrag.inntekt.BidragInntektTest
 import no.nav.bidrag.inntekt.BidragInntektTest.Companion.TEST_PROFILE
 import no.nav.bidrag.inntekt.TestUtil
 import no.nav.bidrag.inntekt.consumer.kodeverk.KodeverkConsumer
 import no.nav.bidrag.inntekt.exception.RestExceptionHandler
+import no.nav.bidrag.inntekt.exception.RestResponse
 import no.nav.bidrag.inntekt.service.AinntektService
 import no.nav.bidrag.inntekt.service.InntektService
 import no.nav.bidrag.inntekt.service.OvergangsstønadService
 import no.nav.bidrag.inntekt.service.SkattegrunnlagService
-import no.nav.bidrag.transport.behandling.inntekt.request.TransformerInntekterRequestDto
 import no.nav.bidrag.transport.behandling.inntekt.response.TransformerInntekterResponseDto
 import no.nav.security.token.support.spring.test.EnableMockOAuth2Server
 import org.junit.jupiter.api.Assertions.assertAll
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertTrue
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.function.Executable
+import org.mockito.Mockito
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment
@@ -28,6 +32,7 @@ import org.springframework.http.HttpMethod
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
+import org.springframework.test.web.servlet.setup.StandaloneMockMvcBuilder
 
 @DisplayName("InntektControllerTest")
 @ActiveProfiles(TEST_PROFILE)
@@ -35,41 +40,77 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders
 @EnableMockOAuth2Server
 @AutoConfigureWireMock(port = 0)
 class InntektControllerTest(
-    @Autowired val exceptionLogger: ExceptionLogger,
-    @Autowired val ainntektService: AinntektService,
-    @Autowired val skattegrunnlagService: SkattegrunnlagService,
-    @Autowired val overgangsstønadService: OvergangsstønadService,
-    @Autowired val kodeverkConsumer: KodeverkConsumer
+    @Autowired val exceptionLogger: ExceptionLogger
 ) {
 
-    private val inntektService: InntektService = InntektService(ainntektService, skattegrunnlagService, overgangsstønadService, kodeverkConsumer)
+    private final val ainntektService: AinntektService = AinntektService()
+    private final val skattegrunnlagService: SkattegrunnlagService = SkattegrunnlagService()
+    private final val overgangsstonadService: OvergangsstønadService = OvergangsstønadService()
+    private final val kodeverkConsumer: KodeverkConsumer = Mockito.mock(KodeverkConsumer::class.java)
+    private final val inntektService: InntektService = InntektService(ainntektService, skattegrunnlagService, overgangsstonadService, kodeverkConsumer)
+    private final val inntektController: InntektController = InntektController(inntektService)
 
-//    private val inntektService: InntektService = InntektService(ainntektService)
-    private val inntektController: InntektController = InntektController(inntektService)
-    private val mockMvc: MockMvc = MockMvcBuilders
-        .standaloneSetup(inntektController)
-        .setControllerAdvice(RestExceptionHandler(exceptionLogger))
-        .build()
+    private var mockMvc: MockMvc = MockMvcBuilders.standaloneSetup(inntektController).setControllerAdvice(RestExceptionHandler(exceptionLogger))
+        .addFilter<StandaloneMockMvcBuilder>({ request: ServletRequest?, response: ServletResponse, chain: FilterChain ->
+            response.characterEncoding = "UTF-8" // this is crucial
+            chain.doFilter(request, response)
+        }, "/*").build()
 
     @Test
-    @Disabled
     fun `skal transformere inntekter`() {
+        val filnavnKodeverkLoennsbeskrivelser = "src/test/resources/testfiler/respons_kodeverk_loennsbeskrivelser.json"
+        val filnavnKodeverkSummertSkattegrunnlag = "src/test/resources/testfiler/respons_kodeverk_summert_skattegrunnlag.json"
+        val filnavnEksempelRequest = "src/test/resources/testfiler/eksempel_request.json"
+
+        Mockito.`when`(kodeverkConsumer.hentKodeverksverdier("Loennsbeskrivelse"))
+            .thenReturn(RestResponse.Success(TestUtil.byggKodeverkResponse(filnavnKodeverkLoennsbeskrivelser)))
+
+        Mockito.`when`(kodeverkConsumer.hentKodeverksverdier("Summert skattegrunnlag"))
+            .thenReturn(RestResponse.Success(TestUtil.byggKodeverkResponse(filnavnKodeverkSummertSkattegrunnlag)))
+
         val transformerteInntekter = TestUtil.performRequest(
             mockMvc,
             HttpMethod.POST,
             InntektController.TRANSFORMER_INNTEKTER,
-            TransformerInntekterRequestDto(),
+            TestUtil.byggInntektRequest(filnavnEksempelRequest),
             TransformerInntekterResponseDto::class.java
         ) { isOk() }
 
         assertAll(
             Executable { assertNotNull(transformerteInntekter) },
             Executable { assertTrue(transformerteInntekter.versjon.isEmpty()) },
-            Executable { assertTrue(transformerteInntekter.summertAarsinntektListe.isEmpty()) },
-            Executable { assertTrue(transformerteInntekter.summertMaanedsinntektListe.isEmpty()) }
-//            Executable { assertTrue(transformerteInntekter.ligningsinntektListe.isEmpty()) },
-//            Executable { assertTrue(transformerteInntekter.kapitalinntektListe.isEmpty()) },
-//            Executable { assertTrue(transformerteInntekter.inntektListe.isEmpty()) }
+
+            Executable { assertTrue(transformerteInntekter.summertAarsinntektListe.isNotEmpty()) },
+            Executable { assertTrue(transformerteInntekter.summertAarsinntektListe.size == 12) },
+            Executable { assertTrue(transformerteInntekter.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.AINNTEKT }.size == 3) },
+            Executable { assertTrue(transformerteInntekter.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.AINNTEKT_BEREGNET_3MND }.size == 1) },
+            Executable { assertTrue(transformerteInntekter.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.AINNTEKT_BEREGNET_12MND }.size == 1) },
+            Executable { assertTrue(transformerteInntekter.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.OVERGANGSSTØNAD }.size == 3) },
+            Executable { assertTrue(transformerteInntekter.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.OVERGANGSSTØNAD_BEREGNET_3MND }.size == 1) },
+            Executable { assertTrue(transformerteInntekter.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.OVERGANGSSTØNAD_BEREGNET_12MND }.size == 1) },
+            Executable { assertTrue(transformerteInntekter.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.LIGNINGSINNTEKT }.size == 1) },
+            Executable { assertTrue(transformerteInntekter.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.KAPITALINNTEKT }.size == 1) },
+
+            Executable { assertTrue(transformerteInntekter.summertMaanedsinntektListe.isNotEmpty()) },
+            Executable { assertTrue(transformerteInntekter.summertMaanedsinntektListe.size == 20) },
+            Executable {
+                assertTrue(
+                    transformerteInntekter.summertMaanedsinntektListe.filter { it.periode.year == 2021 }
+                        .sumOf { it.sumInntekt.toInt() } == 4000
+                )
+            },
+            Executable {
+                assertTrue(
+                    transformerteInntekter.summertMaanedsinntektListe.filter { it.periode.year == 2022 }
+                        .sumOf { it.sumInntekt.toInt() } == 446000
+                )
+            },
+            Executable {
+                assertTrue(
+                    transformerteInntekter.summertMaanedsinntektListe.filter { it.periode.year == 2023 }
+                        .sumOf { it.sumInntekt.toInt() } == 468000
+                )
+            }
         )
     }
 }

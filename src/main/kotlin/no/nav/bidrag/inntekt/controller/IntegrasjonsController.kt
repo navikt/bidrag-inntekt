@@ -22,7 +22,7 @@ class IntegrasjonsController(
 
     @GetMapping(HENT_FELLES_KODEVERK)
     @Operation(security = [SecurityRequirement(name = "bearer-key")], summary = "Kaller Felles Kodeverk og henter verdier")
-    fun hentKodeverkSkattegrunnlag(kodeverk: String): ResponseEntity<GetKodeverkKoderBetydningerResponse> {
+    fun hentKodeverk(kodeverk: String): ResponseEntity<GetKodeverkKoderBetydningerResponse> {
         return handleRestResponse(kodeverkConsumer.hentKodeverksverdier(kodeverk))
     }
 
@@ -32,7 +32,6 @@ class IntegrasjonsController(
             is RestResponse.Failure -> throw ResponseStatusException(restResponse.statusCode, restResponse.message)
         }
     }
-
     companion object {
         const val HENT_FELLES_KODEVERK = "/integrasjoner/kodeverk"
     }

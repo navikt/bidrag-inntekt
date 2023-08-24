@@ -19,11 +19,6 @@ class OvergangsstønadService() {
             val overgangsstønadListeInnSortert = overgangsstønadListeInn.sortedWith(compareBy({ it.periodeFra }, { it.periodeTil }))
             val overgangsstønadResponseListe = mutableListOf<SummertAarsinntekt>()
             val overgangsstønadMap = mutableMapOf<String, SummertAarsinntekt>()
-            val førstePeriodeFra =
-                YearMonth.of(
-                    overgangsstønadListeInnSortert.first().periodeFra.year,
-                    overgangsstønadListeInnSortert.first().periodeFra.month
-                )
             val periodeFra3mnd =
                 YearMonth.of(
                     overgangsstønadListeInnSortert.last().periodeFra.year,

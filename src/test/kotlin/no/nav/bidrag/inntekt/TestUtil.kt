@@ -1,16 +1,14 @@
 package no.nav.bidrag.inntekt
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import no.nav.bidrag.inntekt.consumer.kodeverk.api.Beskrivelse
-import no.nav.bidrag.inntekt.consumer.kodeverk.api.Betydning
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import no.nav.bidrag.inntekt.consumer.kodeverk.api.GetKodeverkKoderBetydningerResponse
 import no.nav.bidrag.transport.behandling.grunnlag.response.OvergangsstonadDto
 import no.nav.bidrag.transport.behandling.grunnlag.response.SkattegrunnlagDto
 import no.nav.bidrag.transport.behandling.grunnlag.response.SkattegrunnlagspostDto
+import no.nav.bidrag.transport.behandling.inntekt.request.TransformerInntekterRequestDto
 import okhttp3.internal.immutableListOf
-import org.junit.jupiter.api.Assertions
-import org.springframework.http.HttpEntity
-import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMethod
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockHttpServletRequestDsl
@@ -18,7 +16,9 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.get
 import org.springframework.test.web.servlet.post
 import org.springframework.test.web.servlet.result.StatusResultMatchersDsl
+import java.io.File
 import java.math.BigDecimal
+import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.LocalDateTime
 
@@ -293,64 +293,6 @@ class TestUtil {
 
         )
 
-        fun byggKodeverkSkattegrunnlagResponse(): GetKodeverkKoderBetydningerResponse {
-            val beskrivelse1 = Beskrivelse("Alderspensjon fra IPA og IPS", "Alderspensjon fra IPA og IPS")
-            val beskrivelse2 = Beskrivelse("Annen arbeidsinntekt", "Annen arbeidsinntekt")
-            val beskrivelse3 = Beskrivelse("Annen pensjon før alderspensjon", "Annen pensjon før alderspensjon")
-            val beskrivelse4 = Beskrivelse("Arbeidsavklaringspenger", "Arbeidsavklaringspenger")
-
-            val betydning1 = Betydning(
-                LocalDate.of(2023, 1, 1),
-                LocalDate.of(2023, 12, 31),
-                mapOf("nb" to beskrivelse1)
-            )
-
-            val betydning2 = Betydning(
-                LocalDate.of(2023, 8, 17),
-                LocalDate.of(2024, 8, 17),
-                mapOf("nb" to beskrivelse2)
-            )
-
-            val betydning3 = Betydning(
-                LocalDate.of(2023, 1, 1),
-                LocalDate.of(2023, 12, 31),
-                mapOf("nb" to beskrivelse3)
-            )
-
-            val betydning4 = Betydning(
-                LocalDate.of(2023, 1, 1),
-                LocalDate.of(2023, 12, 31),
-                mapOf("nb" to beskrivelse4)
-            )
-
-            val response = GetKodeverkKoderBetydningerResponse()
-            response.betydninger = mapOf(
-                ("alderspensjonFraIPAOgIPS" to listOf(betydning1)),
-                ("annenArbeidsinntekt" to listOf(betydning2)),
-                ("annenPensjonFoerAlderspensjon" to listOf(betydning3)),
-                ("arbeidsavklaringspenger" to listOf(betydning4))
-            )
-
-            return response
-        }
-
-        // Les inn fil med request-data (json)
-        fun lesFilOgByggResponse(filnavn: String): HttpEntity<String> {
-            var json = ""
-            try {
-                json = this::class.java.getResource(filnavn)!!.readText()
-            } catch (e: Exception) {
-                Assertions.fail("Klarte ikke å lese fil: $filnavn")
-            }
-            return initHttpEntity(json)
-        }
-
-        private fun <T> initHttpEntity(body: T): HttpEntity<T> {
-            val httpHeaders = HttpHeaders()
-            httpHeaders.contentType = MediaType.APPLICATION_JSON
-            return HttpEntity(body, httpHeaders)
-        }
-
         fun <Request, Response> performRequest(
             mockMvc: MockMvc,
             method: HttpMethod,
@@ -361,6 +303,7 @@ class TestUtil {
         ): Response {
             val mockHttpServletRequestDsl: MockHttpServletRequestDsl.() -> Unit = {
                 contentType = MediaType.APPLICATION_JSON
+                characterEncoding = "UTF-8"
                 if (input != null) {
                     content = when (input) {
                         is String -> input
@@ -376,7 +319,6 @@ class TestUtil {
                 else -> throw NotImplementedError()
             }.andExpect {
                 status { expectedStatus() }
-                content { contentType(MediaType.APPLICATION_JSON) }
             }.andReturn()
 
             return when (responseType) {
@@ -384,6 +326,35 @@ class TestUtil {
                 else -> ObjectMapper().findAndRegisterModules()
                     .readValue(mvcResult.response.contentAsString, responseType)
             }
+        }
+
+        fun byggKodeverkResponse(filnavn: String): GetKodeverkKoderBetydningerResponse {
+            val objectMapper = ObjectMapper()
+            objectMapper.registerKotlinModule()
+            objectMapper.registerModule(JavaTimeModule())
+            objectMapper.dateFormat = SimpleDateFormat("yyyy-MM-dd")
+
+            val file = File(filnavn)
+            return objectMapper.readValue(file, GetKodeverkKoderBetydningerResponse::class.java)
+        }
+
+        fun byggInntektRequest(filnavn: String): TransformerInntekterRequestDto {
+            val objectMapper = ObjectMapper()
+            objectMapper.registerKotlinModule()
+            objectMapper.registerModule(JavaTimeModule())
+            objectMapper.dateFormat = SimpleDateFormat("yyyy-MM-dd")
+
+            val file = File(filnavn)
+            return objectMapper.readValue(file, TransformerInntekterRequestDto::class.java)
+        }
+
+        fun <T> printJson(json: List<T>) {
+            val objectMapper = ObjectMapper()
+            objectMapper.registerKotlinModule()
+            objectMapper.registerModule(JavaTimeModule())
+            objectMapper.dateFormat = SimpleDateFormat("yyyy-MM-dd")
+
+            println(objectMapper.writeValueAsString(json))
         }
     }
 }

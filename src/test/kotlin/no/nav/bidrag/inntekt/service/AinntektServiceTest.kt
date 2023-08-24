@@ -1,17 +1,12 @@
 package no.nav.bidrag.inntekt.service
 
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
-import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import no.nav.bidrag.domain.enums.InntektBeskrivelse
 import no.nav.bidrag.inntekt.BidragInntektTest
-import no.nav.bidrag.inntekt.consumer.kodeverk.api.GetKodeverkKoderBetydningerResponse
-import no.nav.bidrag.transport.behandling.inntekt.request.TransformerInntekterRequestDto
+import no.nav.bidrag.inntekt.TestUtil
 import no.nav.security.token.support.spring.test.EnableMockOAuth2Server
 import org.junit.jupiter.api.Assertions.assertAll
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertTrue
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.function.Executable
@@ -19,9 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ActiveProfiles
 import java.math.BigDecimal
-import java.nio.file.Files
-import java.nio.file.Paths
-import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.YearMonth
 
@@ -37,22 +29,18 @@ class AinntektServiceTest {
     @Autowired
     private lateinit var ainntektService: AinntektService
 
+    private final val filnavnKodeverkLoennsbeskrivelser = "src/test/resources/testfiler/respons_kodeverk_loennsbeskrivelser.json"
+    private final val filnavnEksempelRequest = "src/test/resources/testfiler/eksempel_request.json"
+
+    private final val inntektRequest = TestUtil.byggInntektRequest(filnavnEksempelRequest)
+    private final val kodeverkResponse = TestUtil.byggKodeverkResponse(filnavnKodeverkLoennsbeskrivelser)
+
     @Test
     @Suppress("NonAsciiCharacters")
-    @Disabled
     fun `skal transformere årsinntekter`() {
-        val objectMapper = ObjectMapper()
-        objectMapper.registerKotlinModule()
-        objectMapper.registerModule(JavaTimeModule())
-        objectMapper.dateFormat = SimpleDateFormat("yyyy-MM-dd")
+        val transformerteInntekter = ainntektService.beregnAarsinntekt(inntektRequest.ainntektListe, kodeverkResponse)
 
-        val filnavn = "src/test/resources/testfiler/eksempel_request.json"
-        val json = Files.readString(Paths.get(filnavn))
-
-        val inntektRequest: TransformerInntekterRequestDto = objectMapper.readValue(json, TransformerInntekterRequestDto::class.java)
-        val transformerteInntekter = ainntektService.beregnAarsinntekt(inntektRequest.ainntektListe, GetKodeverkKoderBetydningerResponse())
-
-        println(objectMapper.writeValueAsString(transformerteInntekter))
+        TestUtil.printJson(transformerteInntekter)
 
         // Logikk for å beregne fra-/til-dato for 3-/12-mnd intervall. Kopiert fra AinntektService.bestemPeriode
         val dagensDato = LocalDate.now()
@@ -78,7 +66,7 @@ class AinntektServiceTest {
             Executable { assertTrue(transformerteInntekter[0].inntektPostListe.size == 1) },
             Executable { assertTrue(transformerteInntekter[0].inntektPostListe.sumOf { it.beløp.toInt() } == 4000) },
             Executable { assertTrue(transformerteInntekter[0].inntektPostListe[0].kode == "overtidsgodtgjoerelse") },
-            Executable { assertTrue(transformerteInntekter[0].inntektPostListe[0].visningsnavn == "overtidsgodtgjoerelse") },
+            Executable { assertTrue(transformerteInntekter[0].inntektPostListe[0].visningsnavn == "Overtidsgodtgjørelse") },
             Executable { assertTrue(transformerteInntekter[0].inntektPostListe[0].beløp.toInt() == 4000) },
 
             Executable { assertTrue(transformerteInntekter[1].inntektBeskrivelse == InntektBeskrivelse.AINNTEKT) },
@@ -112,18 +100,9 @@ class AinntektServiceTest {
     @Test
     @Suppress("NonAsciiCharacters")
     fun `skal transformere månedsinntekter`() {
-        val objectMapper = ObjectMapper()
-        objectMapper.registerKotlinModule()
-        objectMapper.registerModule(JavaTimeModule())
-        objectMapper.dateFormat = SimpleDateFormat("yyyy-MM-dd")
+        val transformerteInntekter = ainntektService.beregnMaanedsinntekt(inntektRequest.ainntektListe, kodeverkResponse)
 
-        val filnavn = "src/test/resources/testfiler/eksempel_request.json"
-        val json = Files.readString(Paths.get(filnavn))
-
-        val inntektRequest: TransformerInntekterRequestDto = objectMapper.readValue(json, TransformerInntekterRequestDto::class.java)
-        val transformerteInntekter = ainntektService.beregnMaanedsinntekt(inntektRequest.ainntektListe, GetKodeverkKoderBetydningerResponse())
-
-        println(objectMapper.writeValueAsString(transformerteInntekter))
+        TestUtil.printJson(transformerteInntekter)
 
         assertAll(
             Executable { assertNotNull(transformerteInntekter) },
@@ -137,7 +116,7 @@ class AinntektServiceTest {
             Executable { assertTrue(transformerteInntekter[0].inntektPostListe.size == 1) },
             Executable { assertTrue(transformerteInntekter[0].inntektPostListe.sumOf { it.beløp.toInt() } == 2000) },
             Executable { assertTrue(transformerteInntekter[0].inntektPostListe[0].kode == "overtidsgodtgjoerelse") },
-            Executable { assertTrue(transformerteInntekter[0].inntektPostListe[0].visningsnavn == "overtidsgodtgjoerelse") },
+            Executable { assertTrue(transformerteInntekter[0].inntektPostListe[0].visningsnavn == "Overtidsgodtgjørelse") },
             Executable { assertTrue(transformerteInntekter[0].inntektPostListe[0].beløp.toInt() == 2000) }
         )
     }
