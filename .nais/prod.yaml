@@ -4,3 +4,10 @@ ingresses:
 spec:
   replicas:
     min: 2
+azureAccessInbound:
+  - application: bidrag-behandling-feature
+    namespace: bidrag
+    cluster: prod-gcp
+  - application: bidrag-ui
+    namespace: bidrag
+    cluster: prod-fss
