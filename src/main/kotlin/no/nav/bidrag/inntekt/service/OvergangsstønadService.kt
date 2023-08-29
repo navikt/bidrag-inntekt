@@ -48,18 +48,18 @@ class OvergangsstønadService() {
                 }
             }
 
-            val dagensDato = YearMonth.now()
-            val dagensAar = dagensDato.year
+            val dagensPeriode = YearMonth.now()
+            val dagensAar = dagensPeriode.year
 
             overgangsstønadMap.forEach {
                 if (it.key.isNumeric()) {
                     overgangsstønadResponseListe.add(
                         SummertAarsinntekt(
                             inntektBeskrivelse = InntektBeskrivelse.OVERGANGSSTØNAD,
-                            visningsnavn = InntektBeskrivelse.OVERGANGSSTØNAD.visningsnavn,
+                            visningsnavn = "${InntektBeskrivelse.OVERGANGSSTØNAD.visningsnavn} ${it.value.periodeFra.year}",
                             referanse = "",
                             periodeFra = it.value.periodeFra,
-                            periodeTil = if (it.key.toInt() == dagensAar) dagensDato else YearMonth.parse(it.key + "-01").plusYears(1),
+                            periodeTil = if (it.key.toInt() == dagensAar) dagensPeriode else YearMonth.parse(it.key + "-12"),
                             sumInntekt = it.value.sumInntekt,
                             inntektPostListe = it.value.inntektPostListe
                         )
