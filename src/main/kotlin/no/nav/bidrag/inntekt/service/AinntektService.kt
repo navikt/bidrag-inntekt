@@ -37,7 +37,11 @@ class AinntektService {
                         referanse = "",
                         sumInntekt = it.value.sumInntekt,
                         periodeFra = it.value.periodeFra,
-                        periodeTil = it.value.periodeTil,
+                        periodeTil = if (it.key.isNumeric()) {
+                            if (it.key.toInt() == YearMonth.now().year) YearMonth.now() else it.value.periodeTil
+                        } else {
+                            it.value.periodeTil
+                        },
                         inntektPostListe = grupperOgSummerDetaljposter(it.value.inntektPostListe, kodeverksverdier)
                     )
                 )

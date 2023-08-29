@@ -14,6 +14,7 @@ import org.springframework.core.io.ClassPathResource
 import org.springframework.stereotype.Service
 import java.io.IOException
 import java.math.BigDecimal
+import java.time.Month
 import java.time.Year
 import java.time.YearMonth
 
@@ -80,11 +81,11 @@ class SkattegrunnlagService {
             summertÅrsinntektListe.add(
                 SummertAarsinntekt(
                     inntektBeskrivelse = inntektBeskrivelse,
-                    visningsnavn = inntektBeskrivelse.visningsnavn,
+                    visningsnavn = "${inntektBeskrivelse.visningsnavn} ${skattegrunnlagÅr.periodeFra.year}",
                     referanse = "",
                     sumInntekt = sumInntekt,
                     periodeFra = YearMonth.of(skattegrunnlagÅr.periodeFra.year, skattegrunnlagÅr.periodeFra.month),
-                    periodeTil = YearMonth.of(skattegrunnlagÅr.periodeTil.year, skattegrunnlagÅr.periodeTil.month),
+                    periodeTil = YearMonth.of(skattegrunnlagÅr.periodeFra.year, Month.DECEMBER),
                     inntektPostListe = inntektPostListe
                 )
             )

@@ -39,13 +39,13 @@ class OvergangsstønadServiceTest {
             Executable { assertThat(beregnedeOvergangsstønader.size).isEqualTo(5) },
             Executable { assertThat(beregnedeOvergangsstønader[0].inntektBeskrivelse).isEqualTo(InntektBeskrivelse.OVERGANGSSTØNAD) },
             Executable { assertThat(beregnedeOvergangsstønader[0].periodeFra).isEqualTo(YearMonth.parse("2021-12")) },
-            Executable { assertThat(beregnedeOvergangsstønader[0].periodeTil).isEqualTo(YearMonth.parse("2022-01")) },
+            Executable { assertThat(beregnedeOvergangsstønader[0].periodeTil).isEqualTo(YearMonth.parse("2021-12")) },
             Executable { assertThat(beregnedeOvergangsstønader[0].inntektPostListe.size).isEqualTo(1) },
             Executable { assertThat(beregnedeOvergangsstønader[0].sumInntekt).isEqualTo(BigDecimal.valueOf(100)) },
 
             Executable { assertThat(beregnedeOvergangsstønader[1].inntektBeskrivelse).isEqualTo(InntektBeskrivelse.OVERGANGSSTØNAD) },
             Executable { assertThat(beregnedeOvergangsstønader[1].periodeFra).isEqualTo(YearMonth.parse("2022-01")) },
-            Executable { assertThat(beregnedeOvergangsstønader[1].periodeTil).isEqualTo(YearMonth.parse("2023-01")) },
+            Executable { assertThat(beregnedeOvergangsstønader[1].periodeTil).isEqualTo(YearMonth.parse("2022-12")) },
             Executable { assertThat(beregnedeOvergangsstønader[1].inntektPostListe.size).isEqualTo(12) },
             Executable { assertThat(beregnedeOvergangsstønader[1].sumInntekt).isEqualTo(BigDecimal.valueOf(9000)) },
 

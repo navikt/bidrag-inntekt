@@ -34,7 +34,6 @@ class SkattegrunnlagServiceTest {
     private final val kodeverkResponse = TestUtil.byggKodeverkResponse(filnavnKodeverkSummertSkattegrunnlag)
 
     @Test
-    @Suppress("NonAsciiCharacters")
     fun `skal kaste UgyldigInputException ved feil periodeFra og PeriodeTil i input`() {
         assertThrows<UgyldigInputException> {
             val skattegrunnlagDto = TestUtil.byggSkattegrunnlagDtoMedFeilPeriode()
@@ -47,7 +46,6 @@ class SkattegrunnlagServiceTest {
     }
 
     @Test
-    @Suppress("NonAsciiCharacters")
     fun `skal returnere Kapsinntekter`() {
         val skattegrunnlagDto = TestUtil.byggSkattegrunnlagDto()
         val beregnedeKapsinntekter =
@@ -58,13 +56,13 @@ class SkattegrunnlagServiceTest {
             Executable { assertThat(beregnedeKapsinntekter.size).isEqualTo(2) },
 
             Executable { assertThat(beregnedeKapsinntekter[0].periodeFra).isEqualTo(YearMonth.parse("2021-01")) },
-            Executable { assertThat(beregnedeKapsinntekter[0].periodeTil).isEqualTo(YearMonth.parse("2022-01")) },
+            Executable { assertThat(beregnedeKapsinntekter[0].periodeTil).isEqualTo(YearMonth.parse("2021-12")) },
             Executable { assertThat(beregnedeKapsinntekter[0].inntektBeskrivelse).isEqualTo(InntektBeskrivelse.KAPITALINNTEKT) },
             Executable { assertThat(beregnedeKapsinntekter[0].sumInntekt).isEqualTo(BigDecimal.valueOf(1700)) },
             Executable { assertThat(beregnedeKapsinntekter[0].inntektPostListe.size).isEqualTo(4) },
 
             Executable { assertThat(beregnedeKapsinntekter[1].periodeFra).isEqualTo(YearMonth.parse("2022-01")) },
-            Executable { assertThat(beregnedeKapsinntekter[1].periodeTil).isEqualTo(YearMonth.parse("2023-01")) },
+            Executable { assertThat(beregnedeKapsinntekter[1].periodeTil).isEqualTo(YearMonth.parse("2022-12")) },
             Executable { assertThat(beregnedeKapsinntekter[1].inntektBeskrivelse).isEqualTo(InntektBeskrivelse.KAPITALINNTEKT) },
             Executable { assertThat(beregnedeKapsinntekter[1].sumInntekt).isEqualTo(BigDecimal.valueOf(1700)) },
             Executable { assertThat(beregnedeKapsinntekter[1].inntektPostListe.size).isEqualTo(4) },
@@ -89,7 +87,6 @@ class SkattegrunnlagServiceTest {
     }
 
     @Test
-    @Suppress("NonAsciiCharacters")
     fun `skal returnere Ligsinntekter`() {
         val skattegrunnlagDto = TestUtil.byggSkattegrunnlagDto()
         val beregnedeLigsinntekter =
