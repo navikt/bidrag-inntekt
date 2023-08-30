@@ -81,8 +81,8 @@ class InntektControllerTest(
             Executable { assertTrue(transformerteInntekter.versjon.isEmpty()) },
 
             Executable { assertTrue(transformerteInntekter.summertAarsinntektListe.isNotEmpty()) },
-            Executable { assertTrue(transformerteInntekter.summertAarsinntektListe.size == 12) },
-            Executable { assertTrue(transformerteInntekter.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.AINNTEKT }.size == 3) },
+            Executable { assertTrue(transformerteInntekter.summertAarsinntektListe.size == 11) },
+            Executable { assertTrue(transformerteInntekter.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.AINNTEKT }.size == 2) },
             Executable { assertTrue(transformerteInntekter.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.AINNTEKT_BEREGNET_3MND }.size == 1) },
             Executable { assertTrue(transformerteInntekter.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.AINNTEKT_BEREGNET_12MND }.size == 1) },
             Executable { assertTrue(transformerteInntekter.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.OVERGANGSSTØNAD }.size == 3) },

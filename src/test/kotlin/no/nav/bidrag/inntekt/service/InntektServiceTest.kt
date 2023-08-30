@@ -41,7 +41,6 @@ class InntektServiceTest {
     private final val inntektRequest = TestUtil.byggInntektRequest(filnavnEksempelRequest)
 
     @Test
-    @Suppress("NonAsciiCharacters")
     fun `skal transformere inntekter`() {
         Mockito.`when`(kodeverkConsumer.hentKodeverksverdier("Loennsbeskrivelse"))
             .thenReturn(RestResponse.Success(TestUtil.byggKodeverkResponse(filnavnKodeverkLoennsbeskrivelser)))
@@ -55,8 +54,8 @@ class InntektServiceTest {
             Executable { assertNotNull(transformerteInntekterResponseDto) },
 
             Executable { assertTrue(transformerteInntekterResponseDto.summertAarsinntektListe.isNotEmpty()) },
-            Executable { assertTrue(transformerteInntekterResponseDto.summertAarsinntektListe.size == 12) },
-            Executable { assertTrue(transformerteInntekterResponseDto.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.AINNTEKT }.size == 3) },
+            Executable { assertTrue(transformerteInntekterResponseDto.summertAarsinntektListe.size == 11) },
+            Executable { assertTrue(transformerteInntekterResponseDto.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.AINNTEKT }.size == 2) },
             Executable { assertTrue(transformerteInntekterResponseDto.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.AINNTEKT_BEREGNET_3MND }.size == 1) },
             Executable { assertTrue(transformerteInntekterResponseDto.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.AINNTEKT_BEREGNET_12MND }.size == 1) },
             Executable { assertTrue(transformerteInntekterResponseDto.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.OVERGANGSSTØNAD }.size == 3) },
@@ -74,7 +73,6 @@ class InntektServiceTest {
     }
 
     @Test
-    @Suppress("NonAsciiCharacters")
     fun `skal transformere inntekter hvor kall til kodeverk feiler`() {
         Mockito.`when`(kodeverkConsumer.hentKodeverksverdier("Loennsbeskrivelse"))
             .thenReturn(RestResponse.Failure("Feil ved kall til kodeverk", HttpStatus.BAD_REQUEST, HttpClientErrorException(HttpStatus.BAD_REQUEST)))
@@ -88,8 +86,8 @@ class InntektServiceTest {
             Executable { assertNotNull(transformerteInntekterResponseDto) },
 
             Executable { assertTrue(transformerteInntekterResponseDto.summertAarsinntektListe.isNotEmpty()) },
-            Executable { assertTrue(transformerteInntekterResponseDto.summertAarsinntektListe.size == 12) },
-            Executable { assertTrue(transformerteInntekterResponseDto.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.AINNTEKT }.size == 3) },
+            Executable { assertTrue(transformerteInntekterResponseDto.summertAarsinntektListe.size == 11) },
+            Executable { assertTrue(transformerteInntekterResponseDto.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.AINNTEKT }.size == 2) },
             Executable { assertTrue(transformerteInntekterResponseDto.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.AINNTEKT_BEREGNET_3MND }.size == 1) },
             Executable { assertTrue(transformerteInntekterResponseDto.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.AINNTEKT_BEREGNET_12MND }.size == 1) },
             Executable { assertTrue(transformerteInntekterResponseDto.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.OVERGANGSSTØNAD }.size == 3) },

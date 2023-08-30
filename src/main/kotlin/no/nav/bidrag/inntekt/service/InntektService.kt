@@ -1,6 +1,10 @@
 package no.nav.bidrag.inntekt.service
 
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import no.nav.bidrag.domain.enums.InntektBeskrivelse
+import no.nav.bidrag.inntekt.SECURE_LOGGER
 import no.nav.bidrag.inntekt.consumer.kodeverk.KodeverkConsumer
 import no.nav.bidrag.inntekt.consumer.kodeverk.api.GetKodeverkKoderBetydningerResponse
 import no.nav.bidrag.inntekt.exception.RestResponse
@@ -9,6 +13,7 @@ import no.nav.bidrag.transport.behandling.inntekt.response.TransformerInntekterR
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
+import java.text.SimpleDateFormat
 
 @Service
 class InntektService(
@@ -22,7 +27,7 @@ class InntektService(
         val kodeverdierSkattegrunnlag = hentKodeverksverdier(SUMMERT_SKATTEGRUNNLAG)
         val kodeverdierLoennsbeskrivelse = hentKodeverksverdier(LOENNSBESKRIVELSE)
 
-        return TransformerInntekterResponseDto(
+        val transformerInntekterResponseDto = TransformerInntekterResponseDto(
             versjon = "",
             summertMaanedsinntektListe = ainntektService.beregnMaanedsinntekt(
                 transformerInntekterRequestDto.ainntektListe,
@@ -42,7 +47,13 @@ class InntektService(
                         InntektBeskrivelse.KAPITALINNTEKT
                     )
                 )
+
         )
+
+        SECURE_LOGGER.info("TransformerInntekterRequestDto: ${tilJson(transformerInntekterRequestDto.toString())}")
+        SECURE_LOGGER.info("TransformerInntekterResponseDto: ${tilJson(transformerInntekterResponseDto.toString())}")
+
+        return transformerInntekterResponseDto
     }
 
     private fun hentKodeverksverdier(kodeverk: String): GetKodeverkKoderBetydningerResponse? {
@@ -67,5 +78,13 @@ class InntektService(
 
         const val SUMMERT_SKATTEGRUNNLAG = "Summert skattegrunnlag"
         const val LOENNSBESKRIVELSE = "Loennsbeskrivelse"
+
+        private fun tilJson(json: String): String {
+            val objectMapper = ObjectMapper()
+            objectMapper.registerKotlinModule()
+            objectMapper.registerModule(JavaTimeModule())
+            objectMapper.dateFormat = SimpleDateFormat("yyyy-MM-dd")
+            return objectMapper.writeValueAsString(json)
+        }
     }
 }
