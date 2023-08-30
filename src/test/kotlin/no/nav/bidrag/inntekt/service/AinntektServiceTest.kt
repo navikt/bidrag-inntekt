@@ -56,7 +56,7 @@ class AinntektServiceTest {
             Executable { assertNotNull(transformerteInntekter) },
 
             Executable { assertTrue(transformerteInntekter.isNotEmpty()) },
-            Executable { assertTrue(transformerteInntekter.size == 5) },
+            Executable { assertTrue(transformerteInntekter.size == 4) },
 
             Executable { assertTrue(transformerteInntekter[0].inntektBeskrivelse == InntektBeskrivelse.AINNTEKT) },
             Executable { assertTrue(transformerteInntekter[0].visningsnavn == "${InntektBeskrivelse.AINNTEKT.visningsnavn} 2021") },
@@ -77,23 +77,15 @@ class AinntektServiceTest {
             Executable { assertTrue(transformerteInntekter[1].inntektPostListe.size == 3) },
             Executable { assertTrue(transformerteInntekter[1].inntektPostListe.sumOf { it.beløp.toInt() } == 446000) },
 
-            Executable { assertTrue(transformerteInntekter[2].inntektBeskrivelse == InntektBeskrivelse.AINNTEKT) },
-            Executable { assertTrue(transformerteInntekter[2].visningsnavn == "${InntektBeskrivelse.AINNTEKT.visningsnavn} 2023") },
-            Executable { assertTrue(transformerteInntekter[2].sumInntekt == BigDecimal.valueOf(468000)) },
-            Executable { assertTrue(transformerteInntekter[2].periodeFra == YearMonth.of(2023, 1)) },
-            Executable { assertTrue(transformerteInntekter[2].periodeTil == YearMonth.of(2023, YearMonth.now().month)) },
-            Executable { assertTrue(transformerteInntekter[2].inntektPostListe.size == 4) },
-            Executable { assertTrue(transformerteInntekter[2].inntektPostListe.sumOf { it.beløp.toInt() } == 468000) },
+            Executable { assertTrue(transformerteInntekter[2].inntektBeskrivelse == InntektBeskrivelse.AINNTEKT_BEREGNET_12MND) },
+            Executable { assertTrue(transformerteInntekter[2].visningsnavn == InntektBeskrivelse.AINNTEKT_BEREGNET_12MND.visningsnavn) },
+            Executable { assertTrue(transformerteInntekter[2].periodeFra == periodeFraIntervall12Mnd) },
+            Executable { assertTrue(transformerteInntekter[2].periodeTil == periodeTilIntervall) },
 
-            Executable { assertTrue(transformerteInntekter[3].inntektBeskrivelse == InntektBeskrivelse.AINNTEKT_BEREGNET_12MND) },
-            Executable { assertTrue(transformerteInntekter[3].visningsnavn == InntektBeskrivelse.AINNTEKT_BEREGNET_12MND.visningsnavn) },
-            Executable { assertTrue(transformerteInntekter[3].periodeFra == periodeFraIntervall12Mnd) },
-            Executable { assertTrue(transformerteInntekter[3].periodeTil == periodeTilIntervall) },
-
-            Executable { assertTrue(transformerteInntekter[4].inntektBeskrivelse == InntektBeskrivelse.AINNTEKT_BEREGNET_3MND) },
-            Executable { assertTrue(transformerteInntekter[4].visningsnavn == InntektBeskrivelse.AINNTEKT_BEREGNET_3MND.visningsnavn) },
-            Executable { assertTrue(transformerteInntekter[4].periodeFra == periodeFraIntervall3Mnd) },
-            Executable { assertTrue(transformerteInntekter[4].periodeTil == periodeTilIntervall) }
+            Executable { assertTrue(transformerteInntekter[3].inntektBeskrivelse == InntektBeskrivelse.AINNTEKT_BEREGNET_3MND) },
+            Executable { assertTrue(transformerteInntekter[3].visningsnavn == InntektBeskrivelse.AINNTEKT_BEREGNET_3MND.visningsnavn) },
+            Executable { assertTrue(transformerteInntekter[3].periodeFra == periodeFraIntervall3Mnd) },
+            Executable { assertTrue(transformerteInntekter[3].periodeTil == periodeTilIntervall) }
         )
     }
 

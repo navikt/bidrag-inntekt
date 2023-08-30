@@ -9,6 +9,7 @@ import no.nav.bidrag.transport.behandling.inntekt.response.SummertMaanedsinntekt
 import org.springframework.stereotype.Service
 import java.math.BigDecimal
 import java.time.LocalDate
+import java.time.Month
 import java.time.YearMonth
 import java.time.temporal.ChronoUnit
 
@@ -22,6 +23,9 @@ class AinntektService {
             val ainntektListeUt = mutableListOf<SummertAarsinntekt>()
 
             ainntektMap.forEach {
+                if (it.key.isNumeric() && it.key.toInt() > finnSisteAarSomSkalRapporteres()) {
+                    return@forEach // Går videre til neste forekomst
+                }
                 ainntektListeUt.add(
                     SummertAarsinntekt(
                         inntektBeskrivelse = when (it.key) {
@@ -35,13 +39,12 @@ class AinntektService {
                             else -> "${InntektBeskrivelse.AINNTEKT.visningsnavn} ${it.value.periodeFra.year}"
                         },
                         referanse = "",
-                        sumInntekt = it.value.sumInntekt,
-                        periodeFra = it.value.periodeFra,
-                        periodeTil = if (it.key.isNumeric()) {
-                            if (it.key.toInt() == YearMonth.now().year) YearMonth.now() else it.value.periodeTil
-                        } else {
-                            it.value.periodeTil
+                        sumInntekt = when (it.key) {
+                            KEY_3MND -> it.value.sumInntekt.toInt().times(4).toBigDecimal() // Regner om til årsinntekt
+                            else -> it.value.sumInntekt
                         },
+                        periodeFra = it.value.periodeFra,
+                        periodeTil = it.value.periodeTil,
                         inntektPostListe = grupperOgSummerDetaljposter(it.value.inntektPostListe, kodeverksverdier)
                     )
                 )
@@ -307,6 +310,16 @@ class AinntektService {
         }
     }
 
+    // Finner siste hele år som skal rapporteres
+    private fun finnSisteAarSomSkalRapporteres(): Int {
+        val dagensDato = LocalDate.now()
+        return if ((dagensDato.month == Month.JANUARY) && (dagensDato.dayOfMonth <= CUT_OFF_DATO)) {
+            dagensDato.year.minus(2)
+        } else {
+            dagensDato.year.minus(1)
+        }
+    }
+
     private fun String.isNumeric(): Boolean {
         return this.all { it.isDigit() }
     }
@@ -316,7 +329,7 @@ class AinntektService {
         const val KEY_12MND = "12MND"
         const val PERIODE_AAR = "AAR"
         const val PERIODE_MAANED = "MND"
-        const val CUT_OFF_DATO = 10
+        const val CUT_OFF_DATO = 6
     }
 }
 
