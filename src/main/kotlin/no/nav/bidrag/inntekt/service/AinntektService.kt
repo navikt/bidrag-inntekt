@@ -115,13 +115,13 @@ class AinntektService(private val dateProvider: DateProvider) {
             }
         }
 
-        if (!ainntektMap.containsKey(OvergangsstønadService.KEY_3MND)) {
-            val periode = bestemPeriode(OvergangsstønadService.KEY_3MND)
-            ainntektMap[OvergangsstønadService.KEY_3MND] = InntektSumPost(BigDecimal.ZERO, periode.periodeFra, periode.periodeTil, mutableListOf())
+        if (!ainntektMap.containsKey(KEY_3MND)) {
+            val periode = bestemPeriode(KEY_3MND)
+            ainntektMap[KEY_3MND] = InntektSumPost(BigDecimal.ZERO, periode.periodeFra, periode.periodeTil, mutableListOf())
         }
-        if (!ainntektMap.containsKey(OvergangsstønadService.KEY_12MND)) {
-            val periode = bestemPeriode(OvergangsstønadService.KEY_12MND)
-            ainntektMap[OvergangsstønadService.KEY_12MND] = InntektSumPost(BigDecimal.ZERO, periode.periodeFra, periode.periodeTil, mutableListOf())
+        if (!ainntektMap.containsKey(KEY_12MND)) {
+            val periode = bestemPeriode(KEY_12MND)
+            ainntektMap[KEY_12MND] = InntektSumPost(BigDecimal.ZERO, periode.periodeFra, periode.periodeTil, mutableListOf())
         }
 
         return ainntektMap.toMap()
