@@ -4,8 +4,11 @@ ingresses:
 spec:
   replicas:
     min: 2
+azure:
+  unsecure:
+    kodeverk_url: kodeverk.prod-fss-pub.nais.io
 azureAccessInbound:
-  - application: bidrag-behandling-feature
+  - application: bidrag-behandling
     namespace: bidrag
     cluster: prod-gcp
   - application: bidrag-ui
