@@ -6,11 +6,15 @@ import io.swagger.v3.oas.annotations.info.Info
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import no.nav.bidrag.inntekt.BidragInntektLocal.Companion.LOCAL_PROFILE
 import no.nav.bidrag.inntekt.BidragInntektTest.Companion.TEST_PROFILE
+import no.nav.bidrag.inntekt.service.DateProvider
+import no.nav.bidrag.inntekt.service.FixedDateProvider
 import no.nav.security.mock.oauth2.MockOAuth2Server
 import no.nav.security.mock.oauth2.token.DefaultOAuth2TokenCallback
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Profile
+import java.time.LocalDate
 
 @Configuration
 @OpenAPIDefinition(
@@ -39,5 +43,14 @@ class BidragInntektTestConfig {
             )
         )
         return "Bearer " + token.serialize()
+    }
+
+    @Bean
+    fun fixedDateProvider(): DateProvider {
+        return fixedDateProvider(LocalDate.now()) // Default fixed date for testing
+    }
+
+    fun fixedDateProvider(fixedDate: LocalDate): DateProvider {
+        return FixedDateProvider(fixedDate)
     }
 }

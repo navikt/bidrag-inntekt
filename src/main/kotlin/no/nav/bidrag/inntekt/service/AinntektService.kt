@@ -14,7 +14,7 @@ import java.time.YearMonth
 import java.time.temporal.ChronoUnit
 
 @Service
-class AinntektService {
+class AinntektService(private val dateProvider: DateProvider) {
 
     // Summerer, grupperer og transformerer ainntekter pr år
     fun beregnAarsinntekt(ainntektListeInn: List<AinntektDto>, kodeverksverdier: GetKodeverkKoderBetydningerResponse?): List<SummertAarsinntekt> {
@@ -45,7 +45,11 @@ class AinntektService {
                         },
                         periodeFra = it.value.periodeFra,
                         periodeTil = it.value.periodeTil,
-                        inntektPostListe = grupperOgSummerDetaljposter(it.value.inntektPostListe, kodeverksverdier)
+                        inntektPostListe = when (it.key) {
+                            KEY_3MND -> grupperOgSummerDetaljposter(it.value.inntektPostListe, kodeverksverdier, 4)
+                            else -> grupperOgSummerDetaljposter(it.value.inntektPostListe, kodeverksverdier)
+                        }
+
                     )
                 )
             }
@@ -79,7 +83,8 @@ class AinntektService {
     // Grupperer og summerer poster som har samme kode/beskrivelse
     private fun grupperOgSummerDetaljposter(
         inntektPostListe: List<InntektPost>,
-        kodeverksverdier: GetKodeverkKoderBetydningerResponse?
+        kodeverksverdier: GetKodeverkKoderBetydningerResponse?,
+        multiplikator: Int = 1 // Avviker fra default hvis beløp skal regnes om til årsverdi
     ): List<InntektPost> {
         return inntektPostListe
             .groupBy(InntektPost::kode)
@@ -87,7 +92,7 @@ class AinntektService {
                 InntektPost(
                     kode = it.key,
                     visningsnavn = if (kodeverksverdier == null) it.key else finnVisningsnavn(it.key, kodeverksverdier),
-                    beløp = it.value.sumOf(InntektPost::beløp)
+                    beløp = it.value.sumOf(InntektPost::beløp).toInt().times(multiplikator).toBigDecimal()
                 )
             }
     }
@@ -109,6 +114,16 @@ class AinntektService {
                 }
             }
         }
+
+        if (!ainntektMap.containsKey(KEY_3MND)) {
+            val periode = bestemPeriode(KEY_3MND)
+            ainntektMap[KEY_3MND] = InntektSumPost(BigDecimal.ZERO, periode.periodeFra, periode.periodeTil, mutableListOf())
+        }
+        if (!ainntektMap.containsKey(KEY_12MND)) {
+            val periode = bestemPeriode(KEY_12MND)
+            ainntektMap[KEY_12MND] = InntektSumPost(BigDecimal.ZERO, periode.periodeFra, periode.periodeTil, mutableListOf())
+        }
+
         return ainntektMap.toMap()
     }
 
@@ -143,7 +158,7 @@ class AinntektService {
         ainntektMap[key] = InntektSumPost(sumInntekt.add(value.belop.toBigDecimal()), periode.periodeFra, periode.periodeTil, inntektPostListe)
     }
 
-    // Kalkulerer beløp for periode (måned eller år)
+    // Kalkulerer beløp for periode (måned, år eller intervall)
     private fun kalkulerBelopForPeriode(
         opptjeningsperiodeFra: LocalDate?,
         opptjeningsperiodeTil: LocalDate?,
@@ -226,13 +241,13 @@ class AinntektService {
         val periodeMap = mutableMapOf<String, Detaljpost>()
         val antallMndTotalt = ChronoUnit.MONTHS.between(periodeFra, periodeTil).toInt()
         val maanedsbelop = belop.div(antallMndTotalt)
-        val dagensDato = LocalDate.now()
+//        val dagensDato = LocalDate.now()
 
         // TODO Bør CUT_OFF_DATO være dynamisk? (se https://www.skatteetaten.no/bedrift-og-organisasjon/arbeidsgiver/a-meldingen/frister-og-betaling-i-a-meldingen/)
-        val sistePeriodeIIntervall = if (dagensDato.dayOfMonth > CUT_OFF_DATO) {
-            YearMonth.of(dagensDato.year, dagensDato.month)
+        val sistePeriodeIIntervall = if (dateProvider.getCurrentDate().dayOfMonth > CUT_OFF_DATO) {
+            YearMonth.of(dateProvider.getCurrentDate().year, dateProvider.getCurrentDate().month)
         } else {
-            YearMonth.of(dagensDato.year, dagensDato.month).minusMonths(1)
+            YearMonth.of(dateProvider.getCurrentDate().year, dateProvider.getCurrentDate().month).minusMonths(1)
         }
         val forstePeriodeIIntervall =
             if (beregningsperiode == KEY_3MND) sistePeriodeIIntervall.minusMonths(3) else sistePeriodeIIntervall.minusMonths(12)
@@ -274,12 +289,12 @@ class AinntektService {
             periodeTil = periodeFra
             // Intervall
         } else {
-            val dagensDato = LocalDate.now()
+//            val dagensDato = LocalDate.now()
             // TODO Bør CUT_OFF_DATO være dynamisk? (se https://www.skatteetaten.no/bedrift-og-organisasjon/arbeidsgiver/a-meldingen/frister-og-betaling-i-a-meldingen/)
-            periodeTil = if (dagensDato.dayOfMonth > CUT_OFF_DATO) {
-                YearMonth.of(dagensDato.year, dagensDato.month).minusMonths(1)
+            periodeTil = if (dateProvider.getCurrentDate().dayOfMonth > CUT_OFF_DATO) {
+                YearMonth.of(dateProvider.getCurrentDate().year, dateProvider.getCurrentDate().month).minusMonths(1)
             } else {
-                YearMonth.of(dagensDato.year, dagensDato.month).minusMonths(2)
+                YearMonth.of(dateProvider.getCurrentDate().year, dateProvider.getCurrentDate().month).minusMonths(2)
             }
             periodeFra = if (periodeVerdi == KEY_3MND) periodeTil.minusMonths(2) else periodeTil.minusMonths(11)
         }
@@ -312,11 +327,11 @@ class AinntektService {
 
     // Finner siste hele år som skal rapporteres
     private fun finnSisteAarSomSkalRapporteres(): Int {
-        val dagensDato = LocalDate.now()
-        return if ((dagensDato.month == Month.JANUARY) && (dagensDato.dayOfMonth <= CUT_OFF_DATO)) {
-            dagensDato.year.minus(2)
+//        val dagensDato = LocalDate.now()
+        return if ((dateProvider.getCurrentDate().month == Month.JANUARY) && (dateProvider.getCurrentDate().dayOfMonth <= CUT_OFF_DATO)) {
+            dateProvider.getCurrentDate().year.minus(2)
         } else {
-            dagensDato.year.minus(1)
+            dateProvider.getCurrentDate().year.minus(1)
         }
     }
 
@@ -336,16 +351,4 @@ class AinntektService {
 data class Detaljpost(
     val belop: Int,
     val kode: String
-)
-
-data class InntektSumPost(
-    val sumInntekt: BigDecimal,
-    val periodeFra: YearMonth,
-    val periodeTil: YearMonth?,
-    val inntektPostListe: MutableList<InntektPost>
-)
-
-data class Periode(
-    val periodeFra: YearMonth,
-    val periodeTil: YearMonth?
 )

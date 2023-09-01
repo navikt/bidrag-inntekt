@@ -12,6 +12,8 @@ import no.nav.bidrag.commons.web.DefaultCorsFilter
 import no.nav.bidrag.commons.web.HttpHeaderRestTemplate
 import no.nav.bidrag.commons.web.UserMdcFilter
 import no.nav.bidrag.inntekt.consumer.kodeverk.KodeverkConsumer
+import no.nav.bidrag.inntekt.service.DateProvider
+import no.nav.bidrag.inntekt.service.RealDateProvider
 import no.nav.security.token.support.spring.api.EnableJwtTokenValidation
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
@@ -19,6 +21,7 @@ import org.springframework.boot.web.client.RootUriTemplateHandler
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Import
+import org.springframework.context.annotation.Profile
 import org.springframework.context.annotation.Scope
 
 const val LIVE_PROFILE = "live"
@@ -66,5 +69,11 @@ class BidragInntektConfig {
         LOGGER.info("Url satt i config: $url")
         restTemplate.uriTemplateHandler = RootUriTemplateHandler(url)
         return KodeverkConsumer(restTemplate)
+    }
+
+    @Bean
+    @Profile(LIVE_PROFILE)
+    fun realDateProvider(): DateProvider {
+        return RealDateProvider()
     }
 }

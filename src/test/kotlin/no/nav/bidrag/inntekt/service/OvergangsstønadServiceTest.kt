@@ -36,37 +36,32 @@ class OvergangsstønadServiceTest {
 
         assertAll(
             Executable { assertNotNull(beregnedeOvergangsstønader) },
-            Executable { assertThat(beregnedeOvergangsstønader.size).isEqualTo(5) },
+            Executable { assertThat(beregnedeOvergangsstønader.size).isEqualTo(4) },
             Executable { assertThat(beregnedeOvergangsstønader[0].inntektBeskrivelse).isEqualTo(InntektBeskrivelse.OVERGANGSSTØNAD) },
-            Executable { assertThat(beregnedeOvergangsstønader[0].periodeFra).isEqualTo(YearMonth.parse("2021-12")) },
+            Executable { assertThat(beregnedeOvergangsstønader[0].visningsnavn).isEqualTo("${InntektBeskrivelse.OVERGANGSSTØNAD.visningsnavn} 2021") },
+            Executable { assertThat(beregnedeOvergangsstønader[0].sumInntekt).isEqualTo(BigDecimal.valueOf(100)) },
+            Executable { assertThat(beregnedeOvergangsstønader[0].periodeFra).isEqualTo(YearMonth.parse("2021-01")) },
             Executable { assertThat(beregnedeOvergangsstønader[0].periodeTil).isEqualTo(YearMonth.parse("2021-12")) },
             Executable { assertThat(beregnedeOvergangsstønader[0].inntektPostListe.size).isEqualTo(1) },
-            Executable { assertThat(beregnedeOvergangsstønader[0].sumInntekt).isEqualTo(BigDecimal.valueOf(100)) },
 
             Executable { assertThat(beregnedeOvergangsstønader[1].inntektBeskrivelse).isEqualTo(InntektBeskrivelse.OVERGANGSSTØNAD) },
+            Executable { assertThat(beregnedeOvergangsstønader[1].visningsnavn).isEqualTo("${InntektBeskrivelse.OVERGANGSSTØNAD.visningsnavn} 2022") },
+            Executable { assertThat(beregnedeOvergangsstønader[1].sumInntekt).isEqualTo(BigDecimal.valueOf(9000)) },
             Executable { assertThat(beregnedeOvergangsstønader[1].periodeFra).isEqualTo(YearMonth.parse("2022-01")) },
             Executable { assertThat(beregnedeOvergangsstønader[1].periodeTil).isEqualTo(YearMonth.parse("2022-12")) },
             Executable { assertThat(beregnedeOvergangsstønader[1].inntektPostListe.size).isEqualTo(12) },
-            Executable { assertThat(beregnedeOvergangsstønader[1].sumInntekt).isEqualTo(BigDecimal.valueOf(9000)) },
 
-            Executable { assertThat(beregnedeOvergangsstønader[2].inntektBeskrivelse).isEqualTo(InntektBeskrivelse.OVERGANGSSTØNAD) },
-            Executable { assertThat(beregnedeOvergangsstønader[2].periodeFra).isEqualTo(YearMonth.parse("2023-01")) },
-            Executable { assertThat(beregnedeOvergangsstønader[2].periodeTil).isEqualTo(YearMonth.now()) },
-            Executable { assertThat(beregnedeOvergangsstønader[2].inntektPostListe.size).isEqualTo(4) },
-            Executable { assertThat(beregnedeOvergangsstønader[2].sumInntekt).isEqualTo(BigDecimal.valueOf(6200)) },
+            Executable { assertThat(beregnedeOvergangsstønader[2].inntektBeskrivelse).isEqualTo(InntektBeskrivelse.OVERGANGSSTØNAD_BEREGNET_12MND) },
+            Executable { assertThat(beregnedeOvergangsstønader[2].sumInntekt).isEqualTo(BigDecimal.valueOf(11700)) },
+            Executable { assertThat(beregnedeOvergangsstønader[2].periodeFra).isEqualTo(YearMonth.parse("2022-08")) },
+            Executable { assertThat(beregnedeOvergangsstønader[2].periodeTil).isEqualTo(YearMonth.parse("2023-07")) },
+            Executable { assertThat(beregnedeOvergangsstønader[2].inntektPostListe.size).isEqualTo(9) },
 
             Executable { assertThat(beregnedeOvergangsstønader[3].inntektBeskrivelse).isEqualTo(InntektBeskrivelse.OVERGANGSSTØNAD_BEREGNET_3MND) },
-            Executable { assertThat(beregnedeOvergangsstønader[3].periodeFra).isEqualTo(YearMonth.parse("2023-02")) },
-            Executable { assertThat(beregnedeOvergangsstønader[3].periodeTil).isNull() },
-            Executable { assertThat(beregnedeOvergangsstønader[3].inntektPostListe.size).isEqualTo(3) },
-            Executable { assertThat(beregnedeOvergangsstønader[3].sumInntekt).isEqualTo(BigDecimal.valueOf(19200)) },
-
-            Executable { assertThat(beregnedeOvergangsstønader[4].inntektBeskrivelse).isEqualTo(InntektBeskrivelse.OVERGANGSSTØNAD_BEREGNET_12MND) },
-            Executable { assertThat(beregnedeOvergangsstønader[4].periodeFra).isEqualTo(YearMonth.parse("2022-05")) },
-            Executable { assertThat(beregnedeOvergangsstønader[4].periodeTil).isNull() },
-            Executable { assertThat(beregnedeOvergangsstønader[4].inntektPostListe.size).isEqualTo(12) },
-            Executable { assertThat(beregnedeOvergangsstønader[4].sumInntekt).isEqualTo(BigDecimal.valueOf(13800)) }
-
+            Executable { assertThat(beregnedeOvergangsstønader[3].sumInntekt).isEqualTo(BigDecimal.ZERO) },
+            Executable { assertThat(beregnedeOvergangsstønader[3].periodeFra).isEqualTo(YearMonth.parse("2023-05")) },
+            Executable { assertThat(beregnedeOvergangsstønader[3].periodeTil).isEqualTo(YearMonth.parse("2023-07")) },
+            Executable { assertThat(beregnedeOvergangsstønader[3].inntektPostListe.isEmpty()) }
         )
     }
 }

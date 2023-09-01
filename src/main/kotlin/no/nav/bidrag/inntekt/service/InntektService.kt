@@ -9,11 +9,14 @@ import no.nav.bidrag.inntekt.consumer.kodeverk.KodeverkConsumer
 import no.nav.bidrag.inntekt.consumer.kodeverk.api.GetKodeverkKoderBetydningerResponse
 import no.nav.bidrag.inntekt.exception.RestResponse
 import no.nav.bidrag.transport.behandling.inntekt.request.TransformerInntekterRequestDto
+import no.nav.bidrag.transport.behandling.inntekt.response.InntektPost
 import no.nav.bidrag.transport.behandling.inntekt.response.TransformerInntekterResponseDto
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
+import java.math.BigDecimal
 import java.text.SimpleDateFormat
+import java.time.YearMonth
 
 @Service
 class InntektService(
@@ -88,3 +91,15 @@ class InntektService(
         }
     }
 }
+
+data class InntektSumPost(
+    val sumInntekt: BigDecimal,
+    val periodeFra: YearMonth,
+    val periodeTil: YearMonth?,
+    val inntektPostListe: MutableList<InntektPost>
+)
+
+data class Periode(
+    val periodeFra: YearMonth,
+    val periodeTil: YearMonth?
+)
