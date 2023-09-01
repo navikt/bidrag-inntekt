@@ -12,6 +12,8 @@ import no.nav.bidrag.inntekt.consumer.kodeverk.KodeverkConsumer
 import no.nav.bidrag.inntekt.exception.RestExceptionHandler
 import no.nav.bidrag.inntekt.exception.RestResponse
 import no.nav.bidrag.inntekt.service.AinntektService
+import no.nav.bidrag.inntekt.service.DateProvider
+import no.nav.bidrag.inntekt.service.FixedDateProvider
 import no.nav.bidrag.inntekt.service.InntektService
 import no.nav.bidrag.inntekt.service.OvergangsstønadService
 import no.nav.bidrag.inntekt.service.SkattegrunnlagService
@@ -33,6 +35,7 @@ import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import org.springframework.test.web.servlet.setup.StandaloneMockMvcBuilder
+import java.time.LocalDate
 
 @DisplayName("InntektControllerTest")
 @ActiveProfiles(TEST_PROFILE)
@@ -43,7 +46,8 @@ class InntektControllerTest(
     @Autowired val exceptionLogger: ExceptionLogger
 ) {
 
-    private final val ainntektService: AinntektService = AinntektService()
+    private final val fixedDateProvider: DateProvider = FixedDateProvider(LocalDate.now())
+    private final val ainntektService: AinntektService = AinntektService(fixedDateProvider)
     private final val skattegrunnlagService: SkattegrunnlagService = SkattegrunnlagService()
     private final val overgangsstonadService: OvergangsstønadService = OvergangsstønadService()
     private final val kodeverkConsumer: KodeverkConsumer = Mockito.mock(KodeverkConsumer::class.java)
@@ -81,11 +85,11 @@ class InntektControllerTest(
             Executable { assertTrue(transformerteInntekter.versjon.isEmpty()) },
 
             Executable { assertTrue(transformerteInntekter.summertAarsinntektListe.isNotEmpty()) },
-            Executable { assertTrue(transformerteInntekter.summertAarsinntektListe.size == 11) },
+            Executable { assertTrue(transformerteInntekter.summertAarsinntektListe.size == 10) },
             Executable { assertTrue(transformerteInntekter.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.AINNTEKT }.size == 2) },
             Executable { assertTrue(transformerteInntekter.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.AINNTEKT_BEREGNET_3MND }.size == 1) },
             Executable { assertTrue(transformerteInntekter.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.AINNTEKT_BEREGNET_12MND }.size == 1) },
-            Executable { assertTrue(transformerteInntekter.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.OVERGANGSSTØNAD }.size == 3) },
+            Executable { assertTrue(transformerteInntekter.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.OVERGANGSSTØNAD }.size == 2) },
             Executable { assertTrue(transformerteInntekter.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.OVERGANGSSTØNAD_BEREGNET_3MND }.size == 1) },
             Executable { assertTrue(transformerteInntekter.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.OVERGANGSSTØNAD_BEREGNET_12MND }.size == 1) },
             Executable { assertTrue(transformerteInntekter.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.LIGNINGSINNTEKT }.size == 1) },
