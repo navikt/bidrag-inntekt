@@ -12,8 +12,8 @@ import no.nav.bidrag.commons.web.DefaultCorsFilter
 import no.nav.bidrag.commons.web.HttpHeaderRestTemplate
 import no.nav.bidrag.commons.web.UserMdcFilter
 import no.nav.bidrag.inntekt.consumer.kodeverk.KodeverkConsumer
-import no.nav.bidrag.inntekt.service.DateProvider
-import no.nav.bidrag.inntekt.service.RealDateProvider
+import no.nav.bidrag.inntekt.util.DateProvider
+import no.nav.bidrag.inntekt.util.RealDateProvider
 import no.nav.security.token.support.spring.api.EnableJwtTokenValidation
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value

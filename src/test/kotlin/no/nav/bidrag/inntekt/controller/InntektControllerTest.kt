@@ -12,11 +12,11 @@ import no.nav.bidrag.inntekt.consumer.kodeverk.KodeverkConsumer
 import no.nav.bidrag.inntekt.exception.RestExceptionHandler
 import no.nav.bidrag.inntekt.exception.RestResponse
 import no.nav.bidrag.inntekt.service.AinntektService
-import no.nav.bidrag.inntekt.service.DateProvider
-import no.nav.bidrag.inntekt.service.FixedDateProvider
 import no.nav.bidrag.inntekt.service.InntektService
 import no.nav.bidrag.inntekt.service.OvergangsstønadService
 import no.nav.bidrag.inntekt.service.SkattegrunnlagService
+import no.nav.bidrag.inntekt.util.DateProvider
+import no.nav.bidrag.inntekt.util.FixedDateProvider
 import no.nav.bidrag.transport.behandling.inntekt.response.TransformerInntekterResponseDto
 import no.nav.security.token.support.spring.test.EnableMockOAuth2Server
 import org.junit.jupiter.api.Assertions.assertAll
@@ -46,10 +46,10 @@ class InntektControllerTest(
     @Autowired val exceptionLogger: ExceptionLogger
 ) {
 
-    private final val fixedDateProvider: DateProvider = FixedDateProvider(LocalDate.now())
+    private final val fixedDateProvider: DateProvider = FixedDateProvider(LocalDate.of(2023, 9, 1))
     private final val ainntektService: AinntektService = AinntektService(fixedDateProvider)
     private final val skattegrunnlagService: SkattegrunnlagService = SkattegrunnlagService()
-    private final val overgangsstonadService: OvergangsstønadService = OvergangsstønadService()
+    private final val overgangsstonadService: OvergangsstønadService = OvergangsstønadService(fixedDateProvider)
     private final val kodeverkConsumer: KodeverkConsumer = Mockito.mock(KodeverkConsumer::class.java)
     private final val inntektService: InntektService = InntektService(ainntektService, skattegrunnlagService, overgangsstonadService, kodeverkConsumer)
     private final val inntektController: InntektController = InntektController(inntektService)

@@ -1,4 +1,4 @@
-package no.nav.bidrag.inntekt.service
+package no.nav.bidrag.inntekt.util
 
 import java.time.LocalDate
 
