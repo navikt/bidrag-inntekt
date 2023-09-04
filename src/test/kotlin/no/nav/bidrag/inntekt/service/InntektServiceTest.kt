@@ -5,6 +5,8 @@ import no.nav.bidrag.inntekt.BidragInntektTest
 import no.nav.bidrag.inntekt.TestUtil
 import no.nav.bidrag.inntekt.consumer.kodeverk.KodeverkConsumer
 import no.nav.bidrag.inntekt.exception.RestResponse
+import no.nav.bidrag.inntekt.util.DateProvider
+import no.nav.bidrag.inntekt.util.FixedDateProvider
 import no.nav.security.token.support.spring.test.EnableMockOAuth2Server
 import org.junit.jupiter.api.Assertions.assertAll
 import org.junit.jupiter.api.Assertions.assertNotNull
@@ -28,9 +30,9 @@ import java.time.LocalDate
 @EnableMockOAuth2Server
 class InntektServiceTest {
 
-    private final val fixedDateProvider: DateProvider = FixedDateProvider(LocalDate.now())
+    private final val fixedDateProvider: DateProvider = FixedDateProvider(LocalDate.of(2023, 9, 1))
     private final val ainntektService: AinntektService = AinntektService(fixedDateProvider)
-    private final val overgangsstønadService: OvergangsstønadService = OvergangsstønadService()
+    private final val overgangsstønadService: OvergangsstønadService = OvergangsstønadService(fixedDateProvider)
     private final val skattegrunnlagService: SkattegrunnlagService = SkattegrunnlagService()
     private final val kodeverkConsumer: KodeverkConsumer = Mockito.mock(KodeverkConsumer::class.java)
 

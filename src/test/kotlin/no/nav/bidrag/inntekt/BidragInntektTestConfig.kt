@@ -6,8 +6,8 @@ import io.swagger.v3.oas.annotations.info.Info
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import no.nav.bidrag.inntekt.BidragInntektLocal.Companion.LOCAL_PROFILE
 import no.nav.bidrag.inntekt.BidragInntektTest.Companion.TEST_PROFILE
-import no.nav.bidrag.inntekt.service.DateProvider
-import no.nav.bidrag.inntekt.service.FixedDateProvider
+import no.nav.bidrag.inntekt.util.DateProvider
+import no.nav.bidrag.inntekt.util.FixedDateProvider
 import no.nav.security.mock.oauth2.MockOAuth2Server
 import no.nav.security.mock.oauth2.token.DefaultOAuth2TokenCallback
 import org.springframework.beans.factory.annotation.Autowired

@@ -2,6 +2,15 @@ package no.nav.bidrag.inntekt.service
 
 import no.nav.bidrag.domain.enums.InntektBeskrivelse
 import no.nav.bidrag.inntekt.consumer.kodeverk.api.GetKodeverkKoderBetydningerResponse
+import no.nav.bidrag.inntekt.util.DateProvider
+import no.nav.bidrag.inntekt.util.InntektUtil.Companion.CUT_OFF_DATO
+import no.nav.bidrag.inntekt.util.InntektUtil.Companion.KEY_12MND
+import no.nav.bidrag.inntekt.util.InntektUtil.Companion.KEY_3MND
+import no.nav.bidrag.inntekt.util.InntektUtil.Companion.PERIODE_AAR
+import no.nav.bidrag.inntekt.util.InntektUtil.Companion.PERIODE_MAANED
+import no.nav.bidrag.inntekt.util.InntektUtil.Companion.finnAntallMndOverlapp
+import no.nav.bidrag.inntekt.util.InntektUtil.Companion.finnSisteAarSomSkalRapporteres
+import no.nav.bidrag.inntekt.util.isNumeric
 import no.nav.bidrag.transport.behandling.grunnlag.response.AinntektDto
 import no.nav.bidrag.transport.behandling.inntekt.response.InntektPost
 import no.nav.bidrag.transport.behandling.inntekt.response.SummertAarsinntekt
@@ -9,7 +18,6 @@ import no.nav.bidrag.transport.behandling.inntekt.response.SummertMaanedsinntekt
 import org.springframework.stereotype.Service
 import java.math.BigDecimal
 import java.time.LocalDate
-import java.time.Month
 import java.time.YearMonth
 import java.time.temporal.ChronoUnit
 
@@ -23,7 +31,7 @@ class AinntektService(private val dateProvider: DateProvider) {
             val ainntektListeUt = mutableListOf<SummertAarsinntekt>()
 
             ainntektMap.forEach {
-                if (it.key.isNumeric() && it.key.toInt() > finnSisteAarSomSkalRapporteres()) {
+                if (it.key.isNumeric() && it.key.toInt() > finnSisteAarSomSkalRapporteres(dateProvider.getCurrentDate())) {
                     return@forEach // Går videre til neste forekomst
                 }
                 ainntektListeUt.add(
@@ -241,7 +249,6 @@ class AinntektService(private val dateProvider: DateProvider) {
         val periodeMap = mutableMapOf<String, Detaljpost>()
         val antallMndTotalt = ChronoUnit.MONTHS.between(periodeFra, periodeTil).toInt()
         val maanedsbelop = belop.div(antallMndTotalt)
-//        val dagensDato = LocalDate.now()
 
         // TODO Bør CUT_OFF_DATO være dynamisk? (se https://www.skatteetaten.no/bedrift-og-organisasjon/arbeidsgiver/a-meldingen/frister-og-betaling-i-a-meldingen/)
         val sistePeriodeIIntervall = if (dateProvider.getCurrentDate().dayOfMonth > CUT_OFF_DATO) {
@@ -252,20 +259,7 @@ class AinntektService(private val dateProvider: DateProvider) {
         val forstePeriodeIIntervall =
             if (beregningsperiode == KEY_3MND) sistePeriodeIIntervall.minusMonths(3) else sistePeriodeIIntervall.minusMonths(12)
 
-        val antallMndOverlapp = when {
-            !(periodeTil.isAfter(forstePeriodeIIntervall)) -> 0
-            !(periodeFra.isBefore(sistePeriodeIIntervall)) -> 0
-            !(periodeFra.isAfter(forstePeriodeIIntervall)) && !(periodeTil.isBefore(sistePeriodeIIntervall)) ->
-                ChronoUnit.MONTHS.between(forstePeriodeIIntervall, sistePeriodeIIntervall).toInt()
-
-            !(periodeFra.isAfter(forstePeriodeIIntervall)) && (periodeTil.isBefore(sistePeriodeIIntervall)) ->
-                ChronoUnit.MONTHS.between(forstePeriodeIIntervall, periodeTil).toInt()
-
-            (periodeFra.isAfter(forstePeriodeIIntervall)) && !(periodeTil.isBefore(sistePeriodeIIntervall)) ->
-                ChronoUnit.MONTHS.between(periodeFra, sistePeriodeIIntervall).toInt()
-
-            else -> ChronoUnit.MONTHS.between(periodeFra, periodeTil).toInt()
-        }
+        val antallMndOverlapp = finnAntallMndOverlapp(periodeFra, periodeTil, forstePeriodeIIntervall, sistePeriodeIIntervall)
 
         if (antallMndOverlapp > 0) {
             periodeMap[beregningsperiode] = Detaljpost(antallMndOverlapp.times(maanedsbelop), beskrivelse)
@@ -323,28 +317,6 @@ class AinntektService(private val dateProvider: DateProvider) {
         } else {
             visningsnavn
         }
-    }
-
-    // Finner siste hele år som skal rapporteres
-    private fun finnSisteAarSomSkalRapporteres(): Int {
-//        val dagensDato = LocalDate.now()
-        return if ((dateProvider.getCurrentDate().month == Month.JANUARY) && (dateProvider.getCurrentDate().dayOfMonth <= CUT_OFF_DATO)) {
-            dateProvider.getCurrentDate().year.minus(2)
-        } else {
-            dateProvider.getCurrentDate().year.minus(1)
-        }
-    }
-
-    private fun String.isNumeric(): Boolean {
-        return this.all { it.isDigit() }
-    }
-
-    companion object {
-        const val KEY_3MND = "3MND"
-        const val KEY_12MND = "12MND"
-        const val PERIODE_AAR = "AAR"
-        const val PERIODE_MAANED = "MND"
-        const val CUT_OFF_DATO = 6
     }
 }
 

@@ -1,18 +1,24 @@
 package no.nav.bidrag.inntekt.service
 
 import no.nav.bidrag.domain.enums.InntektBeskrivelse
+import no.nav.bidrag.inntekt.util.DateProvider
+import no.nav.bidrag.inntekt.util.InntektUtil.Companion.CUT_OFF_DATO
+import no.nav.bidrag.inntekt.util.InntektUtil.Companion.KEY_12MND
+import no.nav.bidrag.inntekt.util.InntektUtil.Companion.KEY_3MND
+import no.nav.bidrag.inntekt.util.InntektUtil.Companion.finnAntallMndOverlapp
+import no.nav.bidrag.inntekt.util.InntektUtil.Companion.finnSisteAarSomSkalRapporteres
+import no.nav.bidrag.inntekt.util.isNumeric
 import no.nav.bidrag.transport.behandling.grunnlag.response.OvergangsstonadDto
 import no.nav.bidrag.transport.behandling.inntekt.response.InntektPost
 import no.nav.bidrag.transport.behandling.inntekt.response.SummertAarsinntekt
 import org.springframework.stereotype.Service
 import java.math.BigDecimal
 import java.time.LocalDate
-import java.time.Month
 import java.time.YearMonth
 import java.time.temporal.ChronoUnit
 
 @Service
-class OvergangsstønadService() {
+class OvergangsstønadService(private val dateProvider: DateProvider) {
 
     // Summerer, grupperer og transformerer overgangsstønader pr år
     fun beregnOvergangsstønad(overgangsstønadListeInn: List<OvergangsstonadDto>): List<SummertAarsinntekt> {
@@ -21,7 +27,7 @@ class OvergangsstønadService() {
             val overgangsstønadListeUt = mutableListOf<SummertAarsinntekt>()
 
             overgangsstønadMap.forEach {
-                if (it.key.isNumeric() && it.key.toInt() > finnSisteAarSomSkalRapporteres()) {
+                if (it.key.isNumeric() && it.key.toInt() > finnSisteAarSomSkalRapporteres(dateProvider.getCurrentDate())) {
                     return@forEach // Går videre til neste forekomst
                 }
                 overgangsstønadListeUt.add(
@@ -138,31 +144,17 @@ class OvergangsstønadService() {
         val periodeMap = mutableMapOf<String, Int>()
         val antallMndTotalt = ChronoUnit.MONTHS.between(periodeFra, periodeTil).toInt()
         val maanedsbelop = belop.div(antallMndTotalt)
-        val dagensDato = LocalDate.now()
 
         // TODO Bør CUT_OFF_DATO være dynamisk? (se https://www.skatteetaten.no/bedrift-og-organisasjon/arbeidsgiver/a-meldingen/frister-og-betaling-i-a-meldingen/)
-        val sistePeriodeIIntervall = if (dagensDato.dayOfMonth > CUT_OFF_DATO) {
-            YearMonth.of(dagensDato.year, dagensDato.month)
+        val sistePeriodeIIntervall = if (dateProvider.getCurrentDate().dayOfMonth > CUT_OFF_DATO) {
+            YearMonth.of(dateProvider.getCurrentDate().year, dateProvider.getCurrentDate().month)
         } else {
-            YearMonth.of(dagensDato.year, dagensDato.month).minusMonths(1)
+            YearMonth.of(dateProvider.getCurrentDate().year, dateProvider.getCurrentDate().month).minusMonths(1)
         }
         val forstePeriodeIIntervall =
             if (beregningsperiode == KEY_3MND) sistePeriodeIIntervall.minusMonths(3) else sistePeriodeIIntervall.minusMonths(12)
 
-        val antallMndOverlapp = when {
-            !(periodeTil.isAfter(forstePeriodeIIntervall)) -> 0
-            !(periodeFra.isBefore(sistePeriodeIIntervall)) -> 0
-            !(periodeFra.isAfter(forstePeriodeIIntervall)) && !(periodeTil.isBefore(sistePeriodeIIntervall)) ->
-                ChronoUnit.MONTHS.between(forstePeriodeIIntervall, sistePeriodeIIntervall).toInt()
-
-            !(periodeFra.isAfter(forstePeriodeIIntervall)) && (periodeTil.isBefore(sistePeriodeIIntervall)) ->
-                ChronoUnit.MONTHS.between(forstePeriodeIIntervall, periodeTil).toInt()
-
-            (periodeFra.isAfter(forstePeriodeIIntervall)) && !(periodeTil.isBefore(sistePeriodeIIntervall)) ->
-                ChronoUnit.MONTHS.between(periodeFra, sistePeriodeIIntervall).toInt()
-
-            else -> ChronoUnit.MONTHS.between(periodeFra, periodeTil).toInt()
-        }
+        val antallMndOverlapp = finnAntallMndOverlapp(periodeFra, periodeTil, forstePeriodeIIntervall, sistePeriodeIIntervall)
 
         if (antallMndOverlapp > 0) {
             periodeMap[beregningsperiode] = antallMndOverlapp.times(maanedsbelop)
@@ -182,36 +174,15 @@ class OvergangsstønadService() {
             periodeTil = YearMonth.of(periodeVerdi.toInt(), 12)
             // Intervall
         } else {
-            val dagensDato = LocalDate.now()
             // TODO Bør CUT_OFF_DATO være dynamisk? (se https://www.skatteetaten.no/bedrift-og-organisasjon/arbeidsgiver/a-meldingen/frister-og-betaling-i-a-meldingen/)
-            periodeTil = if (dagensDato.dayOfMonth > CUT_OFF_DATO) {
-                YearMonth.of(dagensDato.year, dagensDato.month).minusMonths(1)
+            periodeTil = if (dateProvider.getCurrentDate().dayOfMonth > CUT_OFF_DATO) {
+                YearMonth.of(dateProvider.getCurrentDate().year, dateProvider.getCurrentDate().month).minusMonths(1)
             } else {
-                YearMonth.of(dagensDato.year, dagensDato.month).minusMonths(2)
+                YearMonth.of(dateProvider.getCurrentDate().year, dateProvider.getCurrentDate().month).minusMonths(2)
             }
             periodeFra = if (periodeVerdi == KEY_3MND) periodeTil.minusMonths(2) else periodeTil.minusMonths(11)
         }
 
         return Periode(periodeFra, periodeTil)
-    }
-
-    // Finner siste hele år som skal rapporteres
-    private fun finnSisteAarSomSkalRapporteres(): Int {
-        val dagensDato = LocalDate.now()
-        return if ((dagensDato.month == Month.JANUARY) && (dagensDato.dayOfMonth <= CUT_OFF_DATO)) {
-            dagensDato.year.minus(2)
-        } else {
-            dagensDato.year.minus(1)
-        }
-    }
-
-    private fun String.isNumeric(): Boolean {
-        return this.all { it.isDigit() }
-    }
-
-    companion object {
-        const val KEY_3MND = "3MND"
-        const val KEY_12MND = "12MND"
-        const val CUT_OFF_DATO = 6
     }
 }

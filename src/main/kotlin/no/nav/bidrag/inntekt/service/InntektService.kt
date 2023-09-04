@@ -1,13 +1,13 @@
 package no.nav.bidrag.inntekt.service
 
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
-import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import no.nav.bidrag.domain.enums.InntektBeskrivelse
 import no.nav.bidrag.inntekt.SECURE_LOGGER
 import no.nav.bidrag.inntekt.consumer.kodeverk.KodeverkConsumer
 import no.nav.bidrag.inntekt.consumer.kodeverk.api.GetKodeverkKoderBetydningerResponse
 import no.nav.bidrag.inntekt.exception.RestResponse
+import no.nav.bidrag.inntekt.util.InntektUtil.Companion.LOENNSBESKRIVELSE
+import no.nav.bidrag.inntekt.util.InntektUtil.Companion.SUMMERT_SKATTEGRUNNLAG
+import no.nav.bidrag.inntekt.util.InntektUtil.Companion.tilJson
 import no.nav.bidrag.transport.behandling.inntekt.request.TransformerInntekterRequestDto
 import no.nav.bidrag.transport.behandling.inntekt.response.InntektPost
 import no.nav.bidrag.transport.behandling.inntekt.response.TransformerInntekterResponseDto
@@ -15,7 +15,6 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import java.math.BigDecimal
-import java.text.SimpleDateFormat
 import java.time.YearMonth
 
 @Service
@@ -76,19 +75,9 @@ class InntektService(
     }
 
     companion object {
+
         @JvmStatic
         private val logger: Logger = LoggerFactory.getLogger(InntektService::class.java)
-
-        const val SUMMERT_SKATTEGRUNNLAG = "Summert skattegrunnlag"
-        const val LOENNSBESKRIVELSE = "Loennsbeskrivelse"
-
-        private fun tilJson(json: String): String {
-            val objectMapper = ObjectMapper()
-            objectMapper.registerKotlinModule()
-            objectMapper.registerModule(JavaTimeModule())
-            objectMapper.dateFormat = SimpleDateFormat("yyyy-MM-dd")
-            return objectMapper.writeValueAsString(json)
-        }
     }
 }
 
