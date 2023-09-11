@@ -57,5 +57,5 @@ Også når man kjører applikasjonen lokalt vil man trenge et gyldig JWT-token f
 ## Testing i Swagger
 Applikasjonen testes enklest i Swagger (for generering av gyldig token, se over):
 ```
-https://bidrag-inntekt.intern.dev.nav.no/bidrag-inntekt/swagger-ui/index.html?configUrl=/bidrag-inntekt/v3/api-docs/swagger-config#/inntekt-controller
+[https://bidrag-inntekt.intern.dev.nav.no/swagger-ui/index.html?configUrl=/bidrag-inntekt/v3/api-docs/swagger-config#/inntekt-controller/transformerInntekter](https://bidrag-inntekt.intern.dev.nav.no/swagger-ui/index.html?configUrl=/v3/api-docs/swagger-config#/inntekt-controller/transformerInntekter)
 ```
