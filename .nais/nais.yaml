@@ -60,6 +60,6 @@ spec:
     - name: KODEVERK_URL
       value: https://{{ azure.unsecure.kodeverk_url }}
   {{#each env}}
-     - name: {{this.name}}
-       value: "{{this.value}}"
+    - name: {{this.name}}
+      value: "{{this.value}}"
   {{/each}}
