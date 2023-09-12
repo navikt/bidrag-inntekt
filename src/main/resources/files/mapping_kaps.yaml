@@ -488,7 +488,7 @@ samletOverskuddAvEnkeltpersonforetakInnenAnnenNaering:
     sekkepost: NEI
     fom: 2015
     tom: 9999
-samletOverskuddAvEnkeltpersonforetakInnenFamiliebarnehageEllerDagmammaIEgetHjem :
+samletOverskuddAvEnkeltpersonforetakInnenFamiliebarnehageEllerDagmammaIEgetHjem:
   - plussMinus: PLUSS
     sekkepost: NEI
     fom: 2015
@@ -528,7 +528,7 @@ samletPensjonsinnbetalingTilIndividuellPensjonsordning:
     sekkepost: NEI
     fom: 2015
     tom: 2016
-samletPersoninntektFraDeltakerlignetSelskapInnenAnnenNaering :
+samletPersoninntektFraDeltakerlignetSelskapInnenAnnenNaering:
   - plussMinus: MINUS
     sekkepost: NEI
     fom: 2015
@@ -543,12 +543,12 @@ samletPersoninntektFraEnkeltpersonforetakInnenFamiliebarnehageEllerDagmammaIEget
     sekkepost: NEI
     fom: 2015
     tom: 9999
-samletPersoninntektFraEnkeltpersonforetakInnenFiskeOgFangst :
+samletPersoninntektFraEnkeltpersonforetakInnenFiskeOgFangst:
   - plussMinus: MINUS
     sekkepost: NEI
     fom: 2015
     tom: 9999
-samletPersoninntektFraEnkeltpersonforetakInnenJordbrukReindriftSkiferproduksjonOgAnnenNaering :
+samletPersoninntektFraEnkeltpersonforetakInnenJordbrukReindriftSkiferproduksjonOgAnnenNaering:
   - plussMinus: MINUS
     sekkepost: NEI
     fom: 2015

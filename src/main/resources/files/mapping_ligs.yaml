@@ -18,7 +18,7 @@ annenPensjonFoerAlderspensjon:
     sekkepost: NEI
     fom: 2018
     tom: 9999
-arbeidsavklaringspenger  :
+arbeidsavklaringspenger:
   - plussMinus: PLUSS
     sekkepost: NEI
     fom: 2017
@@ -53,7 +53,7 @@ ektefelletilleggTilPensjon:
     sekkepost: NEI
     fom: 2017
     tom: 9999
-ektefelletilleggTilUfoeretrygd  :
+ektefelletilleggTilUfoeretrygd:
   - plussMinus: PLUSS
     sekkepost: NEI
     fom: 2017
@@ -223,7 +223,7 @@ samletBarnepensjonOgLivrenteTilBarnUnderSyttenAar:
     sekkepost: NEI
     fom: 2015
     tom: 2017
-samletInntektSomGirRettTilSaerskiltFradragForSjoefolk :
+samletInntektSomGirRettTilSaerskiltFradragForSjoefolk:
   - plussMinus: PLUSS
     sekkepost: NEI
     fom: 2015
@@ -233,7 +233,7 @@ samletLoennsinntekt :
     sekkepost: NEI
     fom: 2015
     tom: 2016
-samletLoennsinntektKunMedTrygdeavgiftsplikt :
+samletLoennsinntektKunMedTrygdeavgiftsplikt:
   - plussMinus: PLUSS
     sekkepost: NEI
     fom: 2015
@@ -243,7 +243,7 @@ samletLoennsinntektMedTrygdeavgiftspliktOgMedTrekkplikt:
     sekkepost: NEI
     fom: 2017
     tom: 9999
-samletLoennsinntektPaaSvalbardOver12G :
+samletLoennsinntektPaaSvalbardOver12G:
   - plussMinus: PLUSS
     sekkepost: NEI
     fom: 2015
@@ -268,7 +268,7 @@ samletOvergangsstoenadTilEnsligOgEtterlatt:
     sekkepost: NEI
     fom: 2015
     tom: 2016
-samletOverskuddPaaUtgiftsgodtgjoerelse :
+samletOverskuddPaaUtgiftsgodtgjoerelse:
   - plussMinus: PLUSS
     sekkepost: NEI
     fom: 2015
@@ -298,12 +298,12 @@ samletPersoninntektFraEnkeltpersonforetakInnenFamiliebarnehageEllerDagmammaIEget
     sekkepost: NEI
     fom: 2015
     tom: 9999
-samletPersoninntektFraEnkeltpersonforetakInnenFiskeOgFangst :
+samletPersoninntektFraEnkeltpersonforetakInnenFiskeOgFangst:
   - plussMinus: PLUSS
     sekkepost: NEI
     fom: 2015
     tom: 9999
-samletPersoninntektFraEnkeltpersonforetakInnenJordbrukReindriftSkiferproduksjonOgAnnenNaering :
+samletPersoninntektFraEnkeltpersonforetakInnenJordbrukReindriftSkiferproduksjonOgAnnenNaering:
   - plussMinus: PLUSS
     sekkepost: NEI
     fom: 2015
@@ -318,12 +318,12 @@ samletSupplerendeStoenad:
     sekkepost: NEI
     fom: 2015
     tom: 2017
-samletTrekkpliktigLoennsinntektUtenTrydgeavgiftsplikt :
+samletTrekkpliktigLoennsinntektUtenTrydgeavgiftsplikt:
   - plussMinus: PLUSS
     sekkepost: NEI
     fom: 2015
     tom: 2016
-samletTrekkpliktigUtgiftsgodtgjoerelse :
+samletTrekkpliktigUtgiftsgodtgjoerelse:
   - plussMinus: PLUSS
     sekkepost: NEI
     fom: 2015
