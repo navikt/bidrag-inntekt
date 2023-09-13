@@ -204,7 +204,7 @@ class AinntektService(private val dateProvider: DateProvider) {
     private fun kalkulerBelopForMnd(periodeFra: YearMonth, periodeTil: YearMonth, beskrivelse: String, belop: Int): Map<String, Detaljpost> {
         val periodeMap = mutableMapOf<String, Detaljpost>()
         val antallMnd = ChronoUnit.MONTHS.between(periodeFra, periodeTil).toInt()
-        val månedsbeløp = belop.div(antallMnd)
+        val månedsbeløp = beregneBeløpPerMåned(belop, antallMnd)
         var periode = periodeFra
 
         while (periode.isBefore(periodeTil)) {
@@ -213,6 +213,14 @@ class AinntektService(private val dateProvider: DateProvider) {
         }
 
         return periodeMap
+    }
+
+    private fun beregneBeløpPerMåned(belop: Int, antallMnd: Int): Int {
+        return if (antallMnd == 0) {
+            0
+        } else {
+            belop.div(antallMnd)
+        }
     }
 
     // Kalkulerer totalt beløp for hvert år forekomsten dekker

@@ -222,4 +222,24 @@ class AinntektServiceTest {
             Executable { assertTrue(transformerteInntekter[0].inntektPostListe[0].beløp.toInt() == 2000) }
         )
     }
+
+    @Test
+    fun `skal ikke transformere noen inntekter dersom perioden er på null måneder`() {
+        val fixedDateProvider: DateProvider = FixedDateProvider(LocalDate.of(2023, 9, 1))
+        val ainntektService = AinntektService(fixedDateProvider)
+
+        var ainntektForGyldigPeriode = inntektRequest.ainntektListe[0]
+        var ainntektspost = ainntektForGyldigPeriode.ainntektspostListe[0]
+        var ainntektspostMedOpptjeningsperiodeTilLikFra = ainntektspost.copy(opptjeningsperiodeTil = ainntektspost.opptjeningsperiodeFra)
+        var ainntektForNullperiode = ainntektForGyldigPeriode.copy(periodeTil = ainntektForGyldigPeriode.periodeFra, ainntektspostListe = listOf(ainntektspostMedOpptjeningsperiodeTilLikFra))
+
+        val transformerteInntekter = ainntektService.beregnMaanedsinntekt(listOf(ainntektForNullperiode), kodeverkResponse)
+
+        TestUtil.printJson(transformerteInntekter)
+
+        assertAll(
+            Executable { assertNotNull(transformerteInntekter) },
+            Executable { assertTrue(transformerteInntekter.size == 0) }
+        )
+    }
 }
