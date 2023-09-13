@@ -221,11 +221,11 @@ class AinntektService(private val dateProvider: DateProvider) {
     private fun kalkulerBelopForAar(periodeFra: YearMonth, periodeTil: YearMonth, beskrivelse: String, beløp: Int): Map<String, Detaljpost> {
         val periodeMap = mutableMapOf<String, Detaljpost>()
         val antallMndTotalt = ChronoUnit.MONTHS.between(periodeFra, periodeTil).toInt()
-        val maanedsbeløp = beregneBeløpPerMåned(beløp, antallMndTotalt)
-        val forsteÅr = periodeFra.year
+        val månedsbeløp = beregneBeløpPerMåned(beløp, antallMndTotalt)
+        val førsteÅr = periodeFra.year
         val sisteÅr = periodeTil.minusMonths(1).year
 
-        for (år in forsteÅr..sisteÅr) {
+        for (år in førsteÅr..sisteÅr) {
             val antallMndIÅr = when {
                 periodeFra.year == år && periodeTil.year == år -> periodeTil.monthValue.minus(periodeFra.monthValue)
                 periodeFra.year == år -> 13.minus(periodeFra.monthValue)
@@ -233,7 +233,7 @@ class AinntektService(private val dateProvider: DateProvider) {
                 else -> 12
             }
             if (antallMndIÅr > 0) {
-                periodeMap[år.toString()] = Detaljpost(antallMndIÅr.times(maanedsbeløp), beskrivelse)
+                periodeMap[år.toString()] = Detaljpost(antallMndIÅr.times(månedsbeløp), beskrivelse)
             }
         }
 
