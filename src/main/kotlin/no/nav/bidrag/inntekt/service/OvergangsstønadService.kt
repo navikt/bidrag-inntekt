@@ -108,20 +108,20 @@ class OvergangsstønadService(private val dateProvider: DateProvider) {
         }
 
         // Returner map med en forekomst for hvert år beløpet dekker + forekomst for siste 3 mnd + forekomst for siste 12 mnd
-        return kalkulerBelopForÅr(periodeFraYM, periodeTilYM, belop) +
+        return kalkulerBeløpForÅr(periodeFraYM, periodeTilYM, belop) +
             kalkulerBeløpForIntervall(periodeFraYM, periodeTilYM, belop, KEY_3MND) +
             kalkulerBeløpForIntervall(periodeFraYM, periodeTilYM, belop, KEY_12MND)
     }
 
     // Kalkulerer totalt beløp for hvert år forekomsten dekker
-    private fun kalkulerBelopForÅr(periodeFra: YearMonth, periodeTil: YearMonth, beløp: Int): Map<String, Int> {
+    private fun kalkulerBeløpForÅr(periodeFra: YearMonth, periodeTil: YearMonth, beløp: Int): Map<String, Int> {
         val periodeMap = mutableMapOf<String, Int>()
         val antallMndTotalt = ChronoUnit.MONTHS.between(periodeFra, periodeTil).toInt()
         val månedsbeløp = beregneBeløpPerMåned(beløp, antallMndTotalt)
-        val forsteÅr = periodeFra.year
+        val førsteÅr = periodeFra.year
         val sisteÅr = periodeTil.minusMonths(1).year
 
-        for (år in forsteÅr..sisteÅr) {
+        for (år in førsteÅr..sisteÅr) {
             val antallMndIÅr = when {
                 periodeFra.year == år && periodeTil.year == år -> periodeTil.monthValue.minus(periodeFra.monthValue)
                 periodeFra.year == år -> 13.minus(periodeFra.monthValue)
