@@ -194,17 +194,17 @@ class AinntektService(private val dateProvider: DateProvider) {
         // Hvis periode er måned, returner map med en forekomst for hver måned beløpet dekker
         // Hvis periode er år, returner map med en forekomst for hvert år beløpet dekker + forekomst for siste 3 mnd + forekomst for siste 12 mnd
         return when (beregningsperiode) {
-            PERIODE_MAANED -> kalkulerBelopForMnd(periodeFra, periodeTil, beskrivelse, belop)
+            PERIODE_MAANED -> kalkulerBeløpForMnd(periodeFra, periodeTil, beskrivelse, belop)
             else -> kalkulerBelopForAar(periodeFra, periodeTil, beskrivelse, belop) +
-                kalkulerBelopForIntervall(periodeFra, periodeTil, beskrivelse, belop, KEY_3MND) +
-                kalkulerBelopForIntervall(periodeFra, periodeTil, beskrivelse, belop, KEY_12MND)
+                kalkulerBeløpForIntervall(periodeFra, periodeTil, beskrivelse, belop, KEY_3MND) +
+                kalkulerBeløpForIntervall(periodeFra, periodeTil, beskrivelse, belop, KEY_12MND)
         }
     }
 
-    private fun kalkulerBelopForMnd(periodeFra: YearMonth, periodeTil: YearMonth, beskrivelse: String, belop: Int): Map<String, Detaljpost> {
+    private fun kalkulerBeløpForMnd(periodeFra: YearMonth, periodeTil: YearMonth, beskrivelse: String, beløp: Int): Map<String, Detaljpost> {
         val periodeMap = mutableMapOf<String, Detaljpost>()
         val antallMnd = ChronoUnit.MONTHS.between(periodeFra, periodeTil).toInt()
-        val månedsbeløp = beregneBeløpPerMåned(belop, antallMnd)
+        val månedsbeløp = beregneBeløpPerMåned(beløp, antallMnd)
         var periode = periodeFra
 
         while (periode.isBefore(periodeTil)) {
@@ -215,31 +215,31 @@ class AinntektService(private val dateProvider: DateProvider) {
         return periodeMap
     }
 
-    private fun beregneBeløpPerMåned(belop: Int, antallMnd: Int): Int {
+    private fun beregneBeløpPerMåned(beløp: Int, antallMnd: Int): Int {
         return if (antallMnd == 0) {
             0
         } else {
-            belop.div(antallMnd)
+            beløp.div(antallMnd)
         }
     }
 
     // Kalkulerer totalt beløp for hvert år forekomsten dekker
-    private fun kalkulerBelopForAar(periodeFra: YearMonth, periodeTil: YearMonth, beskrivelse: String, belop: Int): Map<String, Detaljpost> {
+    private fun kalkulerBelopForAar(periodeFra: YearMonth, periodeTil: YearMonth, beskrivelse: String, beløp: Int): Map<String, Detaljpost> {
         val periodeMap = mutableMapOf<String, Detaljpost>()
         val antallMndTotalt = ChronoUnit.MONTHS.between(periodeFra, periodeTil).toInt()
-        val maanedsbelop = belop.div(antallMndTotalt)
-        val forsteAar = periodeFra.year
-        val sisteAar = periodeTil.minusMonths(1).year
+        val maanedsbeløp = beregneBeløpPerMåned(beløp, antallMndTotalt)
+        val forsteÅr = periodeFra.year
+        val sisteÅr = periodeTil.minusMonths(1).year
 
-        for (aar in forsteAar..sisteAar) {
-            val antallMndIAar = when {
-                periodeFra.year == aar && periodeTil.year == aar -> periodeTil.monthValue.minus(periodeFra.monthValue)
-                periodeFra.year == aar -> 13.minus(periodeFra.monthValue)
-                periodeTil.year == aar -> periodeTil.monthValue.minus(1)
+        for (år in forsteÅr..sisteÅr) {
+            val antallMndIÅr = when {
+                periodeFra.year == år && periodeTil.year == år -> periodeTil.monthValue.minus(periodeFra.monthValue)
+                periodeFra.year == år -> 13.minus(periodeFra.monthValue)
+                periodeTil.year == år -> periodeTil.monthValue.minus(1)
                 else -> 12
             }
-            if (antallMndIAar > 0) {
-                periodeMap[aar.toString()] = Detaljpost(antallMndIAar.times(maanedsbelop), beskrivelse)
+            if (antallMndIÅr > 0) {
+                periodeMap[år.toString()] = Detaljpost(antallMndIÅr.times(maanedsbeløp), beskrivelse)
             }
         }
 
@@ -247,16 +247,16 @@ class AinntektService(private val dateProvider: DateProvider) {
     }
 
     // Kalkulerer totalt beløp for intervall (3 mnd eller 12 mnd) som forekomsten evt dekker
-    private fun kalkulerBelopForIntervall(
+    private fun kalkulerBeløpForIntervall(
         periodeFra: YearMonth,
         periodeTil: YearMonth,
         beskrivelse: String,
-        belop: Int,
+        beløp: Int,
         beregningsperiode: String
     ): Map<String, Detaljpost> {
         val periodeMap = mutableMapOf<String, Detaljpost>()
         val antallMndTotalt = ChronoUnit.MONTHS.between(periodeFra, periodeTil).toInt()
-        val maanedsbelop = belop.div(antallMndTotalt)
+        val maanedsbelop = beregneBeløpPerMåned(beløp, antallMndTotalt)
 
         // TODO Bør CUT_OFF_DATO være dynamisk? (se https://www.skatteetaten.no/bedrift-og-organisasjon/arbeidsgiver/a-meldingen/frister-og-betaling-i-a-meldingen/)
         val sistePeriodeIIntervall = if (dateProvider.getCurrentDate().dayOfMonth > CUT_OFF_DATO) {
