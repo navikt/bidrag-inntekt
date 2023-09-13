@@ -10,6 +10,7 @@ import no.nav.bidrag.inntekt.util.InntektUtil.Companion.PERIODE_AAR
 import no.nav.bidrag.inntekt.util.InntektUtil.Companion.PERIODE_MAANED
 import no.nav.bidrag.inntekt.util.InntektUtil.Companion.finnAntallMndOverlapp
 import no.nav.bidrag.inntekt.util.InntektUtil.Companion.finnSisteAarSomSkalRapporteres
+import no.nav.bidrag.inntekt.util.beregneBeløpPerMåned
 import no.nav.bidrag.inntekt.util.isNumeric
 import no.nav.bidrag.transport.behandling.grunnlag.response.AinntektDto
 import no.nav.bidrag.transport.behandling.inntekt.response.InntektPost
@@ -22,6 +23,7 @@ import java.time.YearMonth
 import java.time.temporal.ChronoUnit
 
 @Service
+@Suppress("NonAsciiCharacters")
 class AinntektService(private val dateProvider: DateProvider) {
 
     // Summerer, grupperer og transformerer ainntekter pr år
@@ -213,14 +215,6 @@ class AinntektService(private val dateProvider: DateProvider) {
         }
 
         return periodeMap
-    }
-
-    private fun beregneBeløpPerMåned(beløp: Int, antallMnd: Int): Int {
-        return if (antallMnd == 0) {
-            0
-        } else {
-            beløp.div(antallMnd)
-        }
     }
 
     // Kalkulerer totalt beløp for hvert år forekomsten dekker

@@ -65,3 +65,11 @@ open class InntektUtil {
 fun String.isNumeric(): Boolean {
     return this.all { it.isDigit() }
 }
+
+fun beregneBeløpPerMåned(beløp: Int, antallMnd: Int): Int {
+    return if (antallMnd == 0) {
+        0
+    } else {
+        beløp.div(antallMnd)
+    }
+}

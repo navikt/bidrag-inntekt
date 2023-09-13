@@ -18,6 +18,7 @@ import java.math.BigDecimal
 import java.time.LocalDate
 import java.time.YearMonth
 
+@Suppress("NonAsciiCharacters")
 @DisplayName("OvergangsstønadServiceTest")
 @ActiveProfiles(BidragInntektTest.TEST_PROFILE)
 @SpringBootTest(
@@ -28,14 +29,13 @@ import java.time.YearMonth
 class OvergangsstønadServiceTest {
 
     @Test
-    @Suppress("NonAsciiCharacters")
     fun `skal returnere Overgangsstønad når dagens dato er 2023-01-01`() {
         val dagensDato = LocalDate.of(2023, 1, 1)
 
         val fixedDateProvider: DateProvider = FixedDateProvider(dagensDato)
         val overgangsstønadService = OvergangsstønadService(fixedDateProvider)
 
-        val overgangsstønadDto = TestUtil.byggOvergangsstonadDto()
+        val overgangsstønadDto = TestUtil.byggOvergangsstønadDto()
         val beregnedeOvergangsstønader = overgangsstønadService.beregnOvergangsstønad(overgangsstønadDto)
 
         assertAll(
@@ -71,14 +71,13 @@ class OvergangsstønadServiceTest {
     }
 
     @Test
-    @Suppress("NonAsciiCharacters")
     fun `skal returnere Overgangsstønad når dagens dato er 2023-01-10`() {
         val dagensDato = LocalDate.of(2023, 1, 10)
 
         val fixedDateProvider: DateProvider = FixedDateProvider(dagensDato)
         val overgangsstønadService = OvergangsstønadService(fixedDateProvider)
 
-        val overgangsstønadDto = TestUtil.byggOvergangsstonadDto()
+        val overgangsstønadDto = TestUtil.byggOvergangsstønadDto()
         val beregnedeOvergangsstønader = overgangsstønadService.beregnOvergangsstønad(overgangsstønadDto)
 
         assertAll(
@@ -122,14 +121,13 @@ class OvergangsstønadServiceTest {
     }
 
     @Test
-    @Suppress("NonAsciiCharacters")
     fun `skal returnere Overgangsstønad når dagens dato er 2023-09-01`() {
         val dagensDato = LocalDate.of(2023, 9, 1)
 
         val fixedDateProvider: DateProvider = FixedDateProvider(dagensDato)
         val overgangsstønadService = OvergangsstønadService(fixedDateProvider)
 
-        val overgangsstønadDto = TestUtil.byggOvergangsstonadDto()
+        val overgangsstønadDto = TestUtil.byggOvergangsstønadDto()
         val beregnedeOvergangsstønader = overgangsstønadService.beregnOvergangsstønad(overgangsstønadDto)
 
         assertAll(
@@ -168,6 +166,38 @@ class OvergangsstønadServiceTest {
             Executable { assertThat(beregnedeOvergangsstønader[3].periodeFra).isEqualTo(YearMonth.parse("2023-05")) },
             Executable { assertThat(beregnedeOvergangsstønader[3].periodeTil).isEqualTo(YearMonth.parse("2023-07")) },
             Executable { assertThat(beregnedeOvergangsstønader[3].inntektPostListe.isEmpty()) }
+        )
+    }
+
+    @Test
+    fun `skal håndtere inntekter over nullperioder`() {
+        val dagensDato = LocalDate.of(2023, 1, 1)
+
+        val fixedDateProvider: DateProvider = FixedDateProvider(dagensDato)
+        val overgangsstønadService = OvergangsstønadService(fixedDateProvider)
+
+        val overgangsstonadDto = TestUtil.byggOvergangsstønadDto()[0]
+        val overgansstønadMedNullperiode = overgangsstonadDto.copy(periodeTil = overgangsstonadDto.periodeFra)
+        val beregnedeOvergangsstønader = overgangsstønadService.beregnOvergangsstønad(listOf(overgansstønadMedNullperiode))
+
+        assertAll(
+            Executable { assertNotNull(beregnedeOvergangsstønader) },
+            Executable { assertThat(beregnedeOvergangsstønader.size).isEqualTo(2) },
+            Executable { assertThat(beregnedeOvergangsstønader[0].inntektBeskrivelse).isEqualTo(InntektBeskrivelse.OVERGANGSSTØNAD_BEREGNET_12MND) },
+            Executable { assertThat(beregnedeOvergangsstønader[0].visningsnavn).isEqualTo(InntektBeskrivelse.OVERGANGSSTØNAD_BEREGNET_12MND.visningsnavn) },
+            Executable { assertThat(beregnedeOvergangsstønader[0].sumInntekt).isEqualTo(BigDecimal.valueOf(0)) },
+            Executable { assertThat(beregnedeOvergangsstønader[0].periodeFra).isEqualTo(YearMonth.parse("2021-12")) },
+            Executable { assertThat(beregnedeOvergangsstønader[0].periodeTil).isEqualTo(YearMonth.parse("2022-11")) },
+            Executable { assertThat(beregnedeOvergangsstønader[0].inntektPostListe.size).isEqualTo(0) },
+            Executable { assertThat(beregnedeOvergangsstønader[0].inntektPostListe.sumOf { it.beløp.toInt() }).isEqualTo(0) },
+
+            Executable { assertThat(beregnedeOvergangsstønader[1].inntektBeskrivelse).isEqualTo(InntektBeskrivelse.OVERGANGSSTØNAD_BEREGNET_3MND) },
+            Executable { assertThat(beregnedeOvergangsstønader[1].visningsnavn).isEqualTo(InntektBeskrivelse.OVERGANGSSTØNAD_BEREGNET_3MND.visningsnavn) },
+            Executable { assertThat(beregnedeOvergangsstønader[1].sumInntekt).isEqualTo(BigDecimal.valueOf(0)) },
+            Executable { assertThat(beregnedeOvergangsstønader[1].periodeFra).isEqualTo(YearMonth.parse("2022-09")) },
+            Executable { assertThat(beregnedeOvergangsstønader[1].periodeTil).isEqualTo(YearMonth.parse("2022-11")) },
+            Executable { assertThat(beregnedeOvergangsstønader[1].inntektPostListe.size).isEqualTo(0) },
+            Executable { assertThat(beregnedeOvergangsstønader[1].inntektPostListe.sumOf { it.beløp.toInt() }).isEqualTo(0) }
         )
     }
 }

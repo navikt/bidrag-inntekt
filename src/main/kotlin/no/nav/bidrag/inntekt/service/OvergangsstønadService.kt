@@ -7,6 +7,7 @@ import no.nav.bidrag.inntekt.util.InntektUtil.Companion.KEY_12MND
 import no.nav.bidrag.inntekt.util.InntektUtil.Companion.KEY_3MND
 import no.nav.bidrag.inntekt.util.InntektUtil.Companion.finnAntallMndOverlapp
 import no.nav.bidrag.inntekt.util.InntektUtil.Companion.finnSisteAarSomSkalRapporteres
+import no.nav.bidrag.inntekt.util.beregneBeløpPerMåned
 import no.nav.bidrag.inntekt.util.isNumeric
 import no.nav.bidrag.transport.behandling.grunnlag.response.OvergangsstonadDto
 import no.nav.bidrag.transport.behandling.inntekt.response.InntektPost
@@ -18,6 +19,7 @@ import java.time.YearMonth
 import java.time.temporal.ChronoUnit
 
 @Service
+@Suppress("NonAsciiCharacters")
 class OvergangsstønadService(private val dateProvider: DateProvider) {
 
     // Summerer, grupperer og transformerer overgangsstønader pr år
@@ -106,28 +108,28 @@ class OvergangsstønadService(private val dateProvider: DateProvider) {
         }
 
         // Returner map med en forekomst for hvert år beløpet dekker + forekomst for siste 3 mnd + forekomst for siste 12 mnd
-        return kalkulerBelopForAar(periodeFraYM, periodeTilYM, belop) +
-            kalkulerBelopForIntervall(periodeFraYM, periodeTilYM, belop, KEY_3MND) +
-            kalkulerBelopForIntervall(periodeFraYM, periodeTilYM, belop, KEY_12MND)
+        return kalkulerBelopForÅr(periodeFraYM, periodeTilYM, belop) +
+            kalkulerBeløpForIntervall(periodeFraYM, periodeTilYM, belop, KEY_3MND) +
+            kalkulerBeløpForIntervall(periodeFraYM, periodeTilYM, belop, KEY_12MND)
     }
 
     // Kalkulerer totalt beløp for hvert år forekomsten dekker
-    private fun kalkulerBelopForAar(periodeFra: YearMonth, periodeTil: YearMonth, belop: Int): Map<String, Int> {
+    private fun kalkulerBelopForÅr(periodeFra: YearMonth, periodeTil: YearMonth, beløp: Int): Map<String, Int> {
         val periodeMap = mutableMapOf<String, Int>()
         val antallMndTotalt = ChronoUnit.MONTHS.between(periodeFra, periodeTil).toInt()
-        val maanedsbelop = belop.div(antallMndTotalt)
-        val forsteAar = periodeFra.year
-        val sisteAar = periodeTil.minusMonths(1).year
+        val månedsbeløp = beregneBeløpPerMåned(beløp, antallMndTotalt)
+        val forsteÅr = periodeFra.year
+        val sisteÅr = periodeTil.minusMonths(1).year
 
-        for (aar in forsteAar..sisteAar) {
-            val antallMndIAar = when {
-                periodeFra.year == aar && periodeTil.year == aar -> periodeTil.monthValue.minus(periodeFra.monthValue)
-                periodeFra.year == aar -> 13.minus(periodeFra.monthValue)
-                periodeTil.year == aar -> periodeTil.monthValue.minus(1)
+        for (år in forsteÅr..sisteÅr) {
+            val antallMndIÅr = when {
+                periodeFra.year == år && periodeTil.year == år -> periodeTil.monthValue.minus(periodeFra.monthValue)
+                periodeFra.year == år -> 13.minus(periodeFra.monthValue)
+                periodeTil.year == år -> periodeTil.monthValue.minus(1)
                 else -> 12
             }
-            if (antallMndIAar > 0) {
-                periodeMap[aar.toString()] = antallMndIAar.times(maanedsbelop)
+            if (antallMndIÅr > 0) {
+                periodeMap[år.toString()] = antallMndIÅr.times(månedsbeløp)
             }
         }
 
@@ -135,15 +137,15 @@ class OvergangsstønadService(private val dateProvider: DateProvider) {
     }
 
     // Kalkulerer totalt beløp for intervall (3 mnd eller 12 mnd) som forekomsten evt dekker
-    private fun kalkulerBelopForIntervall(
+    private fun kalkulerBeløpForIntervall(
         periodeFra: YearMonth,
         periodeTil: YearMonth,
-        belop: Int,
+        beløp: Int,
         beregningsperiode: String
     ): Map<String, Int> {
         val periodeMap = mutableMapOf<String, Int>()
         val antallMndTotalt = ChronoUnit.MONTHS.between(periodeFra, periodeTil).toInt()
-        val maanedsbelop = belop.div(antallMndTotalt)
+        val maanedsbeløp = beregneBeløpPerMåned(beløp, antallMndTotalt)
 
         // TODO Bør CUT_OFF_DATO være dynamisk? (se https://www.skatteetaten.no/bedrift-og-organisasjon/arbeidsgiver/a-meldingen/frister-og-betaling-i-a-meldingen/)
         val sistePeriodeIIntervall = if (dateProvider.getCurrentDate().dayOfMonth > CUT_OFF_DATO) {
@@ -157,7 +159,7 @@ class OvergangsstønadService(private val dateProvider: DateProvider) {
         val antallMndOverlapp = finnAntallMndOverlapp(periodeFra, periodeTil, forstePeriodeIIntervall, sistePeriodeIIntervall)
 
         if (antallMndOverlapp > 0) {
-            periodeMap[beregningsperiode] = antallMndOverlapp.times(maanedsbelop)
+            periodeMap[beregningsperiode] = antallMndOverlapp.times(maanedsbeløp)
         }
 
         return periodeMap

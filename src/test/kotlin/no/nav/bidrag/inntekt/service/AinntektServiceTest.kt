@@ -19,6 +19,7 @@ import java.math.BigDecimal
 import java.time.LocalDate
 import java.time.YearMonth
 
+@Suppress("NonAsciiCharacters")
 @DisplayName("AinntektServiceTest")
 @ActiveProfiles(BidragInntektTest.TEST_PROFILE)
 @SpringBootTest(
