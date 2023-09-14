@@ -129,7 +129,7 @@ class OvergangsstønadService(private val dateProvider: DateProvider) {
                 else -> 12
             }
             if (antallMndIÅr > 0) {
-                periodeMap[år.toString()] = antallMndIÅr.times(månedsbeløp)
+                periodeMap[år.toString()] = antallMndIÅr.toBigDecimal().times(månedsbeløp).intValueExact()
             }
         }
 
@@ -159,7 +159,7 @@ class OvergangsstønadService(private val dateProvider: DateProvider) {
         val antallMndOverlapp = finnAntallMndOverlapp(periodeFra, periodeTil, forstePeriodeIIntervall, sistePeriodeIIntervall)
 
         if (antallMndOverlapp > 0) {
-            periodeMap[beregningsperiode] = antallMndOverlapp.times(maanedsbeløp)
+            periodeMap[beregningsperiode] = antallMndOverlapp.toBigDecimal().times(maanedsbeløp).intValueExact()
         }
 
         return periodeMap

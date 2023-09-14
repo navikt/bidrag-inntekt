@@ -6,6 +6,7 @@ import no.nav.bidrag.inntekt.TestUtil
 import no.nav.bidrag.inntekt.util.DateProvider
 import no.nav.bidrag.inntekt.util.FixedDateProvider
 import no.nav.security.token.support.spring.test.EnableMockOAuth2Server
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertAll
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -29,7 +30,8 @@ import java.time.YearMonth
 @EnableMockOAuth2Server
 class AinntektServiceTest {
 
-    private final val filnavnKodeverkLoennsbeskrivelser = "src/test/resources/testfiler/respons_kodeverk_loennsbeskrivelser.json"
+    private final val filnavnKodeverkLoennsbeskrivelser =
+        "src/test/resources/testfiler/respons_kodeverk_loennsbeskrivelser.json"
     private final val filnavnEksempelRequest = "src/test/resources/testfiler/eksempel_request.json"
 
     private final val inntektRequest = TestUtil.byggInntektRequest(filnavnEksempelRequest)
@@ -37,6 +39,7 @@ class AinntektServiceTest {
 
     @Nested
     internal inner class BeregnÅrsinntekt {
+
         @Test
         @Suppress("NonAsciiCharacters")
         fun `skal transformere årsinntekter når dagens dato er 2023-01-01`() {
@@ -45,7 +48,8 @@ class AinntektServiceTest {
             val fixedDateProvider: DateProvider = FixedDateProvider(dagensDato)
             val ainntektService = AinntektService(fixedDateProvider)
 
-            val transformerteInntekter = ainntektService.beregnAarsinntekt(inntektRequest.ainntektListe, kodeverkResponse)
+            val transformerteInntekter =
+                ainntektService.beregnAarsinntekt(inntektRequest.ainntektListe, kodeverkResponse)
 
             TestUtil.printJson(transformerteInntekter)
 
@@ -95,7 +99,8 @@ class AinntektServiceTest {
             val fixedDateProvider: DateProvider = FixedDateProvider(dagensDato)
             val ainntektService = AinntektService(fixedDateProvider)
 
-            val transformerteInntekter = ainntektService.beregnAarsinntekt(inntektRequest.ainntektListe, kodeverkResponse)
+            val transformerteInntekter =
+                ainntektService.beregnAarsinntekt(inntektRequest.ainntektListe, kodeverkResponse)
 
             TestUtil.printJson(transformerteInntekter)
 
@@ -153,7 +158,8 @@ class AinntektServiceTest {
             val fixedDateProvider: DateProvider = FixedDateProvider(dagensDato)
             val ainntektService = AinntektService(fixedDateProvider)
 
-            val transformerteInntekter = ainntektService.beregnAarsinntekt(inntektRequest.ainntektListe, kodeverkResponse)
+            val transformerteInntekter =
+                ainntektService.beregnAarsinntekt(inntektRequest.ainntektListe, kodeverkResponse)
 
             TestUtil.printJson(transformerteInntekter)
 
@@ -207,10 +213,15 @@ class AinntektServiceTest {
 
             var ainntektForGyldigPeriode = inntektRequest.ainntektListe[0]
             var ainntektspost = ainntektForGyldigPeriode.ainntektspostListe[0]
-            var ainntektspostMedOpptjeningsperiodeTilLikFra = ainntektspost.copy(opptjeningsperiodeTil = ainntektspost.opptjeningsperiodeFra)
-            var ainntektForNullperiode = ainntektForGyldigPeriode.copy(periodeTil = ainntektForGyldigPeriode.periodeFra, ainntektspostListe = listOf(ainntektspostMedOpptjeningsperiodeTilLikFra))
+            var ainntektspostMedOpptjeningsperiodeTilLikFra =
+                ainntektspost.copy(opptjeningsperiodeTil = ainntektspost.opptjeningsperiodeFra)
+            var ainntektForNullperiode = ainntektForGyldigPeriode.copy(
+                periodeTil = ainntektForGyldigPeriode.periodeFra,
+                ainntektspostListe = listOf(ainntektspostMedOpptjeningsperiodeTilLikFra)
+            )
 
-            val transformerteInntekter = ainntektService.beregnAarsinntekt(listOf(ainntektForNullperiode), kodeverkResponse)
+            val transformerteInntekter =
+                ainntektService.beregnAarsinntekt(listOf(ainntektForNullperiode), kodeverkResponse)
 
             TestUtil.printJson(transformerteInntekter)
 
@@ -221,26 +232,37 @@ class AinntektServiceTest {
                 Executable { assertTrue(transformerteInntekter[1].sumInntekt == BigDecimal.valueOf(0)) }
             )
         }
+
+
     }
 
     @Nested
     internal inner class BeregnMånedsinntekt {
         @Test
-        @Suppress("NonAsciiCharacters")
         fun `skal transformere månedsinntekter`() {
             val fixedDateProvider: DateProvider = FixedDateProvider(LocalDate.of(2023, 9, 1))
             val ainntektService = AinntektService(fixedDateProvider)
 
-            val transformerteInntekter = ainntektService.beregnMaanedsinntekt(inntektRequest.ainntektListe, kodeverkResponse)
+            val transformerteInntekter =
+                ainntektService.beregnMaanedsinntekt(inntektRequest.ainntektListe, kodeverkResponse)
 
             TestUtil.printJson(transformerteInntekter)
 
             assertAll(
                 Executable { assertNotNull(transformerteInntekter) },
                 Executable { assertTrue(transformerteInntekter.size == 20) },
-                Executable { assertTrue(transformerteInntekter.filter { it.periode.year == 2021 }.sumOf { it.sumInntekt.toInt() } == 4000) },
-                Executable { assertTrue(transformerteInntekter.filter { it.periode.year == 2022 }.sumOf { it.sumInntekt.toInt() } == 446000) },
-                Executable { assertTrue(transformerteInntekter.filter { it.periode.year == 2023 }.sumOf { it.sumInntekt.toInt() } == 468000) },
+                Executable {
+                    assertTrue(transformerteInntekter.filter { it.periode.year == 2021 }
+                        .sumOf { it.sumInntekt.toInt() } == 4000)
+                },
+                Executable {
+                    assertTrue(transformerteInntekter.filter { it.periode.year == 2022 }
+                        .sumOf { it.sumInntekt.toInt() } == 446000)
+                },
+                Executable {
+                    assertTrue(transformerteInntekter.filter { it.periode.year == 2023 }
+                        .sumOf { it.sumInntekt.toInt() } == 468000)
+                },
 
                 Executable { assertTrue(transformerteInntekter[0].periode == YearMonth.of(2021, 11)) },
                 Executable { assertTrue(transformerteInntekter[0].sumInntekt == BigDecimal.valueOf(2000)) },
@@ -259,16 +281,107 @@ class AinntektServiceTest {
 
             var ainntektForGyldigPeriode = inntektRequest.ainntektListe[0]
             var ainntektspost = ainntektForGyldigPeriode.ainntektspostListe[0]
-            var ainntektspostMedOpptjeningsperiodeTilLikFra = ainntektspost.copy(opptjeningsperiodeTil = ainntektspost.opptjeningsperiodeFra)
-            var ainntektForNullperiode = ainntektForGyldigPeriode.copy(periodeTil = ainntektForGyldigPeriode.periodeFra, ainntektspostListe = listOf(ainntektspostMedOpptjeningsperiodeTilLikFra))
+            var ainntektspostMedOpptjeningsperiodeTilLikFra =
+                ainntektspost.copy(opptjeningsperiodeTil = ainntektspost.opptjeningsperiodeFra)
+            var ainntektForNullperiode = ainntektForGyldigPeriode.copy(
+                periodeTil = ainntektForGyldigPeriode.periodeFra,
+                ainntektspostListe = listOf(ainntektspostMedOpptjeningsperiodeTilLikFra)
+            )
 
-            val transformerteInntekter = ainntektService.beregnMaanedsinntekt(listOf(ainntektForNullperiode), kodeverkResponse)
+            val transformerteInntekter =
+                ainntektService.beregnMaanedsinntekt(listOf(ainntektForNullperiode), kodeverkResponse)
 
             TestUtil.printJson(transformerteInntekter)
 
             assertAll(
                 Executable { assertNotNull(transformerteInntekter) },
                 Executable { assertTrue(transformerteInntekter.size == 0) }
+            )
+        }
+
+        @Test
+        fun `skal runde beregnet månedsinntekt opp hvis den er et desimaltall med minst fem tideler`() {
+            var periodeIMnd: Long = 3
+            var tremånederslønnInt = 1234565
+            var tremånederslønn: BigDecimal = BigDecimal(tremånederslønnInt)
+            var månedslønnInt = tremånederslønnInt.div(3)
+            var månedslønn = tremånederslønn.div(BigDecimal(periodeIMnd))
+
+            // Verifisere at BigDecimal månedslønn er rundet opp til nærmeste heltall
+            assertTrue(månedslønn.toInt() - månedslønnInt == 1 )
+
+            val fixedDateProvider: DateProvider = FixedDateProvider(LocalDate.of(2023, 9, 1))
+            val ainntektService = AinntektService(fixedDateProvider)
+
+            var ainntektForGyldigPeriode = inntektRequest.ainntektListe[0]
+            var ainntektspost = ainntektForGyldigPeriode.ainntektspostListe[0]
+            var ainntektspostMedOpptjeningsperiodeTilLikFra =
+                ainntektspost.copy(opptjeningsperiodeTil = ainntektspost.opptjeningsperiodeFra?.plusMonths(periodeIMnd), belop = tremånederslønn)
+            var ainntektForNullperiode = ainntektForGyldigPeriode.copy(
+                periodeTil = ainntektForGyldigPeriode.periodeFra.plusMonths(periodeIMnd),
+                ainntektspostListe = listOf(ainntektspostMedOpptjeningsperiodeTilLikFra)
+            )
+
+            val transformerteInntekter =
+                ainntektService.beregnMaanedsinntekt(listOf(ainntektForNullperiode), kodeverkResponse)
+
+            TestUtil.printJson(transformerteInntekter)
+
+            assertAll(
+                Executable { assertNotNull(transformerteInntekter) },
+                Executable { assertTrue(transformerteInntekter.size == periodeIMnd.toInt()) },
+                Executable { assertTrue(transformerteInntekter[0].sumInntekt == månedslønn)},
+                Executable { assertTrue(transformerteInntekter[0].inntektPostListe.size == 1)},
+                Executable { assertTrue(transformerteInntekter[0].inntektPostListe[0].beløp == månedslønn)},
+                Executable { assertTrue(transformerteInntekter[1].sumInntekt == månedslønn)},
+                Executable { assertTrue(transformerteInntekter[1].inntektPostListe.size == 1)},
+                Executable { assertTrue(transformerteInntekter[1].inntektPostListe[0].beløp == månedslønn)},
+                Executable { assertTrue(transformerteInntekter[2].sumInntekt == månedslønn)},
+                Executable { assertTrue(transformerteInntekter[2].inntektPostListe.size == 1)},
+                Executable { assertTrue(transformerteInntekter[2].inntektPostListe[0].beløp == månedslønn)},
+            )
+        }
+
+        @Test
+        fun `skal runde beregnet månedsinntekt ned hvis den er et desimaltall med færre enn fem tideler`() {
+            var periodeIMnd: Long = 3
+            var tremånederslønnInt = 1234561
+            var tremånederslønn: BigDecimal = BigDecimal(tremånederslønnInt)
+            var månedslønnInt = tremånederslønnInt.div(3)
+            var månedslønn = tremånederslønn.div(BigDecimal(periodeIMnd))
+
+            // Verifisere at BigDecimal månedslønn er rundet ned til nærmeste heltall tilsvarende som for Int
+            assertTrue(månedslønn.toInt() - månedslønnInt == 0 )
+
+            val fixedDateProvider: DateProvider = FixedDateProvider(LocalDate.of(2023, 9, 1))
+            val ainntektService = AinntektService(fixedDateProvider)
+
+            var ainntektForGyldigPeriode = inntektRequest.ainntektListe[0]
+            var ainntektspost = ainntektForGyldigPeriode.ainntektspostListe[0]
+            var ainntektspostMedOpptjeningsperiodeTilLikFra =
+                ainntektspost.copy(opptjeningsperiodeTil = ainntektspost.opptjeningsperiodeFra?.plusMonths(periodeIMnd), belop = tremånederslønn)
+            var ainntektForNullperiode = ainntektForGyldigPeriode.copy(
+                periodeTil = ainntektForGyldigPeriode.periodeFra.plusMonths(periodeIMnd),
+                ainntektspostListe = listOf(ainntektspostMedOpptjeningsperiodeTilLikFra)
+            )
+
+            val transformerteInntekter =
+                ainntektService.beregnMaanedsinntekt(listOf(ainntektForNullperiode), kodeverkResponse)
+
+            TestUtil.printJson(transformerteInntekter)
+
+            assertAll(
+                Executable { assertNotNull(transformerteInntekter) },
+                Executable { assertTrue(transformerteInntekter.size == periodeIMnd.toInt()) },
+                Executable { assertTrue(transformerteInntekter[0].sumInntekt == månedslønn)},
+                Executable { assertTrue(transformerteInntekter[0].inntektPostListe.size == 1)},
+                Executable { assertTrue(transformerteInntekter[0].inntektPostListe[0].beløp == månedslønn)},
+                Executable { assertTrue(transformerteInntekter[1].sumInntekt == månedslønn)},
+                Executable { assertTrue(transformerteInntekter[1].inntektPostListe.size == 1)},
+                Executable { assertTrue(transformerteInntekter[1].inntektPostListe[0].beløp == månedslønn)},
+                Executable { assertTrue(transformerteInntekter[2].sumInntekt == månedslønn)},
+                Executable { assertTrue(transformerteInntekter[2].inntektPostListe.size == 1)},
+                Executable { assertTrue(transformerteInntekter[2].inntektPostListe[0].beløp == månedslønn)},
             )
         }
     }

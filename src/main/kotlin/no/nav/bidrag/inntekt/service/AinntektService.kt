@@ -210,7 +210,7 @@ class AinntektService(private val dateProvider: DateProvider) {
         var periode = periodeFra
 
         while (periode.isBefore(periodeTil)) {
-            periodeMap[periode.year.toString() + periode.toString().substring(5, 7)] = Detaljpost(månedsbeløp, beskrivelse)
+            periodeMap[periode.year.toString() + periode.toString().substring(5, 7)] = Detaljpost(månedsbeløp.intValueExact(), beskrivelse)
             periode = periode.plusMonths(1)
         }
 
@@ -233,7 +233,7 @@ class AinntektService(private val dateProvider: DateProvider) {
                 else -> 12
             }
             if (antallMndIÅr > 0) {
-                periodeMap[år.toString()] = Detaljpost(antallMndIÅr.times(månedsbeløp), beskrivelse)
+                periodeMap[år.toString()] = Detaljpost(antallMndIÅr.toBigDecimal().times(månedsbeløp).intValueExact(), beskrivelse)
             }
         }
 
@@ -264,7 +264,7 @@ class AinntektService(private val dateProvider: DateProvider) {
         val antallMndOverlapp = finnAntallMndOverlapp(periodeFra, periodeTil, forstePeriodeIIntervall, sistePeriodeIIntervall)
 
         if (antallMndOverlapp > 0) {
-            periodeMap[beregningsperiode] = Detaljpost(antallMndOverlapp.times(maanedsbelop), beskrivelse)
+            periodeMap[beregningsperiode] = Detaljpost(antallMndOverlapp.toBigDecimal().times(maanedsbelop).intValueExact(), beskrivelse)
         }
 
         return periodeMap
