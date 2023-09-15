@@ -119,7 +119,7 @@ class TestUtil {
 
         )
 
-        fun byggOvergangsstonadDto() = immutableListOf(
+        fun byggOvergangsstønadDto() = immutableListOf(
             OvergangsstonadDto(
                 partPersonId = "12345678901",
                 periodeFra = LocalDate.parse("2021-12-01"),

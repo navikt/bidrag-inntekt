@@ -3,6 +3,7 @@ package no.nav.bidrag.inntekt.util
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
+import java.math.BigDecimal
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.Month
@@ -64,4 +65,12 @@ open class InntektUtil {
 
 fun String.isNumeric(): Boolean {
     return this.all { it.isDigit() }
+}
+
+fun beregneBeløpPerMåned(beløp: Int, antallMnd: Int): BigDecimal {
+    return if (antallMnd == 0) {
+        BigDecimal.valueOf(0)
+    } else {
+        beløp.toBigDecimal().div(antallMnd.toBigDecimal())
+    }
 }
