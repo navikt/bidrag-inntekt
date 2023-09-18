@@ -38,8 +38,8 @@ class InntektServiceTest {
 
     private final val inntektService: InntektService = InntektService(ainntektService, skattegrunnlagService, overgangsstønadService, kodeverkConsumer)
 
-    private final val filnavnKodeverkLoennsbeskrivelser = "src/test/resources/testfiler/respons_kodeverk_loennsbeskrivelser.json"
-    private final val filnavnKodeverkSummertSkattegrunnlag = "src/test/resources/testfiler/respons_kodeverk_summert_skattegrunnlag.json"
+    private final val filnavnKodeverkLoennsbeskrivelser = "src/test/resources/__files/respons_kodeverk_loennsbeskrivelser.json"
+    private final val filnavnKodeverkSummertSkattegrunnlag = "src/test/resources/__files/respons_kodeverk_summert_skattegrunnlag.json"
     private final val filnavnEksempelRequest = "src/test/resources/testfiler/eksempel_request.json"
 
     private final val inntektRequest = TestUtil.byggInntektRequest(filnavnEksempelRequest)
@@ -58,15 +58,15 @@ class InntektServiceTest {
             Executable { assertNotNull(transformerteInntekterResponseDto) },
 
             Executable { assertTrue(transformerteInntekterResponseDto.summertAarsinntektListe.isNotEmpty()) },
-            Executable { assertTrue(transformerteInntekterResponseDto.summertAarsinntektListe.size == 10) },
+            Executable { assertTrue(transformerteInntekterResponseDto.summertAarsinntektListe.size == 12) },
             Executable { assertTrue(transformerteInntekterResponseDto.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.AINNTEKT }.size == 2) },
             Executable { assertTrue(transformerteInntekterResponseDto.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.AINNTEKT_BEREGNET_3MND }.size == 1) },
             Executable { assertTrue(transformerteInntekterResponseDto.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.AINNTEKT_BEREGNET_12MND }.size == 1) },
             Executable { assertTrue(transformerteInntekterResponseDto.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.OVERGANGSSTØNAD }.size == 2) },
             Executable { assertTrue(transformerteInntekterResponseDto.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.OVERGANGSSTØNAD_BEREGNET_3MND }.size == 1) },
             Executable { assertTrue(transformerteInntekterResponseDto.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.OVERGANGSSTØNAD_BEREGNET_12MND }.size == 1) },
-            Executable { assertTrue(transformerteInntekterResponseDto.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.LIGNINGSINNTEKT }.size == 1) },
-            Executable { assertTrue(transformerteInntekterResponseDto.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.KAPITALINNTEKT }.size == 1) },
+            Executable { assertTrue(transformerteInntekterResponseDto.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.LIGNINGSINNTEKT }.size == 2) },
+            Executable { assertTrue(transformerteInntekterResponseDto.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.KAPITALINNTEKT }.size == 2) },
 
             Executable { assertTrue(transformerteInntekterResponseDto.summertAarsinntektListe[0].inntektPostListe[0].kode == "overtidsgodtgjoerelse") },
             Executable { assertTrue(transformerteInntekterResponseDto.summertAarsinntektListe[0].inntektPostListe[0].visningsnavn == "Overtidsgodtgjørelse") },
@@ -90,15 +90,15 @@ class InntektServiceTest {
             Executable { assertNotNull(transformerteInntekterResponseDto) },
 
             Executable { assertTrue(transformerteInntekterResponseDto.summertAarsinntektListe.isNotEmpty()) },
-            Executable { assertTrue(transformerteInntekterResponseDto.summertAarsinntektListe.size == 10) },
+            Executable { assertTrue(transformerteInntekterResponseDto.summertAarsinntektListe.size == 12) },
             Executable { assertTrue(transformerteInntekterResponseDto.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.AINNTEKT }.size == 2) },
             Executable { assertTrue(transformerteInntekterResponseDto.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.AINNTEKT_BEREGNET_3MND }.size == 1) },
             Executable { assertTrue(transformerteInntekterResponseDto.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.AINNTEKT_BEREGNET_12MND }.size == 1) },
             Executable { assertTrue(transformerteInntekterResponseDto.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.OVERGANGSSTØNAD }.size == 2) },
             Executable { assertTrue(transformerteInntekterResponseDto.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.OVERGANGSSTØNAD_BEREGNET_3MND }.size == 1) },
             Executable { assertTrue(transformerteInntekterResponseDto.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.OVERGANGSSTØNAD_BEREGNET_12MND }.size == 1) },
-            Executable { assertTrue(transformerteInntekterResponseDto.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.LIGNINGSINNTEKT }.size == 1) },
-            Executable { assertTrue(transformerteInntekterResponseDto.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.KAPITALINNTEKT }.size == 1) },
+            Executable { assertTrue(transformerteInntekterResponseDto.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.LIGNINGSINNTEKT }.size == 2) },
+            Executable { assertTrue(transformerteInntekterResponseDto.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.KAPITALINNTEKT }.size == 2) },
 
             Executable { assertTrue(transformerteInntekterResponseDto.summertAarsinntektListe[0].inntektPostListe[0].kode == "overtidsgodtgjoerelse") },
             Executable { assertTrue(transformerteInntekterResponseDto.summertAarsinntektListe[0].inntektPostListe[0].visningsnavn == "overtidsgodtgjoerelse") },

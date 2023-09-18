@@ -1,4 +1,4 @@
-KODEVERK_URL: http://localhost:${wiremock.server.https-port}/kodeverk
+KODEVERK_URL: http://localhost:1234/kodeverk
 spring:
   config.activate.on-profile: local
   security:
@@ -12,3 +12,7 @@ no.nav.security.jwt:
     aad:
       discovery_url: http://localhost:${mock-oauth2-server.port}/aad/.well-known/openid-configuration
       accepted_audience: aud-localhost
+
+wiremock:
+  server:
+    port: 1234

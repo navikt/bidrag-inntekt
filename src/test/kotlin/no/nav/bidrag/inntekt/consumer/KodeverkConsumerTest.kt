@@ -37,7 +37,7 @@ class KodeverkConsumerTest {
 
     @Test
     fun `Sjekk at ok respons fra Kodeverk-consumer endepunkt mappes korrekt`() {
-        val filnavnKodeverkLoennsbeskrivelser = "src/test/resources/testfiler/respons_kodeverk_loennsbeskrivelser.json"
+        val filnavnKodeverkLoennsbeskrivelser = "src/test/resources/__files/respons_kodeverk_loennsbeskrivelser.json"
         val url = "/api/v1/kodeverk/Loennsbeskrivelser/koder/betydninger?ekskluderUgyldige=true&spraak=nb"
 
         Mockito.`when`(

@@ -6,8 +6,7 @@ import com.fasterxml.jackson.module.kotlin.readValue
 import no.nav.bidrag.domain.enums.InntektBeskrivelse
 import no.nav.bidrag.domain.enums.PlussMinus
 import no.nav.bidrag.inntekt.consumer.kodeverk.api.GetKodeverkKoderBetydningerResponse
-import no.nav.bidrag.inntekt.exception.custom.UgyldigInputException
-import no.nav.bidrag.transport.behandling.grunnlag.response.SkattegrunnlagDto
+import no.nav.bidrag.transport.behandling.inntekt.request.SkattegrunnlagForLigningsår
 import no.nav.bidrag.transport.behandling.inntekt.response.InntektPost
 import no.nav.bidrag.transport.behandling.inntekt.response.SummertAarsinntekt
 import org.springframework.core.io.ClassPathResource
@@ -22,7 +21,7 @@ import java.time.YearMonth
 class SkattegrunnlagService {
 
     fun beregnSkattegrunnlag(
-        skattegrunnlagListe: List<SkattegrunnlagDto>,
+        skattegrunnlagListe: List<SkattegrunnlagForLigningsår>,
         kodeverksverdier: GetKodeverkKoderBetydningerResponse?,
         inntektBeskrivelse: InntektBeskrivelse
     ): List<SummertAarsinntekt> {
@@ -36,27 +35,17 @@ class SkattegrunnlagService {
     }
 
     private fun beregnInntekt(
-        skattegrunnlagListe: List<SkattegrunnlagDto>,
+        skattegrunnlagListe: List<SkattegrunnlagForLigningsår>,
         mapping: List<MappingPoster>,
         inntektBeskrivelse: InntektBeskrivelse,
         kodeverksverdier: GetKodeverkKoderBetydningerResponse?
     ): List<SummertAarsinntekt> {
         val summertÅrsinntektListe = mutableListOf<SummertAarsinntekt>()
 
-        skattegrunnlagListe.forEach { skattegrunnlagÅr ->
-            if (skattegrunnlagÅr.periodeTil != skattegrunnlagÅr.periodeFra.plusYears(1) ||
-                skattegrunnlagÅr.periodeFra.dayOfMonth != 1 ||
-                skattegrunnlagÅr.periodeFra.monthValue != 1
-            ) {
-                throw UgyldigInputException(
-                    "Ugyldig input i skattegrunnlag.periodeFra, skattegrunnlag.periodeTil (må være januar til januar neste år): " +
-                        "$skattegrunnlagÅr.periodeFra $skattegrunnlagÅr.periodeTil"
-                )
-            }
-
+        skattegrunnlagListe.forEach { skattegrunnlagForLigningsår ->
             val inntektPostListe = mutableListOf<InntektPost>()
             var sumInntekt = BigDecimal.ZERO
-            skattegrunnlagÅr.skattegrunnlagListe.forEach { post ->
+            skattegrunnlagForLigningsår.skattegrunnlagsposter.forEach { post ->
                 val match = mapping.find { it.fulltNavnInntektspost == post.inntektType }
                 if (match != null) {
                     if (match.plussMinus == PlussMinus.PLUSS) {
@@ -81,11 +70,11 @@ class SkattegrunnlagService {
             summertÅrsinntektListe.add(
                 SummertAarsinntekt(
                     inntektBeskrivelse = inntektBeskrivelse,
-                    visningsnavn = "${inntektBeskrivelse.visningsnavn} ${skattegrunnlagÅr.periodeFra.year}",
+                    visningsnavn = "${inntektBeskrivelse.visningsnavn} ${skattegrunnlagForLigningsår.ligningsår}",
                     referanse = "",
                     sumInntekt = sumInntekt,
-                    periodeFra = YearMonth.of(skattegrunnlagÅr.periodeFra.year, skattegrunnlagÅr.periodeFra.month),
-                    periodeTil = YearMonth.of(skattegrunnlagÅr.periodeFra.year, Month.DECEMBER),
+                    periodeFra = YearMonth.of(skattegrunnlagForLigningsår.ligningsår, Month.JANUARY),
+                    periodeTil = YearMonth.of(skattegrunnlagForLigningsår.ligningsår, Month.DECEMBER),
                     inntektPostListe = inntektPostListe
                 )
             )

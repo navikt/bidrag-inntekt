@@ -17,7 +17,7 @@ import no.nav.bidrag.inntekt.service.OvergangsstønadService
 import no.nav.bidrag.inntekt.service.SkattegrunnlagService
 import no.nav.bidrag.inntekt.util.DateProvider
 import no.nav.bidrag.inntekt.util.FixedDateProvider
-import no.nav.bidrag.transport.behandling.inntekt.response.TransformerInntekterResponseDto
+import no.nav.bidrag.transport.behandling.inntekt.response.TransformerInntekterResponse
 import no.nav.security.token.support.spring.test.EnableMockOAuth2Server
 import org.junit.jupiter.api.Assertions.assertAll
 import org.junit.jupiter.api.Assertions.assertNotNull
@@ -62,8 +62,8 @@ class InntektControllerTest(
 
     @Test
     fun `skal transformere inntekter`() {
-        val filnavnKodeverkLoennsbeskrivelser = "src/test/resources/testfiler/respons_kodeverk_loennsbeskrivelser.json"
-        val filnavnKodeverkSummertSkattegrunnlag = "src/test/resources/testfiler/respons_kodeverk_summert_skattegrunnlag.json"
+        val filnavnKodeverkLoennsbeskrivelser = "src/test/resources/__files/respons_kodeverk_loennsbeskrivelser.json"
+        val filnavnKodeverkSummertSkattegrunnlag = "src/test/resources/__files/respons_kodeverk_summert_skattegrunnlag.json"
         val filnavnEksempelRequest = "src/test/resources/testfiler/eksempel_request.json"
 
         Mockito.`when`(kodeverkConsumer.hentKodeverksverdier("Loennsbeskrivelse"))
@@ -77,7 +77,7 @@ class InntektControllerTest(
             HttpMethod.POST,
             InntektController.TRANSFORMER_INNTEKTER,
             TestUtil.byggInntektRequest(filnavnEksempelRequest),
-            TransformerInntekterResponseDto::class.java
+            TransformerInntekterResponse::class.java
         ) { isOk() }
 
         assertAll(
@@ -85,15 +85,15 @@ class InntektControllerTest(
             Executable { assertTrue(transformerteInntekter.versjon.isEmpty()) },
 
             Executable { assertTrue(transformerteInntekter.summertAarsinntektListe.isNotEmpty()) },
-            Executable { assertTrue(transformerteInntekter.summertAarsinntektListe.size == 10) },
+            Executable { assertTrue(transformerteInntekter.summertAarsinntektListe.size == 12) },
             Executable { assertTrue(transformerteInntekter.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.AINNTEKT }.size == 2) },
             Executable { assertTrue(transformerteInntekter.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.AINNTEKT_BEREGNET_3MND }.size == 1) },
             Executable { assertTrue(transformerteInntekter.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.AINNTEKT_BEREGNET_12MND }.size == 1) },
             Executable { assertTrue(transformerteInntekter.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.OVERGANGSSTØNAD }.size == 2) },
             Executable { assertTrue(transformerteInntekter.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.OVERGANGSSTØNAD_BEREGNET_3MND }.size == 1) },
             Executable { assertTrue(transformerteInntekter.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.OVERGANGSSTØNAD_BEREGNET_12MND }.size == 1) },
-            Executable { assertTrue(transformerteInntekter.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.LIGNINGSINNTEKT }.size == 1) },
-            Executable { assertTrue(transformerteInntekter.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.KAPITALINNTEKT }.size == 1) },
+            Executable { assertTrue(transformerteInntekter.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.LIGNINGSINNTEKT }.size == 2) },
+            Executable { assertTrue(transformerteInntekter.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.KAPITALINNTEKT }.size == 2) },
 
             Executable { assertTrue(transformerteInntekter.summertMaanedsinntektListe.isNotEmpty()) },
             Executable { assertTrue(transformerteInntekter.summertMaanedsinntektListe.size == 20) },
