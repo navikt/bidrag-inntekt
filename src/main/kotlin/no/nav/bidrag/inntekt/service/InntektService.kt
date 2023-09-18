@@ -8,9 +8,9 @@ import no.nav.bidrag.inntekt.exception.RestResponse
 import no.nav.bidrag.inntekt.util.InntektUtil.Companion.LOENNSBESKRIVELSE
 import no.nav.bidrag.inntekt.util.InntektUtil.Companion.SUMMERT_SKATTEGRUNNLAG
 import no.nav.bidrag.inntekt.util.InntektUtil.Companion.tilJson
-import no.nav.bidrag.transport.behandling.inntekt.request.TransformerInntekterRequestDto
+import no.nav.bidrag.transport.behandling.inntekt.request.TransformerInntekterRequest
 import no.nav.bidrag.transport.behandling.inntekt.response.InntektPost
-import no.nav.bidrag.transport.behandling.inntekt.response.TransformerInntekterResponseDto
+import no.nav.bidrag.transport.behandling.inntekt.response.TransformerInntekterResponse
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
@@ -25,26 +25,26 @@ class InntektService(
     val kodeverkConsumer: KodeverkConsumer
 ) {
 
-    fun transformerInntekter(transformerInntekterRequestDto: TransformerInntekterRequestDto): TransformerInntekterResponseDto {
+    fun transformerInntekter(transformerInntekterRequest: TransformerInntekterRequest): TransformerInntekterResponse {
         val kodeverdierSkattegrunnlag = hentKodeverksverdier(SUMMERT_SKATTEGRUNNLAG)
         val kodeverdierLoennsbeskrivelse = hentKodeverksverdier(LOENNSBESKRIVELSE)
 
-        val transformerInntekterResponseDto = TransformerInntekterResponseDto(
+        val transformerInntekterResponse = TransformerInntekterResponse(
             versjon = "",
             summertMaanedsinntektListe = ainntektService.beregnMaanedsinntekt(
-                transformerInntekterRequestDto.ainntektListe,
+                transformerInntekterRequest.ainntektListe,
                 kodeverdierLoennsbeskrivelse
             ),
             summertAarsinntektListe = (
-                ainntektService.beregnAarsinntekt(transformerInntekterRequestDto.ainntektListe, kodeverdierLoennsbeskrivelse) +
-                    overgangsstønadService.beregnOvergangsstønad(transformerInntekterRequestDto.overgangsstonadListe) +
+                ainntektService.beregnAarsinntekt(transformerInntekterRequest.ainntektListe, kodeverdierLoennsbeskrivelse) +
+                    overgangsstønadService.beregnOvergangsstønad(transformerInntekterRequest.overgangsstonadListe) +
                     skattegrunnlagService.beregnSkattegrunnlag(
-                        transformerInntekterRequestDto.skattegrunnlagListe,
+                        transformerInntekterRequest.skattegrunnlagListe,
                         kodeverdierSkattegrunnlag,
                         InntektBeskrivelse.LIGNINGSINNTEKT
                     ) +
                     skattegrunnlagService.beregnSkattegrunnlag(
-                        transformerInntekterRequestDto.skattegrunnlagListe,
+                        transformerInntekterRequest.skattegrunnlagListe,
                         kodeverdierSkattegrunnlag,
                         InntektBeskrivelse.KAPITALINNTEKT
                     )
@@ -52,10 +52,10 @@ class InntektService(
 
         )
 
-        SECURE_LOGGER.info("TransformerInntekterRequestDto: ${tilJson(transformerInntekterRequestDto.toString())}")
-        SECURE_LOGGER.info("TransformerInntekterResponseDto: ${tilJson(transformerInntekterResponseDto.toString())}")
+        SECURE_LOGGER.info("TransformerInntekterRequestDto: ${tilJson(transformerInntekterRequest.toString())}")
+        SECURE_LOGGER.info("TransformerInntekterResponseDto: ${tilJson(transformerInntekterResponse.toString())}")
 
-        return transformerInntekterResponseDto
+        return transformerInntekterResponse
     }
 
     private fun hentKodeverksverdier(kodeverk: String): GetKodeverkKoderBetydningerResponse? {

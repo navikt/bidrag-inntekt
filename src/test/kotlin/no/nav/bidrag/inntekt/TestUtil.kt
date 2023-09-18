@@ -5,9 +5,9 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import no.nav.bidrag.inntekt.consumer.kodeverk.api.GetKodeverkKoderBetydningerResponse
 import no.nav.bidrag.transport.behandling.grunnlag.response.OvergangsstonadDto
-import no.nav.bidrag.transport.behandling.grunnlag.response.SkattegrunnlagDto
 import no.nav.bidrag.transport.behandling.grunnlag.response.SkattegrunnlagspostDto
-import no.nav.bidrag.transport.behandling.inntekt.request.TransformerInntekterRequestDto
+import no.nav.bidrag.transport.behandling.inntekt.request.SkattegrunnlagForLigningsår
+import no.nav.bidrag.transport.behandling.inntekt.request.TransformerInntekterRequest
 import okhttp3.internal.immutableListOf
 import org.springframework.http.HttpMethod
 import org.springframework.http.MediaType
@@ -27,38 +27,20 @@ class TestUtil {
     companion object {
 
         fun byggSkattegrunnlagDtoMedFeilPeriode() = immutableListOf(
-            SkattegrunnlagDto(
-                personId = "12345678901",
-                periodeFra = LocalDate.parse("2021-01-01"),
-                periodeTil = LocalDate.parse("2023-01-01"),
-                aktiv = true,
-                brukFra = LocalDateTime.now(),
-                brukTil = LocalDateTime.now(),
-                hentetTidspunkt = LocalDateTime.now(),
-                skattegrunnlagListe = byggSkattegrunnlagPostListe()
+            SkattegrunnlagForLigningsår(
+                ligningsår = 2022,
+                skattegrunnlagsposter = byggSkattegrunnlagPostListe()
             )
         )
 
         fun byggSkattegrunnlagDto() = immutableListOf(
-            SkattegrunnlagDto(
-                personId = "12345678901",
-                periodeFra = LocalDate.parse("2021-01-01"),
-                periodeTil = LocalDate.parse("2022-01-01"),
-                aktiv = true,
-                brukFra = LocalDateTime.now(),
-                brukTil = LocalDateTime.now(),
-                hentetTidspunkt = LocalDateTime.now(),
-                skattegrunnlagListe = byggSkattegrunnlagPostListe()
+            SkattegrunnlagForLigningsår(
+                ligningsår = 2021,
+                skattegrunnlagsposter = byggSkattegrunnlagPostListe()
             ),
-            SkattegrunnlagDto(
-                personId = "12345678901",
-                periodeFra = LocalDate.parse("2022-01-01"),
-                periodeTil = LocalDate.parse("2023-01-01"),
-                aktiv = true,
-                brukFra = LocalDateTime.now(),
-                brukTil = LocalDateTime.now(),
-                hentetTidspunkt = LocalDateTime.now(),
-                skattegrunnlagListe = byggSkattegrunnlagPostListe()
+            SkattegrunnlagForLigningsår(
+                ligningsår = 2022,
+                skattegrunnlagsposter = byggSkattegrunnlagPostListe()
             )
         )
 
@@ -290,7 +272,6 @@ class TestUtil {
                 hentetTidspunkt = LocalDateTime.now(),
                 belop = 1700
             )
-
         )
 
         fun <Request, Response> performRequest(
@@ -338,14 +319,14 @@ class TestUtil {
             return objectMapper.readValue(file, GetKodeverkKoderBetydningerResponse::class.java)
         }
 
-        fun byggInntektRequest(filnavn: String): TransformerInntekterRequestDto {
+        fun byggInntektRequest(filnavn: String): TransformerInntekterRequest {
             val objectMapper = ObjectMapper()
             objectMapper.registerKotlinModule()
             objectMapper.registerModule(JavaTimeModule())
             objectMapper.dateFormat = SimpleDateFormat("yyyy-MM-dd")
 
             val file = File(filnavn)
-            return objectMapper.readValue(file, TransformerInntekterRequestDto::class.java)
+            return objectMapper.readValue(file, TransformerInntekterRequest::class.java)
         }
 
         fun <T> printJson(json: List<T>) {

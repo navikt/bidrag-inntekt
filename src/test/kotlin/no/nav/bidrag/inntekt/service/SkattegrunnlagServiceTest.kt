@@ -3,14 +3,12 @@ package no.nav.bidrag.inntekt.service
 import no.nav.bidrag.domain.enums.InntektBeskrivelse
 import no.nav.bidrag.inntekt.BidragInntektTest
 import no.nav.bidrag.inntekt.TestUtil
-import no.nav.bidrag.inntekt.exception.custom.UgyldigInputException
 import no.nav.security.token.support.spring.test.EnableMockOAuth2Server
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertAll
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.function.Executable
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -30,20 +28,8 @@ class SkattegrunnlagServiceTest {
     @Autowired
     private lateinit var skattegrunnlagService: SkattegrunnlagService
 
-    private final val filnavnKodeverkSummertSkattegrunnlag = "src/test/resources/testfiler/respons_kodeverk_summert_skattegrunnlag.json"
+    private final val filnavnKodeverkSummertSkattegrunnlag = "src/test/resources/__files/respons_kodeverk_summert_skattegrunnlag.json"
     private final val kodeverkResponse = TestUtil.byggKodeverkResponse(filnavnKodeverkSummertSkattegrunnlag)
-
-    @Test
-    fun `skal kaste UgyldigInputException ved feil periodeFra og PeriodeTil i input`() {
-        assertThrows<UgyldigInputException> {
-            val skattegrunnlagDto = TestUtil.byggSkattegrunnlagDtoMedFeilPeriode()
-            skattegrunnlagService.beregnSkattegrunnlag(
-                skattegrunnlagDto,
-                kodeverkResponse,
-                InntektBeskrivelse.KAPITALINNTEKT
-            )
-        }
-    }
 
     @Test
     fun `skal returnere Kapsinntekter`() {

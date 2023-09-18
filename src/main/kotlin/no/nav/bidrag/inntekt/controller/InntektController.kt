@@ -6,8 +6,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import no.nav.bidrag.inntekt.ISSUER
 import no.nav.bidrag.inntekt.service.InntektService
-import no.nav.bidrag.transport.behandling.inntekt.request.TransformerInntekterRequestDto
-import no.nav.bidrag.transport.behandling.inntekt.response.TransformerInntekterResponseDto
+import no.nav.bidrag.transport.behandling.inntekt.request.TransformerInntekterRequest
+import no.nav.bidrag.transport.behandling.inntekt.response.TransformerInntekterResponse
 import no.nav.security.token.support.core.api.ProtectedWithClaims
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -28,7 +28,7 @@ class InntektController(private val inntektService: InntektService) {
             ApiResponse(responseCode = "401", description = "Sikkerhetstoken mangler, er utløpt, eller av andre årsaker ugyldig")
         ]
     )
-    fun transformerInntekter(@RequestBody request: TransformerInntekterRequestDto): ResponseEntity<TransformerInntekterResponseDto> {
+    fun transformerInntekter(@RequestBody request: TransformerInntekterRequest): ResponseEntity<TransformerInntekterResponse> {
         val transformerteInntekter = inntektService.transformerInntekter(request)
         return ResponseEntity(transformerteInntekter, HttpStatus.OK)
     }
