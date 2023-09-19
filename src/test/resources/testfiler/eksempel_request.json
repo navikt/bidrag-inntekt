@@ -116,7 +116,7 @@
       "belop": 85000
     }
   ],
-  "skattegrunnlagListe": [
+  "skattegrunnlagsliste": [
     {
       "ligningsår": "2022",
       "skattegrunnlagsposter": [
@@ -218,178 +218,91 @@
       ]
     }
   ],
-  "ubstListe": [],
-  "kontantstotteListe": [],
-  "overgangsstonadListe": [
+  "overgangsstonadsliste": [
     {
-      "partPersonId": "12345678901",
       "periodeFra": "2021-12-01",
       "periodeTil": "2022-01-01",
-      "aktiv": true,
-      "brukFra": "2023-08-18T08:49:04.216Z",
-      "brukTil": "2023-08-18T08:49:04.216Z",
-      "belop": 100,
-      "hentetTidspunkt": "2023-08-18T08:49:04.216Z"
+      "belop": 100
     },
     {
-      "partPersonId": "12345678901",
       "periodeFra": "2022-01-01",
       "periodeTil": "2022-02-01",
-      "aktiv": true,
-      "brukFra": "2023-08-18T08:49:04.216Z",
-      "brukTil": "2023-08-18T08:49:04.216Z",
-      "belop": 200,
-      "hentetTidspunkt": "2023-08-18T08:49:04.216Z"
+      "belop": 200
     },
     {
-      "partPersonId": "12345678901",
       "periodeFra": "2022-02-01",
       "periodeTil": "2022-03-01",
-      "aktiv": true,
-      "brukFra": "2023-08-18T08:49:04.216Z",
-      "brukTil": "2023-08-18T08:49:04.216Z",
-      "belop": 300,
-      "hentetTidspunkt": "2023-08-18T08:49:04.216Z"
+      "belop": 300
     },
     {
-      "partPersonId": "12345678901",
       "periodeFra": "2022-03-01",
       "periodeTil": "2022-04-01",
-      "aktiv": true,
-      "brukFra": "2023-08-18T08:49:04.216Z",
-      "brukTil": "2023-08-18T08:49:04.216Z",
-      "belop": 400,
-      "hentetTidspunkt": "2023-08-18T08:49:04.216Z"
+      "belop": 400
     },
     {
-      "partPersonId": "12345678901",
       "periodeFra": "2022-04-01",
       "periodeTil": "2022-05-01",
-      "aktiv": true,
-      "brukFra": "2023-08-18T08:49:04.216Z",
-      "brukTil": "2023-08-18T08:49:04.216Z",
-      "belop": 500,
-      "hentetTidspunkt": "2023-08-18T08:49:04.216Z"
+      "belop": 500
     },
     {
-      "partPersonId": "12345678901",
       "periodeFra": "2022-05-01",
       "periodeTil": "2022-06-01",
-      "aktiv": true,
-      "brukFra": "2023-08-18T08:49:04.216Z",
-      "brukTil": "2023-08-18T08:49:04.216Z",
-      "belop": 600,
-      "hentetTidspunkt": "2023-08-18T08:49:04.216Z"
+      "belop": 600
     },
     {
-      "partPersonId": "12345678901",
       "periodeFra": "2022-06-01",
       "periodeTil": "2022-07-01",
-      "aktiv": true,
-      "brukFra": "2023-08-18T08:49:04.216Z",
-      "brukTil": "2023-08-18T08:49:04.216Z",
-      "belop": 700,
-      "hentetTidspunkt": "2023-08-18T08:49:04.216Z"
+      "belop": 700
     },
     {
-      "partPersonId": "12345678901",
       "periodeFra": "2022-07-01",
       "periodeTil": "2022-08-01",
-      "aktiv": true,
-      "brukFra": "2023-08-18T08:49:04.216Z",
-      "brukTil": "2023-08-18T08:49:04.216Z",
-      "belop": 800,
-      "hentetTidspunkt": "2023-08-18T08:49:04.216Z"
+      "belop": 800
     },
     {
-      "partPersonId": "12345678901",
       "periodeFra": "2022-08-01",
       "periodeTil": "2022-09-01",
-      "aktiv": true,
-      "brukFra": "2023-08-18T08:49:04.216Z",
-      "brukTil": "2023-08-18T08:49:04.216Z",
-      "belop": 900,
-      "hentetTidspunkt": "2023-08-18T08:49:04.216Z"
+      "belop": 900
     },
     {
-      "partPersonId": "12345678901",
       "periodeFra": "2022-09-01",
       "periodeTil": "2022-10-01",
-      "aktiv": true,
-      "brukFra": "2023-08-18T08:49:04.216Z",
-      "brukTil": "2023-08-18T08:49:04.216Z",
-      "belop": 1000,
-      "hentetTidspunkt": "2023-08-18T08:49:04.216Z"
+      "belop": 1000
     },
     {
-      "partPersonId": "12345678901",
       "periodeFra": "2022-10-01",
       "periodeTil": "2022-11-01",
-      "aktiv": true,
-      "brukFra": "2023-08-18T08:49:04.216Z",
-      "brukTil": "2023-08-18T08:49:04.216Z",
-      "belop": 1100,
-      "hentetTidspunkt": "2023-08-18T08:49:04.216Z"
+      "belop": 1100
     },
     {
-      "partPersonId": "12345678901",
       "periodeFra": "2022-11-01",
       "periodeTil": "2022-12-01",
-      "aktiv": true,
-      "brukFra": "2023-08-18T08:49:04.216Z",
-      "brukTil": "2023-08-18T08:49:04.216Z",
-      "belop": 1200,
-      "hentetTidspunkt": "2023-08-18T08:49:04.216Z"
+      "belop": 1200
     },
     {
-      "partPersonId": "12345678901",
       "periodeFra": "2022-12-01",
       "periodeTil": "2023-01-01",
-      "aktiv": true,
-      "brukFra": "2023-08-18T08:49:04.216Z",
-      "brukTil": "2023-08-18T08:49:04.216Z",
-      "belop": 1300,
-      "hentetTidspunkt": "2023-08-18T08:49:04.216Z"
+      "belop": 1300
     },
     {
-      "partPersonId": "12345678901",
       "periodeFra": "2023-01-01",
       "periodeTil": "2023-02-01",
-      "aktiv": true,
-      "brukFra": "2023-08-18T08:49:04.216Z",
-      "brukTil": "2023-08-18T08:49:04.216Z",
-      "belop": 1400,
-      "hentetTidspunkt": "2023-08-18T08:49:04.216Z"
+      "belop": 1400
     },
     {
-      "partPersonId": "12345678901",
       "periodeFra": "2023-02-01",
       "periodeTil": "2023-03-01",
-      "aktiv": true,
-      "brukFra": "2023-08-18T08:49:04.216Z",
-      "brukTil": "2023-08-18T08:49:04.216Z",
-      "belop": 1500,
-      "hentetTidspunkt": "2023-08-18T08:49:04.216Z"
+      "belop": 1500
     },
     {
-      "partPersonId": "12345678901",
       "periodeFra": "2023-03-01",
       "periodeTil": "2023-04-01",
-      "aktiv": true,
-      "brukFra": "2023-08-18T08:49:04.216Z",
-      "brukTil": "2023-08-18T08:49:04.216Z",
-      "belop": 1600,
-      "hentetTidspunkt": "2023-08-18T08:49:04.216Z"
+      "belop": 1600
     },
     {
-      "partPersonId": "12345678901",
       "periodeFra": "2023-04-01",
       "periodeTil": "2023-05-01",
-      "aktiv": true,
-      "brukFra": "2023-08-18T08:49:04.216Z",
-      "brukTil": "2023-08-18T08:49:04.216Z",
-      "belop": 1700,
-      "hentetTidspunkt": "2023-08-18T08:49:04.216Z"
+      "belop": 1700
     }
   ]
 }

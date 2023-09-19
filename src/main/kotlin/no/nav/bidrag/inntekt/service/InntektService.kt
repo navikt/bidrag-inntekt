@@ -37,14 +37,14 @@ class InntektService(
             ),
             summertAarsinntektListe = (
                 ainntektService.beregnAarsinntekt(transformerInntekterRequest.ainntektsposter, kodeverdierLoennsbeskrivelse) +
-                    overgangsstønadService.beregnOvergangsstønad(transformerInntekterRequest.overgangsstonadListe) +
+                    overgangsstønadService.beregnOvergangsstønad(transformerInntekterRequest.overgangsstonadsliste) +
                     skattegrunnlagService.beregnSkattegrunnlag(
-                        transformerInntekterRequest.skattegrunnlagListe,
+                        transformerInntekterRequest.skattegrunnlagsliste,
                         kodeverdierSkattegrunnlag,
                         InntektBeskrivelse.LIGNINGSINNTEKT
                     ) +
                     skattegrunnlagService.beregnSkattegrunnlag(
-                        transformerInntekterRequest.skattegrunnlagListe,
+                        transformerInntekterRequest.skattegrunnlagsliste,
                         kodeverdierSkattegrunnlag,
                         InntektBeskrivelse.KAPITALINNTEKT
                     )

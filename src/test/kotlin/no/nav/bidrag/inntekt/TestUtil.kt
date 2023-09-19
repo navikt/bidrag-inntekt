@@ -4,8 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import no.nav.bidrag.inntekt.consumer.kodeverk.api.GetKodeverkKoderBetydningerResponse
-import no.nav.bidrag.transport.behandling.grunnlag.response.OvergangsstonadDto
 import no.nav.bidrag.transport.behandling.grunnlag.response.SkattegrunnlagspostDto
+import no.nav.bidrag.transport.behandling.inntekt.request.Overgangsstonad
 import no.nav.bidrag.transport.behandling.inntekt.request.SkattegrunnlagForLigningsår
 import no.nav.bidrag.transport.behandling.inntekt.request.TransformerInntekterRequest
 import okhttp3.internal.immutableListOf
@@ -20,7 +20,6 @@ import java.io.File
 import java.math.BigDecimal
 import java.text.SimpleDateFormat
 import java.time.LocalDate
-import java.time.LocalDateTime
 
 class TestUtil {
 
@@ -101,175 +100,90 @@ class TestUtil {
 
         )
 
-        fun byggOvergangsstønadDto() = immutableListOf(
-            OvergangsstonadDto(
-                partPersonId = "12345678901",
+        fun byggOvergangsstønad() = immutableListOf(
+            Overgangsstonad(
                 periodeFra = LocalDate.parse("2021-12-01"),
                 periodeTil = LocalDate.parse("2022-01-01"),
-                aktiv = true,
-                brukFra = LocalDateTime.now(),
-                brukTil = LocalDateTime.now(),
-                hentetTidspunkt = LocalDateTime.now(),
                 belop = 100
             ),
-            OvergangsstonadDto(
-                partPersonId = "12345678901",
+            Overgangsstonad(
                 periodeFra = LocalDate.parse("2022-01-01"),
                 periodeTil = LocalDate.parse("2022-02-01"),
-                aktiv = true,
-                brukFra = LocalDateTime.now(),
-                brukTil = LocalDateTime.now(),
-                hentetTidspunkt = LocalDateTime.now(),
                 belop = 200
             ),
-            OvergangsstonadDto(
-                partPersonId = "12345678901",
+            Overgangsstonad(
                 periodeFra = LocalDate.parse("2022-02-01"),
                 periodeTil = LocalDate.parse("2022-03-01"),
-                aktiv = true,
-                brukFra = LocalDateTime.now(),
-                brukTil = LocalDateTime.now(),
-                hentetTidspunkt = LocalDateTime.now(),
                 belop = 300
             ),
-            OvergangsstonadDto(
-                partPersonId = "12345678901",
+            Overgangsstonad(
                 periodeFra = LocalDate.parse("2022-03-01"),
                 periodeTil = LocalDate.parse("2022-04-01"),
-                aktiv = true,
-                brukFra = LocalDateTime.now(),
-                brukTil = LocalDateTime.now(),
-                hentetTidspunkt = LocalDateTime.now(),
                 belop = 400
             ),
-            OvergangsstonadDto(
-                partPersonId = "12345678901",
+            Overgangsstonad(
                 periodeFra = LocalDate.parse("2022-04-01"),
                 periodeTil = LocalDate.parse("2022-05-01"),
-                aktiv = true,
-                brukFra = LocalDateTime.now(),
-                brukTil = LocalDateTime.now(),
-                hentetTidspunkt = LocalDateTime.now(),
                 belop = 500
             ),
-            OvergangsstonadDto(
-                partPersonId = "12345678901",
+            Overgangsstonad(
                 periodeFra = LocalDate.parse("2022-05-01"),
                 periodeTil = LocalDate.parse("2022-06-01"),
-                aktiv = true,
-                brukFra = LocalDateTime.now(),
-                brukTil = LocalDateTime.now(),
-                hentetTidspunkt = LocalDateTime.now(),
                 belop = 600
             ),
-            OvergangsstonadDto(
-                partPersonId = "12345678901",
+            Overgangsstonad(
                 periodeFra = LocalDate.parse("2022-06-01"),
                 periodeTil = LocalDate.parse("2022-07-01"),
-                aktiv = true,
-                brukFra = LocalDateTime.now(),
-                brukTil = LocalDateTime.now(),
-                hentetTidspunkt = LocalDateTime.now(),
                 belop = 700
             ),
-            OvergangsstonadDto(
-                partPersonId = "12345678901",
+            Overgangsstonad(
                 periodeFra = LocalDate.parse("2022-07-01"),
                 periodeTil = LocalDate.parse("2022-08-01"),
-                aktiv = true,
-                brukFra = LocalDateTime.now(),
-                brukTil = LocalDateTime.now(),
-                hentetTidspunkt = LocalDateTime.now(),
                 belop = 800
             ),
-            OvergangsstonadDto(
-                partPersonId = "12345678901",
+            Overgangsstonad(
                 periodeFra = LocalDate.parse("2022-08-01"),
                 periodeTil = LocalDate.parse("2022-09-01"),
-                aktiv = true,
-                brukFra = LocalDateTime.now(),
-                brukTil = LocalDateTime.now(),
-                hentetTidspunkt = LocalDateTime.now(),
                 belop = 900
             ),
-            OvergangsstonadDto(
-                partPersonId = "12345678901",
+            Overgangsstonad(
                 periodeFra = LocalDate.parse("2022-09-01"),
                 periodeTil = LocalDate.parse("2022-10-01"),
-                aktiv = true,
-                brukFra = LocalDateTime.now(),
-                brukTil = LocalDateTime.now(),
-                hentetTidspunkt = LocalDateTime.now(),
                 belop = 1000
             ),
-            OvergangsstonadDto(
-                partPersonId = "12345678901",
+            Overgangsstonad(
                 periodeFra = LocalDate.parse("2022-10-01"),
                 periodeTil = LocalDate.parse("2022-11-01"),
-                aktiv = true,
-                brukFra = LocalDateTime.now(),
-                brukTil = LocalDateTime.now(),
-                hentetTidspunkt = LocalDateTime.now(),
                 belop = 1100
             ),
-            OvergangsstonadDto(
-                partPersonId = "12345678901",
+            Overgangsstonad(
                 periodeFra = LocalDate.parse("2022-11-01"),
                 periodeTil = LocalDate.parse("2022-12-01"),
-                aktiv = true,
-                brukFra = LocalDateTime.now(),
-                brukTil = LocalDateTime.now(),
-                hentetTidspunkt = LocalDateTime.now(),
                 belop = 1200
             ),
-            OvergangsstonadDto(
-                partPersonId = "12345678901",
+            Overgangsstonad(
                 periodeFra = LocalDate.parse("2022-12-01"),
                 periodeTil = LocalDate.parse("2023-01-01"),
-                aktiv = true,
-                brukFra = LocalDateTime.now(),
-                brukTil = LocalDateTime.now(),
-                hentetTidspunkt = LocalDateTime.now(),
                 belop = 1300
             ),
-            OvergangsstonadDto(
-                partPersonId = "12345678901",
+            Overgangsstonad(
                 periodeFra = LocalDate.parse("2023-01-01"),
                 periodeTil = LocalDate.parse("2023-02-01"),
-                aktiv = true,
-                brukFra = LocalDateTime.now(),
-                brukTil = LocalDateTime.now(),
-                hentetTidspunkt = LocalDateTime.now(),
                 belop = 1400
             ),
-            OvergangsstonadDto(
-                partPersonId = "12345678901",
+            Overgangsstonad(
                 periodeFra = LocalDate.parse("2023-02-01"),
                 periodeTil = LocalDate.parse("2023-03-01"),
-                aktiv = true,
-                brukFra = LocalDateTime.now(),
-                brukTil = LocalDateTime.now(),
-                hentetTidspunkt = LocalDateTime.now(),
                 belop = 1500
             ),
-            OvergangsstonadDto(
-                partPersonId = "12345678901",
+            Overgangsstonad(
                 periodeFra = LocalDate.parse("2023-03-01"),
                 periodeTil = LocalDate.parse("2023-04-01"),
-                aktiv = true,
-                brukFra = LocalDateTime.now(),
-                brukTil = LocalDateTime.now(),
-                hentetTidspunkt = LocalDateTime.now(),
                 belop = 1600
             ),
-            OvergangsstonadDto(
-                partPersonId = "12345678901",
+            Overgangsstonad(
                 periodeFra = LocalDate.parse("2023-04-01"),
                 periodeTil = LocalDate.parse("2023-05-01"),
-                aktiv = true,
-                brukFra = LocalDateTime.now(),
-                brukTil = LocalDateTime.now(),
-                hentetTidspunkt = LocalDateTime.now(),
                 belop = 1700
             )
         )
