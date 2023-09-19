@@ -32,11 +32,11 @@ class InntektService(
         val transformerInntekterResponse = TransformerInntekterResponse(
             versjon = "",
             summertMaanedsinntektListe = ainntektService.beregnMaanedsinntekt(
-                transformerInntekterRequest.ainntektListe,
+                transformerInntekterRequest.ainntektsposter,
                 kodeverdierLoennsbeskrivelse
             ),
             summertAarsinntektListe = (
-                ainntektService.beregnAarsinntekt(transformerInntekterRequest.ainntektListe, kodeverdierLoennsbeskrivelse) +
+                ainntektService.beregnAarsinntekt(transformerInntekterRequest.ainntektsposter, kodeverdierLoennsbeskrivelse) +
                     overgangsstønadService.beregnOvergangsstønad(transformerInntekterRequest.overgangsstonadListe) +
                     skattegrunnlagService.beregnSkattegrunnlag(
                         transformerInntekterRequest.skattegrunnlagListe,
