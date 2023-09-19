@@ -1,6 +1,6 @@
 package no.nav.bidrag.inntekt.consumer
 
-import no.nav.bidrag.inntekt.exception.RestResponse
+import no.nav.bidrag.inntekt.aop.RestResponse
 import org.slf4j.Logger
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
