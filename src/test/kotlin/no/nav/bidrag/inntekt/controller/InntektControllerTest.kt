@@ -8,9 +8,9 @@ import no.nav.bidrag.domain.enums.InntektBeskrivelse
 import no.nav.bidrag.inntekt.BidragInntektTest
 import no.nav.bidrag.inntekt.BidragInntektTest.Companion.TEST_PROFILE
 import no.nav.bidrag.inntekt.TestUtil
+import no.nav.bidrag.inntekt.aop.RestExceptionHandler
+import no.nav.bidrag.inntekt.aop.RestResponse
 import no.nav.bidrag.inntekt.consumer.kodeverk.KodeverkConsumer
-import no.nav.bidrag.inntekt.exception.RestExceptionHandler
-import no.nav.bidrag.inntekt.exception.RestResponse
 import no.nav.bidrag.inntekt.service.AinntektService
 import no.nav.bidrag.inntekt.service.InntektService
 import no.nav.bidrag.inntekt.service.OvergangsstønadService
@@ -54,7 +54,9 @@ class InntektControllerTest(
     private final val inntektService: InntektService = InntektService(ainntektService, skattegrunnlagService, overgangsstonadService, kodeverkConsumer)
     private final val inntektController: InntektController = InntektController(inntektService)
 
-    private var mockMvc: MockMvc = MockMvcBuilders.standaloneSetup(inntektController).setControllerAdvice(RestExceptionHandler(exceptionLogger))
+    private var mockMvc: MockMvc = MockMvcBuilders.standaloneSetup(inntektController).setControllerAdvice(
+        RestExceptionHandler(exceptionLogger)
+    )
         .addFilter<StandaloneMockMvcBuilder>({ request: ServletRequest?, response: ServletResponse, chain: FilterChain ->
             response.characterEncoding = "UTF-8" // this is crucial
             chain.doFilter(request, response)

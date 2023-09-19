@@ -1,9 +1,5 @@
-package no.nav.bidrag.inntekt.exception
+package no.nav.bidrag.inntekt.aop
 
-import com.fasterxml.jackson.core.JacksonException
-import com.fasterxml.jackson.databind.JsonMappingException
-import com.fasterxml.jackson.databind.exc.InvalidFormatException
-import com.fasterxml.jackson.module.kotlin.MissingKotlinParameterException
 import no.nav.bidrag.commons.ExceptionLogger
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
@@ -24,7 +20,6 @@ import org.springframework.web.client.HttpStatusCodeException
 import org.springframework.web.client.RestClientException
 import org.springframework.web.client.RestTemplate
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException
-import java.time.format.DateTimeParseException
 
 @RestControllerAdvice
 @Component
@@ -91,42 +86,6 @@ class RestExceptionHandler(private val exceptionLogger: ExceptionLogger) {
             else -> e.message
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors)
-    }
-
-    @ResponseBody
-    @ExceptionHandler(
-        JacksonException::class
-    )
-    fun handleJacksonExceptions(e: JacksonException): ResponseEntity<*> {
-        val errors: MutableMap<String, String?> = HashMap()
-        when (e) {
-            is InvalidFormatException -> {
-                errors[extractPath(e.path)] = when (val cause = e.cause) {
-                    is DateTimeParseException -> "Ugyldig datoformat på oppgitt dato: '${cause.parsedString}'. Dato må oppgis på formatet yyyy-MM-dd."
-                    else -> e.originalMessage
-                }
-            }
-            is MissingKotlinParameterException -> { errors[extractPath(e.path)] = "Må oppgi gyldig verdi av type (${e.parameter.type}). Kan ikke være null." }
-            else -> {
-                errors["Feil ved deserialisering"] = e.originalMessage
-            }
-        }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors)
-    }
-
-    private fun extractPath(paths: List<JsonMappingException.Reference>): String {
-        val sb = StringBuilder()
-        paths.forEach { jsonMappingException ->
-            if (jsonMappingException.index != -1) {
-                sb.append("[${jsonMappingException.index}]")
-            } else {
-                if (sb.isNotEmpty()) {
-                    sb.append(".")
-                }
-                sb.append(jsonMappingException.fieldName)
-            }
-        }
-        return sb.toString()
     }
 }
 
