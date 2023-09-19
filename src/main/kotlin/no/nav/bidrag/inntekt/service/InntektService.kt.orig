@@ -32,26 +32,39 @@ class InntektService(
         val transformerInntekterResponse = TransformerInntekterResponse(
             versjon = "",
             summertMaanedsinntektListe = ainntektService.beregnMaanedsinntekt(
+<<<<<<< HEAD
                 transformerInntekterRequest.ainntektsposter,
                 kodeverdierLoennsbeskrivelse
             ),
             summertAarsinntektListe = (
-                    ainntektService.beregnAarsinntekt(
-                        transformerInntekterRequest.ainntektsposter,
-                        kodeverdierLoennsbeskrivelse
+                ainntektService.beregnAarsinntekt(transformerInntekterRequest.ainntektsposter, kodeverdierLoennsbeskrivelse) +
+                    overgangsstønadService.beregnOvergangsstønad(transformerInntekterRequest.overgangsstonadsliste) +
+                    skattegrunnlagService.beregnSkattegrunnlag(
+                        transformerInntekterRequest.skattegrunnlagsliste,
+=======
+                transformerInntekterRequest.ainntektListe,
+                kodeverdierLoennsbeskrivelse
+            ),
+            summertAarsinntektListe = (
+                ainntektService.beregnAarsinntekt(transformerInntekterRequest.ainntektListe, kodeverdierLoennsbeskrivelse) +
+                    overgangsstønadService.beregnOvergangsstønad(transformerInntekterRequest.overgangsstonadListe) +
+                    skattegrunnlagService.beregnSkattegrunnlag(
+                        transformerInntekterRequest.skattegrunnlagListe,
+>>>>>>> main
+                        kodeverdierSkattegrunnlag,
+                        InntektBeskrivelse.LIGNINGSINNTEKT
                     ) +
-                            overgangsstønadService.beregnOvergangsstønad(transformerInntekterRequest.overgangsstonadsliste) +
-                            skattegrunnlagService.beregnSkattegrunnlag(
-                                transformerInntekterRequest.skattegrunnlagsliste,
-                                kodeverdierSkattegrunnlag,
-                                InntektBeskrivelse.LIGNINGSINNTEKT
-                            ) +
-                            skattegrunnlagService.beregnSkattegrunnlag(
-                                transformerInntekterRequest.skattegrunnlagsliste,
-                                kodeverdierSkattegrunnlag,
-                                InntektBeskrivelse.KAPITALINNTEKT
-                            )
+                    skattegrunnlagService.beregnSkattegrunnlag(
+<<<<<<< HEAD
+                        transformerInntekterRequest.skattegrunnlagsliste,
+=======
+                        transformerInntekterRequest.skattegrunnlagListe,
+>>>>>>> main
+                        kodeverdierSkattegrunnlag,
+                        InntektBeskrivelse.KAPITALINNTEKT
                     )
+                )
+
         )
 
         SECURE_LOGGER.info("TransformerInntekterRequestDto: ${tilJson(transformerInntekterRequest.toString())}")

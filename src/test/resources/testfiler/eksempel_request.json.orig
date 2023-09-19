@@ -163,6 +163,56 @@
       ]
     },
     {
+<<<<<<< HEAD
+      "ligningsår": "2021",
+=======
+      "ligningsår": "2022",
+>>>>>>> main
+      "skattegrunnlagsposter": [
+        {
+          "skattegrunnlagType": "Ordinær",
+          "inntektType": "samledePaaloepteRenterPaaGjeldIInnenlandskeBanker",
+          "belop": 100
+        },
+        {
+          "skattegrunnlagType": "Ordinær",
+          "inntektType": "andreFradragsberettigedeKostnader",
+          "belop": 200
+        },
+        {
+          "skattegrunnlagType": "Ordinær",
+          "inntektType": "annenSkattepliktigKapitalinntektFraAnnetFinansprodukt",
+          "belop": 300
+        },
+        {
+          "skattegrunnlagType": "Ordinær",
+<<<<<<< HEAD
+=======
+          "inntektType": "samledeOpptjenteRenterIUtenlandskeBanker",
+          "belop": 400
+        },
+        {
+          "skattegrunnlagType": "Ordinær",
+          "inntektType": "samletAnnenPensjonMedTrekkfritak",
+          "belop": 13500
+        },
+        {
+          "skattegrunnlagType": "Ordinær",
+          "inntektType": "overskuddAvUtgiftsgodtgjoerelseVedSmusstillegg",
+          "belop": 4560
+        },
+        {
+          "skattegrunnlagType": "Ordinær",
+          "inntektType": "samletLoennsinntekt",
+          "belop": 53560
+        },
+        {
+          "skattegrunnlagType": "Ordinær",
+          "inntektType": "samletOverskuddPaaUtgiftsgodtgjoerelse",
+          "belop": 7890
+        }
+      ]
+    }, {
       "ligningsår": "2021",
       "skattegrunnlagsposter": [
         {
@@ -182,6 +232,7 @@
         },
         {
           "skattegrunnlagType": "Ordinær",
+>>>>>>> main
           "inntektType": "samledePaaloepteRenterPaaGjeldIUtlandet",
           "belop": 4000
         },
