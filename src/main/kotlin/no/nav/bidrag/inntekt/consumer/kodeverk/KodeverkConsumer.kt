@@ -1,10 +1,10 @@
 package no.nav.bidrag.inntekt.consumer.kodeverk
 
 import no.nav.bidrag.commons.web.HttpHeaderRestTemplate
+import no.nav.bidrag.inntekt.aop.RestResponse
+import no.nav.bidrag.inntekt.aop.tryExchange
 import no.nav.bidrag.inntekt.consumer.InntektConsumer
 import no.nav.bidrag.inntekt.consumer.kodeverk.api.GetKodeverkKoderBetydningerResponse
-import no.nav.bidrag.inntekt.exception.RestResponse
-import no.nav.bidrag.inntekt.exception.tryExchange
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.cache.annotation.Cacheable

@@ -4,8 +4,13 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import no.nav.bidrag.inntekt.consumer.kodeverk.api.GetKodeverkKoderBetydningerResponse
+<<<<<<< HEAD
 import no.nav.bidrag.transport.behandling.grunnlag.response.SkattegrunnlagspostDto
 import no.nav.bidrag.transport.behandling.inntekt.request.Overgangsstonad
+=======
+import no.nav.bidrag.transport.behandling.grunnlag.response.OvergangsstonadDto
+import no.nav.bidrag.transport.behandling.grunnlag.response.SkattegrunnlagspostDto
+>>>>>>> main
 import no.nav.bidrag.transport.behandling.inntekt.request.SkattegrunnlagForLigningsår
 import no.nav.bidrag.transport.behandling.inntekt.request.TransformerInntekterRequest
 import okhttp3.internal.immutableListOf

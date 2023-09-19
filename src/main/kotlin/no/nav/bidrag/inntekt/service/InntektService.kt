@@ -2,9 +2,9 @@ package no.nav.bidrag.inntekt.service
 
 import no.nav.bidrag.domain.enums.InntektBeskrivelse
 import no.nav.bidrag.inntekt.SECURE_LOGGER
+import no.nav.bidrag.inntekt.aop.RestResponse
 import no.nav.bidrag.inntekt.consumer.kodeverk.KodeverkConsumer
 import no.nav.bidrag.inntekt.consumer.kodeverk.api.GetKodeverkKoderBetydningerResponse
-import no.nav.bidrag.inntekt.exception.RestResponse
 import no.nav.bidrag.inntekt.util.InntektUtil.Companion.LOENNSBESKRIVELSE
 import no.nav.bidrag.inntekt.util.InntektUtil.Companion.SUMMERT_SKATTEGRUNNLAG
 import no.nav.bidrag.inntekt.util.InntektUtil.Companion.tilJson
@@ -32,6 +32,7 @@ class InntektService(
         val transformerInntekterResponse = TransformerInntekterResponse(
             versjon = "",
             summertMaanedsinntektListe = ainntektService.beregnMaanedsinntekt(
+<<<<<<< HEAD
                 transformerInntekterRequest.ainntektsposter,
                 kodeverdierLoennsbeskrivelse
             ),
@@ -40,11 +41,25 @@ class InntektService(
                     overgangsstønadService.beregnOvergangsstønad(transformerInntekterRequest.overgangsstonadsliste) +
                     skattegrunnlagService.beregnSkattegrunnlag(
                         transformerInntekterRequest.skattegrunnlagsliste,
+=======
+                transformerInntekterRequest.ainntektListe,
+                kodeverdierLoennsbeskrivelse
+            ),
+            summertAarsinntektListe = (
+                ainntektService.beregnAarsinntekt(transformerInntekterRequest.ainntektListe, kodeverdierLoennsbeskrivelse) +
+                    overgangsstønadService.beregnOvergangsstønad(transformerInntekterRequest.overgangsstonadListe) +
+                    skattegrunnlagService.beregnSkattegrunnlag(
+                        transformerInntekterRequest.skattegrunnlagListe,
+>>>>>>> main
                         kodeverdierSkattegrunnlag,
                         InntektBeskrivelse.LIGNINGSINNTEKT
                     ) +
                     skattegrunnlagService.beregnSkattegrunnlag(
+<<<<<<< HEAD
                         transformerInntekterRequest.skattegrunnlagsliste,
+=======
+                        transformerInntekterRequest.skattegrunnlagListe,
+>>>>>>> main
                         kodeverdierSkattegrunnlag,
                         InntektBeskrivelse.KAPITALINNTEKT
                     )

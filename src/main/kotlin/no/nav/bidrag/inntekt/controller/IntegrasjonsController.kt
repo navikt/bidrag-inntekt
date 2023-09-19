@@ -3,9 +3,9 @@ package no.nav.bidrag.inntekt.controller
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import no.nav.bidrag.inntekt.ISSUER
+import no.nav.bidrag.inntekt.aop.RestResponse
 import no.nav.bidrag.inntekt.consumer.kodeverk.KodeverkConsumer
 import no.nav.bidrag.inntekt.consumer.kodeverk.api.GetKodeverkKoderBetydningerResponse
-import no.nav.bidrag.inntekt.exception.RestResponse
 import no.nav.security.token.support.core.api.ProtectedWithClaims
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity

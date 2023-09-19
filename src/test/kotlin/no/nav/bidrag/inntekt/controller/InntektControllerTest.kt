@@ -8,9 +8,9 @@ import no.nav.bidrag.domain.enums.InntektBeskrivelse
 import no.nav.bidrag.inntekt.BidragInntektTest
 import no.nav.bidrag.inntekt.BidragInntektTest.Companion.TEST_PROFILE
 import no.nav.bidrag.inntekt.TestUtil
+import no.nav.bidrag.inntekt.aop.RestExceptionHandler
+import no.nav.bidrag.inntekt.aop.RestResponse
 import no.nav.bidrag.inntekt.consumer.kodeverk.KodeverkConsumer
-import no.nav.bidrag.inntekt.exception.RestExceptionHandler
-import no.nav.bidrag.inntekt.exception.RestResponse
 import no.nav.bidrag.inntekt.service.AinntektService
 import no.nav.bidrag.inntekt.service.InntektService
 import no.nav.bidrag.inntekt.service.OvergangsstønadService
@@ -56,18 +56,32 @@ class InntektControllerTest(
         InntektService(ainntektService, skattegrunnlagService, overgangsstonadService, kodeverkConsumer)
     private final val inntektController: InntektController = InntektController(inntektService)
 
+<<<<<<< HEAD
     private var mockMvc: MockMvc =
         MockMvcBuilders.standaloneSetup(inntektController).setControllerAdvice(RestExceptionHandler(exceptionLogger))
             .addFilter<StandaloneMockMvcBuilder>({ request: ServletRequest?, response: ServletResponse, chain: FilterChain ->
                 response.characterEncoding = "UTF-8" // this is crucial
                 chain.doFilter(request, response)
             }, "/*").build()
+=======
+    private var mockMvc: MockMvc = MockMvcBuilders.standaloneSetup(inntektController).setControllerAdvice(
+        RestExceptionHandler(exceptionLogger)
+    )
+        .addFilter<StandaloneMockMvcBuilder>({ request: ServletRequest?, response: ServletResponse, chain: FilterChain ->
+            response.characterEncoding = "UTF-8" // this is crucial
+            chain.doFilter(request, response)
+        }, "/*").build()
+>>>>>>> main
 
     @Test
     fun `skal transformere inntekter`() {
         val filnavnKodeverkLoennsbeskrivelser = "src/test/resources/__files/respons_kodeverk_loennsbeskrivelser.json"
+<<<<<<< HEAD
         val filnavnKodeverkSummertSkattegrunnlag =
             "src/test/resources/__files/respons_kodeverk_summert_skattegrunnlag.json"
+=======
+        val filnavnKodeverkSummertSkattegrunnlag = "src/test/resources/__files/respons_kodeverk_summert_skattegrunnlag.json"
+>>>>>>> main
         val filnavnEksempelRequest = "src/test/resources/testfiler/eksempel_request.json"
 
         Mockito.`when`(kodeverkConsumer.hentKodeverksverdier("Loennsbeskrivelse"))
@@ -89,8 +103,13 @@ class InntektControllerTest(
             Executable { assertTrue(transformerteInntekter.versjon.isEmpty()) },
 
             Executable { assertTrue(transformerteInntekter.summertAarsinntektListe.isNotEmpty()) },
+<<<<<<< HEAD
             Executable { assertEquals(12, transformerteInntekter.summertAarsinntektListe.size) },
             Executable { assertEquals(2, transformerteInntekter.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.AINNTEKT }.size) },
+=======
+            Executable { assertTrue(transformerteInntekter.summertAarsinntektListe.size == 12) },
+            Executable { assertTrue(transformerteInntekter.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.AINNTEKT }.size == 2) },
+>>>>>>> main
             Executable { assertTrue(transformerteInntekter.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.AINNTEKT_BEREGNET_3MND }.size == 1) },
             Executable { assertTrue(transformerteInntekter.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.AINNTEKT_BEREGNET_12MND }.size == 1) },
             Executable { assertTrue(transformerteInntekter.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.OVERGANGSSTØNAD }.size == 2) },
