@@ -20,6 +20,7 @@ import no.nav.bidrag.inntekt.util.FixedDateProvider
 import no.nav.bidrag.transport.behandling.inntekt.response.TransformerInntekterResponse
 import no.nav.security.token.support.spring.test.EnableMockOAuth2Server
 import org.junit.jupiter.api.Assertions.assertAll
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.DisplayName
@@ -51,21 +52,22 @@ class InntektControllerTest(
     private final val skattegrunnlagService: SkattegrunnlagService = SkattegrunnlagService()
     private final val overgangsstonadService: OvergangsstønadService = OvergangsstønadService(fixedDateProvider)
     private final val kodeverkConsumer: KodeverkConsumer = Mockito.mock(KodeverkConsumer::class.java)
-    private final val inntektService: InntektService = InntektService(ainntektService, skattegrunnlagService, overgangsstonadService, kodeverkConsumer)
+    private final val inntektService: InntektService =
+        InntektService(ainntektService, skattegrunnlagService, overgangsstonadService, kodeverkConsumer)
     private final val inntektController: InntektController = InntektController(inntektService)
 
-    private var mockMvc: MockMvc = MockMvcBuilders.standaloneSetup(inntektController).setControllerAdvice(
-        RestExceptionHandler(exceptionLogger)
-    )
-        .addFilter<StandaloneMockMvcBuilder>({ request: ServletRequest?, response: ServletResponse, chain: FilterChain ->
-            response.characterEncoding = "UTF-8" // this is crucial
-            chain.doFilter(request, response)
-        }, "/*").build()
+    private var mockMvc: MockMvc =
+        MockMvcBuilders.standaloneSetup(inntektController).setControllerAdvice(RestExceptionHandler(exceptionLogger))
+            .addFilter<StandaloneMockMvcBuilder>({ request: ServletRequest?, response: ServletResponse, chain: FilterChain ->
+                response.characterEncoding = "UTF-8" // this is crucial
+                chain.doFilter(request, response)
+            }, "/*").build()
 
     @Test
     fun `skal transformere inntekter`() {
         val filnavnKodeverkLoennsbeskrivelser = "src/test/resources/__files/respons_kodeverk_loennsbeskrivelser.json"
-        val filnavnKodeverkSummertSkattegrunnlag = "src/test/resources/__files/respons_kodeverk_summert_skattegrunnlag.json"
+        val filnavnKodeverkSummertSkattegrunnlag =
+            "src/test/resources/__files/respons_kodeverk_summert_skattegrunnlag.json"
         val filnavnEksempelRequest = "src/test/resources/testfiler/eksempel_request.json"
 
         Mockito.`when`(kodeverkConsumer.hentKodeverksverdier("Loennsbeskrivelse"))
@@ -87,8 +89,8 @@ class InntektControllerTest(
             Executable { assertTrue(transformerteInntekter.versjon.isEmpty()) },
 
             Executable { assertTrue(transformerteInntekter.summertAarsinntektListe.isNotEmpty()) },
-            Executable { assertTrue(transformerteInntekter.summertAarsinntektListe.size == 12) },
-            Executable { assertTrue(transformerteInntekter.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.AINNTEKT }.size == 2) },
+            Executable { assertEquals(12, transformerteInntekter.summertAarsinntektListe.size) },
+            Executable { assertEquals(2, transformerteInntekter.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.AINNTEKT }.size) },
             Executable { assertTrue(transformerteInntekter.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.AINNTEKT_BEREGNET_3MND }.size == 1) },
             Executable { assertTrue(transformerteInntekter.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.AINNTEKT_BEREGNET_12MND }.size == 1) },
             Executable { assertTrue(transformerteInntekter.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.OVERGANGSSTØNAD }.size == 2) },
@@ -98,23 +100,26 @@ class InntektControllerTest(
             Executable { assertTrue(transformerteInntekter.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.KAPITALINNTEKT }.size == 2) },
 
             Executable { assertTrue(transformerteInntekter.summertMaanedsinntektListe.isNotEmpty()) },
-            Executable { assertTrue(transformerteInntekter.summertMaanedsinntektListe.size == 20) },
+            Executable { assertEquals(20, transformerteInntekter.summertMaanedsinntektListe.size) },
             Executable {
-                assertTrue(
+                assertEquals(
+                    4000,
                     transformerteInntekter.summertMaanedsinntektListe.filter { it.periode.year == 2021 }
-                        .sumOf { it.sumInntekt.toInt() } == 4000
+                        .sumOf { it.sumInntekt.toInt() }
                 )
             },
             Executable {
-                assertTrue(
+                assertEquals(
+                    446000,
                     transformerteInntekter.summertMaanedsinntektListe.filter { it.periode.year == 2022 }
-                        .sumOf { it.sumInntekt.toInt() } == 446000
+                        .sumOf { it.sumInntekt.toInt() }
                 )
             },
             Executable {
-                assertTrue(
+                assertEquals(
+                    468000,
                     transformerteInntekter.summertMaanedsinntektListe.filter { it.periode.year == 2023 }
-                        .sumOf { it.sumInntekt.toInt() } == 468000
+                        .sumOf { it.sumInntekt.toInt() }
                 )
             }
         )

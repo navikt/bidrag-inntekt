@@ -35,8 +35,8 @@ class OvergangsstønadServiceTest {
         val fixedDateProvider: DateProvider = FixedDateProvider(dagensDato)
         val overgangsstønadService = OvergangsstønadService(fixedDateProvider)
 
-        val overgangsstønadDto = TestUtil.byggOvergangsstønadDto()
-        val beregnedeOvergangsstønader = overgangsstønadService.beregnOvergangsstønad(overgangsstønadDto)
+        val overgangsstønad = TestUtil.byggOvergangsstønad()
+        val beregnedeOvergangsstønader = overgangsstønadService.beregnOvergangsstønad(overgangsstønad)
 
         assertAll(
             Executable { assertNotNull(beregnedeOvergangsstønader) },
@@ -77,7 +77,7 @@ class OvergangsstønadServiceTest {
         val fixedDateProvider: DateProvider = FixedDateProvider(dagensDato)
         val overgangsstønadService = OvergangsstønadService(fixedDateProvider)
 
-        val overgangsstønadDto = TestUtil.byggOvergangsstønadDto()
+        val overgangsstønadDto = TestUtil.byggOvergangsstønad()
         val beregnedeOvergangsstønader = overgangsstønadService.beregnOvergangsstønad(overgangsstønadDto)
 
         assertAll(
@@ -127,7 +127,7 @@ class OvergangsstønadServiceTest {
         val fixedDateProvider: DateProvider = FixedDateProvider(dagensDato)
         val overgangsstønadService = OvergangsstønadService(fixedDateProvider)
 
-        val overgangsstønadDto = TestUtil.byggOvergangsstønadDto()
+        val overgangsstønadDto = TestUtil.byggOvergangsstønad()
         val beregnedeOvergangsstønader = overgangsstønadService.beregnOvergangsstønad(overgangsstønadDto)
 
         assertAll(
@@ -176,7 +176,7 @@ class OvergangsstønadServiceTest {
         val fixedDateProvider: DateProvider = FixedDateProvider(dagensDato)
         val overgangsstønadService = OvergangsstønadService(fixedDateProvider)
 
-        val overgangsstonadDto = TestUtil.byggOvergangsstønadDto()[0]
+        val overgangsstonadDto = TestUtil.byggOvergangsstønad()[0]
         val overgansstønadMedNullperiode = overgangsstonadDto.copy(periodeTil = overgangsstonadDto.periodeFra)
         val beregnedeOvergangsstønader = overgangsstønadService.beregnOvergangsstønad(listOf(overgansstønadMedNullperiode))
 

@@ -48,7 +48,7 @@ class AinntektServiceTest {
             val ainntektService = AinntektService(fixedDateProvider)
 
             val transformerteInntekter =
-                ainntektService.beregnAarsinntekt(inntektRequest.ainntektListe, kodeverkResponse)
+                ainntektService.beregnAarsinntekt(inntektRequest.ainntektsposter, kodeverkResponse)
 
             TestUtil.printJson(transformerteInntekter)
 
@@ -99,7 +99,7 @@ class AinntektServiceTest {
             val ainntektService = AinntektService(fixedDateProvider)
 
             val transformerteInntekter =
-                ainntektService.beregnAarsinntekt(inntektRequest.ainntektListe, kodeverkResponse)
+                ainntektService.beregnAarsinntekt(inntektRequest.ainntektsposter, kodeverkResponse)
 
             TestUtil.printJson(transformerteInntekter)
 
@@ -158,7 +158,7 @@ class AinntektServiceTest {
             val ainntektService = AinntektService(fixedDateProvider)
 
             val transformerteInntekter =
-                ainntektService.beregnAarsinntekt(inntektRequest.ainntektListe, kodeverkResponse)
+                ainntektService.beregnAarsinntekt(inntektRequest.ainntektsposter, kodeverkResponse)
 
             TestUtil.printJson(transformerteInntekter)
 
@@ -210,17 +210,12 @@ class AinntektServiceTest {
             val fixedDateProvider: DateProvider = FixedDateProvider(LocalDate.of(2023, 9, 1))
             val ainntektService = AinntektService(fixedDateProvider)
 
-            var ainntektForGyldigPeriode = inntektRequest.ainntektListe[0]
-            var ainntektspost = ainntektForGyldigPeriode.ainntektspostListe[0]
+            var ainntektspost = inntektRequest.ainntektsposter[0]
             var ainntektspostMedOpptjeningsperiodeTilLikFra =
                 ainntektspost.copy(opptjeningsperiodeTil = ainntektspost.opptjeningsperiodeFra)
-            var ainntektForNullperiode = ainntektForGyldigPeriode.copy(
-                periodeTil = ainntektForGyldigPeriode.periodeFra,
-                ainntektspostListe = listOf(ainntektspostMedOpptjeningsperiodeTilLikFra)
-            )
 
             val transformerteInntekter =
-                ainntektService.beregnAarsinntekt(listOf(ainntektForNullperiode), kodeverkResponse)
+                ainntektService.beregnAarsinntekt(listOf(ainntektspostMedOpptjeningsperiodeTilLikFra), kodeverkResponse)
 
             TestUtil.printJson(transformerteInntekter)
 
@@ -241,7 +236,7 @@ class AinntektServiceTest {
             val ainntektService = AinntektService(fixedDateProvider)
 
             val transformerteInntekter =
-                ainntektService.beregnMaanedsinntekt(inntektRequest.ainntektListe, kodeverkResponse)
+                ainntektService.beregnMaanedsinntekt(inntektRequest.ainntektsposter, kodeverkResponse)
 
             TestUtil.printJson(transformerteInntekter)
 
@@ -282,17 +277,15 @@ class AinntektServiceTest {
             val fixedDateProvider: DateProvider = FixedDateProvider(LocalDate.of(2023, 9, 1))
             val ainntektService = AinntektService(fixedDateProvider)
 
-            var ainntektForGyldigPeriode = inntektRequest.ainntektListe[0]
-            var ainntektspost = ainntektForGyldigPeriode.ainntektspostListe[0]
+            var ainntektspost = inntektRequest.ainntektsposter[0]
             var ainntektspostMedOpptjeningsperiodeTilLikFra =
                 ainntektspost.copy(opptjeningsperiodeTil = ainntektspost.opptjeningsperiodeFra)
-            var ainntektForNullperiode = ainntektForGyldigPeriode.copy(
-                periodeTil = ainntektForGyldigPeriode.periodeFra,
-                ainntektspostListe = listOf(ainntektspostMedOpptjeningsperiodeTilLikFra)
-            )
 
             val transformerteInntekter =
-                ainntektService.beregnMaanedsinntekt(listOf(ainntektForNullperiode), kodeverkResponse)
+                ainntektService.beregnMaanedsinntekt(
+                    listOf(ainntektspostMedOpptjeningsperiodeTilLikFra),
+                    kodeverkResponse
+                )
 
             TestUtil.printJson(transformerteInntekter)
 
@@ -316,17 +309,18 @@ class AinntektServiceTest {
             val fixedDateProvider: DateProvider = FixedDateProvider(LocalDate.of(2023, 9, 1))
             val ainntektService = AinntektService(fixedDateProvider)
 
-            var ainntektForGyldigPeriode = inntektRequest.ainntektListe[0]
-            var ainntektspost = ainntektForGyldigPeriode.ainntektspostListe[0]
+            var ainntektspost = inntektRequest.ainntektsposter[0]
             var ainntektspostMedOpptjeningsperiodeTilLikFra =
-                ainntektspost.copy(opptjeningsperiodeTil = ainntektspost.opptjeningsperiodeFra?.plusMonths(periodeIMnd), belop = tremånederslønn)
-            var ainntektForNullperiode = ainntektForGyldigPeriode.copy(
-                periodeTil = ainntektForGyldigPeriode.periodeFra.plusMonths(periodeIMnd),
-                ainntektspostListe = listOf(ainntektspostMedOpptjeningsperiodeTilLikFra)
-            )
+                ainntektspost.copy(
+                    opptjeningsperiodeTil = ainntektspost.opptjeningsperiodeFra?.plusMonths(periodeIMnd),
+                    belop = tremånederslønn
+                )
 
             val transformerteInntekter =
-                ainntektService.beregnMaanedsinntekt(listOf(ainntektForNullperiode), kodeverkResponse)
+                ainntektService.beregnMaanedsinntekt(
+                    listOf(ainntektspostMedOpptjeningsperiodeTilLikFra),
+                    kodeverkResponse
+                )
 
             TestUtil.printJson(transformerteInntekter)
 
@@ -359,17 +353,18 @@ class AinntektServiceTest {
             val fixedDateProvider: DateProvider = FixedDateProvider(LocalDate.of(2023, 9, 1))
             val ainntektService = AinntektService(fixedDateProvider)
 
-            var ainntektForGyldigPeriode = inntektRequest.ainntektListe[0]
-            var ainntektspost = ainntektForGyldigPeriode.ainntektspostListe[0]
+            var ainntektspost = inntektRequest.ainntektsposter[0]
             var ainntektspostMedOpptjeningsperiodeTilLikFra =
-                ainntektspost.copy(opptjeningsperiodeTil = ainntektspost.opptjeningsperiodeFra?.plusMonths(periodeIMnd), belop = tremånederslønn)
-            var ainntektForNullperiode = ainntektForGyldigPeriode.copy(
-                periodeTil = ainntektForGyldigPeriode.periodeFra.plusMonths(periodeIMnd),
-                ainntektspostListe = listOf(ainntektspostMedOpptjeningsperiodeTilLikFra)
-            )
+                ainntektspost.copy(
+                    opptjeningsperiodeTil = ainntektspost.opptjeningsperiodeFra?.plusMonths(periodeIMnd),
+                    belop = tremånederslønn
+                )
 
             val transformerteInntekter =
-                ainntektService.beregnMaanedsinntekt(listOf(ainntektForNullperiode), kodeverkResponse)
+                ainntektService.beregnMaanedsinntekt(
+                    listOf(ainntektspostMedOpptjeningsperiodeTilLikFra),
+                    kodeverkResponse
+                )
 
             TestUtil.printJson(transformerteInntekter)
 

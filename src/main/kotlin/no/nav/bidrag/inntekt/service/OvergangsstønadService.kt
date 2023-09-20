@@ -9,7 +9,7 @@ import no.nav.bidrag.inntekt.util.InntektUtil.Companion.finnAntallMndOverlapp
 import no.nav.bidrag.inntekt.util.InntektUtil.Companion.finnSisteAarSomSkalRapporteres
 import no.nav.bidrag.inntekt.util.beregneBeløpPerMåned
 import no.nav.bidrag.inntekt.util.isNumeric
-import no.nav.bidrag.transport.behandling.grunnlag.response.OvergangsstonadDto
+import no.nav.bidrag.transport.behandling.inntekt.request.Overgangsstonad
 import no.nav.bidrag.transport.behandling.inntekt.response.InntektPost
 import no.nav.bidrag.transport.behandling.inntekt.response.SummertAarsinntekt
 import org.springframework.stereotype.Service
@@ -23,9 +23,9 @@ import java.time.temporal.ChronoUnit
 class OvergangsstønadService(private val dateProvider: DateProvider) {
 
     // Summerer, grupperer og transformerer overgangsstønader pr år
-    fun beregnOvergangsstønad(overgangsstønadListeInn: List<OvergangsstonadDto>): List<SummertAarsinntekt> {
-        return if (overgangsstønadListeInn.isNotEmpty()) {
-            val overgangsstønadMap = summerAarsinntekter(overgangsstønadListeInn)
+    fun beregnOvergangsstønad(overgangsstønadslisteInn: List<Overgangsstonad>): List<SummertAarsinntekt> {
+        return if (overgangsstønadslisteInn.isNotEmpty()) {
+            val overgangsstønadMap = summerAarsinntekter(overgangsstønadslisteInn)
             val overgangsstønadListeUt = mutableListOf<SummertAarsinntekt>()
 
             overgangsstønadMap.forEach {
@@ -62,9 +62,9 @@ class OvergangsstønadService(private val dateProvider: DateProvider) {
     }
 
     // Summerer og grupperer overgangsstønader pr år
-    private fun summerAarsinntekter(overgangsstønadListeInn: List<OvergangsstonadDto>): Map<String, InntektSumPost> {
+    private fun summerAarsinntekter(overgangsstønadslisteInn: List<Overgangsstonad>): Map<String, InntektSumPost> {
         val overgangsstønadMap = mutableMapOf<String, InntektSumPost>()
-        overgangsstønadListeInn.forEach { overgangsstønad ->
+        overgangsstønadslisteInn.forEach { overgangsstønad ->
             kalkulerBelopForPeriode(
                 overgangsstønad.periodeFra,
                 overgangsstønad.periodeTil,

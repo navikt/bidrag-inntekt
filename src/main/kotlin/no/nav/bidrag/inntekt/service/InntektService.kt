@@ -32,24 +32,26 @@ class InntektService(
         val transformerInntekterResponse = TransformerInntekterResponse(
             versjon = "",
             summertMaanedsinntektListe = ainntektService.beregnMaanedsinntekt(
-                transformerInntekterRequest.ainntektListe,
+                transformerInntekterRequest.ainntektsposter,
                 kodeverdierLoennsbeskrivelse
             ),
             summertAarsinntektListe = (
-                ainntektService.beregnAarsinntekt(transformerInntekterRequest.ainntektListe, kodeverdierLoennsbeskrivelse) +
-                    overgangsstønadService.beregnOvergangsstønad(transformerInntekterRequest.overgangsstonadListe) +
-                    skattegrunnlagService.beregnSkattegrunnlag(
-                        transformerInntekterRequest.skattegrunnlagListe,
-                        kodeverdierSkattegrunnlag,
-                        InntektBeskrivelse.LIGNINGSINNTEKT
+                    ainntektService.beregnAarsinntekt(
+                        transformerInntekterRequest.ainntektsposter,
+                        kodeverdierLoennsbeskrivelse
                     ) +
-                    skattegrunnlagService.beregnSkattegrunnlag(
-                        transformerInntekterRequest.skattegrunnlagListe,
-                        kodeverdierSkattegrunnlag,
-                        InntektBeskrivelse.KAPITALINNTEKT
+                            overgangsstønadService.beregnOvergangsstønad(transformerInntekterRequest.overgangsstonadsliste) +
+                            skattegrunnlagService.beregnSkattegrunnlag(
+                                transformerInntekterRequest.skattegrunnlagsliste,
+                                kodeverdierSkattegrunnlag,
+                                InntektBeskrivelse.LIGNINGSINNTEKT
+                            ) +
+                            skattegrunnlagService.beregnSkattegrunnlag(
+                                transformerInntekterRequest.skattegrunnlagsliste,
+                                kodeverdierSkattegrunnlag,
+                                InntektBeskrivelse.KAPITALINNTEKT
+                            )
                     )
-                )
-
         )
 
         SECURE_LOGGER.info("TransformerInntekterRequestDto: ${tilJson(transformerInntekterRequest.toString())}")
