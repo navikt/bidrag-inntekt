@@ -87,19 +87,19 @@ class OvergangsstønadService(private val dateProvider: DateProvider) {
     }
 
     // Summerer inntekter og legger til detaljposter til map
-    private fun akkumulerPost(overgangsstonadMap: MutableMap<String, InntektSumPost>, key: String, value: Int) {
+    private fun akkumulerPost(overgangsstonadMap: MutableMap<String, InntektSumPost>, key: String, value: BigDecimal) {
         val periode = bestemPeriode(key)
         val inntektSumPost =
             overgangsstonadMap.getOrDefault(key, InntektSumPost(BigDecimal.ZERO, periode.periodeFra, periode.periodeTil, mutableListOf()))
         val sumInntekt = inntektSumPost.sumInntekt
         val inntektPostListe = inntektSumPost.inntektPostListe
-        val nyInntektPost = InntektPost("overgangsstønad", "Overgangsstønad", value.toBigDecimal())
+        val nyInntektPost = InntektPost("overgangsstønad", "Overgangsstønad", value)
         inntektPostListe.add(nyInntektPost)
-        overgangsstonadMap[key] = InntektSumPost(sumInntekt.add(value.toBigDecimal()), periode.periodeFra, periode.periodeTil, inntektPostListe)
+        overgangsstonadMap[key] = InntektSumPost(sumInntekt.add(value), periode.periodeFra, periode.periodeTil, inntektPostListe)
     }
 
     // Kalkulerer beløp for periode (år eller intervall)
-    private fun kalkulerBelopForPeriode(periodeFra: LocalDate, periodeTil: LocalDate?, belop: Int): Map<String, Int> {
+    private fun kalkulerBelopForPeriode(periodeFra: LocalDate, periodeTil: LocalDate?, belop: BigDecimal): Map<String, BigDecimal> {
         val periodeFraYM = YearMonth.of(periodeFra.year, periodeFra.month)
         val periodeTilYM = if (periodeTil != null) {
             YearMonth.of(periodeTil.year, periodeTil.month)
@@ -108,14 +108,16 @@ class OvergangsstønadService(private val dateProvider: DateProvider) {
         }
 
         // Returner map med en forekomst for hvert år beløpet dekker + forekomst for siste 3 mnd + forekomst for siste 12 mnd
-        return kalkulerBeløpForÅr(periodeFraYM, periodeTilYM, belop) +
-            kalkulerBeløpForIntervall(periodeFraYM, periodeTilYM, belop, KEY_3MND) +
-            kalkulerBeløpForIntervall(periodeFraYM, periodeTilYM, belop, KEY_12MND)
+        var one = kalkulerBeløpForÅr(periodeFraYM, periodeTilYM, belop)
+        var two = kalkulerBeløpForIntervall(periodeFraYM, periodeTilYM, belop, KEY_3MND).toMutableMap()
+        var three = kalkulerBeløpForIntervall(periodeFraYM, periodeTilYM, belop, KEY_12MND)
+
+        return one + two + three
     }
 
     // Kalkulerer totalt beløp for hvert år forekomsten dekker
-    private fun kalkulerBeløpForÅr(periodeFra: YearMonth, periodeTil: YearMonth, beløp: Int): Map<String, Int> {
-        val periodeMap = mutableMapOf<String, Int>()
+    private fun kalkulerBeløpForÅr(periodeFra: YearMonth, periodeTil: YearMonth, beløp: BigDecimal): Map<String, BigDecimal> {
+        val periodeMap = mutableMapOf<String, BigDecimal>()
         val antallMndTotalt = ChronoUnit.MONTHS.between(periodeFra, periodeTil).toInt()
         val månedsbeløp = beregneBeløpPerMåned(beløp, antallMndTotalt)
         val førsteÅr = periodeFra.year
@@ -129,7 +131,7 @@ class OvergangsstønadService(private val dateProvider: DateProvider) {
                 else -> 12
             }
             if (antallMndIÅr > 0) {
-                periodeMap[år.toString()] = antallMndIÅr.toBigDecimal().times(månedsbeløp).intValueExact()
+                periodeMap[år.toString()] = antallMndIÅr.toBigDecimal().times(månedsbeløp)
             }
         }
 
@@ -140,10 +142,10 @@ class OvergangsstønadService(private val dateProvider: DateProvider) {
     private fun kalkulerBeløpForIntervall(
         periodeFra: YearMonth,
         periodeTil: YearMonth,
-        beløp: Int,
+        beløp: BigDecimal,
         beregningsperiode: String
-    ): Map<String, Int> {
-        val periodeMap = mutableMapOf<String, Int>()
+    ): Map<String, BigDecimal> {
+        val periodeMap = mutableMapOf<String, BigDecimal>()
         val antallMndTotalt = ChronoUnit.MONTHS.between(periodeFra, periodeTil).toInt()
         val maanedsbeløp = beregneBeløpPerMåned(beløp, antallMndTotalt)
 
@@ -159,7 +161,7 @@ class OvergangsstønadService(private val dateProvider: DateProvider) {
         val antallMndOverlapp = finnAntallMndOverlapp(periodeFra, periodeTil, forstePeriodeIIntervall, sistePeriodeIIntervall)
 
         if (antallMndOverlapp > 0) {
-            periodeMap[beregningsperiode] = antallMndOverlapp.toBigDecimal().times(maanedsbeløp).intValueExact()
+            periodeMap[beregningsperiode] = antallMndOverlapp.toBigDecimal().times(maanedsbeløp)
         }
 
         return periodeMap

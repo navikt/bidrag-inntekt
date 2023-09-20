@@ -104,87 +104,87 @@ class TestUtil {
             Overgangsstonad(
                 periodeFra = LocalDate.parse("2021-12-01"),
                 periodeTil = LocalDate.parse("2022-01-01"),
-                belop = 100
+                belop = BigDecimal.valueOf(100)
             ),
             Overgangsstonad(
                 periodeFra = LocalDate.parse("2022-01-01"),
                 periodeTil = LocalDate.parse("2022-02-01"),
-                belop = 200
+                belop = BigDecimal.valueOf(200)
             ),
             Overgangsstonad(
                 periodeFra = LocalDate.parse("2022-02-01"),
                 periodeTil = LocalDate.parse("2022-03-01"),
-                belop = 300
+                belop = BigDecimal.valueOf(300)
             ),
             Overgangsstonad(
                 periodeFra = LocalDate.parse("2022-03-01"),
                 periodeTil = LocalDate.parse("2022-04-01"),
-                belop = 400
+                belop = BigDecimal.valueOf(400)
             ),
             Overgangsstonad(
                 periodeFra = LocalDate.parse("2022-04-01"),
                 periodeTil = LocalDate.parse("2022-05-01"),
-                belop = 500
+                belop = BigDecimal.valueOf(500)
             ),
             Overgangsstonad(
                 periodeFra = LocalDate.parse("2022-05-01"),
                 periodeTil = LocalDate.parse("2022-06-01"),
-                belop = 600
+                belop = BigDecimal.valueOf(600)
             ),
             Overgangsstonad(
                 periodeFra = LocalDate.parse("2022-06-01"),
                 periodeTil = LocalDate.parse("2022-07-01"),
-                belop = 700
+                belop = BigDecimal.valueOf(700)
             ),
             Overgangsstonad(
                 periodeFra = LocalDate.parse("2022-07-01"),
                 periodeTil = LocalDate.parse("2022-08-01"),
-                belop = 800
+                belop = BigDecimal.valueOf(800)
             ),
             Overgangsstonad(
                 periodeFra = LocalDate.parse("2022-08-01"),
                 periodeTil = LocalDate.parse("2022-09-01"),
-                belop = 900
+                belop = BigDecimal.valueOf(900)
             ),
             Overgangsstonad(
                 periodeFra = LocalDate.parse("2022-09-01"),
                 periodeTil = LocalDate.parse("2022-10-01"),
-                belop = 1000
+                belop = BigDecimal.valueOf(1000)
             ),
             Overgangsstonad(
                 periodeFra = LocalDate.parse("2022-10-01"),
                 periodeTil = LocalDate.parse("2022-11-01"),
-                belop = 1100
+                belop = BigDecimal.valueOf(1100)
             ),
             Overgangsstonad(
                 periodeFra = LocalDate.parse("2022-11-01"),
                 periodeTil = LocalDate.parse("2022-12-01"),
-                belop = 1200
+                belop = BigDecimal.valueOf(1200)
             ),
             Overgangsstonad(
                 periodeFra = LocalDate.parse("2022-12-01"),
                 periodeTil = LocalDate.parse("2023-01-01"),
-                belop = 1300
+                belop = BigDecimal.valueOf(1300)
             ),
             Overgangsstonad(
                 periodeFra = LocalDate.parse("2023-01-01"),
                 periodeTil = LocalDate.parse("2023-02-01"),
-                belop = 1400
+                belop = BigDecimal.valueOf(1400)
             ),
             Overgangsstonad(
                 periodeFra = LocalDate.parse("2023-02-01"),
                 periodeTil = LocalDate.parse("2023-03-01"),
-                belop = 1500
+                belop = BigDecimal.valueOf(1500)
             ),
             Overgangsstonad(
                 periodeFra = LocalDate.parse("2023-03-01"),
                 periodeTil = LocalDate.parse("2023-04-01"),
-                belop = 1600
+                belop = BigDecimal.valueOf(1600)
             ),
             Overgangsstonad(
                 periodeFra = LocalDate.parse("2023-04-01"),
                 periodeTil = LocalDate.parse("2023-05-01"),
-                belop = 1700
+                belop = BigDecimal.valueOf(1700)
             )
         )
 
