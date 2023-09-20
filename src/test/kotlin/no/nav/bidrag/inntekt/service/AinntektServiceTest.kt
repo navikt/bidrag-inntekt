@@ -7,6 +7,7 @@ import no.nav.bidrag.inntekt.util.DateProvider
 import no.nav.bidrag.inntekt.util.FixedDateProvider
 import no.nav.security.token.support.spring.test.EnableMockOAuth2Server
 import org.junit.jupiter.api.Assertions.assertAll
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.DisplayName
@@ -71,7 +72,7 @@ class AinntektServiceTest {
 
                 Executable { assertTrue(transformerteInntekter[1].inntektBeskrivelse == InntektBeskrivelse.AINNTEKT_BEREGNET_12MND) },
                 Executable { assertTrue(transformerteInntekter[1].visningsnavn == InntektBeskrivelse.AINNTEKT_BEREGNET_12MND.visningsnavn) },
-                Executable { assertTrue(transformerteInntekter[1].sumInntekt == BigDecimal.valueOf(393000)) },
+                Executable { assertEquals(BigDecimal.valueOf(393000.789), transformerteInntekter[1].sumInntekt) },
                 Executable { assertTrue(transformerteInntekter[1].periodeFra == YearMonth.of(2021, 12)) },
                 Executable { assertTrue(transformerteInntekter[1].periodeTil == YearMonth.of(2022, 11)) },
                 Executable { assertTrue(transformerteInntekter[1].inntektPostListe.size == 3) },
@@ -121,8 +122,13 @@ class AinntektServiceTest {
                 Executable { assertTrue(transformerteInntekter[0].inntektPostListe[0].beløp.toInt() == 4000) },
 
                 Executable { assertTrue(transformerteInntekter[1].inntektBeskrivelse == InntektBeskrivelse.AINNTEKT) },
-                Executable { assertTrue(transformerteInntekter[1].visningsnavn == "${InntektBeskrivelse.AINNTEKT.visningsnavn} 2022") },
-                Executable { assertTrue(transformerteInntekter[1].sumInntekt == BigDecimal.valueOf(446000)) },
+                Executable {
+                    assertEquals(
+                        "${InntektBeskrivelse.AINNTEKT.visningsnavn} 2022",
+                        transformerteInntekter[1].visningsnavn
+                    )
+                },
+                Executable { assertEquals(BigDecimal.valueOf(446000.789), transformerteInntekter[1].sumInntekt) },
                 Executable { assertTrue(transformerteInntekter[1].periodeFra == YearMonth.of(2022, 1)) },
                 Executable { assertTrue(transformerteInntekter[1].periodeTil == YearMonth.of(2022, 12)) },
                 Executable { assertTrue(transformerteInntekter[1].inntektPostListe.size == 3) },
@@ -130,7 +136,7 @@ class AinntektServiceTest {
 
                 Executable { assertTrue(transformerteInntekter[2].inntektBeskrivelse == InntektBeskrivelse.AINNTEKT_BEREGNET_12MND) },
                 Executable { assertTrue(transformerteInntekter[2].visningsnavn == InntektBeskrivelse.AINNTEKT_BEREGNET_12MND.visningsnavn) },
-                Executable { assertTrue(transformerteInntekter[2].sumInntekt == BigDecimal.valueOf(446000)) },
+                Executable { assertEquals(BigDecimal.valueOf(446000.789), transformerteInntekter[2].sumInntekt) },
                 Executable { assertTrue(transformerteInntekter[2].periodeFra == YearMonth.of(2022, 1)) },
                 Executable { assertTrue(transformerteInntekter[2].periodeTil == YearMonth.of(2022, 12)) },
                 Executable { assertTrue(transformerteInntekter[2].inntektPostListe.size == 3) },
@@ -180,8 +186,13 @@ class AinntektServiceTest {
                 Executable { assertTrue(transformerteInntekter[0].inntektPostListe[0].beløp.toInt() == 4000) },
 
                 Executable { assertTrue(transformerteInntekter[1].inntektBeskrivelse == InntektBeskrivelse.AINNTEKT) },
-                Executable { assertTrue(transformerteInntekter[1].visningsnavn == "${InntektBeskrivelse.AINNTEKT.visningsnavn} 2022") },
-                Executable { assertTrue(transformerteInntekter[1].sumInntekt == BigDecimal.valueOf(446000)) },
+                Executable {
+                    assertEquals(
+                        "${InntektBeskrivelse.AINNTEKT.visningsnavn} 2022",
+                        transformerteInntekter[1].visningsnavn
+                    )
+                },
+                Executable { assertEquals(BigDecimal.valueOf(446000.789), transformerteInntekter[1].sumInntekt) },
                 Executable { assertTrue(transformerteInntekter[1].periodeFra == YearMonth.of(2022, 1)) },
                 Executable { assertTrue(transformerteInntekter[1].periodeTil == YearMonth.of(2022, 12)) },
                 Executable { assertTrue(transformerteInntekter[1].inntektPostListe.size == 3) },
@@ -189,11 +200,11 @@ class AinntektServiceTest {
 
                 Executable { assertTrue(transformerteInntekter[2].inntektBeskrivelse == InntektBeskrivelse.AINNTEKT_BEREGNET_12MND) },
                 Executable { assertTrue(transformerteInntekter[2].visningsnavn == InntektBeskrivelse.AINNTEKT_BEREGNET_12MND.visningsnavn) },
-                Executable { assertTrue(transformerteInntekter[2].sumInntekt == BigDecimal.valueOf(743000)) },
+                Executable { assertEquals(BigDecimal.valueOf(743001.119), transformerteInntekter[2].sumInntekt) },
                 Executable { assertTrue(transformerteInntekter[2].periodeFra == YearMonth.of(2022, 8)) },
                 Executable { assertTrue(transformerteInntekter[2].periodeTil == YearMonth.of(2023, 7)) },
                 Executable { assertTrue(transformerteInntekter[2].inntektPostListe.size == 4) },
-                Executable { assertTrue(transformerteInntekter[2].inntektPostListe.sumOf { it.beløp.toInt() } == 743000) },
+                Executable { assertEquals(BigDecimal.valueOf(743001), transformerteInntekter[2].inntektPostListe.sumOf { it.beløp }) },
 
                 Executable { assertTrue(transformerteInntekter[3].inntektBeskrivelse == InntektBeskrivelse.AINNTEKT_BEREGNET_3MND) },
                 Executable { assertTrue(transformerteInntekter[3].visningsnavn == InntektBeskrivelse.AINNTEKT_BEREGNET_3MND.visningsnavn) },

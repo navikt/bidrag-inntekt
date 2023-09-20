@@ -119,7 +119,7 @@ class AinntektService(private val dateProvider: DateProvider) {
                 ainntektPost.opptjeningsperiodeTil,
                 ainntektPost.utbetalingsperiode!!,
                 ainntektPost.beskrivelse!!,
-                ainntektPost.belop.intValueExact(),
+                ainntektPost.belop,
                 PERIODE_AAR
             ).forEach { periodeMap ->
                 akkumulerPost(ainntektMap, periodeMap.key, periodeMap.value)
@@ -149,7 +149,7 @@ class AinntektService(private val dateProvider: DateProvider) {
                 ainntektPost.opptjeningsperiodeTil,
                 ainntektPost.utbetalingsperiode!!,
                 ainntektPost.beskrivelse!!,
-                ainntektPost.belop.intValueExact(),
+                ainntektPost.belop,
                 PERIODE_MAANED
             ).forEach { periodeMap ->
                 akkumulerPost(ainntektMap, periodeMap.key, periodeMap.value)
@@ -167,10 +167,10 @@ class AinntektService(private val dateProvider: DateProvider) {
         )
         val sumInntekt = inntektSumPost.sumInntekt
         val inntektPostListe = inntektSumPost.inntektPostListe
-        val nyInntektPost = InntektPost(value.kode, "", value.belop.toBigDecimal())
+        val nyInntektPost = InntektPost(value.kode, "", value.belop)
         inntektPostListe.add(nyInntektPost)
         ainntektMap[key] = InntektSumPost(
-            sumInntekt.add(value.belop.toBigDecimal()),
+            sumInntekt.add(value.belop),
             periode.periodeFra,
             periode.periodeTil,
             inntektPostListe
@@ -183,7 +183,7 @@ class AinntektService(private val dateProvider: DateProvider) {
         opptjeningsperiodeTil: LocalDate?,
         utbetalingsperiode: String,
         beskrivelse: String,
-        belop: Int,
+        belop: BigDecimal,
         beregningsperiode: String
     ): Map<String, Detaljpost> {
         val periodeFra = if (opptjeningsperiodeFra != null) {
@@ -217,7 +217,7 @@ class AinntektService(private val dateProvider: DateProvider) {
         periodeFra: YearMonth,
         periodeTil: YearMonth,
         beskrivelse: String,
-        beløp: Int
+        beløp: BigDecimal
     ): Map<String, Detaljpost> {
         val periodeMap = mutableMapOf<String, Detaljpost>()
         val antallMnd = ChronoUnit.MONTHS.between(periodeFra, periodeTil).toInt()
@@ -226,7 +226,7 @@ class AinntektService(private val dateProvider: DateProvider) {
 
         while (periode.isBefore(periodeTil)) {
             periodeMap[periode.year.toString() + periode.toString().substring(5, 7)] =
-                Detaljpost(månedsbeløp.intValueExact(), beskrivelse)
+                Detaljpost(månedsbeløp, beskrivelse)
             periode = periode.plusMonths(1)
         }
 
@@ -238,7 +238,7 @@ class AinntektService(private val dateProvider: DateProvider) {
         periodeFra: YearMonth,
         periodeTil: YearMonth,
         beskrivelse: String,
-        beløp: Int
+        beløp: BigDecimal
     ): Map<String, Detaljpost> {
         val periodeMap = mutableMapOf<String, Detaljpost>()
         val antallMndTotalt = ChronoUnit.MONTHS.between(periodeFra, periodeTil).toInt()
@@ -255,7 +255,7 @@ class AinntektService(private val dateProvider: DateProvider) {
             }
             if (antallMndIÅr > 0) {
                 periodeMap[år.toString()] =
-                    Detaljpost(antallMndIÅr.toBigDecimal().times(månedsbeløp).intValueExact(), beskrivelse)
+                    Detaljpost(antallMndIÅr.toBigDecimal().times(månedsbeløp), beskrivelse)
             }
         }
 
@@ -267,7 +267,7 @@ class AinntektService(private val dateProvider: DateProvider) {
         periodeFra: YearMonth,
         periodeTil: YearMonth,
         beskrivelse: String,
-        beløp: Int,
+        beløp: BigDecimal,
         beregningsperiode: String
     ): Map<String, Detaljpost> {
         val periodeMap = mutableMapOf<String, Detaljpost>()
@@ -294,7 +294,7 @@ class AinntektService(private val dateProvider: DateProvider) {
 
         if (antallMndOverlapp > 0) {
             periodeMap[beregningsperiode] =
-                Detaljpost(antallMndOverlapp.toBigDecimal().times(maanedsbelop).intValueExact(), beskrivelse)
+                Detaljpost(antallMndOverlapp.toBigDecimal().times(maanedsbelop), beskrivelse)
         }
 
         return periodeMap
@@ -356,6 +356,6 @@ class AinntektService(private val dateProvider: DateProvider) {
 }
 
 data class Detaljpost(
-    val belop: Int,
+    val belop: BigDecimal,
     val kode: String
 )

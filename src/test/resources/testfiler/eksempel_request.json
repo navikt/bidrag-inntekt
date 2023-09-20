@@ -38,7 +38,7 @@
     {
       "utbetalingsperiode": "2022-08",
       "beskrivelse": "fastloenn",
-      "belop": 55000
+      "belop": 55000.789
     },
     {
       "utbetalingsperiode": "2022-09",
@@ -72,7 +72,7 @@
       "opptjeningsperiodeFra": "2023-02-01",
       "opptjeningsperiodeTil": "2023-03-01",
       "beskrivelse": "fastloenn",
-      "belop": 60000
+      "belop": 60000.33
     },
     {
       "utbetalingsperiode": "2023-03",
@@ -158,7 +158,7 @@
         {
           "skattegrunnlagType": "Ordinær",
           "inntektType": "samletOverskuddPaaUtgiftsgodtgjoerelse",
-          "belop": 7890
+          "belop": 7890.178
         }
       ]
     },
@@ -213,7 +213,7 @@
         {
           "skattegrunnlagType": "Ordinær",
           "inntektType": "personinntektFraKompensasjonsytelseUtbetaltAvNavInnenBarnepassIBarnepasserensHjem",
-          "belop": 1390
+          "belop": 1390.15
         }
       ]
     }
@@ -222,7 +222,7 @@
     {
       "periodeFra": "2021-12-01",
       "periodeTil": "2022-01-01",
-      "belop": 100
+      "belop": 100.123
     },
     {
       "periodeFra": "2022-01-01",
@@ -262,7 +262,7 @@
     {
       "periodeFra": "2022-08-01",
       "periodeTil": "2022-09-01",
-      "belop": 900
+      "belop": 900.29
     },
     {
       "periodeFra": "2022-09-01",

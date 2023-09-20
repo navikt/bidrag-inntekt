@@ -36,22 +36,22 @@ class InntektService(
                 kodeverdierLoennsbeskrivelse
             ),
             summertAarsinntektListe = (
-                    ainntektService.beregnAarsinntekt(
-                        transformerInntekterRequest.ainntektsposter,
-                        kodeverdierLoennsbeskrivelse
+                ainntektService.beregnAarsinntekt(
+                    transformerInntekterRequest.ainntektsposter,
+                    kodeverdierLoennsbeskrivelse
+                ) +
+                    overgangsstønadService.beregnOvergangsstønad(transformerInntekterRequest.overgangsstonadsliste) +
+                    skattegrunnlagService.beregnSkattegrunnlag(
+                        transformerInntekterRequest.skattegrunnlagsliste,
+                        kodeverdierSkattegrunnlag,
+                        InntektBeskrivelse.LIGNINGSINNTEKT
                     ) +
-                            overgangsstønadService.beregnOvergangsstønad(transformerInntekterRequest.overgangsstonadsliste) +
-                            skattegrunnlagService.beregnSkattegrunnlag(
-                                transformerInntekterRequest.skattegrunnlagsliste,
-                                kodeverdierSkattegrunnlag,
-                                InntektBeskrivelse.LIGNINGSINNTEKT
-                            ) +
-                            skattegrunnlagService.beregnSkattegrunnlag(
-                                transformerInntekterRequest.skattegrunnlagsliste,
-                                kodeverdierSkattegrunnlag,
-                                InntektBeskrivelse.KAPITALINNTEKT
-                            )
+                    skattegrunnlagService.beregnSkattegrunnlag(
+                        transformerInntekterRequest.skattegrunnlagsliste,
+                        kodeverdierSkattegrunnlag,
+                        InntektBeskrivelse.KAPITALINNTEKT
                     )
+                )
         )
 
         SECURE_LOGGER.info("TransformerInntekterRequestDto: ${tilJson(transformerInntekterRequest.toString())}")
