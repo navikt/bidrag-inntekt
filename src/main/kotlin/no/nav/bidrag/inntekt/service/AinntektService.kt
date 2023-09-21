@@ -1,6 +1,8 @@
 package no.nav.bidrag.inntekt.service
 
 import no.nav.bidrag.domain.enums.InntektBeskrivelse
+import no.nav.bidrag.domain.tid.FomMåned
+import no.nav.bidrag.domain.tid.TomMåned
 import no.nav.bidrag.inntekt.consumer.kodeverk.api.GetKodeverkKoderBetydningerResponse
 import no.nav.bidrag.inntekt.util.DateProvider
 import no.nav.bidrag.inntekt.util.InntektUtil.Companion.CUT_OFF_DATO
@@ -56,8 +58,8 @@ class AinntektService(private val dateProvider: DateProvider) {
                             KEY_3MND -> it.value.sumInntekt.toInt().times(4).toBigDecimal() // Regner om til årsinntekt
                             else -> it.value.sumInntekt
                         },
-                        periodeFra = it.value.periodeFra,
-                        periodeTil = it.value.periodeTil,
+                        periodeFra = FomMåned(it.value.periodeFra),
+                        periodeTom = it.value.periodeTil.let { TomMåned(it!!) },
                         inntektPostListe = when (it.key) {
                             KEY_3MND -> grupperOgSummerDetaljposter(it.value.inntektPostListe, kodeverksverdier, 4)
                             else -> grupperOgSummerDetaljposter(it.value.inntektPostListe, kodeverksverdier)

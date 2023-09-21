@@ -5,6 +5,8 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
 import com.fasterxml.jackson.module.kotlin.readValue
 import no.nav.bidrag.domain.enums.InntektBeskrivelse
 import no.nav.bidrag.domain.enums.PlussMinus
+import no.nav.bidrag.domain.tid.FomMåned
+import no.nav.bidrag.domain.tid.TomMåned
 import no.nav.bidrag.inntekt.consumer.kodeverk.api.GetKodeverkKoderBetydningerResponse
 import no.nav.bidrag.transport.behandling.inntekt.request.SkattegrunnlagForLigningsår
 import no.nav.bidrag.transport.behandling.inntekt.response.InntektPost
@@ -73,8 +75,8 @@ class SkattegrunnlagService {
                     visningsnavn = "${inntektBeskrivelse.visningsnavn} ${skattegrunnlagForLigningsår.ligningsår}",
                     referanse = "",
                     sumInntekt = sumInntekt,
-                    periodeFra = YearMonth.of(skattegrunnlagForLigningsår.ligningsår, Month.JANUARY),
-                    periodeTil = YearMonth.of(skattegrunnlagForLigningsår.ligningsår, Month.DECEMBER),
+                    periodeFra = FomMåned(YearMonth.of(skattegrunnlagForLigningsår.ligningsår, Month.JANUARY)),
+                    periodeTom = TomMåned(YearMonth.of(skattegrunnlagForLigningsår.ligningsår, Month.DECEMBER)),
                     inntektPostListe = inntektPostListe
                 )
             )
