@@ -36,7 +36,7 @@ class OvergangsstønadService(private val dateProvider: DateProvider) {
                 }
                 overgangsstønadListeUt.add(
                     SummertAarsinntekt(
-                        inntektKategori = when (it.key) {
+                        inntektRapportering = when (it.key) {
                             KEY_3MND -> InntektRapportering.OVERGANGSSTØNAD_BEREGNET_3MND
                             KEY_12MND -> InntektRapportering.OVERGANGSSTØNAD_BEREGNET_12MND
                             else -> InntektRapportering.OVERGANGSSTØNAD
@@ -57,7 +57,7 @@ class OvergangsstønadService(private val dateProvider: DateProvider) {
                     )
                 )
             }
-            overgangsstønadListeUt.sortedWith(compareBy({ it.inntektKategori.toString() }, { it.periodeFra }))
+            overgangsstønadListeUt.sortedWith(compareBy({ it.inntektRapportering.toString() }, { it.periodeFra }))
         } else {
             emptyList()
         }

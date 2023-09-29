@@ -43,7 +43,7 @@ class AinntektService(private val dateProvider: DateProvider) {
                 }
                 ainntektListeUt.add(
                     SummertAarsinntekt(
-                        inntektKategori = when (it.key) {
+                        inntektRapportering = when (it.key) {
                             KEY_3MND -> InntektRapportering.AINNTEKT_BEREGNET_3MND
                             KEY_12MND -> InntektRapportering.AINNTEKT_BEREGNET_12MND
                             else -> InntektRapportering.AINNTEKT
@@ -68,7 +68,7 @@ class AinntektService(private val dateProvider: DateProvider) {
                     )
                 )
             }
-            ainntektListeUt.sortedWith(compareBy({ it.inntektKategori.toString() }, { it.periodeFra }))
+            ainntektListeUt.sortedWith(compareBy({ it.inntektRapportering.toString() }, { it.periodeFra }))
         } else {
             emptyList()
         }

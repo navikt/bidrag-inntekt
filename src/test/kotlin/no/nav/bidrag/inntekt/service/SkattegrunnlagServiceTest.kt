@@ -45,13 +45,13 @@ class SkattegrunnlagServiceTest {
 
             Executable { assertThat(beregnedeKapsinntekter[0].periodeFra).isEqualTo(FomMåned(YearMonth.parse("2021-01"))) },
             Executable { assertThat(beregnedeKapsinntekter[0].periodeTom).isEqualTo(TomMåned(YearMonth.parse("2021-12"))) },
-            Executable { assertThat(beregnedeKapsinntekter[0].inntektKategori).isEqualTo(InntektRapportering.KAPITALINNTEKT) },
+            Executable { assertThat(beregnedeKapsinntekter[0].inntektRapportering).isEqualTo(InntektRapportering.KAPITALINNTEKT) },
             Executable { assertThat(beregnedeKapsinntekter[0].sumInntekt).isEqualTo(BigDecimal.valueOf(1700)) },
             Executable { assertThat(beregnedeKapsinntekter[0].inntektPostListe.size).isEqualTo(4) },
 
             Executable { assertThat(beregnedeKapsinntekter[1].periodeFra).isEqualTo(FomMåned(YearMonth.parse("2022-01"))) },
             Executable { assertThat(beregnedeKapsinntekter[1].periodeTom).isEqualTo(TomMåned(YearMonth.parse("2022-12"))) },
-            Executable { assertThat(beregnedeKapsinntekter[1].inntektKategori).isEqualTo(InntektRapportering.KAPITALINNTEKT) },
+            Executable { assertThat(beregnedeKapsinntekter[1].inntektRapportering).isEqualTo(InntektRapportering.KAPITALINNTEKT) },
             Executable { assertThat(beregnedeKapsinntekter[1].sumInntekt).isEqualTo(BigDecimal.valueOf(1700)) },
             Executable { assertThat(beregnedeKapsinntekter[1].inntektPostListe.size).isEqualTo(4) },
 
@@ -83,7 +83,7 @@ class SkattegrunnlagServiceTest {
         assertAll(
             Executable { assertNotNull(beregnedeLigsinntekter) },
             Executable { assertThat(beregnedeLigsinntekter[0].periodeFra).isEqualTo(FomMåned(YearMonth.parse("2021-01"))) },
-            Executable { assertThat(beregnedeLigsinntekter[0].inntektKategori).isEqualTo(InntektRapportering.LIGNINGSINNTEKT) },
+            Executable { assertThat(beregnedeLigsinntekter[0].inntektRapportering).isEqualTo(InntektRapportering.LIGNINGSINNTEKT) },
             Executable { assertThat(beregnedeLigsinntekter[0].sumInntekt).isEqualTo(BigDecimal.valueOf(1000)) },
             Executable { assertThat(beregnedeLigsinntekter[0].inntektPostListe.size).isEqualTo(4) },
 

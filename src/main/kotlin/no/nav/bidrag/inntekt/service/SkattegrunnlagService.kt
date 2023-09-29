@@ -25,12 +25,12 @@ class SkattegrunnlagService {
     fun beregnSkattegrunnlag(
         skattegrunnlagListe: List<SkattegrunnlagForLigningsår>,
         kodeverksverdier: GetKodeverkKoderBetydningerResponse?,
-        inntektKategori: InntektRapportering
+        inntektRapportering: InntektRapportering
     ): List<SummertAarsinntekt> {
         return if (skattegrunnlagListe.isNotEmpty()) {
-            val filnavn = if (inntektKategori == InntektRapportering.KAPITALINNTEKT) "/files/mapping_kaps.yaml" else "files/mapping_ligs.yaml"
+            val filnavn = if (inntektRapportering == InntektRapportering.KAPITALINNTEKT) "/files/mapping_kaps.yaml" else "files/mapping_ligs.yaml"
             val mapping = hentMapping(filnavn)
-            beregnInntekt(skattegrunnlagListe, mapping, inntektKategori, kodeverksverdier)
+            beregnInntekt(skattegrunnlagListe, mapping, inntektRapportering, kodeverksverdier)
         } else {
             emptyList()
         }
@@ -39,7 +39,7 @@ class SkattegrunnlagService {
     private fun beregnInntekt(
         skattegrunnlagListe: List<SkattegrunnlagForLigningsår>,
         mapping: List<MappingPoster>,
-        inntektKategori: InntektRapportering,
+        inntektRapportering: InntektRapportering,
         kodeverksverdier: GetKodeverkKoderBetydningerResponse?
     ): List<SummertAarsinntekt> {
         val summertÅrsinntektListe = mutableListOf<SummertAarsinntekt>()
@@ -71,8 +71,8 @@ class SkattegrunnlagService {
             }
             summertÅrsinntektListe.add(
                 SummertAarsinntekt(
-                    inntektKategori = inntektKategori,
-                    visningsnavn = "${inntektKategori.visningsnavn} ${skattegrunnlagForLigningsår.ligningsår}",
+                    inntektRapportering = inntektRapportering,
+                    visningsnavn = "${inntektRapportering.visningsnavn} ${skattegrunnlagForLigningsår.ligningsår}",
                     referanse = "",
                     sumInntekt = sumInntekt,
                     periodeFra = FomMåned(YearMonth.of(skattegrunnlagForLigningsår.ligningsår, Month.JANUARY)),
