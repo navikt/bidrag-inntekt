@@ -3,7 +3,7 @@ package no.nav.bidrag.inntekt.service
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
 import com.fasterxml.jackson.module.kotlin.readValue
-import no.nav.bidrag.domain.enums.InntektBeskrivelse
+import no.nav.bidrag.domain.enums.InntektRapportering
 import no.nav.bidrag.domain.enums.PlussMinus
 import no.nav.bidrag.domain.tid.FomMåned
 import no.nav.bidrag.domain.tid.TomMåned
@@ -25,12 +25,12 @@ class SkattegrunnlagService {
     fun beregnSkattegrunnlag(
         skattegrunnlagListe: List<SkattegrunnlagForLigningsår>,
         kodeverksverdier: GetKodeverkKoderBetydningerResponse?,
-        inntektBeskrivelse: InntektBeskrivelse
+        inntektRapportering: InntektRapportering
     ): List<SummertAarsinntekt> {
         return if (skattegrunnlagListe.isNotEmpty()) {
-            val filnavn = if (inntektBeskrivelse == InntektBeskrivelse.KAPITALINNTEKT) "/files/mapping_kaps.yaml" else "files/mapping_ligs.yaml"
+            val filnavn = if (inntektRapportering == InntektRapportering.KAPITALINNTEKT) "/files/mapping_kaps.yaml" else "files/mapping_ligs.yaml"
             val mapping = hentMapping(filnavn)
-            beregnInntekt(skattegrunnlagListe, mapping, inntektBeskrivelse, kodeverksverdier)
+            beregnInntekt(skattegrunnlagListe, mapping, inntektRapportering, kodeverksverdier)
         } else {
             emptyList()
         }
@@ -39,7 +39,7 @@ class SkattegrunnlagService {
     private fun beregnInntekt(
         skattegrunnlagListe: List<SkattegrunnlagForLigningsår>,
         mapping: List<MappingPoster>,
-        inntektBeskrivelse: InntektBeskrivelse,
+        inntektRapportering: InntektRapportering,
         kodeverksverdier: GetKodeverkKoderBetydningerResponse?
     ): List<SummertAarsinntekt> {
         val summertÅrsinntektListe = mutableListOf<SummertAarsinntekt>()
@@ -71,8 +71,8 @@ class SkattegrunnlagService {
             }
             summertÅrsinntektListe.add(
                 SummertAarsinntekt(
-                    inntektBeskrivelse = inntektBeskrivelse,
-                    visningsnavn = "${inntektBeskrivelse.visningsnavn} ${skattegrunnlagForLigningsår.ligningsår}",
+                    inntektRapportering = inntektRapportering,
+                    visningsnavn = "${inntektRapportering.visningsnavn} ${skattegrunnlagForLigningsår.ligningsår}",
                     referanse = "",
                     sumInntekt = sumInntekt,
                     periodeFra = FomMåned(YearMonth.of(skattegrunnlagForLigningsår.ligningsår, Month.JANUARY)),

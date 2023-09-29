@@ -1,6 +1,6 @@
 package no.nav.bidrag.inntekt.service
 
-import no.nav.bidrag.domain.enums.InntektBeskrivelse
+import no.nav.bidrag.domain.enums.InntektRapportering
 import no.nav.bidrag.inntekt.SECURE_LOGGER
 import no.nav.bidrag.inntekt.aop.RestResponse
 import no.nav.bidrag.inntekt.consumer.kodeverk.KodeverkConsumer
@@ -44,12 +44,12 @@ class InntektService(
                     skattegrunnlagService.beregnSkattegrunnlag(
                         transformerInntekterRequest.skattegrunnlagsliste,
                         kodeverdierSkattegrunnlag,
-                        InntektBeskrivelse.LIGNINGSINNTEKT
+                        InntektRapportering.LIGNINGSINNTEKT
                     ) +
                     skattegrunnlagService.beregnSkattegrunnlag(
                         transformerInntekterRequest.skattegrunnlagsliste,
                         kodeverdierSkattegrunnlag,
-                        InntektBeskrivelse.KAPITALINNTEKT
+                        InntektRapportering.KAPITALINNTEKT
                     )
                 )
         )

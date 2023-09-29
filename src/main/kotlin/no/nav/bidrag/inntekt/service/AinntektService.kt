@@ -1,6 +1,6 @@
 package no.nav.bidrag.inntekt.service
 
-import no.nav.bidrag.domain.enums.InntektBeskrivelse
+import no.nav.bidrag.domain.enums.InntektRapportering
 import no.nav.bidrag.domain.tid.FomMåned
 import no.nav.bidrag.domain.tid.TomMåned
 import no.nav.bidrag.inntekt.consumer.kodeverk.api.GetKodeverkKoderBetydningerResponse
@@ -43,15 +43,15 @@ class AinntektService(private val dateProvider: DateProvider) {
                 }
                 ainntektListeUt.add(
                     SummertAarsinntekt(
-                        inntektBeskrivelse = when (it.key) {
-                            KEY_3MND -> InntektBeskrivelse.AINNTEKT_BEREGNET_3MND
-                            KEY_12MND -> InntektBeskrivelse.AINNTEKT_BEREGNET_12MND
-                            else -> InntektBeskrivelse.AINNTEKT
+                        inntektRapportering = when (it.key) {
+                            KEY_3MND -> InntektRapportering.AINNTEKT_BEREGNET_3MND
+                            KEY_12MND -> InntektRapportering.AINNTEKT_BEREGNET_12MND
+                            else -> InntektRapportering.AINNTEKT
                         },
                         visningsnavn = when (it.key) {
-                            KEY_3MND -> InntektBeskrivelse.AINNTEKT_BEREGNET_3MND.visningsnavn
-                            KEY_12MND -> InntektBeskrivelse.AINNTEKT_BEREGNET_12MND.visningsnavn
-                            else -> "${InntektBeskrivelse.AINNTEKT.visningsnavn} ${it.value.periodeFra.year}"
+                            KEY_3MND -> InntektRapportering.AINNTEKT_BEREGNET_3MND.visningsnavn
+                            KEY_12MND -> InntektRapportering.AINNTEKT_BEREGNET_12MND.visningsnavn
+                            else -> "${InntektRapportering.AINNTEKT.visningsnavn} ${it.value.periodeFra.year}"
                         },
                         referanse = "",
                         sumInntekt = when (it.key) {
@@ -59,7 +59,7 @@ class AinntektService(private val dateProvider: DateProvider) {
                             else -> it.value.sumInntekt
                         },
                         periodeFra = FomMåned(it.value.periodeFra),
-                        periodeTom = it.value.periodeTil.let { TomMåned(it!!) },
+                        periodeTom = it.value.periodeTil.let { periodeTil -> TomMåned(periodeTil!!) },
                         inntektPostListe = when (it.key) {
                             KEY_3MND -> grupperOgSummerDetaljposter(it.value.inntektPostListe, kodeverksverdier, 4)
                             else -> grupperOgSummerDetaljposter(it.value.inntektPostListe, kodeverksverdier)
@@ -68,7 +68,7 @@ class AinntektService(private val dateProvider: DateProvider) {
                     )
                 )
             }
-            ainntektListeUt.sortedWith(compareBy({ it.inntektBeskrivelse.toString() }, { it.periodeFra }))
+            ainntektListeUt.sortedWith(compareBy({ it.inntektRapportering.toString() }, { it.periodeFra }))
         } else {
             emptyList()
         }

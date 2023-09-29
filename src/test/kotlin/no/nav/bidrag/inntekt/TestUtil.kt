@@ -25,13 +25,6 @@ class TestUtil {
 
     companion object {
 
-        fun byggSkattegrunnlagDtoMedFeilPeriode() = immutableListOf(
-            SkattegrunnlagForLigningsår(
-                ligningsår = 2022,
-                skattegrunnlagsposter = byggSkattegrunnlagPostListe()
-            )
-        )
-
         fun byggSkattegrunnlagDto() = immutableListOf(
             SkattegrunnlagForLigningsår(
                 ligningsår = 2021,
