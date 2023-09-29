@@ -1,6 +1,6 @@
 package no.nav.bidrag.inntekt.service
 
-import no.nav.bidrag.domain.enums.InntektBeskrivelse
+import no.nav.bidrag.domain.enums.InntektRapportering
 import no.nav.bidrag.domain.tid.FomMåned
 import no.nav.bidrag.domain.tid.TomMåned
 import no.nav.bidrag.inntekt.util.DateProvider
@@ -36,15 +36,15 @@ class OvergangsstønadService(private val dateProvider: DateProvider) {
                 }
                 overgangsstønadListeUt.add(
                     SummertAarsinntekt(
-                        inntektBeskrivelse = when (it.key) {
-                            KEY_3MND -> InntektBeskrivelse.OVERGANGSSTØNAD_BEREGNET_3MND
-                            KEY_12MND -> InntektBeskrivelse.OVERGANGSSTØNAD_BEREGNET_12MND
-                            else -> InntektBeskrivelse.OVERGANGSSTØNAD
+                        inntektKategori = when (it.key) {
+                            KEY_3MND -> InntektRapportering.OVERGANGSSTØNAD_BEREGNET_3MND
+                            KEY_12MND -> InntektRapportering.OVERGANGSSTØNAD_BEREGNET_12MND
+                            else -> InntektRapportering.OVERGANGSSTØNAD
                         },
                         visningsnavn = when (it.key) {
-                            KEY_3MND -> InntektBeskrivelse.OVERGANGSSTØNAD_BEREGNET_3MND.visningsnavn
-                            KEY_12MND -> InntektBeskrivelse.OVERGANGSSTØNAD_BEREGNET_12MND.visningsnavn
-                            else -> "${InntektBeskrivelse.OVERGANGSSTØNAD.visningsnavn} ${it.value.periodeFra.year}"
+                            KEY_3MND -> InntektRapportering.OVERGANGSSTØNAD_BEREGNET_3MND.visningsnavn
+                            KEY_12MND -> InntektRapportering.OVERGANGSSTØNAD_BEREGNET_12MND.visningsnavn
+                            else -> "${InntektRapportering.OVERGANGSSTØNAD.visningsnavn} ${it.value.periodeFra.year}"
                         },
                         referanse = "",
                         sumInntekt = when (it.key) {
@@ -52,12 +52,12 @@ class OvergangsstønadService(private val dateProvider: DateProvider) {
                             else -> it.value.sumInntekt
                         },
                         periodeFra = FomMåned(it.value.periodeFra),
-                        periodeTom = it.value?.periodeTil.let { TomMåned(it!!) },
+                        periodeTom = it.value.periodeTil.let { periodeTil -> TomMåned(periodeTil!!) },
                         inntektPostListe = it.value.inntektPostListe
                     )
                 )
             }
-            overgangsstønadListeUt.sortedWith(compareBy({ it.inntektBeskrivelse.toString() }, { it.periodeFra }))
+            overgangsstønadListeUt.sortedWith(compareBy({ it.inntektKategori.toString() }, { it.periodeFra }))
         } else {
             emptyList()
         }

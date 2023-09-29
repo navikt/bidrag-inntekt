@@ -4,7 +4,7 @@ import jakarta.servlet.FilterChain
 import jakarta.servlet.ServletRequest
 import jakarta.servlet.ServletResponse
 import no.nav.bidrag.commons.ExceptionLogger
-import no.nav.bidrag.domain.enums.InntektBeskrivelse
+import no.nav.bidrag.domain.enums.InntektRapportering
 import no.nav.bidrag.inntekt.BidragInntektTest
 import no.nav.bidrag.inntekt.BidragInntektTest.Companion.TEST_PROFILE
 import no.nav.bidrag.inntekt.TestUtil
@@ -90,14 +90,14 @@ class InntektControllerTest(
 
             Executable { assertTrue(transformerteInntekter.summertAarsinntektListe.isNotEmpty()) },
             Executable { assertEquals(12, transformerteInntekter.summertAarsinntektListe.size) },
-            Executable { assertEquals(2, transformerteInntekter.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.AINNTEKT }.size) },
-            Executable { assertTrue(transformerteInntekter.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.AINNTEKT_BEREGNET_3MND }.size == 1) },
-            Executable { assertTrue(transformerteInntekter.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.AINNTEKT_BEREGNET_12MND }.size == 1) },
-            Executable { assertTrue(transformerteInntekter.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.OVERGANGSSTØNAD }.size == 2) },
-            Executable { assertTrue(transformerteInntekter.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.OVERGANGSSTØNAD_BEREGNET_3MND }.size == 1) },
-            Executable { assertTrue(transformerteInntekter.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.OVERGANGSSTØNAD_BEREGNET_12MND }.size == 1) },
-            Executable { assertTrue(transformerteInntekter.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.LIGNINGSINNTEKT }.size == 2) },
-            Executable { assertTrue(transformerteInntekter.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.KAPITALINNTEKT }.size == 2) },
+            Executable { assertEquals(2, transformerteInntekter.summertAarsinntektListe.filter { it.inntektKategori == InntektRapportering.AINNTEKT }.size) },
+            Executable { assertTrue(transformerteInntekter.summertAarsinntektListe.filter { it.inntektKategori == InntektRapportering.AINNTEKT_BEREGNET_3MND }.size == 1) },
+            Executable { assertTrue(transformerteInntekter.summertAarsinntektListe.filter { it.inntektKategori == InntektRapportering.AINNTEKT_BEREGNET_12MND }.size == 1) },
+            Executable { assertTrue(transformerteInntekter.summertAarsinntektListe.filter { it.inntektKategori == InntektRapportering.OVERGANGSSTØNAD }.size == 2) },
+            Executable { assertTrue(transformerteInntekter.summertAarsinntektListe.filter { it.inntektKategori == InntektRapportering.OVERGANGSSTØNAD_BEREGNET_3MND }.size == 1) },
+            Executable { assertTrue(transformerteInntekter.summertAarsinntektListe.filter { it.inntektKategori == InntektRapportering.OVERGANGSSTØNAD_BEREGNET_12MND }.size == 1) },
+            Executable { assertTrue(transformerteInntekter.summertAarsinntektListe.filter { it.inntektKategori == InntektRapportering.LIGNINGSINNTEKT }.size == 2) },
+            Executable { assertTrue(transformerteInntekter.summertAarsinntektListe.filter { it.inntektKategori == InntektRapportering.KAPITALINNTEKT }.size == 2) },
 
             Executable { assertTrue(transformerteInntekter.summertMaanedsinntektListe.isNotEmpty()) },
             Executable { assertEquals(20, transformerteInntekter.summertMaanedsinntektListe.size) },

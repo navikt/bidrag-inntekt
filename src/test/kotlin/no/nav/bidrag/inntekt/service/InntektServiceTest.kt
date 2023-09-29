@@ -1,6 +1,6 @@
 package no.nav.bidrag.inntekt.service
 
-import no.nav.bidrag.domain.enums.InntektBeskrivelse
+import no.nav.bidrag.domain.enums.InntektRapportering
 import no.nav.bidrag.inntekt.BidragInntektTest
 import no.nav.bidrag.inntekt.TestUtil
 import no.nav.bidrag.inntekt.aop.RestResponse
@@ -59,14 +59,14 @@ class InntektServiceTest {
 
             Executable { assertTrue(transformerteInntekterResponseDto.summertAarsinntektListe.isNotEmpty()) },
             Executable { assertTrue(transformerteInntekterResponseDto.summertAarsinntektListe.size == 12) },
-            Executable { assertTrue(transformerteInntekterResponseDto.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.AINNTEKT }.size == 2) },
-            Executable { assertTrue(transformerteInntekterResponseDto.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.AINNTEKT_BEREGNET_3MND }.size == 1) },
-            Executable { assertTrue(transformerteInntekterResponseDto.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.AINNTEKT_BEREGNET_12MND }.size == 1) },
-            Executable { assertTrue(transformerteInntekterResponseDto.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.OVERGANGSSTØNAD }.size == 2) },
-            Executable { assertTrue(transformerteInntekterResponseDto.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.OVERGANGSSTØNAD_BEREGNET_3MND }.size == 1) },
-            Executable { assertTrue(transformerteInntekterResponseDto.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.OVERGANGSSTØNAD_BEREGNET_12MND }.size == 1) },
-            Executable { assertTrue(transformerteInntekterResponseDto.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.LIGNINGSINNTEKT }.size == 2) },
-            Executable { assertTrue(transformerteInntekterResponseDto.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.KAPITALINNTEKT }.size == 2) },
+            Executable { assertTrue(transformerteInntekterResponseDto.summertAarsinntektListe.filter { it.inntektKategori == InntektRapportering.AINNTEKT }.size == 2) },
+            Executable { assertTrue(transformerteInntekterResponseDto.summertAarsinntektListe.filter { it.inntektKategori == InntektRapportering.AINNTEKT_BEREGNET_3MND }.size == 1) },
+            Executable { assertTrue(transformerteInntekterResponseDto.summertAarsinntektListe.filter { it.inntektKategori == InntektRapportering.AINNTEKT_BEREGNET_12MND }.size == 1) },
+            Executable { assertTrue(transformerteInntekterResponseDto.summertAarsinntektListe.filter { it.inntektKategori == InntektRapportering.OVERGANGSSTØNAD }.size == 2) },
+            Executable { assertTrue(transformerteInntekterResponseDto.summertAarsinntektListe.filter { it.inntektKategori == InntektRapportering.OVERGANGSSTØNAD_BEREGNET_3MND }.size == 1) },
+            Executable { assertTrue(transformerteInntekterResponseDto.summertAarsinntektListe.filter { it.inntektKategori == InntektRapportering.OVERGANGSSTØNAD_BEREGNET_12MND }.size == 1) },
+            Executable { assertTrue(transformerteInntekterResponseDto.summertAarsinntektListe.filter { it.inntektKategori == InntektRapportering.LIGNINGSINNTEKT }.size == 2) },
+            Executable { assertTrue(transformerteInntekterResponseDto.summertAarsinntektListe.filter { it.inntektKategori == InntektRapportering.KAPITALINNTEKT }.size == 2) },
 
             Executable { assertTrue(transformerteInntekterResponseDto.summertAarsinntektListe[0].inntektPostListe[0].kode == "overtidsgodtgjoerelse") },
             Executable { assertTrue(transformerteInntekterResponseDto.summertAarsinntektListe[0].inntektPostListe[0].visningsnavn == "Overtidsgodtgjørelse") },
@@ -91,14 +91,14 @@ class InntektServiceTest {
 
             Executable { assertTrue(transformerteInntekterResponseDto.summertAarsinntektListe.isNotEmpty()) },
             Executable { assertTrue(transformerteInntekterResponseDto.summertAarsinntektListe.size == 12) },
-            Executable { assertTrue(transformerteInntekterResponseDto.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.AINNTEKT }.size == 2) },
-            Executable { assertTrue(transformerteInntekterResponseDto.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.AINNTEKT_BEREGNET_3MND }.size == 1) },
-            Executable { assertTrue(transformerteInntekterResponseDto.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.AINNTEKT_BEREGNET_12MND }.size == 1) },
-            Executable { assertTrue(transformerteInntekterResponseDto.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.OVERGANGSSTØNAD }.size == 2) },
-            Executable { assertTrue(transformerteInntekterResponseDto.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.OVERGANGSSTØNAD_BEREGNET_3MND }.size == 1) },
-            Executable { assertTrue(transformerteInntekterResponseDto.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.OVERGANGSSTØNAD_BEREGNET_12MND }.size == 1) },
-            Executable { assertTrue(transformerteInntekterResponseDto.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.LIGNINGSINNTEKT }.size == 2) },
-            Executable { assertTrue(transformerteInntekterResponseDto.summertAarsinntektListe.filter { it.inntektBeskrivelse == InntektBeskrivelse.KAPITALINNTEKT }.size == 2) },
+            Executable { assertTrue(transformerteInntekterResponseDto.summertAarsinntektListe.filter { it.inntektKategori == InntektRapportering.AINNTEKT }.size == 2) },
+            Executable { assertTrue(transformerteInntekterResponseDto.summertAarsinntektListe.filter { it.inntektKategori == InntektRapportering.AINNTEKT_BEREGNET_3MND }.size == 1) },
+            Executable { assertTrue(transformerteInntekterResponseDto.summertAarsinntektListe.filter { it.inntektKategori == InntektRapportering.AINNTEKT_BEREGNET_12MND }.size == 1) },
+            Executable { assertTrue(transformerteInntekterResponseDto.summertAarsinntektListe.filter { it.inntektKategori == InntektRapportering.OVERGANGSSTØNAD }.size == 2) },
+            Executable { assertTrue(transformerteInntekterResponseDto.summertAarsinntektListe.filter { it.inntektKategori == InntektRapportering.OVERGANGSSTØNAD_BEREGNET_3MND }.size == 1) },
+            Executable { assertTrue(transformerteInntekterResponseDto.summertAarsinntektListe.filter { it.inntektKategori == InntektRapportering.OVERGANGSSTØNAD_BEREGNET_12MND }.size == 1) },
+            Executable { assertTrue(transformerteInntekterResponseDto.summertAarsinntektListe.filter { it.inntektKategori == InntektRapportering.LIGNINGSINNTEKT }.size == 2) },
+            Executable { assertTrue(transformerteInntekterResponseDto.summertAarsinntektListe.filter { it.inntektKategori == InntektRapportering.KAPITALINNTEKT }.size == 2) },
 
             Executable { assertTrue(transformerteInntekterResponseDto.summertAarsinntektListe[0].inntektPostListe[0].kode == "overtidsgodtgjoerelse") },
             Executable { assertTrue(transformerteInntekterResponseDto.summertAarsinntektListe[0].inntektPostListe[0].visningsnavn == "overtidsgodtgjoerelse") },
