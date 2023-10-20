@@ -5,9 +5,11 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import no.nav.bidrag.inntekt.consumer.kodeverk.api.GetKodeverkKoderBetydningerResponse
 import no.nav.bidrag.transport.behandling.grunnlag.response.SkattegrunnlagspostDto
+import no.nav.bidrag.transport.behandling.inntekt.request.Kontantstotte
 import no.nav.bidrag.transport.behandling.inntekt.request.Overgangsstonad
 import no.nav.bidrag.transport.behandling.inntekt.request.SkattegrunnlagForLigningsår
 import no.nav.bidrag.transport.behandling.inntekt.request.TransformerInntekterRequest
+import no.nav.bidrag.transport.behandling.inntekt.request.UtvidetBarnetrygdOgSmaabarnstillegg
 import okhttp3.internal.immutableListOf
 import org.springframework.http.HttpMethod
 import org.springframework.http.MediaType
@@ -178,6 +180,62 @@ class TestUtil {
                 periodeFra = LocalDate.parse("2023-04-01"),
                 periodeTil = LocalDate.parse("2023-05-01"),
                 belop = BigDecimal.valueOf(1700)
+            )
+        )
+
+        fun byggKontantstøtte() = immutableListOf(
+            // barn 1
+            Kontantstotte(
+                periodeFra = LocalDate.parse("2022-09-01"),
+                periodeTil = LocalDate.parse("2023-01-01"),
+                belop = BigDecimal.valueOf(7500),
+                barnPersonId = "98765432109"
+            ),
+            Kontantstotte(
+                periodeFra = LocalDate.parse("2023-05-01"),
+                periodeTil = null,
+                belop = BigDecimal.valueOf(7500),
+                barnPersonId = "98765432109"
+            ),
+            // barn 2
+            Kontantstotte(
+                periodeFra = LocalDate.parse("2021-11-01"),
+                periodeTil = LocalDate.parse("2022-07-01"),
+                belop = BigDecimal.valueOf(7500),
+                barnPersonId = "12345678901"
+            ),
+            Kontantstotte(
+                periodeFra = LocalDate.parse("2022-10-01"),
+                periodeTil = LocalDate.parse("2023-02-01"),
+                belop = BigDecimal.valueOf(7500),
+                barnPersonId = "12345678901"
+            ),
+            Kontantstotte(
+                periodeFra = LocalDate.parse("2023-05-01"),
+                periodeTil = LocalDate.parse("2023-08-01"),
+                belop = BigDecimal.valueOf(7500),
+                barnPersonId = "12345678901"
+            )
+        )
+
+        fun byggUtvidetBarnetrygdOgSmåbarnstillegg() = immutableListOf(
+            UtvidetBarnetrygdOgSmaabarnstillegg(
+                type = "UTVIDET",
+                periodeFra = LocalDate.parse("2019-11-01"),
+                periodeTil = LocalDate.parse("2022-10-01"),
+                belop = BigDecimal.valueOf(1054)
+            ),
+            UtvidetBarnetrygdOgSmaabarnstillegg(
+                type = "SMÅBARNSTILLEGG",
+                periodeFra = LocalDate.parse("2021-11-01"),
+                periodeTil = LocalDate.parse("2022-04-01"),
+                belop = BigDecimal.valueOf(660)
+            ),
+            UtvidetBarnetrygdOgSmaabarnstillegg(
+                type = "SMÅBARNSTILLEGG",
+                periodeFra = LocalDate.parse("2022-06-01"),
+                periodeTil = LocalDate.parse("2022-08-01"),
+                belop = BigDecimal.valueOf(660)
             )
         )
 

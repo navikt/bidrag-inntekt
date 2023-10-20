@@ -29,7 +29,7 @@ import java.time.YearMonth
     webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT
 )
 @EnableMockOAuth2Server
-class OvergangsstønadServiceTest {
+class UtvidetBarnetrygdOgSmåbarnstilleggServiceTest {
 
     @Test
     fun `skal returnere Overgangsstønad når dagens dato er 2023-01-01`() {
