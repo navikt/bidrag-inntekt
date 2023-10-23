@@ -33,9 +33,9 @@ class InntektServiceTest {
     private final val fixedDateProvider: DateProvider = FixedDateProvider(LocalDate.of(2023, 9, 1))
     private final val ainntektService: AinntektService = AinntektService(fixedDateProvider)
     private final val overgangsstønadService: OvergangsstønadService = OvergangsstønadService(fixedDateProvider)
-    private final val kontantstøtteService: KontantstøtteService = KontantstøtteService(fixedDateProvider)
+    private final val kontantstøtteService: KontantstøtteService = KontantstøtteService()
     private final val utvidetBarnetrygdOgSmåbarnstilleggService: UtvidetBarnetrygdOgSmåbarnstilleggService =
-        UtvidetBarnetrygdOgSmåbarnstilleggService(fixedDateProvider)
+        UtvidetBarnetrygdOgSmåbarnstilleggService()
     private final val skattegrunnlagService: SkattegrunnlagService = SkattegrunnlagService()
     private final val kodeverkConsumer: KodeverkConsumer = Mockito.mock(KodeverkConsumer::class.java)
 

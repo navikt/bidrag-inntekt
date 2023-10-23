@@ -53,8 +53,8 @@ class InntektControllerTest(
     private final val ainntektService: AinntektService = AinntektService(fixedDateProvider)
     private final val skattegrunnlagService: SkattegrunnlagService = SkattegrunnlagService()
     private final val overgangsstonadService: OvergangsstønadService = OvergangsstønadService(fixedDateProvider)
-    private final val kontantstøtteService: KontantstøtteService = KontantstøtteService(fixedDateProvider)
-    private final val utvidetBarnetrygdOgSmåbarnstilleggService: UtvidetBarnetrygdOgSmåbarnstilleggService = UtvidetBarnetrygdOgSmåbarnstilleggService(fixedDateProvider)
+    private final val kontantstøtteService: KontantstøtteService = KontantstøtteService()
+    private final val utvidetBarnetrygdOgSmåbarnstilleggService: UtvidetBarnetrygdOgSmåbarnstilleggService = UtvidetBarnetrygdOgSmåbarnstilleggService()
     private final val kodeverkConsumer: KodeverkConsumer = Mockito.mock(KodeverkConsumer::class.java)
     private final val inntektService: InntektService =
         InntektService(ainntektService, skattegrunnlagService, overgangsstonadService, kontantstøtteService, utvidetBarnetrygdOgSmåbarnstilleggService, kodeverkConsumer)

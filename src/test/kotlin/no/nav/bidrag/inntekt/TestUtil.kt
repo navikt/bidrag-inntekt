@@ -219,12 +219,21 @@ class TestUtil {
         )
 
         fun byggUtvidetBarnetrygdOgSmåbarnstillegg() = immutableListOf(
+            // Utvidet barnetrygd
             UtvidetBarnetrygdOgSmaabarnstillegg(
                 type = "UTVIDET",
-                periodeFra = LocalDate.parse("2019-11-01"),
+                periodeFra = LocalDate.parse("2019-01-01"),
+                periodeTil = LocalDate.parse("2019-10-01"),
+                belop = BigDecimal.valueOf(1054)
+            ),
+            UtvidetBarnetrygdOgSmaabarnstillegg(
+                type = "UTVIDET",
+                periodeFra = LocalDate.parse("2020-11-01"),
                 periodeTil = LocalDate.parse("2022-10-01"),
                 belop = BigDecimal.valueOf(1054)
             ),
+
+            // Småbarnstillegg
             UtvidetBarnetrygdOgSmaabarnstillegg(
                 type = "SMÅBARNSTILLEGG",
                 periodeFra = LocalDate.parse("2021-11-01"),
@@ -235,6 +244,12 @@ class TestUtil {
                 type = "SMÅBARNSTILLEGG",
                 periodeFra = LocalDate.parse("2022-06-01"),
                 periodeTil = LocalDate.parse("2022-08-01"),
+                belop = BigDecimal.valueOf(660)
+            ),
+            UtvidetBarnetrygdOgSmaabarnstillegg(
+                type = "SMÅBARNSTILLEGG",
+                periodeFra = LocalDate.parse("2022-10-01"),
+                periodeTil = null,
                 belop = BigDecimal.valueOf(660)
             )
         )
