@@ -13,8 +13,10 @@ import no.nav.bidrag.inntekt.aop.RestResponse
 import no.nav.bidrag.inntekt.consumer.kodeverk.KodeverkConsumer
 import no.nav.bidrag.inntekt.service.AinntektService
 import no.nav.bidrag.inntekt.service.InntektService
+import no.nav.bidrag.inntekt.service.KontantstøtteService
 import no.nav.bidrag.inntekt.service.OvergangsstønadService
 import no.nav.bidrag.inntekt.service.SkattegrunnlagService
+import no.nav.bidrag.inntekt.service.UtvidetBarnetrygdOgSmåbarnstilleggService
 import no.nav.bidrag.inntekt.util.DateProvider
 import no.nav.bidrag.inntekt.util.FixedDateProvider
 import no.nav.bidrag.transport.behandling.inntekt.response.TransformerInntekterResponse
@@ -51,9 +53,11 @@ class InntektControllerTest(
     private final val ainntektService: AinntektService = AinntektService(fixedDateProvider)
     private final val skattegrunnlagService: SkattegrunnlagService = SkattegrunnlagService()
     private final val overgangsstonadService: OvergangsstønadService = OvergangsstønadService(fixedDateProvider)
+    private final val kontantstøtteService: KontantstøtteService = KontantstøtteService()
+    private final val utvidetBarnetrygdOgSmåbarnstilleggService: UtvidetBarnetrygdOgSmåbarnstilleggService = UtvidetBarnetrygdOgSmåbarnstilleggService()
     private final val kodeverkConsumer: KodeverkConsumer = Mockito.mock(KodeverkConsumer::class.java)
     private final val inntektService: InntektService =
-        InntektService(ainntektService, skattegrunnlagService, overgangsstonadService, kodeverkConsumer)
+        InntektService(ainntektService, skattegrunnlagService, overgangsstonadService, kontantstøtteService, utvidetBarnetrygdOgSmåbarnstilleggService, kodeverkConsumer)
     private final val inntektController: InntektController = InntektController(inntektService)
 
     private var mockMvc: MockMvc =

@@ -22,6 +22,8 @@ class InntektService(
     val ainntektService: AinntektService,
     val skattegrunnlagService: SkattegrunnlagService,
     val overgangsstønadService: OvergangsstønadService,
+    val kontantstøtteService: KontantstøtteService,
+    val utvidetBarnetrygdOgSmåbarnstilleggService: UtvidetBarnetrygdOgSmåbarnstilleggService,
     val kodeverkConsumer: KodeverkConsumer
 ) {
 
@@ -50,7 +52,9 @@ class InntektService(
                         transformerInntekterRequest.skattegrunnlagsliste,
                         kodeverdierSkattegrunnlag,
                         InntektRapportering.KAPITALINNTEKT
-                    )
+                    ) +
+                    kontantstøtteService.beregnKontantstøtte(transformerInntekterRequest.kontantstotteliste) +
+                    utvidetBarnetrygdOgSmåbarnstilleggService.beregnUtvidetBarnetrygdOgSmåbarnstillegg(transformerInntekterRequest.utvidetBarnetrygdOgSmaabarnstilleggliste)
                 )
         )
 

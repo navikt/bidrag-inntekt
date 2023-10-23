@@ -1,0 +1,67 @@
+package no.nav.bidrag.inntekt.service
+
+import no.nav.bidrag.domain.enums.InntektRapportering
+import no.nav.bidrag.domain.tid.FomMåned
+import no.nav.bidrag.domain.tid.TomMåned
+import no.nav.bidrag.transport.behandling.inntekt.request.UtvidetBarnetrygdOgSmaabarnstillegg
+import no.nav.bidrag.transport.behandling.inntekt.response.SummertAarsinntekt
+import org.springframework.stereotype.Service
+import java.math.BigDecimal
+import java.time.YearMonth
+
+@Service
+@Suppress("NonAsciiCharacters")
+class UtvidetBarnetrygdOgSmåbarnstilleggService() {
+
+    // Summerer, grupperer og transformerer utvidet barnetrygd og småbarnstillegg pr år
+    fun beregnUtvidetBarnetrygdOgSmåbarnstillegg(utvidetBarnetrygdOgSmåbarnstillegglisteInn: List<UtvidetBarnetrygdOgSmaabarnstillegg>): List<SummertAarsinntekt> {
+        return if (utvidetBarnetrygdOgSmåbarnstillegglisteInn.isNotEmpty()) {
+            val utvidetBarnetrygdListe = utvidetBarnetrygdOgSmåbarnstillegglisteInn.filter { it.type == "UTVIDET" }
+            val småbarnstilleggListe = utvidetBarnetrygdOgSmåbarnstillegglisteInn.filter { it.type == "SMÅBARNSTILLEGG" }
+
+            val utvidetBarnetrygdOgSmåbarnstilleggListeUt = mutableListOf<SummertAarsinntekt>()
+
+            utvidetBarnetrygdListe.forEach {
+                utvidetBarnetrygdOgSmåbarnstilleggListeUt.add(
+                    SummertAarsinntekt(
+                        inntektRapportering = InntektRapportering.UTVIDET_BARNETRYGD,
+                        visningsnavn = InntektRapportering.UTVIDET_BARNETRYGD.visningsnavn,
+                        referanse = "",
+                        sumInntekt = it.belop.times(BigDecimal.valueOf(12)),
+                        periodeFra = FomMåned(YearMonth.of(it.periodeFra.year, it.periodeFra.month)),
+                        periodeTom = if (it.periodeTil == null) {
+                            null
+                        } else {
+                            it.periodeTil!!.minusMonths(1).let {
+                                TomMåned(YearMonth.of(it.year, it.month))
+                            }
+                        },
+                        inntektPostListe = emptyList()
+                    )
+                )
+            }
+            småbarnstilleggListe.forEach {
+                utvidetBarnetrygdOgSmåbarnstilleggListeUt.add(
+                    SummertAarsinntekt(
+                        inntektRapportering = InntektRapportering.SMÅBARNSTILLEGG,
+                        visningsnavn = InntektRapportering.SMÅBARNSTILLEGG.visningsnavn,
+                        referanse = "",
+                        sumInntekt = it.belop.times(BigDecimal.valueOf(12)),
+                        periodeFra = FomMåned(YearMonth.of(it.periodeFra.year, it.periodeFra.month)),
+                        periodeTom = if (it.periodeTil == null) {
+                            null
+                        } else {
+                            it.periodeTil!!.minusMonths(1).let {
+                                TomMåned(YearMonth.of(it.year, it.month))
+                            }
+                        },
+                        inntektPostListe = emptyList()
+                    )
+                )
+            }
+            utvidetBarnetrygdOgSmåbarnstilleggListeUt.sortedWith(compareBy({ it.inntektRapportering.toString() }, { it.periodeFra }))
+        } else {
+            emptyList()
+        }
+    }
+}

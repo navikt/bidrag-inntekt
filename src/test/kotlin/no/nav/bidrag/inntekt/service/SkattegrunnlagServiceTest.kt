@@ -47,12 +47,14 @@ class SkattegrunnlagServiceTest {
             Executable { assertThat(beregnedeKapsinntekter[0].periodeTom).isEqualTo(TomMåned(YearMonth.parse("2021-12"))) },
             Executable { assertThat(beregnedeKapsinntekter[0].inntektRapportering).isEqualTo(InntektRapportering.KAPITALINNTEKT) },
             Executable { assertThat(beregnedeKapsinntekter[0].sumInntekt).isEqualTo(BigDecimal.valueOf(1700)) },
+            Executable { assertThat(beregnedeKapsinntekter[0].gjelderBarnPersonId).isEqualTo("") },
             Executable { assertThat(beregnedeKapsinntekter[0].inntektPostListe.size).isEqualTo(4) },
 
             Executable { assertThat(beregnedeKapsinntekter[1].periodeFra).isEqualTo(FomMåned(YearMonth.parse("2022-01"))) },
             Executable { assertThat(beregnedeKapsinntekter[1].periodeTom).isEqualTo(TomMåned(YearMonth.parse("2022-12"))) },
             Executable { assertThat(beregnedeKapsinntekter[1].inntektRapportering).isEqualTo(InntektRapportering.KAPITALINNTEKT) },
             Executable { assertThat(beregnedeKapsinntekter[1].sumInntekt).isEqualTo(BigDecimal.valueOf(1700)) },
+            Executable { assertThat(beregnedeKapsinntekter[1].gjelderBarnPersonId).isEqualTo("") },
             Executable { assertThat(beregnedeKapsinntekter[1].inntektPostListe.size).isEqualTo(4) },
 
             Executable { assertThat(beregnedeKapsinntekter[0].inntektPostListe[0].kode).isEqualTo("andelIFellesTapVedSalgAvAndelISDF") },

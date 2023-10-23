@@ -66,6 +66,7 @@ class AinntektServiceTest {
                 Executable { assertTrue(transformerteInntekter[0].sumInntekt == BigDecimal.valueOf(4000)) },
                 Executable { assertEquals(FomMåned(YearMonth.of(2021, 1)), transformerteInntekter[0].periodeFra) },
                 Executable { assertEquals(TomMåned(YearMonth.of(2021, 12)), transformerteInntekter[0].periodeTom) },
+                Executable { assertTrue(transformerteInntekter[0].gjelderBarnPersonId == "") },
                 Executable { assertTrue(transformerteInntekter[0].inntektPostListe.size == 1) },
                 Executable { assertTrue(transformerteInntekter[0].inntektPostListe.sumOf { it.beløp.toInt() } == 4000) },
                 Executable { assertTrue(transformerteInntekter[0].inntektPostListe[0].kode == "overtidsgodtgjoerelse") },
@@ -77,6 +78,7 @@ class AinntektServiceTest {
                 Executable { assertEquals(BigDecimal.valueOf(393000.789), transformerteInntekter[1].sumInntekt) },
                 Executable { assertEquals(FomMåned(YearMonth.of(2021, 12)), transformerteInntekter[1].periodeFra) },
                 Executable { assertEquals(TomMåned(YearMonth.of(2022, 11)), transformerteInntekter[1].periodeTom) },
+                Executable { assertTrue(transformerteInntekter[1].gjelderBarnPersonId == "") },
                 Executable { assertTrue(transformerteInntekter[1].inntektPostListe.size == 3) },
                 Executable { assertTrue(transformerteInntekter[1].inntektPostListe.sumOf { it.beløp.toInt() } == 393000) },
 
@@ -85,6 +87,7 @@ class AinntektServiceTest {
                 Executable { assertTrue(transformerteInntekter[2].sumInntekt == BigDecimal.valueOf(660000)) },
                 Executable { assertEquals(FomMåned(YearMonth.of(2022, 9)), transformerteInntekter[2].periodeFra) },
                 Executable { assertEquals(TomMåned(YearMonth.of(2022, 11)), transformerteInntekter[2].periodeTom) },
+                Executable { assertTrue(transformerteInntekter[2].gjelderBarnPersonId == "") },
                 Executable { assertTrue(transformerteInntekter[2].inntektPostListe.size == 1) },
                 Executable { assertTrue(transformerteInntekter[2].inntektPostListe.sumOf { it.beløp.toInt() } == 660000) },
                 Executable { assertTrue(transformerteInntekter[2].inntektPostListe[0].kode == "fastloenn") },
@@ -117,6 +120,7 @@ class AinntektServiceTest {
                 Executable { assertTrue(transformerteInntekter[0].sumInntekt == BigDecimal.valueOf(4000)) },
                 Executable { assertEquals(FomMåned(YearMonth.of(2021, 1)), transformerteInntekter[0].periodeFra) },
                 Executable { assertEquals(TomMåned(YearMonth.of(2021, 12)), transformerteInntekter[0].periodeTom) },
+                Executable { assertTrue(transformerteInntekter[0].gjelderBarnPersonId == "") },
                 Executable { assertTrue(transformerteInntekter[0].inntektPostListe.size == 1) },
                 Executable { assertTrue(transformerteInntekter[0].inntektPostListe.sumOf { it.beløp.toInt() } == 4000) },
                 Executable { assertTrue(transformerteInntekter[0].inntektPostListe[0].kode == "overtidsgodtgjoerelse") },
@@ -133,6 +137,7 @@ class AinntektServiceTest {
                 Executable { assertEquals(BigDecimal.valueOf(446000.789), transformerteInntekter[1].sumInntekt) },
                 Executable { assertEquals(FomMåned(YearMonth.of(2022, 1)), transformerteInntekter[1].periodeFra) },
                 Executable { assertEquals(TomMåned(YearMonth.of(2022, 12)), transformerteInntekter[1].periodeTom) },
+                Executable { assertTrue(transformerteInntekter[1].gjelderBarnPersonId == "") },
                 Executable { assertTrue(transformerteInntekter[1].inntektPostListe.size == 3) },
                 Executable { assertTrue(transformerteInntekter[1].inntektPostListe.sumOf { it.beløp.toInt() } == 446000) },
 
@@ -141,6 +146,7 @@ class AinntektServiceTest {
                 Executable { assertEquals(BigDecimal.valueOf(446000.789), transformerteInntekter[2].sumInntekt) },
                 Executable { assertEquals(FomMåned(YearMonth.of(2022, 1)), transformerteInntekter[2].periodeFra) },
                 Executable { assertEquals(TomMåned(YearMonth.of(2022, 12)), transformerteInntekter[2].periodeTom) },
+                Executable { assertTrue(transformerteInntekter[2].gjelderBarnPersonId == "") },
                 Executable { assertTrue(transformerteInntekter[2].inntektPostListe.size == 3) },
                 Executable { assertTrue(transformerteInntekter[2].inntektPostListe.sumOf { it.beløp.toInt() } == 446000) },
 
@@ -149,6 +155,7 @@ class AinntektServiceTest {
                 Executable { assertTrue(transformerteInntekter[3].sumInntekt == BigDecimal.valueOf(660000)) },
                 Executable { assertEquals(FomMåned(YearMonth.of(2022, 10)), transformerteInntekter[3].periodeFra) },
                 Executable { assertEquals(TomMåned(YearMonth.of(2022, 12)), transformerteInntekter[3].periodeTom) },
+                Executable { assertTrue(transformerteInntekter[3].gjelderBarnPersonId == "") },
                 Executable { assertTrue(transformerteInntekter[3].inntektPostListe.size == 1) },
                 Executable { assertTrue(transformerteInntekter[3].inntektPostListe.sumOf { it.beløp.toInt() } == 660000) },
                 Executable { assertTrue(transformerteInntekter[3].inntektPostListe[0].kode == "fastloenn") },
@@ -181,6 +188,7 @@ class AinntektServiceTest {
                 Executable { assertTrue(transformerteInntekter[0].sumInntekt == BigDecimal.valueOf(4000)) },
                 Executable { assertEquals(FomMåned(YearMonth.of(2021, 1)), transformerteInntekter[0].periodeFra) },
                 Executable { assertEquals(TomMåned(YearMonth.of(2021, 12)), transformerteInntekter[0].periodeTom) },
+                Executable { assertTrue(transformerteInntekter[0].gjelderBarnPersonId == "") },
                 Executable { assertTrue(transformerteInntekter[0].inntektPostListe.size == 1) },
                 Executable { assertTrue(transformerteInntekter[0].inntektPostListe.sumOf { it.beløp.toInt() } == 4000) },
                 Executable { assertTrue(transformerteInntekter[0].inntektPostListe[0].kode == "overtidsgodtgjoerelse") },
@@ -197,6 +205,7 @@ class AinntektServiceTest {
                 Executable { assertEquals(BigDecimal.valueOf(446000.789), transformerteInntekter[1].sumInntekt) },
                 Executable { assertEquals(FomMåned(YearMonth.of(2022, 1)), transformerteInntekter[1].periodeFra) },
                 Executable { assertEquals(TomMåned(YearMonth.of(2022, 12)), transformerteInntekter[1].periodeTom) },
+                Executable { assertTrue(transformerteInntekter[1].gjelderBarnPersonId == "") },
                 Executable { assertTrue(transformerteInntekter[1].inntektPostListe.size == 3) },
                 Executable { assertTrue(transformerteInntekter[1].inntektPostListe.sumOf { it.beløp.toInt() } == 446000) },
 
@@ -205,6 +214,7 @@ class AinntektServiceTest {
                 Executable { assertEquals(BigDecimal.valueOf(743001.119), transformerteInntekter[2].sumInntekt) },
                 Executable { assertEquals(FomMåned(YearMonth.of(2022, 8)), transformerteInntekter[2].periodeFra) },
                 Executable { assertEquals(TomMåned(YearMonth.of(2023, 7)), transformerteInntekter[2].periodeTom) },
+                Executable { assertTrue(transformerteInntekter[2].gjelderBarnPersonId == "") },
                 Executable { assertTrue(transformerteInntekter[2].inntektPostListe.size == 4) },
                 Executable { assertEquals(BigDecimal.valueOf(743001), transformerteInntekter[2].inntektPostListe.sumOf { it.beløp }) },
 
@@ -213,6 +223,7 @@ class AinntektServiceTest {
                 Executable { assertTrue(transformerteInntekter[3].sumInntekt == BigDecimal.valueOf(880000)) },
                 Executable { assertEquals(FomMåned(YearMonth.of(2023, 5)), transformerteInntekter[3].periodeFra) },
                 Executable { assertEquals(TomMåned(YearMonth.of(2023, 7)), transformerteInntekter[3].periodeTom) },
+                Executable { assertTrue(transformerteInntekter[3].gjelderBarnPersonId == "") },
                 Executable { assertTrue(transformerteInntekter[3].inntektPostListe.size == 3) },
                 Executable { assertTrue(transformerteInntekter[3].inntektPostListe.sumOf { it.beløp.toInt() } == 880000) }
             )

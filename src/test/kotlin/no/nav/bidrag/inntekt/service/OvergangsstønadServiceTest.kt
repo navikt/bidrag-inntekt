@@ -7,6 +7,7 @@ import no.nav.bidrag.inntekt.BidragInntektTest
 import no.nav.bidrag.inntekt.TestUtil
 import no.nav.bidrag.inntekt.util.DateProvider
 import no.nav.bidrag.inntekt.util.FixedDateProvider
+import no.nav.bidrag.inntekt.util.beregneBeløpPerMåned
 import no.nav.security.token.support.spring.test.EnableMockOAuth2Server
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertAll
@@ -250,5 +251,11 @@ class OvergangsstønadServiceTest {
                 )
             }
         )
+    }
+
+    @Test
+    fun `skal teste avrunding ved beregning av månedsbeløp`() {
+        val beløp = beregneBeløpPerMåned(BigDecimal.valueOf(1000), 3)
+        Executable { assertThat(beløp).isEqualTo(BigDecimal.valueOf(333)) }
     }
 }
