@@ -14,7 +14,6 @@ import no.nav.bidrag.inntekt.consumer.kodeverk.KodeverkConsumer
 import no.nav.bidrag.inntekt.service.AinntektService
 import no.nav.bidrag.inntekt.service.InntektService
 import no.nav.bidrag.inntekt.service.KontantstøtteService
-import no.nav.bidrag.inntekt.service.OvergangsstønadService
 import no.nav.bidrag.inntekt.service.SkattegrunnlagService
 import no.nav.bidrag.inntekt.service.UtvidetBarnetrygdOgSmåbarnstilleggService
 import no.nav.bidrag.inntekt.util.DateProvider
@@ -52,12 +51,11 @@ class InntektControllerTest(
     private final val fixedDateProvider: DateProvider = FixedDateProvider(LocalDate.of(2023, 9, 1))
     private final val ainntektService: AinntektService = AinntektService(fixedDateProvider)
     private final val skattegrunnlagService: SkattegrunnlagService = SkattegrunnlagService()
-    private final val overgangsstonadService: OvergangsstønadService = OvergangsstønadService(fixedDateProvider)
     private final val kontantstøtteService: KontantstøtteService = KontantstøtteService()
     private final val utvidetBarnetrygdOgSmåbarnstilleggService: UtvidetBarnetrygdOgSmåbarnstilleggService = UtvidetBarnetrygdOgSmåbarnstilleggService()
     private final val kodeverkConsumer: KodeverkConsumer = Mockito.mock(KodeverkConsumer::class.java)
     private final val inntektService: InntektService =
-        InntektService(ainntektService, skattegrunnlagService, overgangsstonadService, kontantstøtteService, utvidetBarnetrygdOgSmåbarnstilleggService, kodeverkConsumer)
+        InntektService(ainntektService, skattegrunnlagService, kontantstøtteService, utvidetBarnetrygdOgSmåbarnstilleggService, kodeverkConsumer)
     private final val inntektController: InntektController = InntektController(inntektService)
 
     private var mockMvc: MockMvc =
@@ -92,37 +90,34 @@ class InntektControllerTest(
             Executable { assertNotNull(transformerteInntekter) },
             Executable { assertTrue(transformerteInntekter.versjon.isEmpty()) },
 
-            Executable { assertTrue(transformerteInntekter.summertAarsinntektListe.isNotEmpty()) },
-            Executable { assertEquals(12, transformerteInntekter.summertAarsinntektListe.size) },
-            Executable { assertEquals(2, transformerteInntekter.summertAarsinntektListe.filter { it.inntektRapportering == InntektRapportering.AINNTEKT }.size) },
-            Executable { assertTrue(transformerteInntekter.summertAarsinntektListe.filter { it.inntektRapportering == InntektRapportering.AINNTEKT_BEREGNET_3MND }.size == 1) },
-            Executable { assertTrue(transformerteInntekter.summertAarsinntektListe.filter { it.inntektRapportering == InntektRapportering.AINNTEKT_BEREGNET_12MND }.size == 1) },
-            Executable { assertTrue(transformerteInntekter.summertAarsinntektListe.filter { it.inntektRapportering == InntektRapportering.OVERGANGSSTØNAD }.size == 2) },
-            Executable { assertTrue(transformerteInntekter.summertAarsinntektListe.filter { it.inntektRapportering == InntektRapportering.OVERGANGSSTØNAD_BEREGNET_3MND }.size == 1) },
-            Executable { assertTrue(transformerteInntekter.summertAarsinntektListe.filter { it.inntektRapportering == InntektRapportering.OVERGANGSSTØNAD_BEREGNET_12MND }.size == 1) },
-            Executable { assertTrue(transformerteInntekter.summertAarsinntektListe.filter { it.inntektRapportering == InntektRapportering.LIGNINGSINNTEKT }.size == 2) },
-            Executable { assertTrue(transformerteInntekter.summertAarsinntektListe.filter { it.inntektRapportering == InntektRapportering.KAPITALINNTEKT }.size == 2) },
+            Executable { assertTrue(transformerteInntekter.summertÅrsinntektListe.isNotEmpty()) },
+            Executable { assertEquals(8, transformerteInntekter.summertÅrsinntektListe.size) },
+            Executable { assertEquals(2, transformerteInntekter.summertÅrsinntektListe.filter { it.inntektRapportering == InntektRapportering.AINNTEKT }.size) },
+            Executable { assertTrue(transformerteInntekter.summertÅrsinntektListe.filter { it.inntektRapportering == InntektRapportering.AINNTEKT_BEREGNET_3MND }.size == 1) },
+            Executable { assertTrue(transformerteInntekter.summertÅrsinntektListe.filter { it.inntektRapportering == InntektRapportering.AINNTEKT_BEREGNET_12MND }.size == 1) },
+            Executable { assertTrue(transformerteInntekter.summertÅrsinntektListe.filter { it.inntektRapportering == InntektRapportering.LIGNINGSINNTEKT }.size == 2) },
+            Executable { assertTrue(transformerteInntekter.summertÅrsinntektListe.filter { it.inntektRapportering == InntektRapportering.KAPITALINNTEKT }.size == 2) },
 
-            Executable { assertTrue(transformerteInntekter.summertMaanedsinntektListe.isNotEmpty()) },
-            Executable { assertEquals(20, transformerteInntekter.summertMaanedsinntektListe.size) },
+            Executable { assertTrue(transformerteInntekter.summertMånedsinntektListe.isNotEmpty()) },
+            Executable { assertEquals(20, transformerteInntekter.summertMånedsinntektListe.size) },
             Executable {
                 assertEquals(
                     4000,
-                    transformerteInntekter.summertMaanedsinntektListe.filter { it.periode.year == 2021 }
+                    transformerteInntekter.summertMånedsinntektListe.filter { it.periode.year == 2021 }
                         .sumOf { it.sumInntekt.toInt() }
                 )
             },
             Executable {
                 assertEquals(
                     446000,
-                    transformerteInntekter.summertMaanedsinntektListe.filter { it.periode.year == 2022 }
+                    transformerteInntekter.summertMånedsinntektListe.filter { it.periode.year == 2022 }
                         .sumOf { it.sumInntekt.toInt() }
                 )
             },
             Executable {
                 assertEquals(
                     468000,
-                    transformerteInntekter.summertMaanedsinntektListe.filter { it.periode.year == 2023 }
+                    transformerteInntekter.summertMånedsinntektListe.filter { it.periode.year == 2023 }
                         .sumOf { it.sumInntekt.toInt() }
                 )
             }

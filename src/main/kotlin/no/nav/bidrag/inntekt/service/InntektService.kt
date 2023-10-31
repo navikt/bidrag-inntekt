@@ -21,7 +21,6 @@ import java.time.YearMonth
 class InntektService(
     val ainntektService: AinntektService,
     val skattegrunnlagService: SkattegrunnlagService,
-    val overgangsstønadService: OvergangsstønadService,
     val kontantstøtteService: KontantstøtteService,
     val utvidetBarnetrygdOgSmåbarnstilleggService: UtvidetBarnetrygdOgSmåbarnstilleggService,
     val kodeverkConsumer: KodeverkConsumer
@@ -33,16 +32,16 @@ class InntektService(
 
         val transformerInntekterResponse = TransformerInntekterResponse(
             versjon = "",
-            summertMaanedsinntektListe = ainntektService.beregnMaanedsinntekt(
+            summertMånedsinntektListe = ainntektService.beregnMaanedsinntekt(
                 transformerInntekterRequest.ainntektsposter,
                 kodeverdierLoennsbeskrivelse
             ),
-            summertAarsinntektListe = (
+            summertÅrsinntektListe = (
                 ainntektService.beregnAarsinntekt(
                     transformerInntekterRequest.ainntektsposter,
                     kodeverdierLoennsbeskrivelse
                 ) +
-                    overgangsstønadService.beregnOvergangsstønad(transformerInntekterRequest.overgangsstonadsliste) +
+//                    overgangsstønadService.beregnOvergangsstønad(transformerInntekterRequest.overgangsstonadsliste) +
                     skattegrunnlagService.beregnSkattegrunnlag(
                         transformerInntekterRequest.skattegrunnlagsliste,
                         kodeverdierSkattegrunnlag,
@@ -53,8 +52,8 @@ class InntektService(
                         kodeverdierSkattegrunnlag,
                         InntektRapportering.KAPITALINNTEKT
                     ) +
-                    kontantstøtteService.beregnKontantstøtte(transformerInntekterRequest.kontantstotteliste) +
-                    utvidetBarnetrygdOgSmåbarnstilleggService.beregnUtvidetBarnetrygdOgSmåbarnstillegg(transformerInntekterRequest.utvidetBarnetrygdOgSmaabarnstilleggliste)
+                    kontantstøtteService.beregnKontantstøtte(transformerInntekterRequest.kontantstøtteliste) +
+                    utvidetBarnetrygdOgSmåbarnstilleggService.beregnUtvidetBarnetrygdOgSmåbarnstillegg(transformerInntekterRequest.utvidetBarnetrygdOgSmåbarnstilleggliste)
                 )
         )
 

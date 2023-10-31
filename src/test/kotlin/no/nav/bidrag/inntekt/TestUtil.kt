@@ -5,11 +5,10 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import no.nav.bidrag.inntekt.consumer.kodeverk.api.GetKodeverkKoderBetydningerResponse
 import no.nav.bidrag.transport.behandling.grunnlag.response.SkattegrunnlagspostDto
-import no.nav.bidrag.transport.behandling.inntekt.request.Kontantstotte
-import no.nav.bidrag.transport.behandling.inntekt.request.Overgangsstonad
+import no.nav.bidrag.transport.behandling.inntekt.request.Kontantstøtte
 import no.nav.bidrag.transport.behandling.inntekt.request.SkattegrunnlagForLigningsår
 import no.nav.bidrag.transport.behandling.inntekt.request.TransformerInntekterRequest
-import no.nav.bidrag.transport.behandling.inntekt.request.UtvidetBarnetrygdOgSmaabarnstillegg
+import no.nav.bidrag.transport.behandling.inntekt.request.UtvidetBarnetrygdOgSmåbarnstillegg
 import okhttp3.internal.immutableListOf
 import org.springframework.http.HttpMethod
 import org.springframework.http.MediaType
@@ -92,165 +91,76 @@ class TestUtil {
                 inntektType = "arbeidsavklaringspenger", // LIGS, PLUSS, NEI
                 belop = BigDecimal.valueOf(400)
             )
-
-        )
-
-        fun byggOvergangsstønad() = immutableListOf(
-            Overgangsstonad(
-                periodeFra = LocalDate.parse("2021-12-01"),
-                periodeTil = LocalDate.parse("2022-01-01"),
-                belop = BigDecimal.valueOf(100)
-            ),
-            Overgangsstonad(
-                periodeFra = LocalDate.parse("2022-01-01"),
-                periodeTil = LocalDate.parse("2022-02-01"),
-                belop = BigDecimal.valueOf(200)
-            ),
-            Overgangsstonad(
-                periodeFra = LocalDate.parse("2022-02-01"),
-                periodeTil = LocalDate.parse("2022-03-01"),
-                belop = BigDecimal.valueOf(300)
-            ),
-            Overgangsstonad(
-                periodeFra = LocalDate.parse("2022-03-01"),
-                periodeTil = LocalDate.parse("2022-04-01"),
-                belop = BigDecimal.valueOf(400)
-            ),
-            Overgangsstonad(
-                periodeFra = LocalDate.parse("2022-04-01"),
-                periodeTil = LocalDate.parse("2022-05-01"),
-                belop = BigDecimal.valueOf(500)
-            ),
-            Overgangsstonad(
-                periodeFra = LocalDate.parse("2022-05-01"),
-                periodeTil = LocalDate.parse("2022-06-01"),
-                belop = BigDecimal.valueOf(600)
-            ),
-            Overgangsstonad(
-                periodeFra = LocalDate.parse("2022-06-01"),
-                periodeTil = LocalDate.parse("2022-07-01"),
-                belop = BigDecimal.valueOf(700)
-            ),
-            Overgangsstonad(
-                periodeFra = LocalDate.parse("2022-07-01"),
-                periodeTil = LocalDate.parse("2022-08-01"),
-                belop = BigDecimal.valueOf(800)
-            ),
-            Overgangsstonad(
-                periodeFra = LocalDate.parse("2022-08-01"),
-                periodeTil = LocalDate.parse("2022-09-01"),
-                belop = BigDecimal.valueOf(900)
-            ),
-            Overgangsstonad(
-                periodeFra = LocalDate.parse("2022-09-01"),
-                periodeTil = LocalDate.parse("2022-10-01"),
-                belop = BigDecimal.valueOf(1000)
-            ),
-            Overgangsstonad(
-                periodeFra = LocalDate.parse("2022-10-01"),
-                periodeTil = LocalDate.parse("2022-11-01"),
-                belop = BigDecimal.valueOf(1100)
-            ),
-            Overgangsstonad(
-                periodeFra = LocalDate.parse("2022-11-01"),
-                periodeTil = LocalDate.parse("2022-12-01"),
-                belop = BigDecimal.valueOf(1200)
-            ),
-            Overgangsstonad(
-                periodeFra = LocalDate.parse("2022-12-01"),
-                periodeTil = LocalDate.parse("2023-01-01"),
-                belop = BigDecimal.valueOf(1300)
-            ),
-            Overgangsstonad(
-                periodeFra = LocalDate.parse("2023-01-01"),
-                periodeTil = LocalDate.parse("2023-02-01"),
-                belop = BigDecimal.valueOf(1400)
-            ),
-            Overgangsstonad(
-                periodeFra = LocalDate.parse("2023-02-01"),
-                periodeTil = LocalDate.parse("2023-03-01"),
-                belop = BigDecimal.valueOf(1500)
-            ),
-            Overgangsstonad(
-                periodeFra = LocalDate.parse("2023-03-01"),
-                periodeTil = LocalDate.parse("2023-04-01"),
-                belop = BigDecimal.valueOf(1600)
-            ),
-            Overgangsstonad(
-                periodeFra = LocalDate.parse("2023-04-01"),
-                periodeTil = LocalDate.parse("2023-05-01"),
-                belop = BigDecimal.valueOf(1700)
-            )
         )
 
         fun byggKontantstøtte() = immutableListOf(
             // barn 1
-            Kontantstotte(
+            Kontantstøtte(
                 periodeFra = LocalDate.parse("2022-09-01"),
                 periodeTil = LocalDate.parse("2023-01-01"),
-                belop = BigDecimal.valueOf(7500),
+                beløp = BigDecimal.valueOf(7500),
                 barnPersonId = "98765432109"
             ),
-            Kontantstotte(
+            Kontantstøtte(
                 periodeFra = LocalDate.parse("2023-05-01"),
                 periodeTil = null,
-                belop = BigDecimal.valueOf(7500),
+                beløp = BigDecimal.valueOf(7500),
                 barnPersonId = "98765432109"
             ),
             // barn 2
-            Kontantstotte(
+            Kontantstøtte(
                 periodeFra = LocalDate.parse("2021-11-01"),
                 periodeTil = LocalDate.parse("2022-07-01"),
-                belop = BigDecimal.valueOf(7500),
+                beløp = BigDecimal.valueOf(7500),
                 barnPersonId = "12345678901"
             ),
-            Kontantstotte(
+            Kontantstøtte(
                 periodeFra = LocalDate.parse("2022-10-01"),
                 periodeTil = LocalDate.parse("2023-02-01"),
-                belop = BigDecimal.valueOf(7500),
+                beløp = BigDecimal.valueOf(7500),
                 barnPersonId = "12345678901"
             ),
-            Kontantstotte(
+            Kontantstøtte(
                 periodeFra = LocalDate.parse("2023-05-01"),
                 periodeTil = LocalDate.parse("2023-08-01"),
-                belop = BigDecimal.valueOf(7500),
+                beløp = BigDecimal.valueOf(7500),
                 barnPersonId = "12345678901"
             )
         )
 
         fun byggUtvidetBarnetrygdOgSmåbarnstillegg() = immutableListOf(
             // Utvidet barnetrygd
-            UtvidetBarnetrygdOgSmaabarnstillegg(
+            UtvidetBarnetrygdOgSmåbarnstillegg(
                 type = "UTVIDET",
                 periodeFra = LocalDate.parse("2019-01-01"),
                 periodeTil = LocalDate.parse("2019-10-01"),
-                belop = BigDecimal.valueOf(1054)
+                beløp = BigDecimal.valueOf(1054)
             ),
-            UtvidetBarnetrygdOgSmaabarnstillegg(
+            UtvidetBarnetrygdOgSmåbarnstillegg(
                 type = "UTVIDET",
                 periodeFra = LocalDate.parse("2020-11-01"),
                 periodeTil = LocalDate.parse("2022-10-01"),
-                belop = BigDecimal.valueOf(1054)
+                beløp = BigDecimal.valueOf(1054)
             ),
 
             // Småbarnstillegg
-            UtvidetBarnetrygdOgSmaabarnstillegg(
+            UtvidetBarnetrygdOgSmåbarnstillegg(
                 type = "SMÅBARNSTILLEGG",
                 periodeFra = LocalDate.parse("2021-11-01"),
                 periodeTil = LocalDate.parse("2022-04-01"),
-                belop = BigDecimal.valueOf(660)
+                beløp = BigDecimal.valueOf(660)
             ),
-            UtvidetBarnetrygdOgSmaabarnstillegg(
+            UtvidetBarnetrygdOgSmåbarnstillegg(
                 type = "SMÅBARNSTILLEGG",
                 periodeFra = LocalDate.parse("2022-06-01"),
                 periodeTil = LocalDate.parse("2022-08-01"),
-                belop = BigDecimal.valueOf(660)
+                beløp = BigDecimal.valueOf(660)
             ),
-            UtvidetBarnetrygdOgSmaabarnstillegg(
+            UtvidetBarnetrygdOgSmåbarnstillegg(
                 type = "SMÅBARNSTILLEGG",
                 periodeFra = LocalDate.parse("2022-10-01"),
                 periodeTil = null,
-                belop = BigDecimal.valueOf(660)
+                beløp = BigDecimal.valueOf(660)
             )
         )
 

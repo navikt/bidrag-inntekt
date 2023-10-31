@@ -16,8 +16,8 @@ import no.nav.bidrag.inntekt.util.beregneBeløpPerMåned
 import no.nav.bidrag.inntekt.util.isNumeric
 import no.nav.bidrag.transport.behandling.inntekt.request.Ainntektspost
 import no.nav.bidrag.transport.behandling.inntekt.response.InntektPost
-import no.nav.bidrag.transport.behandling.inntekt.response.SummertAarsinntekt
-import no.nav.bidrag.transport.behandling.inntekt.response.SummertMaanedsinntekt
+import no.nav.bidrag.transport.behandling.inntekt.response.SummertMånedsinntekt
+import no.nav.bidrag.transport.behandling.inntekt.response.SummertÅrsinntekt
 import org.springframework.stereotype.Service
 import java.math.BigDecimal
 import java.time.LocalDate
@@ -32,17 +32,17 @@ class AinntektService(private val dateProvider: DateProvider) {
     fun beregnAarsinntekt(
         ainntektListeInn: List<Ainntektspost>,
         kodeverksverdier: GetKodeverkKoderBetydningerResponse?
-    ): List<SummertAarsinntekt> {
+    ): List<SummertÅrsinntekt> {
         return if (ainntektListeInn.isNotEmpty()) {
             val ainntektMap = summerAarsinntekter(ainntektListeInn)
-            val ainntektListeUt = mutableListOf<SummertAarsinntekt>()
+            val ainntektListeUt = mutableListOf<SummertÅrsinntekt>()
 
             ainntektMap.forEach {
                 if (it.key.isNumeric() && it.key.toInt() > finnSisteAarSomSkalRapporteres(dateProvider.getCurrentDate())) {
                     return@forEach // Går videre til neste forekomst
                 }
                 ainntektListeUt.add(
-                    SummertAarsinntekt(
+                    SummertÅrsinntekt(
                         inntektRapportering = when (it.key) {
                             KEY_3MND -> InntektRapportering.AINNTEKT_BEREGNET_3MND
                             KEY_12MND -> InntektRapportering.AINNTEKT_BEREGNET_12MND
@@ -78,13 +78,13 @@ class AinntektService(private val dateProvider: DateProvider) {
     fun beregnMaanedsinntekt(
         ainntektListeInn: List<Ainntektspost>,
         kodeverksverdier: GetKodeverkKoderBetydningerResponse?
-    ): List<SummertMaanedsinntekt> {
+    ): List<SummertMånedsinntekt> {
         val ainntektMap = summerMaanedsinntekter(ainntektListeInn)
-        val ainntektListeUt = mutableListOf<SummertMaanedsinntekt>()
+        val ainntektListeUt = mutableListOf<SummertMånedsinntekt>()
 
         ainntektMap.forEach {
             ainntektListeUt.add(
-                SummertMaanedsinntekt(
+                SummertMånedsinntekt(
                     periode = YearMonth.of(it.key.substring(0, 4).toInt(), it.key.substring(4, 6).toInt()),
                     sumInntekt = it.value.sumInntekt,
                     inntektPostListe = grupperOgSummerDetaljposter(it.value.inntektPostListe, kodeverksverdier)
@@ -116,12 +116,12 @@ class AinntektService(private val dateProvider: DateProvider) {
     private fun summerAarsinntekter(ainntektsposter: List<Ainntektspost>): Map<String, InntektSumPost> {
         val ainntektMap = mutableMapOf<String, InntektSumPost>()
         ainntektsposter.forEach { ainntektPost ->
-            kalkulerBelopForPeriode(
+            kalkulerbeløpForPeriode(
                 ainntektPost.opptjeningsperiodeFra,
                 ainntektPost.opptjeningsperiodeTil,
                 ainntektPost.utbetalingsperiode!!,
                 ainntektPost.beskrivelse!!,
-                ainntektPost.belop,
+                ainntektPost.beløp,
                 PERIODE_AAR
             ).forEach { periodeMap ->
                 akkumulerPost(ainntektMap, periodeMap.key, periodeMap.value)
@@ -146,12 +146,12 @@ class AinntektService(private val dateProvider: DateProvider) {
     private fun summerMaanedsinntekter(ainntektListeInn: List<Ainntektspost>): Map<String, InntektSumPost> {
         val ainntektMap = mutableMapOf<String, InntektSumPost>()
         ainntektListeInn.forEach { ainntektPost ->
-            kalkulerBelopForPeriode(
+            kalkulerbeløpForPeriode(
                 ainntektPost.opptjeningsperiodeFra,
                 ainntektPost.opptjeningsperiodeTil,
                 ainntektPost.utbetalingsperiode!!,
                 ainntektPost.beskrivelse!!,
-                ainntektPost.belop,
+                ainntektPost.beløp,
                 PERIODE_MAANED
             ).forEach { periodeMap ->
                 akkumulerPost(ainntektMap, periodeMap.key, periodeMap.value)
@@ -169,10 +169,10 @@ class AinntektService(private val dateProvider: DateProvider) {
         )
         val sumInntekt = inntektSumPost.sumInntekt
         val inntektPostListe = inntektSumPost.inntektPostListe
-        val nyInntektPost = InntektPost(value.kode, "", value.belop)
+        val nyInntektPost = InntektPost(value.kode, "", value.beløp)
         inntektPostListe.add(nyInntektPost)
         ainntektMap[key] = InntektSumPost(
-            sumInntekt.add(value.belop),
+            sumInntekt.add(value.beløp),
             periode.periodeFra,
             periode.periodeTil,
             inntektPostListe
@@ -180,12 +180,12 @@ class AinntektService(private val dateProvider: DateProvider) {
     }
 
     // Kalkulerer beløp for periode (måned, år eller intervall)
-    private fun kalkulerBelopForPeriode(
+    private fun kalkulerbeløpForPeriode(
         opptjeningsperiodeFra: LocalDate?,
         opptjeningsperiodeTil: LocalDate?,
         utbetalingsperiode: String,
         beskrivelse: String,
-        belop: BigDecimal,
+        beløp: BigDecimal,
         beregningsperiode: String
     ): Map<String, Detaljpost> {
         val periodeFra = if (opptjeningsperiodeFra != null) {
@@ -208,10 +208,10 @@ class AinntektService(private val dateProvider: DateProvider) {
         // Hvis periode er måned, returner map med en forekomst for hver måned beløpet dekker
         // Hvis periode er år, returner map med en forekomst for hvert år beløpet dekker + forekomst for siste 3 mnd + forekomst for siste 12 mnd
         return when (beregningsperiode) {
-            PERIODE_MAANED -> kalkulerBeløpForMnd(periodeFra, periodeTil, beskrivelse, belop)
-            else -> kalkulerBeløpForAar(periodeFra, periodeTil, beskrivelse, belop) +
-                kalkulerBeløpForIntervall(periodeFra, periodeTil, beskrivelse, belop, KEY_3MND) +
-                kalkulerBeløpForIntervall(periodeFra, periodeTil, beskrivelse, belop, KEY_12MND)
+            PERIODE_MAANED -> kalkulerBeløpForMnd(periodeFra, periodeTil, beskrivelse, beløp)
+            else -> kalkulerBeløpForAar(periodeFra, periodeTil, beskrivelse, beløp) +
+                kalkulerBeløpForIntervall(periodeFra, periodeTil, beskrivelse, beløp, KEY_3MND) +
+                kalkulerBeløpForIntervall(periodeFra, periodeTil, beskrivelse, beløp, KEY_12MND)
         }
     }
 
@@ -274,7 +274,7 @@ class AinntektService(private val dateProvider: DateProvider) {
     ): Map<String, Detaljpost> {
         val periodeMap = mutableMapOf<String, Detaljpost>()
         val antallMndTotalt = ChronoUnit.MONTHS.between(periodeFra, periodeTil).toInt()
-        val maanedsbelop = beregneBeløpPerMåned(beløp, antallMndTotalt)
+        val maanedsbeløp = beregneBeløpPerMåned(beløp, antallMndTotalt)
 
         // TODO Bør CUT_OFF_DATO være dynamisk? (se https://www.skatteetaten.no/bedrift-og-organisasjon/arbeidsgiver/a-meldingen/frister-og-betaling-i-a-meldingen/)
         val sistePeriodeIIntervall = if (dateProvider.getCurrentDate().dayOfMonth > CUT_OFF_DATO) {
@@ -296,7 +296,7 @@ class AinntektService(private val dateProvider: DateProvider) {
 
         if (antallMndOverlapp > 0) {
             periodeMap[beregningsperiode] =
-                Detaljpost(antallMndOverlapp.toBigDecimal().times(maanedsbelop), beskrivelse)
+                Detaljpost(antallMndOverlapp.toBigDecimal().times(maanedsbeløp), beskrivelse)
         }
 
         return periodeMap
@@ -358,6 +358,6 @@ class AinntektService(private val dateProvider: DateProvider) {
 }
 
 data class Detaljpost(
-    val belop: BigDecimal,
+    val beløp: BigDecimal,
     val kode: String
 )
