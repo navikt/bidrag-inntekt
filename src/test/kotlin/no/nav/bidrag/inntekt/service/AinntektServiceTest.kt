@@ -337,7 +337,7 @@ class AinntektServiceTest {
             val ainntektspostMedOpptjeningsperiodeTilLikFra =
                 ainntektspost.copy(
                     opptjeningsperiodeTil = ainntektspost.opptjeningsperiodeFra?.plusMonths(periodeIMnd),
-                    belop = tremånederslønn
+                    beløp = tremånederslønn
                 )
 
             val transformerteInntekter =
@@ -381,7 +381,7 @@ class AinntektServiceTest {
             val ainntektspostMedOpptjeningsperiodeTilLikFra =
                 ainntektspost.copy(
                     opptjeningsperiodeTil = ainntektspost.opptjeningsperiodeFra?.plusMonths(periodeIMnd),
-                    belop = tremånederslønn
+                    beløp = tremånederslønn
                 )
 
             val transformerteInntekter =

@@ -3,8 +3,8 @@ package no.nav.bidrag.inntekt.service
 import no.nav.bidrag.domain.enums.InntektRapportering
 import no.nav.bidrag.domain.tid.FomMåned
 import no.nav.bidrag.domain.tid.TomMåned
-import no.nav.bidrag.transport.behandling.inntekt.request.Kontantstotte
-import no.nav.bidrag.transport.behandling.inntekt.response.SummertAarsinntekt
+import no.nav.bidrag.transport.behandling.inntekt.request.Kontantstøtte
+import no.nav.bidrag.transport.behandling.inntekt.response.SummertÅrsinntekt
 import org.springframework.stereotype.Service
 import java.math.BigDecimal
 import java.time.YearMonth
@@ -14,8 +14,8 @@ import java.time.YearMonth
 class KontantstøtteService() {
 
     // Summerer mottat periode opp til beløp for 12 måneder og returnerer
-    fun beregnKontantstøtte(kontantstøttelisteInn: List<Kontantstotte>): List<SummertAarsinntekt> {
-        val kontantstøtteListeUt = mutableListOf<SummertAarsinntekt>()
+    fun beregnKontantstøtte(kontantstøttelisteInn: List<Kontantstøtte>): List<SummertÅrsinntekt> {
+        val kontantstøtteListeUt = mutableListOf<SummertÅrsinntekt>()
 
         // Lager et sett med unike barnPersonId fra inputliste
         val barnPersonIdListe = kontantstøttelisteInn.distinctBy { it.barnPersonId }.map { it.barnPersonId }.toSet()
@@ -30,18 +30,18 @@ class KontantstøtteService() {
     }
 
     // Summerer kontantstøtte for angitt barn
-    fun beregnKontantstøttePerBarn(kontantstøtteListePerBarn: List<Kontantstotte>): List<SummertAarsinntekt> {
+    fun beregnKontantstøttePerBarn(kontantstøtteListePerBarn: List<Kontantstøtte>): List<SummertÅrsinntekt> {
         return if (kontantstøtteListePerBarn.isNotEmpty()) {
-            val kontantstøtteListeUt = mutableListOf<SummertAarsinntekt>()
+            val kontantstøtteListeUt = mutableListOf<SummertÅrsinntekt>()
             val barnPersonId = kontantstøtteListePerBarn.first().barnPersonId
 
             kontantstøtteListePerBarn.forEach {
                 kontantstøtteListeUt.add(
-                    SummertAarsinntekt(
+                    SummertÅrsinntekt(
                         inntektRapportering = InntektRapportering.KONTANTSTØTTE,
                         visningsnavn = InntektRapportering.KONTANTSTØTTE.visningsnavn,
                         referanse = "",
-                        sumInntekt = it.belop.times(BigDecimal.valueOf(12)),
+                        sumInntekt = it.beløp.times(BigDecimal.valueOf(12)),
                         periodeFra = FomMåned(YearMonth.of(it.periodeFra.year, it.periodeFra.month)),
                         periodeTom = if (it.periodeTil == null) {
                             null

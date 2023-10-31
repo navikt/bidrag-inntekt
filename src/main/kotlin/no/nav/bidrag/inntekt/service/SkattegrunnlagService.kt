@@ -10,7 +10,7 @@ import no.nav.bidrag.domain.tid.TomMåned
 import no.nav.bidrag.inntekt.consumer.kodeverk.api.GetKodeverkKoderBetydningerResponse
 import no.nav.bidrag.transport.behandling.inntekt.request.SkattegrunnlagForLigningsår
 import no.nav.bidrag.transport.behandling.inntekt.response.InntektPost
-import no.nav.bidrag.transport.behandling.inntekt.response.SummertAarsinntekt
+import no.nav.bidrag.transport.behandling.inntekt.response.SummertÅrsinntekt
 import org.springframework.core.io.ClassPathResource
 import org.springframework.stereotype.Service
 import java.io.IOException
@@ -26,7 +26,7 @@ class SkattegrunnlagService {
         skattegrunnlagListe: List<SkattegrunnlagForLigningsår>,
         kodeverksverdier: GetKodeverkKoderBetydningerResponse?,
         inntektRapportering: InntektRapportering
-    ): List<SummertAarsinntekt> {
+    ): List<SummertÅrsinntekt> {
         return if (skattegrunnlagListe.isNotEmpty()) {
             val filnavn = if (inntektRapportering == InntektRapportering.KAPITALINNTEKT) "/files/mapping_kaps.yaml" else "files/mapping_ligs.yaml"
             val mapping = hentMapping(filnavn)
@@ -41,8 +41,8 @@ class SkattegrunnlagService {
         mapping: List<MappingPoster>,
         inntektRapportering: InntektRapportering,
         kodeverksverdier: GetKodeverkKoderBetydningerResponse?
-    ): List<SummertAarsinntekt> {
-        val summertÅrsinntektListe = mutableListOf<SummertAarsinntekt>()
+    ): List<SummertÅrsinntekt> {
+        val summertÅrsinntektListe = mutableListOf<SummertÅrsinntekt>()
 
         skattegrunnlagListe.forEach { skattegrunnlagForLigningsår ->
             val inntektPostListe = mutableListOf<InntektPost>()
@@ -70,7 +70,7 @@ class SkattegrunnlagService {
                 }
             }
             summertÅrsinntektListe.add(
-                SummertAarsinntekt(
+                SummertÅrsinntekt(
                     inntektRapportering = inntektRapportering,
                     visningsnavn = "${inntektRapportering.visningsnavn} ${skattegrunnlagForLigningsår.ligningsår}",
                     referanse = "",

@@ -5,115 +5,115 @@
       "opptjeningsperiodeFra": "2022-05-01",
       "opptjeningsperiodeTil": null,
       "beskrivelse": "fastloenn",
-      "belop": 50000
+      "beløp": 50000
     },
     {
       "utbetalingsperiode": "2022-05",
       "opptjeningsperiodeFra": "2021-11-01",
       "opptjeningsperiodeTil": "2022-04-01",
       "beskrivelse": "overtidsgodtgjoerelse",
-      "belop": 10000
+      "beløp": 10000
     },
     {
       "utbetalingsperiode": "2022-05",
       "opptjeningsperiodeFra": "2022-05-01",
       "opptjeningsperiodeTil": "2022-06-01",
       "beskrivelse": "bonus",
-      "belop": 15000
+      "beløp": 15000
     },
     {
       "utbetalingsperiode": "2022-06",
       "opptjeningsperiodeFra": "2022-06-01",
       "opptjeningsperiodeTil": "2022-07-01",
       "beskrivelse": "fastloenn",
-      "belop": 50000
+      "beløp": 50000
     },
     {
       "utbetalingsperiode": "2022-07",
       "opptjeningsperiodeFra": "2022-07-01",
       "opptjeningsperiodeTil": "2022-08-01",
       "beskrivelse": "fastloenn",
-      "belop": 50000
+      "beløp": 50000
     },
     {
       "utbetalingsperiode": "2022-08",
       "beskrivelse": "fastloenn",
-      "belop": 55000.789
+      "beløp": 55000.789
     },
     {
       "utbetalingsperiode": "2022-09",
       "beskrivelse": "fastloenn",
-      "belop": 55000
+      "beløp": 55000
     },
     {
       "utbetalingsperiode": "2022-10",
       "beskrivelse": "fastloenn",
-      "belop": 55000
+      "beløp": 55000
     },
     {
       "utbetalingsperiode": "2022-11",
       "beskrivelse": "fastloenn",
-      "belop": 55000
+      "beløp": 55000
     },
     {
       "utbetalingsperiode": "2022-12",
       "beskrivelse": "fastloenn",
-      "belop": 55000
+      "beløp": 55000
     },
     {
       "utbetalingsperiode": "2023-01",
       "opptjeningsperiodeFra": "2023-01-01",
       "opptjeningsperiodeTil": "2023-02-01",
       "beskrivelse": "fastloenn",
-      "belop": 60000
+      "beløp": 60000
     },
     {
       "utbetalingsperiode": "2023-02",
       "opptjeningsperiodeFra": "2023-02-01",
       "opptjeningsperiodeTil": "2023-03-01",
       "beskrivelse": "fastloenn",
-      "belop": 60000.33
+      "beløp": 60000.33
     },
     {
       "utbetalingsperiode": "2023-03",
       "opptjeningsperiodeFra": "2023-03-01",
       "opptjeningsperiodeTil": "2023-04-01",
       "beskrivelse": "fastloenn",
-      "belop": 60000
+      "beløp": 60000
     },
     {
       "utbetalingsperiode": "2023-04",
       "opptjeningsperiodeFra": "2023-04-01",
       "opptjeningsperiodeTil": "2023-05-01",
       "beskrivelse": "fastloenn",
-      "belop": 60000
+      "beløp": 60000
     },
     {
       "utbetalingsperiode": "2023-05",
       "beskrivelse": "fastloenn",
-      "belop": 60000
+      "beløp": 60000
     },
     {
       "utbetalingsperiode": "2023-06",
       "opptjeningsperiodeFra": "2023-04-15",
       "opptjeningsperiodeTil": "2023-05-01",
       "beskrivelse": "overtidsgodtgjoerelse",
-      "belop": 8000
+      "beløp": 8000
     },
     {
       "utbetalingsperiode": "2023-06",
       "beskrivelse": "fastloenn",
-      "belop": 60000
+      "beløp": 60000
     },
     {
       "utbetalingsperiode": "2023-06",
       "beskrivelse": "bonus",
-      "belop": 15000
+      "beløp": 15000
     },
     {
       "utbetalingsperiode": "2023-07",
       "beskrivelse": "feriepenger",
-      "belop": 85000
+      "beløp": 85000
     }
   ],
   "skattegrunnlagsliste": [
@@ -216,93 +216,6 @@
           "belop": 1390.15
         }
       ]
-    }
-  ],
-  "overgangsstonadsliste": [
-    {
-      "periodeFra": "2021-12-01",
-      "periodeTil": "2022-01-01",
-      "belop": 100.123
-    },
-    {
-      "periodeFra": "2022-01-01",
-      "periodeTil": "2022-02-01",
-      "belop": 200
-    },
-    {
-      "periodeFra": "2022-02-01",
-      "periodeTil": "2022-03-01",
-      "belop": 300
-    },
-    {
-      "periodeFra": "2022-03-01",
-      "periodeTil": "2022-04-01",
-      "belop": 400
-    },
-    {
-      "periodeFra": "2022-04-01",
-      "periodeTil": "2022-05-01",
-      "belop": 500
-    },
-    {
-      "periodeFra": "2022-05-01",
-      "periodeTil": "2022-06-01",
-      "belop": 600
-    },
-    {
-      "periodeFra": "2022-06-01",
-      "periodeTil": "2022-07-01",
-      "belop": 700
-    },
-    {
-      "periodeFra": "2022-07-01",
-      "periodeTil": "2022-08-01",
-      "belop": 800
-    },
-    {
-      "periodeFra": "2022-08-01",
-      "periodeTil": "2022-09-01",
-      "belop": 900.29
-    },
-    {
-      "periodeFra": "2022-09-01",
-      "periodeTil": "2022-10-01",
-      "belop": 1000
-    },
-    {
-      "periodeFra": "2022-10-01",
-      "periodeTil": "2022-11-01",
-      "belop": 1100
-    },
-    {
-      "periodeFra": "2022-11-01",
-      "periodeTil": "2022-12-01",
-      "belop": 1200
-    },
-    {
-      "periodeFra": "2022-12-01",
-      "periodeTil": "2023-01-01",
-      "belop": 1300
-    },
-    {
-      "periodeFra": "2023-01-01",
-      "periodeTil": "2023-02-01",
-      "belop": 1400
-    },
-    {
-      "periodeFra": "2023-02-01",
-      "periodeTil": "2023-03-01",
-      "belop": 1500
-    },
-    {
-      "periodeFra": "2023-03-01",
-      "periodeTil": "2023-04-01",
-      "belop": 1600
-    },
-    {
-      "periodeFra": "2023-04-01",
-      "periodeTil": "2023-05-01",
-      "belop": 1700
     }
   ]
 }
