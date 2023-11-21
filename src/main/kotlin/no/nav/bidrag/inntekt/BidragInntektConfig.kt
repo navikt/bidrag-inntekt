@@ -29,14 +29,14 @@ const val LIVE_PROFILE = "live"
 @Configuration
 @OpenAPIDefinition(
     info = Info(title = "bidrag-inntekt", version = "v1"),
-    security = [SecurityRequirement(name = "bearer-key")]
+    security = [SecurityRequirement(name = "bearer-key")],
 )
 @EnableJwtTokenValidation
 @SecurityScheme(
     bearerFormat = "JWT",
     name = "bearer-key",
     scheme = "bearer",
-    type = SecuritySchemeType.HTTP
+    type = SecuritySchemeType.HTTP,
 )
 @Import(CorrelationIdFilter::class, UserMdcFilter::class, DefaultCorsFilter::class)
 class BidragInntektConfig {
@@ -64,7 +64,7 @@ class BidragInntektConfig {
     fun kodeverkConsumer(
         @Value("\${KODEVERK_URL}") url: String,
         restTemplate: HttpHeaderRestTemplate,
-        exceptionLogger: ExceptionLogger
+        exceptionLogger: ExceptionLogger,
     ): KodeverkConsumer {
         LOGGER.info("Url satt i config: $url")
         restTemplate.uriTemplateHandler = RootUriTemplateHandler(url)

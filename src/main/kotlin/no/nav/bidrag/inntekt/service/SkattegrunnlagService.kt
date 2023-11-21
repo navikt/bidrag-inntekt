@@ -3,10 +3,9 @@ package no.nav.bidrag.inntekt.service
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
 import com.fasterxml.jackson.module.kotlin.readValue
-import no.nav.bidrag.domain.enums.InntektRapportering
-import no.nav.bidrag.domain.enums.PlussMinus
-import no.nav.bidrag.domain.tid.FomMåned
-import no.nav.bidrag.domain.tid.TomMåned
+import no.nav.bidrag.domene.enums.diverse.PlussMinus
+import no.nav.bidrag.domene.enums.inntekt.Inntektsrapportering
+import no.nav.bidrag.domene.tid.ÅrMånedsperiode
 import no.nav.bidrag.inntekt.consumer.kodeverk.api.GetKodeverkKoderBetydningerResponse
 import no.nav.bidrag.transport.behandling.inntekt.request.SkattegrunnlagForLigningsår
 import no.nav.bidrag.transport.behandling.inntekt.response.InntektPost
@@ -25,12 +24,18 @@ class SkattegrunnlagService {
     fun beregnSkattegrunnlag(
         skattegrunnlagListe: List<SkattegrunnlagForLigningsår>,
         kodeverksverdier: GetKodeverkKoderBetydningerResponse?,
-        inntektRapportering: InntektRapportering
+        inntektsrapportering: Inntektsrapportering,
     ): List<SummertÅrsinntekt> {
         return if (skattegrunnlagListe.isNotEmpty()) {
-            val filnavn = if (inntektRapportering == InntektRapportering.KAPITALINNTEKT) "/files/mapping_kaps.yaml" else "files/mapping_ligs.yaml"
+            val filnavn =
+                if (inntektsrapportering == Inntektsrapportering.KAPITALINNTEKT) "/files/mapping_kaps.yaml" else "files/mapping_ligs.yaml"
             val mapping = hentMapping(filnavn)
-            beregnInntekt(skattegrunnlagListe, mapping, inntektRapportering, kodeverksverdier)
+            beregnInntekt(
+                skattegrunnlagListe = skattegrunnlagListe,
+                mapping = mapping,
+                inntektRapportering = inntektsrapportering,
+                kodeverksverdier = kodeverksverdier,
+            )
         } else {
             emptyList()
         }
@@ -39,8 +44,8 @@ class SkattegrunnlagService {
     private fun beregnInntekt(
         skattegrunnlagListe: List<SkattegrunnlagForLigningsår>,
         mapping: List<MappingPoster>,
-        inntektRapportering: InntektRapportering,
-        kodeverksverdier: GetKodeverkKoderBetydningerResponse?
+        inntektRapportering: Inntektsrapportering,
+        kodeverksverdier: GetKodeverkKoderBetydningerResponse?,
     ): List<SummertÅrsinntekt> {
         val summertÅrsinntektListe = mutableListOf<SummertÅrsinntekt>()
 
@@ -62,10 +67,10 @@ class SkattegrunnlagService {
                             visningsnavn = if (kodeverksverdier == null) {
                                 match.fulltNavnInntektspost
                             } else {
-                                finnVisningsnavn(match.fulltNavnInntektspost, kodeverksverdier)
+                                finnVisningsnavn(fulltNavnInntektspost = match.fulltNavnInntektspost, kodeverksverdier = kodeverksverdier)
                             },
-                            beløp = post.belop
-                        )
+                            beløp = post.belop,
+                        ),
                     )
                 }
             }
@@ -75,10 +80,12 @@ class SkattegrunnlagService {
                     visningsnavn = "${inntektRapportering.visningsnavn} ${skattegrunnlagForLigningsår.ligningsår}",
                     referanse = "",
                     sumInntekt = sumInntekt,
-                    periodeFra = FomMåned(YearMonth.of(skattegrunnlagForLigningsår.ligningsår, Month.JANUARY)),
-                    periodeTom = TomMåned(YearMonth.of(skattegrunnlagForLigningsår.ligningsår, Month.DECEMBER)),
-                    inntektPostListe = inntektPostListe
-                )
+                    periode = ÅrMånedsperiode(
+                        fom = YearMonth.of(skattegrunnlagForLigningsår.ligningsår, Month.JANUARY),
+                        til = YearMonth.of(skattegrunnlagForLigningsår.ligningsår, Month.DECEMBER),
+                    ),
+                    inntektPostListe = inntektPostListe,
+                ),
             )
         }
 
@@ -94,11 +101,11 @@ class SkattegrunnlagService {
             return mapping.flatMap { (post, postKonfigs) ->
                 postKonfigs.map { postKonfig ->
                     MappingPoster(
-                        post.fulltNavnInntektspost,
-                        PlussMinus.valueOf(postKonfig.plussMinus),
-                        postKonfig.sekkepost == "JA",
-                        Year.parse(postKonfig.fom),
-                        Year.parse(postKonfig.tom)
+                        fulltNavnInntektspost = post.fulltNavnInntektspost,
+                        plussMinus = PlussMinus.valueOf(postKonfig.plussMinus),
+                        sekkepost = postKonfig.sekkepost == "JA",
+                        fom = Year.parse(postKonfig.fom),
+                        tom = Year.parse(postKonfig.tom),
                     )
                 }
             }
@@ -132,14 +139,14 @@ class SkattegrunnlagService {
 }
 
 data class Post(
-    val fulltNavnInntektspost: String
+    val fulltNavnInntektspost: String,
 )
 
 data class PostKonfig(
     val plussMinus: String,
     val sekkepost: String,
     val fom: String,
-    val tom: String
+    val tom: String,
 )
 
 data class MappingPoster(
@@ -147,5 +154,5 @@ data class MappingPoster(
     val plussMinus: PlussMinus,
     val sekkepost: Boolean,
     val fom: Year,
-    val tom: Year
+    val tom: Year,
 )

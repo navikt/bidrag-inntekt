@@ -25,8 +25,8 @@ class InntektController(private val inntektService: InntektService) {
         value = [
             ApiResponse(responseCode = "200", description = "OK"),
             ApiResponse(responseCode = "400", description = "Feil i input"),
-            ApiResponse(responseCode = "401", description = "Sikkerhetstoken mangler, er utløpt, eller av andre årsaker ugyldig")
-        ]
+            ApiResponse(responseCode = "401", description = "Sikkerhetstoken mangler, er utløpt, eller av andre årsaker ugyldig"),
+        ],
     )
     fun transformerInntekter(@RequestBody request: TransformerInntekterRequest): ResponseEntity<TransformerInntekterResponse> {
         val transformerteInntekter = inntektService.transformerInntekter(request)

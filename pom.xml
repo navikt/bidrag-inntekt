@@ -19,20 +19,20 @@
 
   <properties>
     <!-- build/language -->
-    <kotlin.version>1.8.21</kotlin.version>
+    <kotlin.version>1.9.20</kotlin.version>
     <build-helper-maven.version>3.2.0</build-helper-maven.version>
     <token-support.version>3.1.0</token-support.version>
     <!-- dependencies -->
     <bidrag-commons.version>20230510130746_8b93e85</bidrag-commons.version>
     <bidrag-commons-test.version>1.20230511093912_dc35d81</bidrag-commons-test.version>
-    <bidrag-transport.version>20231030155520_29f32ee</bidrag-transport.version>
-    <bidrag-domain.version>20231027135959_039a557</bidrag-domain.version>
+    <bidrag-transport.version>20231120151044_acf4c3d</bidrag-transport.version>
+    <bidrag-domene.version>20231120143444_b5c9686</bidrag-domene.version>
     <bidrag-tilgangskontroll.version>1.10.4</bidrag-tilgangskontroll.version>
-    <mockito-kotlin.version>4.1.0</mockito-kotlin.version>
+    <mockito-kotlin.version>5.1.0</mockito-kotlin.version>
     <springdoc-openapi-ui.version>2.1.0</springdoc-openapi-ui.version>
-    <springframework-cloud.version>4.0.2</springframework-cloud.version>
+    <springframework-cloud.version>4.0.4</springframework-cloud.version>
     <nimbus-jose-jwt.version>9.31</nimbus-jose-jwt.version>
-    <com.squareup.okhttp3.version>4.11.0</com.squareup.okhttp3.version>
+    <com.squareup.okhttp3.version>4.12.0</com.squareup.okhttp3.version>
   </properties>
 
   <dependencyManagement>
@@ -97,8 +97,8 @@
     </dependency>
     <dependency>
       <groupId>no.nav.bidrag</groupId>
-      <artifactId>bidrag-domain</artifactId>
-      <version>${bidrag-domain.version}</version>
+      <artifactId>bidrag-domene</artifactId>
+      <version>${bidrag-domene.version}</version>
     </dependency>
     <dependency>
       <groupId>no.nav.bidrag</groupId>
@@ -195,7 +195,7 @@
     <dependency>
       <groupId>org.aspectj</groupId>
       <artifactId>aspectjweaver</artifactId>
-      <version>1.9.19</version>
+      <version>1.9.20.1</version>
     </dependency>
   </dependencies>
 
@@ -274,9 +274,9 @@
         </executions>
         <dependencies>
           <dependency>
-            <groupId>com.pinterest</groupId>
-            <artifactId>ktlint</artifactId>
-            <version>0.47.1</version>
+            <groupId>com.pinterest.ktlint</groupId>
+            <artifactId>ktlint-cli</artifactId>
+            <version>1.0.1</version>
           </dependency>
           <!-- additional 3rd party ruleset(s) can be specified here -->
         </dependencies>

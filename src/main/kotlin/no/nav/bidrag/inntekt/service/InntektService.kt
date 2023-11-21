@@ -1,6 +1,6 @@
 package no.nav.bidrag.inntekt.service
 
-import no.nav.bidrag.domain.enums.InntektRapportering
+import no.nav.bidrag.domene.enums.inntekt.Inntektsrapportering
 import no.nav.bidrag.inntekt.SECURE_LOGGER
 import no.nav.bidrag.inntekt.aop.RestResponse
 import no.nav.bidrag.inntekt.consumer.kodeverk.KodeverkConsumer
@@ -23,7 +23,7 @@ class InntektService(
     val skattegrunnlagService: SkattegrunnlagService,
     val kontantstøtteService: KontantstøtteService,
     val utvidetBarnetrygdOgSmåbarnstilleggService: UtvidetBarnetrygdOgSmåbarnstilleggService,
-    val kodeverkConsumer: KodeverkConsumer
+    val kodeverkConsumer: KodeverkConsumer,
 ) {
 
     fun transformerInntekter(transformerInntekterRequest: TransformerInntekterRequest): TransformerInntekterResponse {
@@ -33,28 +33,30 @@ class InntektService(
         val transformerInntekterResponse = TransformerInntekterResponse(
             versjon = "",
             summertMånedsinntektListe = ainntektService.beregnMaanedsinntekt(
-                transformerInntekterRequest.ainntektsposter,
-                kodeverdierLoennsbeskrivelse
+                ainntektListeInn = transformerInntekterRequest.ainntektsposter,
+                kodeverksverdier = kodeverdierLoennsbeskrivelse,
             ),
             summertÅrsinntektListe = (
                 ainntektService.beregnAarsinntekt(
-                    transformerInntekterRequest.ainntektsposter,
-                    kodeverdierLoennsbeskrivelse
+                    ainntektListeInn = transformerInntekterRequest.ainntektsposter,
+                    kodeverksverdier = kodeverdierLoennsbeskrivelse,
                 ) +
 //                    overgangsstønadService.beregnOvergangsstønad(transformerInntekterRequest.overgangsstonadsliste) +
                     skattegrunnlagService.beregnSkattegrunnlag(
-                        transformerInntekterRequest.skattegrunnlagsliste,
-                        kodeverdierSkattegrunnlag,
-                        InntektRapportering.LIGNINGSINNTEKT
+                        skattegrunnlagListe = transformerInntekterRequest.skattegrunnlagsliste,
+                        kodeverksverdier = kodeverdierSkattegrunnlag,
+                        inntektsrapportering = Inntektsrapportering.LIGNINGSINNTEKT,
                     ) +
                     skattegrunnlagService.beregnSkattegrunnlag(
-                        transformerInntekterRequest.skattegrunnlagsliste,
-                        kodeverdierSkattegrunnlag,
-                        InntektRapportering.KAPITALINNTEKT
+                        skattegrunnlagListe = transformerInntekterRequest.skattegrunnlagsliste,
+                        kodeverksverdier = kodeverdierSkattegrunnlag,
+                        inntektsrapportering = Inntektsrapportering.KAPITALINNTEKT,
                     ) +
                     kontantstøtteService.beregnKontantstøtte(transformerInntekterRequest.kontantstøtteliste) +
-                    utvidetBarnetrygdOgSmåbarnstilleggService.beregnUtvidetBarnetrygdOgSmåbarnstillegg(transformerInntekterRequest.utvidetBarnetrygdOgSmåbarnstilleggliste)
-                )
+                    utvidetBarnetrygdOgSmåbarnstilleggService.beregnUtvidetBarnetrygdOgSmåbarnstillegg(
+                        transformerInntekterRequest.utvidetBarnetrygdOgSmåbarnstilleggliste,
+                    )
+                ),
         )
 
         SECURE_LOGGER.info("TransformerInntekterRequestDto: ${tilJson(transformerInntekterRequest.toString())}")
@@ -90,10 +92,10 @@ data class InntektSumPost(
     val sumInntekt: BigDecimal,
     val periodeFra: YearMonth,
     val periodeTil: YearMonth?,
-    val inntektPostListe: MutableList<InntektPost>
+    val inntektPostListe: MutableList<InntektPost>,
 )
 
 data class Periode(
     val periodeFra: YearMonth,
-    val periodeTil: YearMonth?
+    val periodeTil: YearMonth?,
 )
