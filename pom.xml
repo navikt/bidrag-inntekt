@@ -6,7 +6,7 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>3.0.6</version>
+    <version>3.1.5</version>
     <relativePath/> <!-- lookup parent from repository -->
   </parent>
 
@@ -23,10 +23,9 @@
     <build-helper-maven.version>3.2.0</build-helper-maven.version>
     <token-support.version>3.1.0</token-support.version>
     <!-- dependencies -->
-    <bidrag-commons.version>20230510130746_8b93e85</bidrag-commons.version>
+    <bidrag-commons.version>20231124133323_75c0300</bidrag-commons.version>
     <bidrag-commons-test.version>1.20230511093912_dc35d81</bidrag-commons-test.version>
     <bidrag-transport.version>20231121154912_d2da786</bidrag-transport.version>
-    <bidrag-domene.version>20231121152117_26994b9</bidrag-domene.version>
     <bidrag-tilgangskontroll.version>1.10.4</bidrag-tilgangskontroll.version>
     <mockito-kotlin.version>5.1.0</mockito-kotlin.version>
     <springdoc-openapi-ui.version>2.1.0</springdoc-openapi-ui.version>
@@ -94,16 +93,6 @@
       <groupId>no.nav.bidrag</groupId>
       <artifactId>bidrag-transport</artifactId>
       <version>${bidrag-transport.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>no.nav.bidrag</groupId>
-      <artifactId>bidrag-domene</artifactId>
-      <version>${bidrag-domene.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>no.nav.bidrag</groupId>
-      <artifactId>bidrag-tilgangskontroll</artifactId>
-      <version>${bidrag-tilgangskontroll.version}</version>
     </dependency>
     <dependency>
       <groupId>no.nav.security</groupId>

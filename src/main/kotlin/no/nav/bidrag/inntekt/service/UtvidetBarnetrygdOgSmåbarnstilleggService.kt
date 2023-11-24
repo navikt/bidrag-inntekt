@@ -2,6 +2,7 @@ package no.nav.bidrag.inntekt.service
 
 import no.nav.bidrag.domene.enums.inntekt.Inntektsrapportering
 import no.nav.bidrag.domene.tid.ÅrMånedsperiode
+import no.nav.bidrag.domene.util.visningsnavn
 import no.nav.bidrag.transport.behandling.inntekt.request.UtvidetBarnetrygdOgSmåbarnstillegg
 import no.nav.bidrag.transport.behandling.inntekt.response.SummertÅrsinntekt
 import org.springframework.stereotype.Service
@@ -27,7 +28,7 @@ class UtvidetBarnetrygdOgSmåbarnstilleggService() {
                 utvidetBarnetrygdOgSmåbarnstilleggListeUt.add(
                     SummertÅrsinntekt(
                         inntektRapportering = Inntektsrapportering.UTVIDET_BARNETRYGD,
-                        visningsnavn = Inntektsrapportering.UTVIDET_BARNETRYGD.visningsnavn,
+                        visningsnavn = Inntektsrapportering.UTVIDET_BARNETRYGD.visningsnavn.intern,
                         referanse = "",
                         sumInntekt = it.beløp.times(BigDecimal.valueOf(12)),
                         periode = ÅrMånedsperiode(
@@ -42,7 +43,7 @@ class UtvidetBarnetrygdOgSmåbarnstilleggService() {
                 utvidetBarnetrygdOgSmåbarnstilleggListeUt.add(
                     SummertÅrsinntekt(
                         inntektRapportering = Inntektsrapportering.SMÅBARNSTILLEGG,
-                        visningsnavn = Inntektsrapportering.SMÅBARNSTILLEGG.visningsnavn,
+                        visningsnavn = Inntektsrapportering.SMÅBARNSTILLEGG.visningsnavn.intern,
                         referanse = "",
                         sumInntekt = it.beløp.times(BigDecimal.valueOf(12)),
                         periode = ÅrMånedsperiode(
