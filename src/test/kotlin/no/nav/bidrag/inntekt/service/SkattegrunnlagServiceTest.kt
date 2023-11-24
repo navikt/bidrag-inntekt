@@ -1,9 +1,7 @@
 package no.nav.bidrag.inntekt.service
 
 import no.nav.bidrag.domene.enums.inntekt.Inntektsrapportering
-import no.nav.bidrag.inntekt.BidragInntektTest
 import no.nav.bidrag.inntekt.TestUtil
-import no.nav.security.token.support.spring.test.EnableMockOAuth2Server
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertAll
 import org.junit.jupiter.api.Assertions.assertNotNull
@@ -11,31 +9,20 @@ import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.function.Executable
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.test.context.ActiveProfiles
 import java.math.BigDecimal
 import java.time.YearMonth
 
 @DisplayName("SkattegrunnlagServiceTest")
-@ActiveProfiles(BidragInntektTest.TEST_PROFILE)
-@SpringBootTest(
-    classes = [BidragInntektTest::class],
-    webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
-)
-@EnableMockOAuth2Server
-class SkattegrunnlagServiceTest {
+class SkattegrunnlagServiceTest : AbstractServiceTest() {
 
     @Autowired
     private lateinit var skattegrunnlagService: SkattegrunnlagService
-
-    private final val filnavnKodeverkSummertSkattegrunnlag = "src/test/resources/__files/respons_kodeverk_summert_skattegrunnlag.json"
-    private final val kodeverkResponse = TestUtil.byggKodeverkResponse(filnavnKodeverkSummertSkattegrunnlag)
 
     @Test
     fun `skal returnere Kapsinntekter`() {
         val skattegrunnlagDto = TestUtil.byggSkattegrunnlagDto()
         val beregnedeKapsinntekter =
-            skattegrunnlagService.beregnSkattegrunnlag(skattegrunnlagDto, kodeverkResponse, Inntektsrapportering.KAPITALINNTEKT)
+            skattegrunnlagService.beregnSkattegrunnlag(skattegrunnlagDto, Inntektsrapportering.KAPITALINNTEKT)
 
         assertAll(
             Executable { assertNotNull(beregnedeKapsinntekter) },
@@ -94,7 +81,7 @@ class SkattegrunnlagServiceTest {
     fun `skal returnere Ligsinntekter`() {
         val skattegrunnlagDto = TestUtil.byggSkattegrunnlagDto()
         val beregnedeLigsinntekter =
-            skattegrunnlagService.beregnSkattegrunnlag(skattegrunnlagDto, kodeverkResponse, Inntektsrapportering.LIGNINGSINNTEKT)
+            skattegrunnlagService.beregnSkattegrunnlag(skattegrunnlagDto, Inntektsrapportering.LIGNINGSINNTEKT)
 
         assertAll(
             Executable { assertNotNull(beregnedeLigsinntekter) },

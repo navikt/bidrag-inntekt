@@ -7,10 +7,9 @@ import no.nav.bidrag.commons.ExceptionLogger
 import no.nav.bidrag.domene.enums.inntekt.Inntektsrapportering
 import no.nav.bidrag.inntekt.BidragInntektTest
 import no.nav.bidrag.inntekt.BidragInntektTest.Companion.TEST_PROFILE
+import no.nav.bidrag.inntekt.StubUtils
 import no.nav.bidrag.inntekt.TestUtil
 import no.nav.bidrag.inntekt.aop.RestExceptionHandler
-import no.nav.bidrag.inntekt.aop.RestResponse
-import no.nav.bidrag.inntekt.consumer.kodeverk.KodeverkConsumer
 import no.nav.bidrag.inntekt.service.AinntektService
 import no.nav.bidrag.inntekt.service.InntektService
 import no.nav.bidrag.inntekt.service.KontantstøtteService
@@ -24,10 +23,10 @@ import org.junit.jupiter.api.Assertions.assertAll
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.function.Executable
-import org.mockito.Mockito
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment
@@ -54,9 +53,8 @@ class InntektControllerTest(
     private final val kontantstøtteService: KontantstøtteService = KontantstøtteService()
     private final val utvidetBarnetrygdOgSmåbarnstilleggService: UtvidetBarnetrygdOgSmåbarnstilleggService =
         UtvidetBarnetrygdOgSmåbarnstilleggService()
-    private final val kodeverkConsumer: KodeverkConsumer = Mockito.mock(KodeverkConsumer::class.java)
     private final val inntektService: InntektService =
-        InntektService(ainntektService, skattegrunnlagService, kontantstøtteService, utvidetBarnetrygdOgSmåbarnstilleggService, kodeverkConsumer)
+        InntektService(ainntektService, skattegrunnlagService, kontantstøtteService, utvidetBarnetrygdOgSmåbarnstilleggService)
     private final val inntektController: InntektController = InntektController(inntektService)
 
     private var mockMvc: MockMvc =
@@ -66,6 +64,12 @@ class InntektControllerTest(
                 chain.doFilter(request, response)
             }, "/*").build()
 
+    @BeforeEach
+    fun initKodeverk() {
+        StubUtils.stubKodeverkSkattegrunnlag()
+        StubUtils.stubKodeverkLønnsbeskrivelse()
+    }
+
     @Test
     fun `skal transformere inntekter`() {
         val filnavnKodeverkLoennsbeskrivelser = "src/test/resources/__files/respons_kodeverk_loennsbeskrivelser.json"
@@ -73,11 +77,8 @@ class InntektControllerTest(
             "src/test/resources/__files/respons_kodeverk_summert_skattegrunnlag.json"
         val filnavnEksempelRequest = "src/test/resources/testfiler/eksempel_request.json"
 
-        Mockito.`when`(kodeverkConsumer.hentKodeverksverdier("Loennsbeskrivelse"))
-            .thenReturn(RestResponse.Success(TestUtil.byggKodeverkResponse(filnavnKodeverkLoennsbeskrivelser)))
-
-        Mockito.`when`(kodeverkConsumer.hentKodeverksverdier("Summert skattegrunnlag"))
-            .thenReturn(RestResponse.Success(TestUtil.byggKodeverkResponse(filnavnKodeverkSummertSkattegrunnlag)))
+        StubUtils.stubKodeverkSkattegrunnlag(TestUtil.byggKodeverkResponse(filnavnKodeverkSummertSkattegrunnlag))
+        StubUtils.stubKodeverkLønnsbeskrivelse(TestUtil.byggKodeverkResponse(filnavnKodeverkLoennsbeskrivelser))
 
         val transformerteInntekter = TestUtil.performRequest(
             mockMvc,

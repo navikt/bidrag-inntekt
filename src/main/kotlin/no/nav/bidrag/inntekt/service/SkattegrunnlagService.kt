@@ -3,10 +3,11 @@ package no.nav.bidrag.inntekt.service
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
 import com.fasterxml.jackson.module.kotlin.readValue
+import no.nav.bidrag.commons.service.finnVisningsnavnSkattegrunnlag
 import no.nav.bidrag.domene.enums.diverse.PlussMinus
 import no.nav.bidrag.domene.enums.inntekt.Inntektsrapportering
 import no.nav.bidrag.domene.tid.ÅrMånedsperiode
-import no.nav.bidrag.inntekt.consumer.kodeverk.api.GetKodeverkKoderBetydningerResponse
+import no.nav.bidrag.domene.util.visningsnavnIntern
 import no.nav.bidrag.transport.behandling.inntekt.request.SkattegrunnlagForLigningsår
 import no.nav.bidrag.transport.behandling.inntekt.response.InntektPost
 import no.nav.bidrag.transport.behandling.inntekt.response.SummertÅrsinntekt
@@ -23,7 +24,6 @@ class SkattegrunnlagService {
 
     fun beregnSkattegrunnlag(
         skattegrunnlagListe: List<SkattegrunnlagForLigningsår>,
-        kodeverksverdier: GetKodeverkKoderBetydningerResponse?,
         inntektsrapportering: Inntektsrapportering,
     ): List<SummertÅrsinntekt> {
         return if (skattegrunnlagListe.isNotEmpty()) {
@@ -34,7 +34,6 @@ class SkattegrunnlagService {
                 skattegrunnlagListe = skattegrunnlagListe,
                 mapping = mapping,
                 inntektRapportering = inntektsrapportering,
-                kodeverksverdier = kodeverksverdier,
             )
         } else {
             emptyList()
@@ -45,7 +44,6 @@ class SkattegrunnlagService {
         skattegrunnlagListe: List<SkattegrunnlagForLigningsår>,
         mapping: List<MappingPoster>,
         inntektRapportering: Inntektsrapportering,
-        kodeverksverdier: GetKodeverkKoderBetydningerResponse?,
     ): List<SummertÅrsinntekt> {
         val summertÅrsinntektListe = mutableListOf<SummertÅrsinntekt>()
 
@@ -64,11 +62,7 @@ class SkattegrunnlagService {
                     inntektPostListe.add(
                         InntektPost(
                             kode = match.fulltNavnInntektspost,
-                            visningsnavn = if (kodeverksverdier == null) {
-                                match.fulltNavnInntektspost
-                            } else {
-                                finnVisningsnavn(fulltNavnInntektspost = match.fulltNavnInntektspost, kodeverksverdier = kodeverksverdier)
-                            },
+                            visningsnavn = finnVisningsnavnSkattegrunnlag(match.fulltNavnInntektspost),
                             beløp = post.belop,
                         ),
                     )
@@ -77,7 +71,7 @@ class SkattegrunnlagService {
             summertÅrsinntektListe.add(
                 SummertÅrsinntekt(
                     inntektRapportering = inntektRapportering,
-                    visningsnavn = "${inntektRapportering.visningsnavn} ${skattegrunnlagForLigningsår.ligningsår}",
+                    visningsnavn = inntektRapportering.visningsnavnIntern(skattegrunnlagForLigningsår.ligningsår),
                     referanse = "",
                     sumInntekt = sumInntekt,
                     periode = ÅrMånedsperiode(
@@ -111,29 +105,6 @@ class SkattegrunnlagService {
             }
         } catch (e: IOException) {
             throw RuntimeException("Kunne ikke laste fil", e)
-        }
-    }
-
-    private fun finnVisningsnavn(fulltNavnInntektspost: String, kodeverksverdier: GetKodeverkKoderBetydningerResponse): String {
-        var visningsnavn = ""
-        val bokmål = "nb"
-        for ((fulltNavn, betydningListe) in kodeverksverdier.betydninger) {
-            if (fulltNavn == fulltNavnInntektspost) {
-                for (betydning in betydningListe) {
-                    betydning.beskrivelser.let { beskrivelser ->
-                        for ((spraak, beskrivelse) in beskrivelser) {
-                            if (spraak == bokmål) {
-                                visningsnavn = beskrivelse.term
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        return if (visningsnavn == "") {
-            fulltNavnInntektspost
-        } else {
-            visningsnavn
         }
     }
 }

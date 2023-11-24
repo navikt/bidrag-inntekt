@@ -1,11 +1,13 @@
 package no.nav.bidrag.inntekt
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.github.tomakehurst.wiremock.WireMockServer
 import com.github.tomakehurst.wiremock.client.WireMock
 import com.github.tomakehurst.wiremock.client.WireMock.aResponse
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration
 import com.github.tomakehurst.wiremock.extension.responsetemplating.ResponseTemplateTransformer
 import com.github.tomakehurst.wiremock.junit.WireMockRule
+import no.nav.bidrag.commons.service.KodeverkKoderBetydningerResponse
 import no.nav.bidrag.inntekt.BidragInntektLocal.Companion.LOCAL_PROFILE
 import no.nav.security.token.support.spring.api.EnableJwtTokenValidation
 import no.nav.security.token.support.spring.test.EnableMockOAuth2Server
@@ -64,20 +66,46 @@ class LocalConfig {
     fun runWiremockServer() {
         var wms = WireMockServer(1234)
         wms.start()
-        wms.stubFor(
-            WireMock.get(WireMock.urlPathMatching(".*/kodeverk/Summert.*")).willReturn(
-                aResponse().withHeader(HttpHeaders.CONTENT_TYPE, APPLICATION_JSON.toString())
-                    .withStatus(HttpStatus.OK.value())
-                    .withBodyFile("respons_kodeverk_summert_skattegrunnlag.json"),
-            ),
-        )
+        StubUtils.stubKodeverkSkattegrunnlag()
+        StubUtils.stubKodeverkLønnsbeskrivelse()
+    }
+}
 
-        wms.stubFor(
-            WireMock.get(WireMock.urlPathMatching(".*/kodeverk/Loennsbeskrivelse.*")).willReturn(
-                aResponse().withHeader(HttpHeaders.CONTENT_TYPE, APPLICATION_JSON.toString())
-                    .withStatus(HttpStatus.OK.value())
-                    .withBodyFile("respons_kodeverk_loennsbeskrivelser.json"),
-            ),
-        )
+class StubUtils {
+
+    companion object {
+
+        private fun createGenericResponse() = aResponse().withHeader(HttpHeaders.CONTENT_TYPE, APPLICATION_JSON.toString())
+            .withStatus(HttpStatus.OK.value())
+
+        fun stubKodeverkLønnsbeskrivelse(response: KodeverkKoderBetydningerResponse? = null, status: HttpStatus = HttpStatus.OK) {
+            WireMock.stubFor(
+                WireMock.get(WireMock.urlPathMatching(".*/kodeverk/Loennsbeskrivelse.*")).willReturn(
+                    if (response != null) {
+                        createGenericResponse().withStatus(status.value()).withBody(
+                            ObjectMapper().findAndRegisterModules().writeValueAsString(response),
+                        )
+                    } else {
+                        createGenericResponse()
+                            .withBodyFile("respons_kodeverk_loennsbeskrivelser.json")
+                    },
+                ),
+            )
+        }
+
+        fun stubKodeverkSkattegrunnlag(response: KodeverkKoderBetydningerResponse? = null, status: HttpStatus = HttpStatus.OK) {
+            WireMock.stubFor(
+                WireMock.get(WireMock.urlPathMatching(".*/kodeverk/Summert.*")).willReturn(
+                    if (response != null) {
+                        createGenericResponse().withStatus(status.value()).withBody(
+                            ObjectMapper().findAndRegisterModules().writeValueAsString(response),
+                        )
+                    } else {
+                        createGenericResponse()
+                            .withBodyFile("respons_kodeverk_summert_skattegrunnlag.json")
+                    },
+                ),
+            )
+        }
     }
 }

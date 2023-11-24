@@ -3,7 +3,7 @@ package no.nav.bidrag.inntekt
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
-import no.nav.bidrag.inntekt.consumer.kodeverk.api.GetKodeverkKoderBetydningerResponse
+import no.nav.bidrag.commons.service.KodeverkKoderBetydningerResponse
 import no.nav.bidrag.transport.behandling.grunnlag.response.SkattegrunnlagspostDto
 import no.nav.bidrag.transport.behandling.inntekt.request.Kontantstøtte
 import no.nav.bidrag.transport.behandling.inntekt.request.SkattegrunnlagForLigningsår
@@ -199,14 +199,14 @@ class TestUtil {
             }
         }
 
-        fun byggKodeverkResponse(filnavn: String): GetKodeverkKoderBetydningerResponse {
+        fun byggKodeverkResponse(filnavn: String): KodeverkKoderBetydningerResponse {
             val objectMapper = ObjectMapper()
             objectMapper.registerKotlinModule()
             objectMapper.registerModule(JavaTimeModule())
             objectMapper.dateFormat = SimpleDateFormat("yyyy-MM-dd")
 
             val file = File(filnavn)
-            return objectMapper.readValue(file, GetKodeverkKoderBetydningerResponse::class.java)
+            return objectMapper.readValue(file, KodeverkKoderBetydningerResponse::class.java)
         }
 
         fun byggInntektRequest(filnavn: String): TransformerInntekterRequest {

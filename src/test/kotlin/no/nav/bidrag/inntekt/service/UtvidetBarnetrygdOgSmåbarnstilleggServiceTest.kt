@@ -1,29 +1,19 @@
 package no.nav.bidrag.inntekt.service
 
 import no.nav.bidrag.domene.enums.inntekt.Inntektsrapportering
-import no.nav.bidrag.inntekt.BidragInntektTest
+import no.nav.bidrag.domene.util.visningsnavn
 import no.nav.bidrag.inntekt.TestUtil
-import no.nav.security.token.support.spring.test.EnableMockOAuth2Server
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertAll
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.function.Executable
-import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.test.context.ActiveProfiles
 import java.math.BigDecimal
 import java.time.YearMonth
 
-@Suppress("NonAsciiCharacters")
 @DisplayName("UtvidetBarnetrygdOgSmåbarnstilleggServiceTest")
-@ActiveProfiles(BidragInntektTest.TEST_PROFILE)
-@SpringBootTest(
-    classes = [BidragInntektTest::class],
-    webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
-)
-@EnableMockOAuth2Server
-class UtvidetBarnetrygdOgSmåbarnstilleggServiceTest {
+class UtvidetBarnetrygdOgSmåbarnstilleggServiceTest : AbstractServiceTest() {
 
     @Test
     fun `skal returnere summert årsbeløp for hhv utvidet barnetrygd og småbarnstillegg`() {
@@ -44,7 +34,7 @@ class UtvidetBarnetrygdOgSmåbarnstilleggServiceTest {
             Executable {
                 assertThat(
                     beregnetUtvidetBarnetrygdOgSmåbarnstillegg[0].visningsnavn,
-                ).isEqualTo(Inntektsrapportering.SMÅBARNSTILLEGG.visningsnavn)
+                ).isEqualTo(Inntektsrapportering.SMÅBARNSTILLEGG.visningsnavn.intern)
             },
             Executable { assertThat(beregnetUtvidetBarnetrygdOgSmåbarnstillegg[0].sumInntekt).isEqualTo(BigDecimal.valueOf(7920)) },
             Executable { assertThat(beregnetUtvidetBarnetrygdOgSmåbarnstillegg[0].periode.fom).isEqualTo(YearMonth.parse("2021-11")) },
@@ -59,7 +49,7 @@ class UtvidetBarnetrygdOgSmåbarnstilleggServiceTest {
             Executable {
                 assertThat(
                     beregnetUtvidetBarnetrygdOgSmåbarnstillegg[1].visningsnavn,
-                ).isEqualTo(Inntektsrapportering.SMÅBARNSTILLEGG.visningsnavn)
+                ).isEqualTo(Inntektsrapportering.SMÅBARNSTILLEGG.visningsnavn.intern)
             },
             Executable { assertThat(beregnetUtvidetBarnetrygdOgSmåbarnstillegg[1].sumInntekt).isEqualTo(BigDecimal.valueOf(7920)) },
             Executable { assertThat(beregnetUtvidetBarnetrygdOgSmåbarnstillegg[1].periode.fom).isEqualTo(YearMonth.parse("2022-06")) },
@@ -74,7 +64,7 @@ class UtvidetBarnetrygdOgSmåbarnstilleggServiceTest {
             Executable {
                 assertThat(
                     beregnetUtvidetBarnetrygdOgSmåbarnstillegg[2].visningsnavn,
-                ).isEqualTo(Inntektsrapportering.SMÅBARNSTILLEGG.visningsnavn)
+                ).isEqualTo(Inntektsrapportering.SMÅBARNSTILLEGG.visningsnavn.intern)
             },
             Executable { assertThat(beregnetUtvidetBarnetrygdOgSmåbarnstillegg[2].sumInntekt).isEqualTo(BigDecimal.valueOf(7920)) },
             Executable { assertThat(beregnetUtvidetBarnetrygdOgSmåbarnstillegg[2].periode.fom).isEqualTo(YearMonth.parse("2022-10")) },
@@ -89,7 +79,7 @@ class UtvidetBarnetrygdOgSmåbarnstilleggServiceTest {
             Executable {
                 assertThat(
                     beregnetUtvidetBarnetrygdOgSmåbarnstillegg[3].visningsnavn,
-                ).isEqualTo(Inntektsrapportering.UTVIDET_BARNETRYGD.visningsnavn)
+                ).isEqualTo(Inntektsrapportering.UTVIDET_BARNETRYGD.visningsnavn.intern)
             },
             Executable { assertThat(beregnetUtvidetBarnetrygdOgSmåbarnstillegg[3].sumInntekt).isEqualTo(BigDecimal.valueOf(12648)) },
             Executable { assertThat(beregnetUtvidetBarnetrygdOgSmåbarnstillegg[3].periode.fom).isEqualTo(YearMonth.parse("2019-01")) },
@@ -104,7 +94,7 @@ class UtvidetBarnetrygdOgSmåbarnstilleggServiceTest {
             Executable {
                 assertThat(
                     beregnetUtvidetBarnetrygdOgSmåbarnstillegg[4].visningsnavn,
-                ).isEqualTo(Inntektsrapportering.UTVIDET_BARNETRYGD.visningsnavn)
+                ).isEqualTo(Inntektsrapportering.UTVIDET_BARNETRYGD.visningsnavn.intern)
             },
             Executable { assertThat(beregnetUtvidetBarnetrygdOgSmåbarnstillegg[4].sumInntekt).isEqualTo(BigDecimal.valueOf(12648)) },
             Executable { assertThat(beregnetUtvidetBarnetrygdOgSmåbarnstillegg[4].periode.fom).isEqualTo(YearMonth.parse("2020-11")) },

@@ -5,19 +5,18 @@ import io.swagger.v3.oas.annotations.enums.SecuritySchemeType
 import io.swagger.v3.oas.annotations.info.Info
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import io.swagger.v3.oas.annotations.security.SecurityScheme
+import jakarta.annotation.PostConstruct
 import no.nav.bidrag.commons.CorrelationId
 import no.nav.bidrag.commons.ExceptionLogger
+import no.nav.bidrag.commons.service.KodeverkProvider
 import no.nav.bidrag.commons.web.CorrelationIdFilter
 import no.nav.bidrag.commons.web.DefaultCorsFilter
 import no.nav.bidrag.commons.web.HttpHeaderRestTemplate
 import no.nav.bidrag.commons.web.UserMdcFilter
-import no.nav.bidrag.inntekt.consumer.kodeverk.KodeverkConsumer
 import no.nav.bidrag.inntekt.util.DateProvider
 import no.nav.bidrag.inntekt.util.RealDateProvider
 import no.nav.security.token.support.spring.api.EnableJwtTokenValidation
-import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.boot.web.client.RootUriTemplateHandler
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Import
@@ -39,12 +38,11 @@ const val LIVE_PROFILE = "live"
     type = SecuritySchemeType.HTTP,
 )
 @Import(CorrelationIdFilter::class, UserMdcFilter::class, DefaultCorsFilter::class)
-class BidragInntektConfig {
+class BidragInntektConfig(@Value("\${KODEVERK_URL}") val url: String) {
 
-    companion object {
-
-        @JvmStatic
-        private val LOGGER = LoggerFactory.getLogger(BidragInntektConfig::class.java)
+    @PostConstruct
+    fun initKodeverk() {
+        KodeverkProvider.initialiser(url)
     }
 
     @Bean
@@ -61,19 +59,17 @@ class BidragInntektConfig {
     }
 
     @Bean
-    fun kodeverkConsumer(
-        @Value("\${KODEVERK_URL}") url: String,
-        restTemplate: HttpHeaderRestTemplate,
-        exceptionLogger: ExceptionLogger,
-    ): KodeverkConsumer {
-        LOGGER.info("Url satt i config: $url")
-        restTemplate.uriTemplateHandler = RootUriTemplateHandler(url)
-        return KodeverkConsumer(restTemplate)
-    }
-
-    @Bean
     @Profile(LIVE_PROFILE)
     fun realDateProvider(): DateProvider {
         return RealDateProvider()
+    }
+}
+
+@Profile(LIVE_PROFILE)
+@Configuration
+class InitKodeverkCache {
+    @PostConstruct
+    fun initKodeverkCache() {
+        KodeverkProvider.initialiserKodeverkCache()
     }
 }
