@@ -48,7 +48,7 @@ class BidragInntektLocal {
 fun main(args: Array<String>) {
     val profile = if (args.isEmpty()) LOCAL_PROFILE else args[0]
     val app = SpringApplication(BidragInntektLocal::class.java)
-    app.setAdditionalProfiles("lokal-nais-secrets", "live")
+    app.setAdditionalProfiles(profile, "lokal-nais-secrets")
     app.run(*args)
 }
 

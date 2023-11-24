@@ -18,9 +18,6 @@ class SkattegrunnlagServiceTest : AbstractServiceTest() {
     @Autowired
     private lateinit var skattegrunnlagService: SkattegrunnlagService
 
-    private final val filnavnKodeverkSummertSkattegrunnlag = "src/test/resources/__files/respons_kodeverk_summert_skattegrunnlag.json"
-    private final val kodeverkResponse = TestUtil.byggKodeverkResponse(filnavnKodeverkSummertSkattegrunnlag)
-
     @Test
     fun `skal returnere Kapsinntekter`() {
         val skattegrunnlagDto = TestUtil.byggSkattegrunnlagDto()
