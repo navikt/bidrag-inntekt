@@ -45,15 +45,15 @@ class KodeverkConsumerTest {
                 eq(url),
                 eq(HttpMethod.GET),
                 any(),
-                eq(GetKodeverkKoderBetydningerResponse::class.java)
-            )
+                eq(GetKodeverkKoderBetydningerResponse::class.java),
+            ),
         ).thenReturn(ResponseEntity(TestUtil.byggKodeverkResponse(filnavnKodeverkLoennsbeskrivelser), HttpStatus.OK))
 
         when (val restResponseKodeverk = kodeverkConsumer!!.hentKodeverksverdier("Loennsbeskrivelser")) {
             is RestResponse.Success -> {
                 val hentKodeverkResponse = restResponseKodeverk.body
                 Assertions.assertAll(
-                    Executable { assertNotNull(hentKodeverkResponse) }
+                    Executable { assertNotNull(hentKodeverkResponse) },
                 )
             }
 
@@ -72,15 +72,15 @@ class KodeverkConsumerTest {
                 eq(url),
                 eq(HttpMethod.GET),
                 any(),
-                eq(GetKodeverkKoderBetydningerResponse::class.java)
-            )
+                eq(GetKodeverkKoderBetydningerResponse::class.java),
+            ),
         ).thenThrow(HttpClientErrorException(HttpStatus.BAD_REQUEST))
 
         when (val restResponseKodeverk = kodeverkConsumer!!.hentKodeverksverdier("Loennsbeskrivelser")) {
             is RestResponse.Failure -> {
                 Assertions.assertAll(
                     Executable { assertTrue(restResponseKodeverk.statusCode == HttpStatus.BAD_REQUEST) },
-                    Executable { assertThat(restResponseKodeverk.restClientException).isInstanceOf(HttpClientErrorException::class.java) }
+                    Executable { assertThat(restResponseKodeverk.restClientException).isInstanceOf(HttpClientErrorException::class.java) },
                 )
             }
 

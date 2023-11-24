@@ -29,12 +29,12 @@ class TestUtil {
         fun byggSkattegrunnlagDto() = immutableListOf(
             SkattegrunnlagForLigningsår(
                 ligningsår = 2021,
-                skattegrunnlagsposter = byggSkattegrunnlagPostListe()
+                skattegrunnlagsposter = byggSkattegrunnlagPostListe(),
             ),
             SkattegrunnlagForLigningsår(
                 ligningsår = 2022,
-                skattegrunnlagsposter = byggSkattegrunnlagPostListe()
-            )
+                skattegrunnlagsposter = byggSkattegrunnlagPostListe(),
+            ),
         )
 
         private fun byggSkattegrunnlagPostListe() = immutableListOf(
@@ -42,55 +42,55 @@ class TestUtil {
             SkattegrunnlagspostDto(
                 skattegrunnlagType = "Ordinær",
                 inntektType = "andelIFellesTapVedSalgAvAndelISDF", // KAPS, MINUS, NEI
-                belop = BigDecimal.valueOf(1000)
+                belop = BigDecimal.valueOf(1000),
             ),
             SkattegrunnlagspostDto(
                 skattegrunnlagType = "Ordinær",
                 inntektType = "andreFradragsberettigedeKostnader", // KAPS, MINUS, NEI
-                belop = BigDecimal.valueOf(500)
+                belop = BigDecimal.valueOf(500),
             ),
             SkattegrunnlagspostDto(
                 skattegrunnlagType = "Ordinær",
                 inntektType = "annenSkattepliktigKapitalinntektFraAnnetFinansprodukt", // KAPS, PLUSS, NEI
-                belop = BigDecimal.valueOf(1500)
+                belop = BigDecimal.valueOf(1500),
             ),
             SkattegrunnlagspostDto(
                 skattegrunnlagType = "Ordinær",
                 inntektType = "samledeOpptjenteRenterIUtenlandskeBanker", // KAPS, PLUSS, JA
-                belop = BigDecimal.valueOf(1700)
+                belop = BigDecimal.valueOf(1700),
             ),
             SkattegrunnlagspostDto(
                 skattegrunnlagType = "Ordinær",
                 inntektType = "ukjent",
-                belop = BigDecimal.valueOf(100000)
+                belop = BigDecimal.valueOf(100000),
             ),
 
             // LIGS
             SkattegrunnlagspostDto(
                 skattegrunnlagType = "Ordinær",
                 inntektType = "alderspensjonFraIPAOgIPS", // LIGS, PLUSS, NEI
-                belop = BigDecimal.valueOf(100)
+                belop = BigDecimal.valueOf(100),
             ),
             SkattegrunnlagspostDto(
                 skattegrunnlagType = "Ordinær",
                 inntektType = "ukjent", //
-                belop = BigDecimal.valueOf(1700)
+                belop = BigDecimal.valueOf(1700),
             ),
             SkattegrunnlagspostDto(
                 skattegrunnlagType = "Ordinær",
                 inntektType = "annenArbeidsinntekt", // LIGS, PLUSS, NEI
-                belop = BigDecimal.valueOf(200)
+                belop = BigDecimal.valueOf(200),
             ),
             SkattegrunnlagspostDto(
                 skattegrunnlagType = "Ordinær",
                 inntektType = "annenPensjonFoerAlderspensjon", // LIGS, PLUSS, NEI
-                belop = BigDecimal.valueOf(300)
+                belop = BigDecimal.valueOf(300),
             ),
             SkattegrunnlagspostDto(
                 skattegrunnlagType = "Ordinær",
                 inntektType = "arbeidsavklaringspenger", // LIGS, PLUSS, NEI
-                belop = BigDecimal.valueOf(400)
-            )
+                belop = BigDecimal.valueOf(400),
+            ),
         )
 
         fun byggKontantstøtte() = immutableListOf(
@@ -99,33 +99,33 @@ class TestUtil {
                 periodeFra = LocalDate.parse("2022-09-01"),
                 periodeTil = LocalDate.parse("2023-01-01"),
                 beløp = BigDecimal.valueOf(7500),
-                barnPersonId = "98765432109"
+                barnPersonId = "98765432109",
             ),
             Kontantstøtte(
                 periodeFra = LocalDate.parse("2023-05-01"),
                 periodeTil = null,
                 beløp = BigDecimal.valueOf(7500),
-                barnPersonId = "98765432109"
+                barnPersonId = "98765432109",
             ),
             // barn 2
             Kontantstøtte(
                 periodeFra = LocalDate.parse("2021-11-01"),
                 periodeTil = LocalDate.parse("2022-07-01"),
                 beløp = BigDecimal.valueOf(7500),
-                barnPersonId = "12345678901"
+                barnPersonId = "12345678901",
             ),
             Kontantstøtte(
                 periodeFra = LocalDate.parse("2022-10-01"),
                 periodeTil = LocalDate.parse("2023-02-01"),
                 beløp = BigDecimal.valueOf(7500),
-                barnPersonId = "12345678901"
+                barnPersonId = "12345678901",
             ),
             Kontantstøtte(
                 periodeFra = LocalDate.parse("2023-05-01"),
                 periodeTil = LocalDate.parse("2023-08-01"),
                 beløp = BigDecimal.valueOf(7500),
-                barnPersonId = "12345678901"
-            )
+                barnPersonId = "12345678901",
+            ),
         )
 
         fun byggUtvidetBarnetrygdOgSmåbarnstillegg() = immutableListOf(
@@ -134,13 +134,13 @@ class TestUtil {
                 type = "UTVIDET",
                 periodeFra = LocalDate.parse("2019-01-01"),
                 periodeTil = LocalDate.parse("2019-10-01"),
-                beløp = BigDecimal.valueOf(1054)
+                beløp = BigDecimal.valueOf(1054),
             ),
             UtvidetBarnetrygdOgSmåbarnstillegg(
                 type = "UTVIDET",
                 periodeFra = LocalDate.parse("2020-11-01"),
                 periodeTil = LocalDate.parse("2022-10-01"),
-                beløp = BigDecimal.valueOf(1054)
+                beløp = BigDecimal.valueOf(1054),
             ),
 
             // Småbarnstillegg
@@ -148,20 +148,20 @@ class TestUtil {
                 type = "SMÅBARNSTILLEGG",
                 periodeFra = LocalDate.parse("2021-11-01"),
                 periodeTil = LocalDate.parse("2022-04-01"),
-                beløp = BigDecimal.valueOf(660)
+                beløp = BigDecimal.valueOf(660),
             ),
             UtvidetBarnetrygdOgSmåbarnstillegg(
                 type = "SMÅBARNSTILLEGG",
                 periodeFra = LocalDate.parse("2022-06-01"),
                 periodeTil = LocalDate.parse("2022-08-01"),
-                beløp = BigDecimal.valueOf(660)
+                beløp = BigDecimal.valueOf(660),
             ),
             UtvidetBarnetrygdOgSmåbarnstillegg(
                 type = "SMÅBARNSTILLEGG",
                 periodeFra = LocalDate.parse("2022-10-01"),
                 periodeTil = null,
-                beløp = BigDecimal.valueOf(660)
-            )
+                beløp = BigDecimal.valueOf(660),
+            ),
         )
 
         fun <Request, Response> performRequest(
@@ -170,7 +170,7 @@ class TestUtil {
             url: String,
             input: Request?,
             responseType: Class<Response>,
-            expectedStatus: StatusResultMatchersDsl.() -> Unit
+            expectedStatus: StatusResultMatchersDsl.() -> Unit,
         ): Response {
             val mockHttpServletRequestDsl: MockHttpServletRequestDsl.() -> Unit = {
                 contentType = MediaType.APPLICATION_JSON

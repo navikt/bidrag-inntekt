@@ -11,7 +11,7 @@ import org.springframework.cache.annotation.Cacheable
 import org.springframework.http.HttpMethod
 
 open class KodeverkConsumer(
-    private val restTemplate: HttpHeaderRestTemplate
+    private val restTemplate: HttpHeaderRestTemplate,
 ) : InntektConsumer() {
 
     companion object {
@@ -30,7 +30,7 @@ open class KodeverkConsumer(
             HttpMethod.GET,
             initHttpEntityKodeverk(null),
             GetKodeverkKoderBetydningerResponse::class.java,
-            GetKodeverkKoderBetydningerResponse()
+            GetKodeverkKoderBetydningerResponse(),
         )
 
         logResponse(logger, restResponse)

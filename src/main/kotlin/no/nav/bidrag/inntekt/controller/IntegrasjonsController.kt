@@ -16,7 +16,7 @@ import org.springframework.web.server.ResponseStatusException
 @RestController
 @ProtectedWithClaims(issuer = ISSUER)
 class IntegrasjonsController(
-    private val kodeverkConsumer: KodeverkConsumer
+    private val kodeverkConsumer: KodeverkConsumer,
 
 ) {
 

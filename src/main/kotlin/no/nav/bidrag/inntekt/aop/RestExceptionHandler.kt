@@ -57,11 +57,9 @@ class RestExceptionHandler(private val exceptionLogger: ExceptionLogger) {
 
     @ResponseBody
     @ExceptionHandler(
-        MethodArgumentNotValidException::class
+        MethodArgumentNotValidException::class,
     )
-    fun handleArgumentNotValidException(
-        e: MethodArgumentNotValidException
-    ): ResponseEntity<*> {
+    fun handleArgumentNotValidException(e: MethodArgumentNotValidException): ResponseEntity<*> {
         exceptionLogger.logException(e, "RestExceptionHandler")
         val errors: MutableMap<String, String?> = HashMap()
         e.bindingResult.allErrors.forEach { error: ObjectError ->
@@ -74,11 +72,9 @@ class RestExceptionHandler(private val exceptionLogger: ExceptionLogger) {
 
     @ResponseBody
     @ExceptionHandler(
-        MethodArgumentTypeMismatchException::class
+        MethodArgumentTypeMismatchException::class,
     )
-    fun handleArgumentTypeMismatchException(
-        e: MethodArgumentTypeMismatchException
-    ): ResponseEntity<*> {
+    fun handleArgumentTypeMismatchException(e: MethodArgumentTypeMismatchException): ResponseEntity<*> {
         exceptionLogger.logException(e, "RestExceptionHandler")
         val errors: MutableMap<String, String?> = HashMap()
         errors[e.name] = when (e.cause) {
@@ -94,7 +90,13 @@ sealed class RestResponse<T> {
     data class Failure<T>(val message: String?, val statusCode: HttpStatusCode, val restClientException: RestClientException) : RestResponse<T>()
 }
 
-fun <T> RestTemplate.tryExchange(url: String, httpMethod: HttpMethod, httpEntity: HttpEntity<*>?, responseType: Class<T>, fallbackBody: T): RestResponse<T> {
+fun <T> RestTemplate.tryExchange(
+    url: String,
+    httpMethod: HttpMethod,
+    httpEntity: HttpEntity<*>?,
+    responseType: Class<T>,
+    fallbackBody: T,
+): RestResponse<T> {
     return try {
         val response = exchange(url, httpMethod, httpEntity, responseType)
         RestResponse.Success(response.body ?: fallbackBody)

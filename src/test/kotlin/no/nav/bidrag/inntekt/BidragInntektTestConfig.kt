@@ -19,7 +19,7 @@ import java.time.LocalDate
 @Configuration
 @OpenAPIDefinition(
     info = Info(title = "bidrag-inntekt", version = "v1"),
-    security = [SecurityRequirement(name = "bearer-key")]
+    security = [SecurityRequirement(name = "bearer-key")],
 )
 @Profile(TEST_PROFILE, LOCAL_PROFILE)
 class BidragInntektTestConfig {
@@ -39,8 +39,8 @@ class BidragInntektTestConfig {
                 JOSEObjectType.JWT.type,
                 listOf("aud-localhost"),
                 mapOf("iss" to newIssuer.toString()),
-                3600
-            )
+                3600,
+            ),
         )
         return "Bearer " + token.serialize()
     }

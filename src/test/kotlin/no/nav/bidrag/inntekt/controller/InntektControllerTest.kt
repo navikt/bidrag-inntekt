@@ -4,7 +4,7 @@ import jakarta.servlet.FilterChain
 import jakarta.servlet.ServletRequest
 import jakarta.servlet.ServletResponse
 import no.nav.bidrag.commons.ExceptionLogger
-import no.nav.bidrag.domain.enums.InntektRapportering
+import no.nav.bidrag.domene.enums.inntekt.Inntektsrapportering
 import no.nav.bidrag.inntekt.BidragInntektTest
 import no.nav.bidrag.inntekt.BidragInntektTest.Companion.TEST_PROFILE
 import no.nav.bidrag.inntekt.TestUtil
@@ -45,14 +45,15 @@ import java.time.LocalDate
 @EnableMockOAuth2Server
 @AutoConfigureWireMock(port = 0)
 class InntektControllerTest(
-    @Autowired val exceptionLogger: ExceptionLogger
+    @Autowired val exceptionLogger: ExceptionLogger,
 ) {
 
     private final val fixedDateProvider: DateProvider = FixedDateProvider(LocalDate.of(2023, 9, 1))
     private final val ainntektService: AinntektService = AinntektService(fixedDateProvider)
     private final val skattegrunnlagService: SkattegrunnlagService = SkattegrunnlagService()
     private final val kontantstøtteService: KontantstøtteService = KontantstøtteService()
-    private final val utvidetBarnetrygdOgSmåbarnstilleggService: UtvidetBarnetrygdOgSmåbarnstilleggService = UtvidetBarnetrygdOgSmåbarnstilleggService()
+    private final val utvidetBarnetrygdOgSmåbarnstilleggService: UtvidetBarnetrygdOgSmåbarnstilleggService =
+        UtvidetBarnetrygdOgSmåbarnstilleggService()
     private final val kodeverkConsumer: KodeverkConsumer = Mockito.mock(KodeverkConsumer::class.java)
     private final val inntektService: InntektService =
         InntektService(ainntektService, skattegrunnlagService, kontantstøtteService, utvidetBarnetrygdOgSmåbarnstilleggService, kodeverkConsumer)
@@ -83,7 +84,7 @@ class InntektControllerTest(
             HttpMethod.POST,
             InntektController.TRANSFORMER_INNTEKTER,
             TestUtil.byggInntektRequest(filnavnEksempelRequest),
-            TransformerInntekterResponse::class.java
+            TransformerInntekterResponse::class.java,
         ) { isOk() }
 
         assertAll(
@@ -92,35 +93,60 @@ class InntektControllerTest(
 
             Executable { assertTrue(transformerteInntekter.summertÅrsinntektListe.isNotEmpty()) },
             Executable { assertEquals(8, transformerteInntekter.summertÅrsinntektListe.size) },
-            Executable { assertEquals(2, transformerteInntekter.summertÅrsinntektListe.filter { it.inntektRapportering == InntektRapportering.AINNTEKT }.size) },
-            Executable { assertTrue(transformerteInntekter.summertÅrsinntektListe.filter { it.inntektRapportering == InntektRapportering.AINNTEKT_BEREGNET_3MND }.size == 1) },
-            Executable { assertTrue(transformerteInntekter.summertÅrsinntektListe.filter { it.inntektRapportering == InntektRapportering.AINNTEKT_BEREGNET_12MND }.size == 1) },
-            Executable { assertTrue(transformerteInntekter.summertÅrsinntektListe.filter { it.inntektRapportering == InntektRapportering.LIGNINGSINNTEKT }.size == 2) },
-            Executable { assertTrue(transformerteInntekter.summertÅrsinntektListe.filter { it.inntektRapportering == InntektRapportering.KAPITALINNTEKT }.size == 2) },
+            Executable {
+                assertEquals(
+                    2,
+                    transformerteInntekter.summertÅrsinntektListe.filter { it.inntektRapportering == Inntektsrapportering.AINNTEKT }.size,
+                )
+            },
+            Executable {
+                assertTrue(
+                    transformerteInntekter.summertÅrsinntektListe.filter {
+                        it.inntektRapportering == Inntektsrapportering.AINNTEKT_BEREGNET_3MND
+                    }.size == 1,
+                )
+            },
+            Executable {
+                assertTrue(
+                    transformerteInntekter.summertÅrsinntektListe.filter {
+                        it.inntektRapportering == Inntektsrapportering.AINNTEKT_BEREGNET_12MND
+                    }.size == 1,
+                )
+            },
+            Executable {
+                assertTrue(
+                    transformerteInntekter.summertÅrsinntektListe.filter { it.inntektRapportering == Inntektsrapportering.LIGNINGSINNTEKT }.size == 2,
+                )
+            },
+            Executable {
+                assertTrue(
+                    transformerteInntekter.summertÅrsinntektListe.filter { it.inntektRapportering == Inntektsrapportering.KAPITALINNTEKT }.size == 2,
+                )
+            },
 
             Executable { assertTrue(transformerteInntekter.summertMånedsinntektListe.isNotEmpty()) },
             Executable { assertEquals(20, transformerteInntekter.summertMånedsinntektListe.size) },
             Executable {
                 assertEquals(
                     4000,
-                    transformerteInntekter.summertMånedsinntektListe.filter { it.periode.year == 2021 }
-                        .sumOf { it.sumInntekt.toInt() }
+                    transformerteInntekter.summertMånedsinntektListe.filter { it.gjelderÅrMåned.year == 2021 }
+                        .sumOf { it.sumInntekt.toInt() },
                 )
             },
             Executable {
                 assertEquals(
                     446000,
-                    transformerteInntekter.summertMånedsinntektListe.filter { it.periode.year == 2022 }
-                        .sumOf { it.sumInntekt.toInt() }
+                    transformerteInntekter.summertMånedsinntektListe.filter { it.gjelderÅrMåned.year == 2022 }
+                        .sumOf { it.sumInntekt.toInt() },
                 )
             },
             Executable {
                 assertEquals(
                     468000,
-                    transformerteInntekter.summertMånedsinntektListe.filter { it.periode.year == 2023 }
-                        .sumOf { it.sumInntekt.toInt() }
+                    transformerteInntekter.summertMånedsinntektListe.filter { it.gjelderÅrMåned.year == 2023 }
+                        .sumOf { it.sumInntekt.toInt() },
                 )
-            }
+            },
         )
     }
 }

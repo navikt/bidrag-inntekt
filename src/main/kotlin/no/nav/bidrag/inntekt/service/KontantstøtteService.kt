@@ -1,12 +1,12 @@
 package no.nav.bidrag.inntekt.service
 
-import no.nav.bidrag.domain.enums.InntektRapportering
-import no.nav.bidrag.domain.tid.FomMåned
-import no.nav.bidrag.domain.tid.TomMåned
+import no.nav.bidrag.domene.enums.inntekt.Inntektsrapportering
+import no.nav.bidrag.domene.tid.ÅrMånedsperiode
 import no.nav.bidrag.transport.behandling.inntekt.request.Kontantstøtte
 import no.nav.bidrag.transport.behandling.inntekt.response.SummertÅrsinntekt
 import org.springframework.stereotype.Service
 import java.math.BigDecimal
+import java.time.LocalDate
 import java.time.YearMonth
 
 @Service
@@ -38,26 +38,28 @@ class KontantstøtteService() {
             kontantstøtteListePerBarn.forEach {
                 kontantstøtteListeUt.add(
                     SummertÅrsinntekt(
-                        inntektRapportering = InntektRapportering.KONTANTSTØTTE,
-                        visningsnavn = InntektRapportering.KONTANTSTØTTE.visningsnavn,
+                        inntektRapportering = Inntektsrapportering.KONTANTSTØTTE,
+                        visningsnavn = Inntektsrapportering.KONTANTSTØTTE.visningsnavn,
                         referanse = "",
                         sumInntekt = it.beløp.times(BigDecimal.valueOf(12)),
-                        periodeFra = FomMåned(YearMonth.of(it.periodeFra.year, it.periodeFra.month)),
-                        periodeTom = if (it.periodeTil == null) {
-                            null
-                        } else {
-                            it.periodeTil!!.minusMonths(1).let {
-                                TomMåned(YearMonth.of(it.year, it.month))
-                            }
-                        },
+                        periode = ÅrMånedsperiode(
+                            fom = YearMonth.of(it.periodeFra.year, it.periodeFra.month),
+                            til = finnPeriodeTil(it.periodeTil),
+                        ),
                         gjelderBarnPersonId = barnPersonId,
-                        inntektPostListe = emptyList()
-                    )
+                        inntektPostListe = emptyList(),
+                    ),
                 )
             }
-            kontantstøtteListeUt.sortedWith(compareBy({ it.inntektRapportering.toString() }, { it.periodeFra }))
+            kontantstøtteListeUt.sortedWith(compareBy({ it.inntektRapportering.toString() }, { it.periode.fom }))
         } else {
             emptyList()
+        }
+    }
+
+    private fun finnPeriodeTil(periodeTil: LocalDate?): YearMonth? {
+        return periodeTil?.minusMonths(1)?.let {
+            YearMonth.of(it.year, it.month)
         }
     }
 }

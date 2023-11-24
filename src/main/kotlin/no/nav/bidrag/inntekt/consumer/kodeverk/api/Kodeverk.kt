@@ -12,10 +12,10 @@ class GetKodeverkKoderBetydningerResponse {
 data class Betydning(
     val gyldigFra: LocalDate,
     val gyldigTil: LocalDate,
-    val beskrivelser: Map<String, Beskrivelse>
+    val beskrivelser: Map<String, Beskrivelse>,
 )
 
 data class Beskrivelse(
     val tekst: String,
-    val term: String
+    val term: String,
 )

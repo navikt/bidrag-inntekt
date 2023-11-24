@@ -32,9 +32,9 @@ import org.springframework.test.context.ActiveProfiles
     excludeFilters = [
         ComponentScan.Filter(
             type = FilterType.ASSIGNABLE_TYPE,
-            value = [BidragInntekt::class, BidragInntektTest::class]
-        )
-    ]
+            value = [BidragInntekt::class, BidragInntektTest::class],
+        ),
+    ],
 )
 class BidragInntektLocal {
 
@@ -57,7 +57,7 @@ class LocalConfig {
     @Rule
     var wm = WireMockRule(
         WireMockConfiguration.options()
-            .extensions(ResponseTemplateTransformer(false))
+            .extensions(ResponseTemplateTransformer(false)),
     )
 
     @Bean
@@ -68,16 +68,16 @@ class LocalConfig {
             WireMock.get(WireMock.urlPathMatching(".*/kodeverk/Summert.*")).willReturn(
                 aResponse().withHeader(HttpHeaders.CONTENT_TYPE, APPLICATION_JSON.toString())
                     .withStatus(HttpStatus.OK.value())
-                    .withBodyFile("respons_kodeverk_summert_skattegrunnlag.json")
-            )
+                    .withBodyFile("respons_kodeverk_summert_skattegrunnlag.json"),
+            ),
         )
 
         wms.stubFor(
             WireMock.get(WireMock.urlPathMatching(".*/kodeverk/Loennsbeskrivelse.*")).willReturn(
                 aResponse().withHeader(HttpHeaders.CONTENT_TYPE, APPLICATION_JSON.toString())
                     .withStatus(HttpStatus.OK.value())
-                    .withBodyFile("respons_kodeverk_loennsbeskrivelser.json")
-            )
+                    .withBodyFile("respons_kodeverk_loennsbeskrivelser.json"),
+            ),
         )
     }
 }

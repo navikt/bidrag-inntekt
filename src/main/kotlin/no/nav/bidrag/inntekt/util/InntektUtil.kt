@@ -43,7 +43,7 @@ open class InntektUtil {
             periodeFra: YearMonth,
             periodeTil: YearMonth,
             forstePeriodeIIntervall: YearMonth,
-            sistePeriodeIIntervall: YearMonth
+            sistePeriodeIIntervall: YearMonth,
         ): Int {
             return when {
                 !(periodeTil.isAfter(forstePeriodeIIntervall)) -> 0
