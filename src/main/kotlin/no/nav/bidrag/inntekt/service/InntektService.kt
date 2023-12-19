@@ -16,6 +16,7 @@ class InntektService(
     val skattegrunnlagService: SkattegrunnlagService,
     val kontantstøtteService: KontantstøtteService,
     val utvidetBarnetrygdOgSmåbarnstilleggService: UtvidetBarnetrygdOgSmåbarnstilleggService,
+    val ytelserService: YtelserService,
 ) {
 
     fun transformerInntekter(transformerInntekterRequest: TransformerInntekterRequest): TransformerInntekterResponse {
@@ -28,7 +29,6 @@ class InntektService(
                 ainntektService.beregnAarsinntekt(
                     ainntektListeInn = transformerInntekterRequest.ainntektsposter,
                 ) +
-//                    overgangsstønadService.beregnOvergangsstønad(transformerInntekterRequest.overgangsstonadsliste) +
                     skattegrunnlagService.beregnSkattegrunnlag(
                         skattegrunnlagListe = transformerInntekterRequest.skattegrunnlagsliste,
                         inntektsrapportering = Inntektsrapportering.LIGNINGSINNTEKT,
@@ -40,6 +40,9 @@ class InntektService(
                     kontantstøtteService.beregnKontantstøtte(transformerInntekterRequest.kontantstøtteliste) +
                     utvidetBarnetrygdOgSmåbarnstilleggService.beregnUtvidetBarnetrygdOgSmåbarnstillegg(
                         transformerInntekterRequest.utvidetBarnetrygdOgSmåbarnstilleggliste,
+                    ) +
+                    ytelserService.beregnYtelser(
+                        ainntektListeInn = transformerInntekterRequest.ainntektsposter,
                     )
                 ),
         )

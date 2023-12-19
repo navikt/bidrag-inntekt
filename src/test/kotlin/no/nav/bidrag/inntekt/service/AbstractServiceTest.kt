@@ -20,5 +20,7 @@ abstract class AbstractServiceTest {
     fun initKodeverk() {
         StubUtils.stubKodeverkSkattegrunnlag()
         StubUtils.stubKodeverkLønnsbeskrivelse()
+        StubUtils.stubKodeverkYtelsesbeskrivelser()
+        StubUtils.stubKodeverkPensjonsbeskrivelser()
     }
 }

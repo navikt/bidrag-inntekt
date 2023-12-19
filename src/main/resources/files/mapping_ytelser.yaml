@@ -1,0 +1,59 @@
+AAP:
+  kodeverk: "YtelseFraOffentligeBeskrivelse"
+  beskrivelser:
+    - "arbeidsavklaringspenger"
+DAGPENGER:
+  kodeverk: "YtelseFraOffentligeBeskrivelse"
+  beskrivelser:
+    - "dagpengerTilFiskerSomBareHarHyre"
+    - "dagpengerVedArbeidsloeshet"
+FORELDREPENGER:
+  kodeverk: "YtelseFraOffentligeBeskrivelse"
+  beskrivelser:
+    - "foreldrepenger"
+INTRODUKSJONSSTØNAD:
+  kodeverk: "PensjonEllerTrygdeBeskrivelse"
+  beskrivelser:
+    - "introduksjonsstoenad"
+KVALIFISERINGSSTØNAD:
+  kodeverk: "PensjonEllerTrygdeBeskrivelse"
+  beskrivelser:
+    - "kvalifiseringstoenad"
+OVERGANGSSTØNAD:
+  kodeverk: "PensjonEllerTrygdeBeskrivelse"
+  beskrivelser:
+    - "overgangsstoenadTilEnsligMorEllerFarSomBegynteAaLoepe1April2014EllerSenere"
+    - "overgangsstoenadTilEnsligMorEllerFarSomBegynteAaLoepe31Mars2014EllerTidligere"
+    - "overgangsstoenadTilGjenlevendeEktefelle"
+PENSJON:
+  kodeverk: "PensjonEllerTrygdeBeskrivelse"
+  beskrivelser:
+    - "ektefelletilleggUfoeretrygd"
+    - "ufoeretrygd"
+    - "ufoereytelseEtteroppgjoer"
+    - "alderspensjon"
+    - "alderspensjonSkjermingstillegg"
+    - "avtalefestetPensjon"
+    - "barnepensjon"
+    - "barnepensjonFraAndreEnnFolketrygden"
+    - "engangsutbetalingInnskuddspensjon"
+    - "etterlattepensjon"
+    - "ipaEllerIpsBarnepensjon"
+    - "ipaEllerIpsEngangsutbetaling"
+    - "ipaEllerIpsPeriodiskeYtelser"
+    - "ipaEllerIpsUfoerepensjon"
+    - "krigspensjon"
+    - "nyAvtalefestetPensjonPrivatSektor"
+    - "pensjonOgLivrenterIArbeidsforhold"
+    - "slitertillegg"
+    - "supplerendeStoenadTilPersonKortBotidNorge"
+    - "supplerendeStoenadTilUfoerFlyktning"
+    - "ufoerepensjon"
+    - "ufoerepensjonFraAndreEnnFolketrygden"
+    - "ufoereytelseEtteroppgjoerFraAndreEnnFolketrygden"
+SYKEPENGER:
+  kodeverk: "YtelseFraOffentligeBeskrivelse"
+  beskrivelser:
+    - "svangerskapspenger"
+    - "sykepenger"
+    - "sykepengerTilFiskerSomBareHarHyre"

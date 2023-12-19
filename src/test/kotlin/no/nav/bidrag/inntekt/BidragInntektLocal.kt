@@ -68,6 +68,8 @@ class LocalConfig {
         wms.start()
         StubUtils.stubKodeverkSkattegrunnlag()
         StubUtils.stubKodeverkLønnsbeskrivelse()
+        StubUtils.stubKodeverkYtelsesbeskrivelser()
+        StubUtils.stubKodeverkPensjonsbeskrivelser()
     }
 }
 
@@ -103,6 +105,36 @@ class StubUtils {
                     } else {
                         createGenericResponse()
                             .withBodyFile("respons_kodeverk_summert_skattegrunnlag.json")
+                    },
+                ),
+            )
+        }
+
+        fun stubKodeverkYtelsesbeskrivelser(response: KodeverkKoderBetydningerResponse? = null, status: HttpStatus = HttpStatus.OK) {
+            WireMock.stubFor(
+                WireMock.get(WireMock.urlPathMatching(".*/kodeverk/YtelseFraOffentligeBeskrivelse.*")).willReturn(
+                    if (response != null) {
+                        createGenericResponse().withStatus(status.value()).withBody(
+                            ObjectMapper().findAndRegisterModules().writeValueAsString(response),
+                        )
+                    } else {
+                        createGenericResponse()
+                            .withBodyFile("respons_kodeverk_ytelserbeskrivelser.json")
+                    },
+                ),
+            )
+        }
+
+        fun stubKodeverkPensjonsbeskrivelser(response: KodeverkKoderBetydningerResponse? = null, status: HttpStatus = HttpStatus.OK) {
+            WireMock.stubFor(
+                WireMock.get(WireMock.urlPathMatching(".*/kodeverk/PensjonEllerTrygdeBeskrivelse.*")).willReturn(
+                    if (response != null) {
+                        createGenericResponse().withStatus(status.value()).withBody(
+                            ObjectMapper().findAndRegisterModules().writeValueAsString(response),
+                        )
+                    } else {
+                        createGenericResponse()
+                            .withBodyFile("respons_kodeverk_ytelserbeskrivelser.json")
                     },
                 ),
             )

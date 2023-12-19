@@ -15,6 +15,7 @@ import no.nav.bidrag.inntekt.service.InntektService
 import no.nav.bidrag.inntekt.service.KontantstøtteService
 import no.nav.bidrag.inntekt.service.SkattegrunnlagService
 import no.nav.bidrag.inntekt.service.UtvidetBarnetrygdOgSmåbarnstilleggService
+import no.nav.bidrag.inntekt.service.YtelserService
 import no.nav.bidrag.inntekt.util.DateProvider
 import no.nav.bidrag.inntekt.util.FixedDateProvider
 import no.nav.bidrag.transport.behandling.inntekt.response.TransformerInntekterResponse
@@ -53,8 +54,9 @@ class InntektControllerTest(
     private final val kontantstøtteService: KontantstøtteService = KontantstøtteService()
     private final val utvidetBarnetrygdOgSmåbarnstilleggService: UtvidetBarnetrygdOgSmåbarnstilleggService =
         UtvidetBarnetrygdOgSmåbarnstilleggService()
+    private final val ytelserService: YtelserService = YtelserService(fixedDateProvider)
     private final val inntektService: InntektService =
-        InntektService(ainntektService, skattegrunnlagService, kontantstøtteService, utvidetBarnetrygdOgSmåbarnstilleggService)
+        InntektService(ainntektService, skattegrunnlagService, kontantstøtteService, utvidetBarnetrygdOgSmåbarnstilleggService, ytelserService)
     private final val inntektController: InntektController = InntektController(inntektService)
 
     private var mockMvc: MockMvc =
@@ -68,17 +70,22 @@ class InntektControllerTest(
     fun initKodeverk() {
         StubUtils.stubKodeverkSkattegrunnlag()
         StubUtils.stubKodeverkLønnsbeskrivelse()
+        StubUtils.stubKodeverkYtelsesbeskrivelser()
+        StubUtils.stubKodeverkPensjonsbeskrivelser()
     }
 
     @Test
     fun `skal transformere inntekter`() {
         val filnavnKodeverkLoennsbeskrivelser = "src/test/resources/__files/respons_kodeverk_loennsbeskrivelser.json"
-        val filnavnKodeverkSummertSkattegrunnlag =
-            "src/test/resources/__files/respons_kodeverk_summert_skattegrunnlag.json"
+        val filnavnKodeverkSummertSkattegrunnlag = "src/test/resources/__files/respons_kodeverk_summert_skattegrunnlag.json"
+//        val filnavnKodeverkYtelsesbeskrivelser = "src/test/resources/__files/respons_kodeverk_ytelserbeskrivelser.json"
+//        val filnavnKodeverkPensjonsbeskrivelser = "src/test/resources/__files/respons_kodeverk_ytelserbeskrivelser.json"
         val filnavnEksempelRequest = "src/test/resources/testfiler/eksempel_request.json"
 
         StubUtils.stubKodeverkSkattegrunnlag(TestUtil.byggKodeverkResponse(filnavnKodeverkSummertSkattegrunnlag))
         StubUtils.stubKodeverkLønnsbeskrivelse(TestUtil.byggKodeverkResponse(filnavnKodeverkLoennsbeskrivelser))
+//        StubUtils.stubKodeverkYtelsesbeskrivelser(TestUtil.byggKodeverkResponse(filnavnKodeverkYtelsesbeskrivelser))
+//        StubUtils.stubKodeverkPensjonsbeskrivelser(TestUtil.byggKodeverkResponse(filnavnKodeverkPensjonsbeskrivelser))
 
         val transformerteInntekter = TestUtil.performRequest(
             mockMvc,
