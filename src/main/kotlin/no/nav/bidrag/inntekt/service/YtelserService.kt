@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
-import no.nav.bidrag.commons.service.finnVisningsnavnYtelse
+import no.nav.bidrag.commons.service.finnVisningsnavn
 import no.nav.bidrag.domene.enums.inntekt.Inntektsrapportering
 import no.nav.bidrag.domene.tid.ÅrMånedsperiode
 import no.nav.bidrag.domene.util.visningsnavn
@@ -38,7 +38,6 @@ class YtelserService(private val dateProvider: DateProvider) {
                 beregnYtelse(
                     ainntektListeInn,
                     Inntektsrapportering.valueOf(ytelse),
-                    mapping[ytelse]!!.kodeverk,
                     mapping[ytelse]!!.beskrivelser,
                 ),
             )
@@ -47,12 +46,7 @@ class YtelserService(private val dateProvider: DateProvider) {
     }
 
     // Summerer, grupperer og transformerer ainntekter pr år per Navytelse
-    fun beregnYtelse(
-        ainntektListeInn: List<Ainntektspost>,
-        ytelse: Inntektsrapportering,
-        kodeverk: String,
-        beskrivelserListe: List<String>,
-    ): List<SummertÅrsinntekt> {
+    fun beregnYtelse(ainntektListeInn: List<Ainntektspost>, ytelse: Inntektsrapportering, beskrivelserListe: List<String>): List<SummertÅrsinntekt> {
         // Filterer bort poster som ikke er AAP
         val ainntektListe = filtrerInntekterPåYtelse(ainntektListeInn, beskrivelserListe)
 
@@ -71,7 +65,7 @@ class YtelserService(private val dateProvider: DateProvider) {
                         referanse = "",
                         sumInntekt = it.value.sumInntekt,
                         periode = ÅrMånedsperiode(fom = it.value.periodeFra, til = it.value.periodeTil),
-                        inntektPostListe = grupperOgSummerDetaljposter(it.value.inntektPostListe, kodeverk),
+                        inntektPostListe = grupperOgSummerDetaljposter(it.value.inntektPostListe),
                     ),
                 )
             }
@@ -82,13 +76,13 @@ class YtelserService(private val dateProvider: DateProvider) {
     }
 
     // Grupperer og summerer poster som har samme kode/beskrivelse
-    private fun grupperOgSummerDetaljposter(inntektPostListe: List<InntektPost>, kodeverk: String): List<InntektPost> {
+    private fun grupperOgSummerDetaljposter(inntektPostListe: List<InntektPost>): List<InntektPost> {
         return inntektPostListe
             .groupBy(InntektPost::kode)
             .map {
                 InntektPost(
                     kode = it.key,
-                    visningsnavn = finnVisningsnavnYtelse(it.key, kodeverk),
+                    visningsnavn = finnVisningsnavn(it.key),
                     beløp = it.value.sumOf(InntektPost::beløp),
                 )
             }
@@ -222,7 +216,7 @@ class YtelserService(private val dateProvider: DateProvider) {
     }
 
     // les innhold fra fil mapping_ytelser.yaml og returner dette som en map
-    private fun hentMappingYtelser(): Map<String, KodeverkOgBeskrivelser> {
+    private fun hentMappingYtelser(): Map<String, Beskrivelser> {
         val fil =
             YtelserService::class.java.getResource("/files/mapping_ytelser.yaml")
                 ?: throw RuntimeException("Fant ingen fil på sti mapping_ytelser.yaml")
@@ -230,7 +224,6 @@ class YtelserService(private val dateProvider: DateProvider) {
     }
 }
 
-data class KodeverkOgBeskrivelser(
-    val kodeverk: String,
+data class Beskrivelser(
     val beskrivelser: List<String>,
 )

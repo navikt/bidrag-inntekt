@@ -22,5 +22,6 @@ abstract class AbstractServiceTest {
         StubUtils.stubKodeverkLønnsbeskrivelse()
         StubUtils.stubKodeverkYtelsesbeskrivelser()
         StubUtils.stubKodeverkPensjonsbeskrivelser()
+        StubUtils.stubKodeverkNaeringsinntektsbeskrivelser()
     }
 }

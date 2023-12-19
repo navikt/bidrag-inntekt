@@ -70,6 +70,7 @@ class LocalConfig {
         StubUtils.stubKodeverkLønnsbeskrivelse()
         StubUtils.stubKodeverkYtelsesbeskrivelser()
         StubUtils.stubKodeverkPensjonsbeskrivelser()
+        StubUtils.stubKodeverkNaeringsinntektsbeskrivelser()
     }
 }
 
@@ -135,6 +136,21 @@ class StubUtils {
                     } else {
                         createGenericResponse()
                             .withBodyFile("respons_kodeverk_ytelserbeskrivelser.json")
+                    },
+                ),
+            )
+        }
+
+        fun stubKodeverkNaeringsinntektsbeskrivelser(response: KodeverkKoderBetydningerResponse? = null, status: HttpStatus = HttpStatus.OK) {
+            WireMock.stubFor(
+                WireMock.get(WireMock.urlPathMatching(".*/kodeverk/Naeringsinntektsbeskrivelse.*")).willReturn(
+                    if (response != null) {
+                        createGenericResponse().withStatus(status.value()).withBody(
+                            ObjectMapper().findAndRegisterModules().writeValueAsString(response),
+                        )
+                    } else {
+                        createGenericResponse()
+                            .withBodyFile("respons_kodeverk_naeringsinntektsbeskrivelse.json")
                     },
                 ),
             )
