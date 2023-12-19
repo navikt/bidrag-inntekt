@@ -78,14 +78,10 @@ class InntektControllerTest(
     fun `skal transformere inntekter`() {
         val filnavnKodeverkLoennsbeskrivelser = "src/test/resources/__files/respons_kodeverk_loennsbeskrivelser.json"
         val filnavnKodeverkSummertSkattegrunnlag = "src/test/resources/__files/respons_kodeverk_summert_skattegrunnlag.json"
-//        val filnavnKodeverkYtelsesbeskrivelser = "src/test/resources/__files/respons_kodeverk_ytelserbeskrivelser.json"
-//        val filnavnKodeverkPensjonsbeskrivelser = "src/test/resources/__files/respons_kodeverk_ytelserbeskrivelser.json"
         val filnavnEksempelRequest = "src/test/resources/testfiler/eksempel_request.json"
 
         StubUtils.stubKodeverkSkattegrunnlag(TestUtil.byggKodeverkResponse(filnavnKodeverkSummertSkattegrunnlag))
         StubUtils.stubKodeverkLønnsbeskrivelse(TestUtil.byggKodeverkResponse(filnavnKodeverkLoennsbeskrivelser))
-//        StubUtils.stubKodeverkYtelsesbeskrivelser(TestUtil.byggKodeverkResponse(filnavnKodeverkYtelsesbeskrivelser))
-//        StubUtils.stubKodeverkPensjonsbeskrivelser(TestUtil.byggKodeverkResponse(filnavnKodeverkPensjonsbeskrivelser))
 
         val transformerteInntekter = TestUtil.performRequest(
             mockMvc,
