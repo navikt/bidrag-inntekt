@@ -1,6 +1,6 @@
 package no.nav.bidrag.inntekt.service
 
-import no.nav.bidrag.commons.service.finnVisningsnavnLønnsbeskrivelse
+import no.nav.bidrag.commons.service.finnVisningsnavn
 import no.nav.bidrag.domene.enums.inntekt.Inntektsrapportering
 import no.nav.bidrag.domene.tid.ÅrMånedsperiode
 import no.nav.bidrag.domene.util.visningsnavn
@@ -104,7 +104,7 @@ class AinntektService(private val dateProvider: DateProvider) {
             .map {
                 InntektPost(
                     kode = it.key,
-                    visningsnavn = finnVisningsnavnLønnsbeskrivelse(it.key),
+                    visningsnavn = finnVisningsnavn(it.key),
                     beløp = it.value.sumOf(InntektPost::beløp).toInt().times(multiplikator).toBigDecimal(),
                 )
             }

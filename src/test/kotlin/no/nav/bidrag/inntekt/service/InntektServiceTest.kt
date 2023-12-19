@@ -22,6 +22,7 @@ class InntektServiceTest : AbstractServiceTest() {
     private final val utvidetBarnetrygdOgSmåbarnstilleggService: UtvidetBarnetrygdOgSmåbarnstilleggService =
         UtvidetBarnetrygdOgSmåbarnstilleggService()
     private final val skattegrunnlagService: SkattegrunnlagService = SkattegrunnlagService()
+    private final val ytelserService: YtelserService = YtelserService(fixedDateProvider)
 
     private final val inntektService: InntektService =
         InntektService(
@@ -29,6 +30,7 @@ class InntektServiceTest : AbstractServiceTest() {
             skattegrunnlagService,
             kontantstøtteService,
             utvidetBarnetrygdOgSmåbarnstilleggService,
+            ytelserService,
         )
 
     private final val filnavnKodeverkLoennsbeskrivelser = "src/test/resources/__files/respons_kodeverk_loennsbeskrivelser.json"

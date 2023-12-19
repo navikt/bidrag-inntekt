@@ -3,7 +3,7 @@ package no.nav.bidrag.inntekt.service
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
 import com.fasterxml.jackson.module.kotlin.readValue
-import no.nav.bidrag.commons.service.finnVisningsnavnSkattegrunnlag
+import no.nav.bidrag.commons.service.finnVisningsnavn
 import no.nav.bidrag.domene.enums.diverse.PlussMinus
 import no.nav.bidrag.domene.enums.inntekt.Inntektsrapportering
 import no.nav.bidrag.domene.tid.ÅrMånedsperiode
@@ -62,7 +62,7 @@ class SkattegrunnlagService {
                     inntektPostListe.add(
                         InntektPost(
                             kode = match.fulltNavnInntektspost,
-                            visningsnavn = finnVisningsnavnSkattegrunnlag(match.fulltNavnInntektspost),
+                            visningsnavn = finnVisningsnavn(match.fulltNavnInntektspost),
                             beløp = post.belop,
                         ),
                     )
