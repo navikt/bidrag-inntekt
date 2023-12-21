@@ -3,8 +3,6 @@ package no.nav.bidrag.inntekt.service
 import no.nav.bidrag.domene.enums.inntekt.Inntektsrapportering
 import no.nav.bidrag.domene.util.visningsnavn
 import no.nav.bidrag.inntekt.TestUtil
-import no.nav.bidrag.inntekt.util.DateProvider
-import no.nav.bidrag.inntekt.util.FixedDateProvider
 import org.junit.jupiter.api.Assertions.assertAll
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
@@ -29,13 +27,12 @@ class YtelserServiceTest : AbstractServiceTest() {
             val filnavnYtelserAapRequest = "src/test/resources/testfiler/eksempel_request_aap.json"
             val inntektRequest = TestUtil.byggInntektRequest(filnavnYtelserAapRequest)
 
-            val dagensDato = LocalDate.of(2023, 12, 17)
+            val ainntektHentetDato = LocalDate.of(2023, 12, 17)
 
-            val fixedDateProvider: DateProvider = FixedDateProvider(dagensDato)
-            val ytelserService = YtelserService(fixedDateProvider)
+            val ytelserService = YtelserService()
 
             val transformerteInntekter =
-                ytelserService.beregnYtelser(inntektRequest.ainntektsposter)
+                ytelserService.beregnYtelser(inntektRequest.ainntektsposter, ainntektHentetDato)
 
             TestUtil.printJson(transformerteInntekter)
 
@@ -78,13 +75,12 @@ class YtelserServiceTest : AbstractServiceTest() {
             val filnavnYtelserDagpengerRequest = "src/test/resources/testfiler/eksempel_request_dagpenger.json"
             val inntektRequest = TestUtil.byggInntektRequest(filnavnYtelserDagpengerRequest)
 
-            val dagensDato = LocalDate.of(2023, 12, 17)
+            val ainntektHentetDato = LocalDate.of(2023, 12, 17)
 
-            val fixedDateProvider: DateProvider = FixedDateProvider(dagensDato)
-            val ytelserService = YtelserService(fixedDateProvider)
+            val ytelserService = YtelserService()
 
             val transformerteInntekter =
-                ytelserService.beregnYtelser(inntektRequest.ainntektsposter)
+                ytelserService.beregnYtelser(inntektRequest.ainntektsposter, ainntektHentetDato)
 
             TestUtil.printJson(transformerteInntekter)
 
@@ -129,13 +125,12 @@ class YtelserServiceTest : AbstractServiceTest() {
             val filnavnYtelserDagpengerRequest = "src/test/resources/testfiler/eksempel_request_alle_ytelser.json"
             val inntektRequest = TestUtil.byggInntektRequest(filnavnYtelserDagpengerRequest)
 
-            val dagensDato = LocalDate.of(2023, 12, 17)
+            val ainntektHentetDato = LocalDate.of(2023, 12, 17)
 
-            val fixedDateProvider: DateProvider = FixedDateProvider(dagensDato)
-            val ytelserService = YtelserService(fixedDateProvider)
+            val ytelserService = YtelserService()
 
             val transformerteInntekter =
-                ytelserService.beregnYtelser(inntektRequest.ainntektsposter)
+                ytelserService.beregnYtelser(inntektRequest.ainntektsposter, ainntektHentetDato)
 
             TestUtil.printJson(transformerteInntekter)
 

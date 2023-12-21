@@ -24,10 +24,12 @@ class InntektService(
             versjon = "",
             summertMånedsinntektListe = ainntektService.beregnMaanedsinntekt(
                 ainntektListeInn = transformerInntekterRequest.ainntektsposter,
+                ainntektHentetDato = transformerInntekterRequest.ainntektHentetDato,
             ),
             summertÅrsinntektListe = (
                 ainntektService.beregnAarsinntekt(
                     ainntektListeInn = transformerInntekterRequest.ainntektsposter,
+                    ainntektHentetDato = transformerInntekterRequest.ainntektHentetDato,
                 ) +
                     skattegrunnlagService.beregnSkattegrunnlag(
                         skattegrunnlagListe = transformerInntekterRequest.skattegrunnlagsliste,
@@ -43,6 +45,7 @@ class InntektService(
                     ) +
                     ytelserService.beregnYtelser(
                         ainntektListeInn = transformerInntekterRequest.ainntektsposter,
+                        ainntektHentetDato = transformerInntekterRequest.ainntektHentetDato,
                     )
                 ),
         )

@@ -16,8 +16,6 @@ import no.nav.bidrag.inntekt.service.KontantstøtteService
 import no.nav.bidrag.inntekt.service.SkattegrunnlagService
 import no.nav.bidrag.inntekt.service.UtvidetBarnetrygdOgSmåbarnstilleggService
 import no.nav.bidrag.inntekt.service.YtelserService
-import no.nav.bidrag.inntekt.util.DateProvider
-import no.nav.bidrag.inntekt.util.FixedDateProvider
 import no.nav.bidrag.transport.behandling.inntekt.response.TransformerInntekterResponse
 import no.nav.security.token.support.spring.test.EnableMockOAuth2Server
 import org.junit.jupiter.api.Assertions.assertAll
@@ -48,13 +46,12 @@ class InntektControllerTest(
     @Autowired val exceptionLogger: ExceptionLogger,
 ) {
 
-    private final val fixedDateProvider: DateProvider = FixedDateProvider(LocalDate.of(2023, 9, 1))
-    private final val ainntektService: AinntektService = AinntektService(fixedDateProvider)
+    private final val ainntektService: AinntektService = AinntektService()
     private final val skattegrunnlagService: SkattegrunnlagService = SkattegrunnlagService()
     private final val kontantstøtteService: KontantstøtteService = KontantstøtteService()
     private final val utvidetBarnetrygdOgSmåbarnstilleggService: UtvidetBarnetrygdOgSmåbarnstilleggService =
         UtvidetBarnetrygdOgSmåbarnstilleggService()
-    private final val ytelserService: YtelserService = YtelserService(fixedDateProvider)
+    private final val ytelserService: YtelserService = YtelserService()
     private final val inntektService: InntektService =
         InntektService(ainntektService, skattegrunnlagService, kontantstøtteService, utvidetBarnetrygdOgSmåbarnstilleggService, ytelserService)
     private final val inntektController: InntektController = InntektController(inntektService)
@@ -88,7 +85,7 @@ class InntektControllerTest(
             mockMvc,
             HttpMethod.POST,
             InntektController.TRANSFORMER_INNTEKTER,
-            TestUtil.byggInntektRequest(filnavnEksempelRequest),
+            TestUtil.byggInntektRequest(filnavnEksempelRequest).copy(ainntektHentetDato = LocalDate.of(2023, 9, 1)),
             TransformerInntekterResponse::class.java,
         ) { isOk() }
 
