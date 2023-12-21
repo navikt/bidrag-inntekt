@@ -31,12 +31,13 @@ class AinntektServiceTest : AbstractServiceTest() {
         @Suppress("NonAsciiCharacters")
         fun `skal transformere årsinntekter når dagens dato er 2023-01-01`() {
             val dagensDato = LocalDate.of(2023, 1, 1)
+            val ainntektHentetDato = LocalDate.of(2023, 1, 1)
 
             val fixedDateProvider: DateProvider = FixedDateProvider(dagensDato)
             val ainntektService = AinntektService(fixedDateProvider)
 
             val transformerteInntekter =
-                ainntektService.beregnAarsinntekt(inntektRequest.ainntektsposter)
+                ainntektService.beregnAarsinntekt(inntektRequest.ainntektsposter, ainntektHentetDato)
 
             TestUtil.printJson(transformerteInntekter)
 
@@ -85,12 +86,13 @@ class AinntektServiceTest : AbstractServiceTest() {
         @Suppress("NonAsciiCharacters")
         fun `skal transformere årsinntekter når dagens dato er 2023-01-10`() {
             val dagensDato = LocalDate.of(2023, 1, 10)
+            val ainntektHentetDato = LocalDate.of(2023, 1, 10)
 
             val fixedDateProvider: DateProvider = FixedDateProvider(dagensDato)
             val ainntektService = AinntektService(fixedDateProvider)
 
             val transformerteInntekter =
-                ainntektService.beregnAarsinntekt(inntektRequest.ainntektsposter)
+                ainntektService.beregnAarsinntekt(inntektRequest.ainntektsposter, ainntektHentetDato)
 
             TestUtil.printJson(transformerteInntekter)
 
@@ -153,12 +155,13 @@ class AinntektServiceTest : AbstractServiceTest() {
         @Suppress("NonAsciiCharacters")
         fun `skal transformere årsinntekter når dagens dato er 2023-09-01`() {
             val dagensDato = LocalDate.of(2023, 9, 1)
+            val ainntektHentetDato = LocalDate.of(2023, 9, 1)
 
             val fixedDateProvider: DateProvider = FixedDateProvider(dagensDato)
             val ainntektService = AinntektService(fixedDateProvider)
 
             val transformerteInntekter =
-                ainntektService.beregnAarsinntekt(inntektRequest.ainntektsposter)
+                ainntektService.beregnAarsinntekt(inntektRequest.ainntektsposter, ainntektHentetDato)
 
             TestUtil.printJson(transformerteInntekter)
 
@@ -217,6 +220,7 @@ class AinntektServiceTest : AbstractServiceTest() {
         @Test
         fun `summert årsinntekt skal bli null dersom periode for månedsinntekter er null`() {
             val fixedDateProvider: DateProvider = FixedDateProvider(LocalDate.of(2023, 9, 1))
+            val ainntektHentetDato = LocalDate.of(2023, 9, 1)
             val ainntektService = AinntektService(fixedDateProvider)
 
             val ainntektspost = inntektRequest.ainntektsposter[0]
@@ -224,7 +228,7 @@ class AinntektServiceTest : AbstractServiceTest() {
                 ainntektspost.copy(opptjeningsperiodeTil = ainntektspost.opptjeningsperiodeFra)
 
             val transformerteInntekter =
-                ainntektService.beregnAarsinntekt(listOf(ainntektspostMedOpptjeningsperiodeTilLikFra))
+                ainntektService.beregnAarsinntekt(listOf(ainntektspostMedOpptjeningsperiodeTilLikFra), ainntektHentetDato)
 
             TestUtil.printJson(transformerteInntekter)
 
@@ -242,10 +246,11 @@ class AinntektServiceTest : AbstractServiceTest() {
         @Test
         fun `skal transformere månedsinntekter`() {
             val fixedDateProvider: DateProvider = FixedDateProvider(LocalDate.of(2023, 9, 1))
+            val ainntektHentetDato = LocalDate.of(2023, 9, 1)
             val ainntektService = AinntektService(fixedDateProvider)
 
             val transformerteInntekter =
-                ainntektService.beregnMaanedsinntekt(inntektRequest.ainntektsposter)
+                ainntektService.beregnMaanedsinntekt(inntektRequest.ainntektsposter, ainntektHentetDato)
 
             TestUtil.printJson(transformerteInntekter)
 
@@ -284,6 +289,7 @@ class AinntektServiceTest : AbstractServiceTest() {
         @Test
         fun `skal ikke transformere noen månedsinntekter dersom perioden er på null måneder`() {
             val fixedDateProvider: DateProvider = FixedDateProvider(LocalDate.of(2023, 9, 1))
+            val ainntektHentetDato = LocalDate.of(2023, 9, 1)
             val ainntektService = AinntektService(fixedDateProvider)
 
             val ainntektspost = inntektRequest.ainntektsposter[0]
@@ -291,7 +297,7 @@ class AinntektServiceTest : AbstractServiceTest() {
                 ainntektspost.copy(opptjeningsperiodeTil = ainntektspost.opptjeningsperiodeFra)
 
             val transformerteInntekter =
-                ainntektService.beregnMaanedsinntekt(listOf(ainntektspostMedOpptjeningsperiodeTilLikFra))
+                ainntektService.beregnMaanedsinntekt(listOf(ainntektspostMedOpptjeningsperiodeTilLikFra), ainntektHentetDato)
 
             TestUtil.printJson(transformerteInntekter)
 
@@ -313,6 +319,7 @@ class AinntektServiceTest : AbstractServiceTest() {
             assertTrue(månedslønn.toInt() - månedslønnInt == 1)
 
             val fixedDateProvider: DateProvider = FixedDateProvider(LocalDate.of(2023, 9, 1))
+            val ainntektHentetDato = LocalDate.of(2023, 9, 1)
             val ainntektService = AinntektService(fixedDateProvider)
 
             val ainntektspost = inntektRequest.ainntektsposter[0]
@@ -323,7 +330,7 @@ class AinntektServiceTest : AbstractServiceTest() {
                 )
 
             val transformerteInntekter =
-                ainntektService.beregnMaanedsinntekt(listOf(ainntektspostMedOpptjeningsperiodeTilLikFra))
+                ainntektService.beregnMaanedsinntekt(listOf(ainntektspostMedOpptjeningsperiodeTilLikFra), ainntektHentetDato)
 
             TestUtil.printJson(transformerteInntekter)
 
@@ -354,6 +361,7 @@ class AinntektServiceTest : AbstractServiceTest() {
             assertTrue(månedslønn.toInt() - månedslønnInt == 0)
 
             val fixedDateProvider: DateProvider = FixedDateProvider(LocalDate.of(2023, 9, 1))
+            val ainntektHentetDato = LocalDate.of(2023, 9, 1)
             val ainntektService = AinntektService(fixedDateProvider)
 
             val ainntektspost = inntektRequest.ainntektsposter[0]
@@ -364,7 +372,7 @@ class AinntektServiceTest : AbstractServiceTest() {
                 )
 
             val transformerteInntekter =
-                ainntektService.beregnMaanedsinntekt(listOf(ainntektspostMedOpptjeningsperiodeTilLikFra))
+                ainntektService.beregnMaanedsinntekt(listOf(ainntektspostMedOpptjeningsperiodeTilLikFra), ainntektHentetDato)
 
             TestUtil.printJson(transformerteInntekter)
 

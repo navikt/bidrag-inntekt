@@ -30,11 +30,11 @@ open class InntektUtil {
         }
 
         // Finner siste hele år som skal rapporteres
-        fun finnSisteAarSomSkalRapporteres(currentDate: LocalDate): Int {
-            return if ((currentDate.month == Month.JANUARY) && (currentDate.dayOfMonth <= CUT_OFF_DATO)) {
-                currentDate.year.minus(2)
+        fun finnSisteAarSomSkalRapporteres(ainntektHentetTidspunkt: LocalDate): Int {
+            return if ((ainntektHentetTidspunkt.month == Month.JANUARY) && (ainntektHentetTidspunkt.dayOfMonth <= CUT_OFF_DATO)) {
+                ainntektHentetTidspunkt.year.minus(2)
             } else {
-                currentDate.year.minus(1)
+                ainntektHentetTidspunkt.year.minus(1)
             }
         }
 

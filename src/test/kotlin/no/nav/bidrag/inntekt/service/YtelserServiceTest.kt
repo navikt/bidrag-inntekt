@@ -30,12 +30,13 @@ class YtelserServiceTest : AbstractServiceTest() {
             val inntektRequest = TestUtil.byggInntektRequest(filnavnYtelserAapRequest)
 
             val dagensDato = LocalDate.of(2023, 12, 17)
+            val ainntektHentetDato = LocalDate.of(2023, 12, 17)
 
             val fixedDateProvider: DateProvider = FixedDateProvider(dagensDato)
             val ytelserService = YtelserService(fixedDateProvider)
 
             val transformerteInntekter =
-                ytelserService.beregnYtelser(inntektRequest.ainntektsposter)
+                ytelserService.beregnYtelser(inntektRequest.ainntektsposter, ainntektHentetDato)
 
             TestUtil.printJson(transformerteInntekter)
 
@@ -79,12 +80,13 @@ class YtelserServiceTest : AbstractServiceTest() {
             val inntektRequest = TestUtil.byggInntektRequest(filnavnYtelserDagpengerRequest)
 
             val dagensDato = LocalDate.of(2023, 12, 17)
+            val ainntektHentetDato = LocalDate.of(2023, 12, 17)
 
             val fixedDateProvider: DateProvider = FixedDateProvider(dagensDato)
             val ytelserService = YtelserService(fixedDateProvider)
 
             val transformerteInntekter =
-                ytelserService.beregnYtelser(inntektRequest.ainntektsposter)
+                ytelserService.beregnYtelser(inntektRequest.ainntektsposter, ainntektHentetDato)
 
             TestUtil.printJson(transformerteInntekter)
 
@@ -130,12 +132,13 @@ class YtelserServiceTest : AbstractServiceTest() {
             val inntektRequest = TestUtil.byggInntektRequest(filnavnYtelserDagpengerRequest)
 
             val dagensDato = LocalDate.of(2023, 12, 17)
+            val ainntektHentetDato = LocalDate.of(2023, 12, 17)
 
             val fixedDateProvider: DateProvider = FixedDateProvider(dagensDato)
             val ytelserService = YtelserService(fixedDateProvider)
 
             val transformerteInntekter =
-                ytelserService.beregnYtelser(inntektRequest.ainntektsposter)
+                ytelserService.beregnYtelser(inntektRequest.ainntektsposter, ainntektHentetDato)
 
             TestUtil.printJson(transformerteInntekter)
 

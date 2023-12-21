@@ -88,7 +88,7 @@ class InntektControllerTest(
             mockMvc,
             HttpMethod.POST,
             InntektController.TRANSFORMER_INNTEKTER,
-            TestUtil.byggInntektRequest(filnavnEksempelRequest),
+            TestUtil.byggInntektRequest(filnavnEksempelRequest).copy(ainntektHentetDato = LocalDate.of(2023, 9, 1)),
             TransformerInntekterResponse::class.java,
         ) { isOk() }
 

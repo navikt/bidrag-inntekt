@@ -17,6 +17,7 @@ import java.time.LocalDate
 class InntektServiceTest : AbstractServiceTest() {
 
     private final val fixedDateProvider: DateProvider = FixedDateProvider(LocalDate.of(2023, 9, 1))
+    private final val ainntektHentetDato = LocalDate.of(2023, 9, 1)
     private final val ainntektService: AinntektService = AinntektService(fixedDateProvider)
     private final val kontantstøtteService: KontantstøtteService = KontantstøtteService()
     private final val utvidetBarnetrygdOgSmåbarnstilleggService: UtvidetBarnetrygdOgSmåbarnstilleggService =
@@ -43,7 +44,7 @@ class InntektServiceTest : AbstractServiceTest() {
     fun `skal transformere inntekter`() {
         StubUtils.stubKodeverkSkattegrunnlag(TestUtil.byggKodeverkResponse(filnavnKodeverkSummertSkattegrunnlag))
         StubUtils.stubKodeverkLønnsbeskrivelse(TestUtil.byggKodeverkResponse(filnavnKodeverkLoennsbeskrivelser))
-        val transformerteInntekterResponseDto = inntektService.transformerInntekter(inntektRequest)
+        val transformerteInntekterResponseDto = inntektService.transformerInntekter(inntektRequest.copy(ainntektHentetDato = ainntektHentetDato))
 
         assertAll(
             Executable { assertNotNull(transformerteInntekterResponseDto) },
