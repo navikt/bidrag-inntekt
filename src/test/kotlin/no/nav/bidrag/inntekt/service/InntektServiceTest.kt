@@ -3,8 +3,6 @@ package no.nav.bidrag.inntekt.service
 import no.nav.bidrag.domene.enums.inntekt.Inntektsrapportering
 import no.nav.bidrag.inntekt.StubUtils
 import no.nav.bidrag.inntekt.TestUtil
-import no.nav.bidrag.inntekt.util.DateProvider
-import no.nav.bidrag.inntekt.util.FixedDateProvider
 import org.junit.jupiter.api.Assertions.assertAll
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -16,14 +14,13 @@ import java.time.LocalDate
 @DisplayName("InntektServiceTest")
 class InntektServiceTest : AbstractServiceTest() {
 
-    private final val fixedDateProvider: DateProvider = FixedDateProvider(LocalDate.of(2023, 9, 1))
     private final val ainntektHentetDato = LocalDate.of(2023, 9, 1)
-    private final val ainntektService: AinntektService = AinntektService(fixedDateProvider)
+    private final val ainntektService: AinntektService = AinntektService()
     private final val kontantstøtteService: KontantstøtteService = KontantstøtteService()
     private final val utvidetBarnetrygdOgSmåbarnstilleggService: UtvidetBarnetrygdOgSmåbarnstilleggService =
         UtvidetBarnetrygdOgSmåbarnstilleggService()
     private final val skattegrunnlagService: SkattegrunnlagService = SkattegrunnlagService()
-    private final val ytelserService: YtelserService = YtelserService(fixedDateProvider)
+    private final val ytelserService: YtelserService = YtelserService()
 
     private final val inntektService: InntektService =
         InntektService(

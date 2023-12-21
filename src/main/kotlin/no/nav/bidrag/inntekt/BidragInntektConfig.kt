@@ -13,8 +13,6 @@ import no.nav.bidrag.commons.web.CorrelationIdFilter
 import no.nav.bidrag.commons.web.DefaultCorsFilter
 import no.nav.bidrag.commons.web.HttpHeaderRestTemplate
 import no.nav.bidrag.commons.web.UserMdcFilter
-import no.nav.bidrag.inntekt.util.DateProvider
-import no.nav.bidrag.inntekt.util.RealDateProvider
 import no.nav.security.token.support.spring.api.EnableJwtTokenValidation
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
@@ -56,12 +54,6 @@ class BidragInntektConfig(@Value("\${KODEVERK_URL}") val url: String) {
         val httpHeaderRestTemplate = HttpHeaderRestTemplate()
         httpHeaderRestTemplate.addHeaderGenerator(CorrelationIdFilter.CORRELATION_ID_HEADER) { CorrelationId.fetchCorrelationIdForThread() }
         return httpHeaderRestTemplate
-    }
-
-    @Bean
-    @Profile(LIVE_PROFILE)
-    fun realDateProvider(): DateProvider {
-        return RealDateProvider()
     }
 }
 

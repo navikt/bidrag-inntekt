@@ -5,7 +5,6 @@ import no.nav.bidrag.domene.enums.inntekt.Inntektsrapportering
 import no.nav.bidrag.domene.tid.ÅrMånedsperiode
 import no.nav.bidrag.domene.util.visningsnavn
 import no.nav.bidrag.domene.util.visningsnavnIntern
-import no.nav.bidrag.inntekt.util.DateProvider
 import no.nav.bidrag.inntekt.util.InntektUtil.Companion.CUT_OFF_DATO
 import no.nav.bidrag.inntekt.util.InntektUtil.Companion.KEY_12MND
 import no.nav.bidrag.inntekt.util.InntektUtil.Companion.KEY_3MND
@@ -27,7 +26,7 @@ import java.time.temporal.ChronoUnit
 
 @Service
 @Suppress("NonAsciiCharacters")
-class AinntektService(private val dateProvider: DateProvider) {
+class AinntektService() {
 
     // Summerer, grupperer og transformerer ainntekter pr år
     fun beregnAarsinntekt(ainntektListeInn: List<Ainntektspost>, ainntektHentetDato: LocalDate): List<SummertÅrsinntekt> {

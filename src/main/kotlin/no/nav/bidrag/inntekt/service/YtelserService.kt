@@ -8,7 +8,6 @@ import no.nav.bidrag.commons.service.finnVisningsnavn
 import no.nav.bidrag.domene.enums.inntekt.Inntektsrapportering
 import no.nav.bidrag.domene.tid.ÅrMånedsperiode
 import no.nav.bidrag.domene.util.visningsnavn
-import no.nav.bidrag.inntekt.util.DateProvider
 import no.nav.bidrag.inntekt.util.InntektUtil.Companion.CUT_OFF_DATO
 import no.nav.bidrag.inntekt.util.InntektUtil.Companion.finnSisteAarSomSkalRapporteres
 import no.nav.bidrag.inntekt.util.beregneBeløpPerMåned
@@ -24,7 +23,7 @@ import java.time.temporal.ChronoUnit
 
 @Service
 @Suppress("NonAsciiCharacters")
-class YtelserService(private val dateProvider: DateProvider) {
+class YtelserService() {
 
     internal val objectmapper = ObjectMapper(YAMLFactory()).findAndRegisterModules().registerKotlinModule()
 
