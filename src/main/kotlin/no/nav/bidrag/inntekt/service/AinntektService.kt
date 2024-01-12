@@ -96,7 +96,8 @@ class AinntektService() {
     // Grupperer og summerer poster som har samme kode/beskrivelse
     private fun grupperOgSummerDetaljposter(
         inntektPostListe: List<InntektPost>,
-        multiplikator: Int = 1, // Avviker fra default hvis beløp skal regnes om til årsverdi
+        // Avviker fra default hvis beløp skal regnes om til årsverdi
+        multiplikator: Int = 1,
     ): List<InntektPost> {
         return inntektPostListe
             .groupBy(InntektPost::kode)

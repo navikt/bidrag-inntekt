@@ -41,22 +41,26 @@ class TestUtil {
             // KAPS
             SkattegrunnlagspostDto(
                 skattegrunnlagType = "Ordinær",
-                inntektType = "andelIFellesTapVedSalgAvAndelISDF", // KAPS, MINUS, NEI
+                // KAPS, MINUS, NEI
+                inntektType = "andelIFellesTapVedSalgAvAndelISDF",
                 belop = BigDecimal.valueOf(1000),
             ),
             SkattegrunnlagspostDto(
                 skattegrunnlagType = "Ordinær",
-                inntektType = "andreFradragsberettigedeKostnader", // KAPS, MINUS, NEI
+                // KAPS, MINUS, NEI
+                inntektType = "andreFradragsberettigedeKostnader",
                 belop = BigDecimal.valueOf(500),
             ),
             SkattegrunnlagspostDto(
                 skattegrunnlagType = "Ordinær",
-                inntektType = "annenSkattepliktigKapitalinntektFraAnnetFinansprodukt", // KAPS, PLUSS, NEI
+                // KAPS, PLUSS, NEI
+                inntektType = "annenSkattepliktigKapitalinntektFraAnnetFinansprodukt",
                 belop = BigDecimal.valueOf(1500),
             ),
             SkattegrunnlagspostDto(
                 skattegrunnlagType = "Ordinær",
-                inntektType = "samledeOpptjenteRenterIUtenlandskeBanker", // KAPS, PLUSS, JA
+                // KAPS, PLUSS, JA
+                inntektType = "samledeOpptjenteRenterIUtenlandskeBanker",
                 belop = BigDecimal.valueOf(1700),
             ),
             SkattegrunnlagspostDto(
@@ -68,27 +72,31 @@ class TestUtil {
             // LIGS
             SkattegrunnlagspostDto(
                 skattegrunnlagType = "Ordinær",
-                inntektType = "alderspensjonFraIPAOgIPS", // LIGS, PLUSS, NEI
+                // LIGS, PLUSS, NEI
+                inntektType = "alderspensjonFraIPAOgIPS",
                 belop = BigDecimal.valueOf(100),
             ),
             SkattegrunnlagspostDto(
                 skattegrunnlagType = "Ordinær",
-                inntektType = "ukjent", //
+                inntektType = "ukjent",
                 belop = BigDecimal.valueOf(1700),
             ),
             SkattegrunnlagspostDto(
                 skattegrunnlagType = "Ordinær",
-                inntektType = "annenArbeidsinntekt", // LIGS, PLUSS, NEI
+                // LIGS, PLUSS, NEI
+                inntektType = "annenArbeidsinntekt",
                 belop = BigDecimal.valueOf(200),
             ),
             SkattegrunnlagspostDto(
                 skattegrunnlagType = "Ordinær",
-                inntektType = "annenPensjonFoerAlderspensjon", // LIGS, PLUSS, NEI
+                // LIGS, PLUSS, NEI
+                inntektType = "annenPensjonFoerAlderspensjon",
                 belop = BigDecimal.valueOf(300),
             ),
             SkattegrunnlagspostDto(
                 skattegrunnlagType = "Ordinær",
-                inntektType = "arbeidsavklaringspenger", // LIGS, PLUSS, NEI
+                // LIGS, PLUSS, NEI
+                inntektType = "arbeidsavklaringspenger",
                 belop = BigDecimal.valueOf(400),
             ),
         )
