@@ -5,8 +5,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import io.swagger.v3.oas.models.examples.Example
+import no.nav.bidrag.commons.util.OpenApiExample
 import no.nav.bidrag.inntekt.InntektApi
-import no.nav.bidrag.inntekt.OpenApiExample
 import no.nav.bidrag.transport.behandling.inntekt.request.TransformerInntekterRequest
 import no.nav.bidrag.transport.behandling.inntekt.response.TransformerInntekterResponse
 import no.nav.security.token.support.core.api.Protected
