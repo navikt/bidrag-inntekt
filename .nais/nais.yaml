@@ -44,13 +44,12 @@ spec:
   resources:
     limits:
       cpu: 1000m
-      memory: 2048Mi
+      memory: 1048Mi
     requests:
-      cpu: 250m
-      memory: 1024Mi
+      cpu: 50m
+      memory: 200Mi
     replicas:
-      cpuThresholdPercentage: 80
-      max: 4
+      max: 1
       min: {{ spec.replicas.min }}
   ingresses:
   {{#each ingresses as |url|}}
