@@ -28,15 +28,15 @@ spec:
   image: {{ image }}
   liveness:
     path: /actuator/health
-    initialDelay: 30
+    initialDelay: 60
     timeout: 10
-    periodSeconds: 5
+    periodSeconds: 10
     failureThreshold: 10
   readiness:
     path: /actuator/health
-    initialDelay: 30
+    initialDelay: 60
     timeout: 10
-    periodSeconds: 5
+    periodSeconds: 10
     failureThreshold: 10
   prometheus:
     enabled: true
