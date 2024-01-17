@@ -14,20 +14,15 @@ management:
       exposure:
         include: "*"
 
----
-
-spring:
-  config.activate.on-profile: live
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          issuer-uri: ${AZURE_OPENID_CONFIG_ISSUER}
-          accepted-audience: ${AZURE_APP_CLIENT_ID}, api://${AZURE_APP_CLIENT_ID}
-
 no.nav.security.jwt:
   issuer:
     aad:
       discoveryurl: ${AZURE_APP_WELL_KNOWN_URL}
       accepted_audience: ${AZURE_APP_CLIENT_ID}, api://${AZURE_APP_CLIENT_ID}
 
+---
+spring:
+  config.activate.on-profile: local
+KODEVERK_URL: https://kodeverk.dev-fss-pub.nais.io
+server:
+  port: 1717

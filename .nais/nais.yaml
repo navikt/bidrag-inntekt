@@ -29,13 +29,15 @@ spec:
   liveness:
     path: /actuator/health
     initialDelay: 20
-    timeout: 1
+    timeout: 5
     periodSeconds: 5
     failureThreshold: 10
   readiness:
     path: /actuator/health
     initialDelay: 20
-    timeout: 1
+    timeout: 5
+    periodSeconds: 5
+    failureThreshold: 10
   prometheus:
     enabled: true
     path: /actuator/prometheus
@@ -44,14 +46,13 @@ spec:
   resources:
     limits:
       cpu: 1000m
-      memory: 2048Mi
+      memory: 1048Mi
     requests:
-      cpu: 250m
-      memory: 1024Mi
-    replicas:
-      cpuThresholdPercentage: 80
-      max: 4
-      min: {{ spec.replicas.min }}
+      cpu: 50m
+      memory: 500Mi
+  replicas:
+    max: 1
+    min: {{ spec.replicas.min }}
   ingresses:
   {{#each ingresses as |url|}}
      - {{url}}

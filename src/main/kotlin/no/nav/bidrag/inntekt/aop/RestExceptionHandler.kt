@@ -1,6 +1,5 @@
 package no.nav.bidrag.inntekt.aop
 
-import no.nav.bidrag.commons.ExceptionLogger
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMethod
@@ -16,19 +15,17 @@ import org.springframework.web.bind.annotation.ResponseBody
 import org.springframework.web.bind.annotation.RestControllerAdvice
 import org.springframework.web.client.HttpClientErrorException
 import org.springframework.web.client.HttpServerErrorException
-import org.springframework.web.client.HttpStatusCodeException
 import org.springframework.web.client.RestClientException
 import org.springframework.web.client.RestTemplate
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException
 
 @RestControllerAdvice
 @Component
-class RestExceptionHandler(private val exceptionLogger: ExceptionLogger) {
+class RestExceptionHandler() {
 
     @ResponseBody
     @ExceptionHandler(RestClientException::class)
     protected fun handleRestClientException(e: RestClientException): ResponseEntity<*> {
-        exceptionLogger.logException(e, "RestExceptionHandler")
         val feilmelding = "Restkall feilet!"
         val headers = HttpHeaders()
         headers.add(HttpHeaders.WARNING, feilmelding)
@@ -36,19 +33,8 @@ class RestExceptionHandler(private val exceptionLogger: ExceptionLogger) {
     }
 
     @ResponseBody
-    @ExceptionHandler(HttpClientErrorException::class, HttpServerErrorException::class)
-    protected fun handleHttpClientErrorException(e: HttpStatusCodeException): ResponseEntity<*> {
-        when (e) {
-            is HttpClientErrorException -> exceptionLogger.logException(e, "HttpClientErrorException")
-            is HttpServerErrorException -> exceptionLogger.logException(e, "HttpServerErrorException")
-        }
-        return ResponseEntity(e.message, e.statusCode)
-    }
-
-    @ResponseBody
     @ExceptionHandler(IllegalArgumentException::class)
     protected fun handleIllegalArgumentException(e: IllegalArgumentException): ResponseEntity<*> {
-        exceptionLogger.logException(e, "RestExceptionHandler")
         val feilmelding = if (e.message == null || e.message!!.isBlank()) "Restkall feilet!" else e.message!!
         val headers = HttpHeaders()
         headers.add(HttpHeaders.WARNING, feilmelding)
@@ -60,7 +46,6 @@ class RestExceptionHandler(private val exceptionLogger: ExceptionLogger) {
         MethodArgumentNotValidException::class,
     )
     fun handleArgumentNotValidException(e: MethodArgumentNotValidException): ResponseEntity<*> {
-        exceptionLogger.logException(e, "RestExceptionHandler")
         val errors: MutableMap<String, String?> = HashMap()
         e.bindingResult.allErrors.forEach { error: ObjectError ->
             val fieldName = (error as FieldError).field
@@ -75,7 +60,6 @@ class RestExceptionHandler(private val exceptionLogger: ExceptionLogger) {
         MethodArgumentTypeMismatchException::class,
     )
     fun handleArgumentTypeMismatchException(e: MethodArgumentTypeMismatchException): ResponseEntity<*> {
-        exceptionLogger.logException(e, "RestExceptionHandler")
         val errors: MutableMap<String, String?> = HashMap()
         errors[e.name] = when (e.cause) {
             is NumberFormatException -> "Ugyldig tallformat '${e.value}'"

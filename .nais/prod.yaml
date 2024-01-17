@@ -3,7 +3,7 @@ ingresses:
   - https://bidrag-inntekt.intern.nav.no
 spec:
   replicas:
-    min: 2
+    min: 1
 azure:
   unsecure:
     kodeverk_url: kodeverk.prod-fss-pub.nais.io

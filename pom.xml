@@ -22,7 +22,8 @@
     <kotlin.version>1.9.22</kotlin.version>
     <token-support.version>3.2.0</token-support.version>
     <!-- dependencies -->
-    <bidrag-felles.version>2024.0112.100957</bidrag-felles.version>
+    <bidrag-felles.version>2024.01.17.131134</bidrag-felles.version>
+    <bidrag-felles-beregn.version>2024.01.17.111202</bidrag-felles-beregn.version>
     <bidrag-tilgangskontroll.version>1.10.4</bidrag-tilgangskontroll.version>
     <mockito-kotlin.version>5.2.1</mockito-kotlin.version>
     <springdoc-openapi-ui.version>2.3.0</springdoc-openapi-ui.version>
@@ -45,6 +46,26 @@
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-web</artifactId>
+      <exclusions>
+        <exclusion>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter-tomcat</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-jetty</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-validation</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>no.nav.bidrag</groupId>
+      <artifactId>bidrag-inntekt</artifactId>
+      <version>${bidrag-felles-beregn.version}</version>
     </dependency>
 
     <!-- kotlin -->
@@ -97,11 +118,6 @@
         </exclusion>
       </exclusions>
     </dependency>
-    <dependency>
-      <groupId>no.nav.security</groupId>
-      <artifactId>token-client-spring</artifactId>
-      <version>${token-support.version}</version>
-    </dependency>
 
     <!-- swagger -->
     <dependency>
@@ -118,67 +134,10 @@
       <optional>true</optional>
     </dependency>
 
-    <!-- test -->
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-test</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.assertj</groupId>
-      <artifactId>assertj-core</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>no.nav.bidrag</groupId>
-      <artifactId>bidrag-commons-test-felles</artifactId>
-      <version>${bidrag-felles.version}</version>
-      <scope>test</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.mockito.kotlin</groupId>
-      <artifactId>mockito-kotlin</artifactId>
-      <version>${mockito-kotlin.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-validation</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>no.nav.security</groupId>
-      <artifactId>token-validation-spring-test</artifactId>
-      <version>${token-support.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.squareup.okhttp3</groupId>
-      <artifactId>mockwebserver</artifactId>
-      <version>${com.squareup.okhttp3.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.squareup.okhttp3</groupId>
-      <artifactId>okhttp</artifactId>
-      <version>${com.squareup.okhttp3.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.cloud</groupId>
-      <artifactId>spring-cloud-contract-wiremock</artifactId>
-      <version>${springframework-cloud.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.aspectj</groupId>
-      <artifactId>aspectjweaver</artifactId>
-      <version>1.9.21</version>
-    </dependency>
   </dependencies>
 
   <build>
     <sourceDirectory>${project.basedir}/src/main/kotlin</sourceDirectory>
-    <testSourceDirectory>${project.basedir}/src/test/kotlin</testSourceDirectory>
 
     <plugins>
       <plugin>
